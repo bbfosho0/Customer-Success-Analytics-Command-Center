@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, conint
+from typing import Annotated
+
+from pydantic import BaseModel, ConfigDict, Field
 
 from ..models import CallRecord
 
@@ -12,15 +14,26 @@ class CallFilters(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    page: conint(ge=1) = 1
-    per_page: conint(ge=1, le=200) = 50
+    page: Annotated[int, Field(ge=1)] = 1
+    per_page: Annotated[int, Field(ge=1, le=200)] = 50
     region: str | None = None
     issue_type: str | None = None
+    status: str | None = None
+    agent_id: str | None = None
+    q: str | None = None
+
+
+class CallsMeta(BaseModel):
+    """Pagination metadata returned with every calls collection."""
+
+    page: int
+    per_page: int
+    total: int
 
 
 class PaginatedCallsResponse(BaseModel):
     """Envelope matching the frontend expectations."""
 
     data: list[CallRecord]
-    meta: dict[str, int]
+    meta: CallsMeta
     links: dict[str, str | None]
