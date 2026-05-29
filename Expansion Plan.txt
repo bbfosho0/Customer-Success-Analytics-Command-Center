@@ -1,0 +1,638 @@
+## Executive Summary
+
+Yes, this is the right expansion path. Do **not** rebuild the project from scratch. Turn your current AWS Support Analytics project into a **Customer Success Analytics Command Center**.
+
+Your upgrade should prove 5 things:
+
+1. **SQL analytics**, real business queries, not just frontend chart logic
+2. **BI readiness**, Tableau / Salesforce CRM Analytics style exports and dashboards
+3. **Customer lifecycle analytics**, churn, retention, LTV, cohorts, segmentation
+4. **Real ETL**, raw data transformed into cleaned analytical datasets
+5. **Better visual design**, so the site feels like a business intelligence product, not only a dev portfolio app
+
+Your repo already says it mirrors an AWS S3 + Glue + FastAPI + Next.js analytics stack, and it already exposes dashboards through FastAPI and Next.js. ([GitHub][1]) The weak point is that the ETL is currently documented as a placeholder, and the script explicitly says it logs intended behavior instead of writing real files. ([GitHub][2]) ([GitHub][3])
+
+---
+
+# The Optimal Expansion Plan
+
+## 1. Reframe the Project
+
+Current positioning:
+
+> AWS Serverless Support Analytics
+
+Better positioning:
+
+> **Customer Success Analytics Command Center**
+
+Subtitle:
+
+> A Salesforce-aware customer analytics dashboard for support, retention, churn risk, customer lifetime value, and customer health scoring.
+
+This makes the project match TouchBistro better. Their Customer Analytics Manager role is about data collection, processing, modeling, and analysis inside Customer Success, while working across Product, Sales, Transformation, Customer Success, and Marketing. ([Francisco Partners][4])
+
+TouchBistro also has a public Salesforce customer story saying they use Salesforce across sales, service, and marketing for a unified customer view, and that Tableau would help them perform enterprise-wide analytics across those areas. ([Salesforce][5])
+
+So the project should feel like:
+
+> “I built the kind of customer analytics environment a Salesforce-heavy Customer Success team would use.”
+
+---
+
+# 2. New Data Model
+
+Add realistic SaaS / restaurant-tech customer datasets.
+
+## Add These Raw Files
+
+```text
+data/raw/
+  accounts.csv
+  subscriptions.csv
+  support_interactions.csv
+  product_usage.csv
+  invoices.csv
+  opportunities.csv
+  customer_success_touches.csv
+```
+
+## What Each File Represents
+
+| File                           | Purpose                                        |
+| ------------------------------ | ---------------------------------------------- |
+| `accounts.csv`                 | Restaurant/customer profile data               |
+| `subscriptions.csv`            | Plan, MRR, start date, cancellation date       |
+| `support_interactions.csv`     | Calls, tickets, CSAT, SLA, escalations         |
+| `product_usage.csv`            | POS logins, orders processed, feature adoption |
+| `invoices.csv`                 | Revenue, failed payments, paid invoices        |
+| `opportunities.csv`            | Salesforce-style upsell/renewal pipeline       |
+| `customer_success_touches.csv` | QBRs, check-ins, onboarding, risk notes        |
+
+## Key Fields to Include
+
+```text
+account_id
+account_name
+restaurant_type
+region
+customer_segment
+plan_tier
+mrr
+signup_date
+cancel_date
+last_login_date
+monthly_orders
+support_ticket_count
+avg_csat
+sla_miss_count
+payment_failures
+health_score
+churned
+```
+
+This gives you enough data for churn, retention, LTV, cohort, segmentation, and support analytics.
+
+---
+
+# 3. Replace Placeholder ETL With Real Transformation
+
+Use **Polars + DuckDB + Parquet**.
+
+Why this combo:
+
+* **Polars** proves Python data transformation skill
+* **DuckDB** proves SQL analytics skill locally
+* **Parquet** keeps the AWS/S3/Glue lakehouse story
+* **FastAPI** can read curated outputs
+* **BI tools** can consume CSV extracts
+
+## New Data Flow
+
+```text
+Raw CSV / JSON
+   ↓
+Polars validation and cleaning
+   ↓
+Curated Parquet tables
+   ↓
+DuckDB SQL marts
+   ↓
+FastAPI endpoints
+   ↓
+Next.js dashboard
+   ↓
+BI exports for Tableau / CRM Analytics
+```
+
+## New Files
+
+```text
+support_analytics/
+  etl.py
+  schemas.py
+  transformations.py
+  metrics.py
+
+scripts/
+  generate_customer_analytics.py
+
+data/curated/
+  accounts.parquet
+  subscriptions.parquet
+  support_interactions.parquet
+  product_usage.parquet
+  invoices.parquet
+  customer_360.parquet
+  monthly_customer_metrics.parquet
+
+data/marts/
+  churn_risk_accounts.parquet
+  retention_cohorts.parquet
+  ltv_by_segment.parquet
+  customer_health_scores.parquet
+
+data/bi_exports/
+  customer_360.csv
+  retention_cohorts.csv
+  churn_risk_accounts.csv
+  ltv_by_segment.csv
+```
+
+## Transformation Must Actually Do This
+
+* Validate required columns
+* Parse dates
+* Standardize region and plan names
+* Join accounts to subscriptions
+* Join support data to accounts
+* Join product usage to accounts
+* Calculate active/churned status
+* Calculate customer health score
+* Write Parquet files
+* Write a manifest with row counts, timestamps, file hashes
+
+This directly fixes the current placeholder weakness.
+
+---
+
+# 4. Add SQL Analytics Layer
+
+Create a serious `/sql` folder.
+
+```text
+sql/
+  00_create_views.sql
+  01_customer_360.sql
+  02_churn_risk_accounts.sql
+  03_retention_cohorts.sql
+  04_ltv_by_segment.sql
+  05_customer_health_score.sql
+  06_support_impact_on_churn.sql
+  07_expansion_opportunity_segments.sql
+  08_sla_csat_trends.sql
+```
+
+## Queries You Need to Show
+
+| Query                          | What It Proves               |
+| ------------------------------ | ---------------------------- |
+| Customer 360 base table        | CRM-style data modeling      |
+| Churn risk accounts            | Customer Success analytics   |
+| Retention cohorts              | Lifecycle analytics          |
+| LTV by segment                 | Revenue analytics            |
+| Health score                   | Customer scoring logic       |
+| Support impact on churn        | Business insight             |
+| Expansion opportunity segments | Sales + CS crossover         |
+| SLA and CSAT trends            | Support operations analytics |
+
+## Example Metrics
+
+### Churn Rate
+
+```text
+churn_rate = churned_customers / customers_active_at_period_start
+```
+
+### Retention Rate
+
+```text
+retention_rate = customers_active_at_period_end / customers_active_at_period_start
+```
+
+### LTV
+
+```text
+ltv = average_monthly_revenue_per_account / monthly_churn_rate
+```
+
+Better version:
+
+```text
+ltv = average_monthly_revenue_per_account * gross_margin / monthly_churn_rate
+```
+
+### Health Score
+
+Use weighted scoring:
+
+```text
+health_score =
+  product_usage_score * 0.35
++ payment_health_score * 0.20
++ support_experience_score * 0.25
++ engagement_score * 0.20
+```
+
+Then classify:
+
+```text
+80-100 = Healthy
+60-79 = Watch
+40-59 = At Risk
+0-39 = Critical
+```
+
+---
+
+# 5. BI Tools Strategy
+
+## Best Choice
+
+Use **Tableau Public** first, then make the project **Salesforce CRM Analytics aware**.
+
+Reason: TouchBistro publicly connects Salesforce and Tableau in their analytics story. ([Salesforce][5]) Salesforce CRM Analytics is also relevant because it uses datasets, recipes, and dashboards. Salesforce describes CRM Analytics datasets as related data that can come from many sources. ([Salesforce][6]) Salesforce Data Prep recipes are used to clean, transform, enrich, and load data into targets. ([Salesforce][7])
+
+## What To Build
+
+Add:
+
+```text
+bi/
+  tableau/
+    screenshots/
+    customer_success_dashboard.twbx or exported screenshots
+    README.md
+
+  salesforce_crma/
+    dataset_mapping.md
+    recipe_plan.md
+    dashboard_wireframe.md
+```
+
+## Tableau Dashboard Pages
+
+1. **Executive Overview**
+2. **Churn Risk**
+3. **Retention Cohorts**
+4. **Customer Health**
+5. **Revenue / LTV**
+6. **Support Drivers**
+
+## Salesforce CRM Analytics Angle
+
+Do not fake Salesforce integration. Instead, create a credible CRMA-readiness layer:
+
+```text
+bi/salesforce_crma/dataset_mapping.md
+```
+
+Include mappings like:
+
+| Repo Dataset                   | Salesforce Equivalent                 |
+| ------------------------------ | ------------------------------------- |
+| `accounts.csv`                 | Account                               |
+| `opportunities.csv`            | Opportunity                           |
+| `support_interactions.csv`     | Case                                  |
+| `customer_success_touches.csv` | Task / Event                          |
+| `subscriptions.csv`            | Contract / Subscription custom object |
+| `invoices.csv`                 | Billing / Revenue object              |
+
+Also include:
+
+```text
+bi/salesforce_crma/recipe_plan.md
+```
+
+Describe a CRM Analytics recipe:
+
+```text
+Account
+  ↓ joined to Subscription
+  ↓ joined to Case / Support Interaction
+  ↓ joined to Product Usage
+  ↓ joined to Invoice
+  ↓ output Customer_360 dataset
+```
+
+Salesforce CRM Analytics supports recipe outputs to datasets, CSV, Data 360 lake objects, remote locations, and Amazon S3, so this mapping is technically aligned. ([Salesforce][8])
+
+---
+
+# 6. Dashboard Redesign
+
+Your design should feel like a **command center for executives and customer success managers**.
+
+## New Design Theme
+
+Use:
+
+* Dark navy / charcoal background
+* Glass panels
+* Clean KPI cards
+* Subtle gradient borders
+* Compact data tables
+* Heatmaps
+* Risk badges
+* Executive summary cards
+* “Recommended actions” cards
+
+## New Main Navigation
+
+```text
+Overview
+Customer Health
+Churn Risk
+Retention Cohorts
+Revenue & LTV
+Support Drivers
+Accounts
+BI Exports
+ETL Health
+```
+
+## Homepage Layout
+
+### Section 1: Executive Snapshot
+
+Cards:
+
+* Active Customers
+* Monthly Recurring Revenue
+* Churn Rate
+* Retention Rate
+* Average LTV
+* At-Risk Accounts
+
+### Section 2: Customer Lifecycle Funnel
+
+```text
+New Customers → Activated → Engaged → Healthy → Expansion Ready → Renewed
+```
+
+### Section 3: Churn Risk Queue
+
+Table columns:
+
+```text
+Account
+Segment
+MRR
+Health Score
+Risk Level
+Main Risk Driver
+Recommended Action
+```
+
+### Section 4: Cohort Heatmap
+
+Rows:
+
+```text
+Signup Month
+```
+
+Columns:
+
+```text
+Month 0, Month 1, Month 2, Month 3...
+```
+
+Cells:
+
+```text
+Retention %
+```
+
+### Section 5: Segmentation
+
+Charts:
+
+* Churn by plan tier
+* LTV by restaurant type
+* CSAT by region
+* Support volume by customer segment
+* Product usage by retention status
+
+### Section 6: ETL Health
+
+Show:
+
+* Last ETL run
+* Input row counts
+* Output row counts
+* Files generated
+* Manifest hash
+* Data quality warnings
+
+This turns the backend work into visible credibility.
+
+---
+
+# 7. Backend API Expansion
+
+Add new endpoints:
+
+```text
+GET /api/customer-analytics/overview
+GET /api/customer-analytics/health
+GET /api/customer-analytics/churn-risk
+GET /api/customer-analytics/retention-cohorts
+GET /api/customer-analytics/ltv
+GET /api/customer-analytics/segments
+GET /api/customer-analytics/accounts/{account_id}
+GET /api/etl/manifest
+GET /api/bi/exports
+```
+
+## Response Types
+
+Create Pydantic schemas for:
+
+```text
+CustomerOverview
+CustomerHealthScore
+ChurnRiskAccount
+RetentionCohort
+LtvSegment
+SegmentBreakdown
+EtlManifest
+BiExport
+```
+
+This strengthens your FastAPI story and makes the frontend feel enterprise-grade.
+
+---
+
+# 8. Frontend Implementation Plan
+
+## New Feature Folder Structure
+
+```text
+frontend/src/features/customer-analytics/
+  components/
+    ExecutiveKpiGrid.tsx
+    CustomerLifecycleFunnel.tsx
+    ChurnRiskTable.tsx
+    RetentionCohortHeatmap.tsx
+    LtvSegmentChart.tsx
+    HealthScoreDistribution.tsx
+    SegmentBreakdown.tsx
+    RecommendedActions.tsx
+    EtlHealthPanel.tsx
+
+  hooks/
+    useCustomerOverview.ts
+    useChurnRisk.ts
+    useRetentionCohorts.ts
+    useLtvSegments.ts
+
+  types.ts
+  utils.ts
+```
+
+## Keep Your Existing Stack
+
+Use:
+
+* Next.js
+* TypeScript
+* Tailwind
+* shadcn/ui
+* TanStack Query
+* TanStack Table
+* Recharts or Nivo
+* Framer Motion
+
+Do not add unnecessary complexity unless it directly improves the demo.
+
+---
+
+# 9. The Best Build Order
+
+## Phase 1, Data Foundation
+
+Deliverables:
+
+* New raw CSV files
+* Real `generate_customer_analytics.py`
+* Curated Parquet outputs
+* Manifest file
+* Data quality checks
+
+Goal:
+
+> Replace fake ETL with real ETL.
+
+## Phase 2, SQL Layer
+
+Deliverables:
+
+* DuckDB integration
+* `/sql` folder
+* SQL views/marts
+* Query outputs saved to `data/marts`
+
+Goal:
+
+> Prove real analytics skill.
+
+## Phase 3, Backend API
+
+Deliverables:
+
+* Customer analytics router
+* Pydantic schemas
+* Service layer reading Parquet / DuckDB outputs
+* Tests for metrics
+
+Goal:
+
+> Turn analytics outputs into a real product backend.
+
+## Phase 4, Dashboard Redesign
+
+Deliverables:
+
+* New command center layout
+* Churn risk page
+* Retention cohort page
+* LTV page
+* Customer health page
+* Account detail page
+
+Goal:
+
+> Make the demo visually impressive and business-readable.
+
+## Phase 5, BI Layer
+
+Deliverables:
+
+* Tableau Public dashboard
+* Screenshots in repo
+* `bi_exports` folder
+* Salesforce CRM Analytics mapping docs
+* README section explaining CRMA compatibility
+
+Goal:
+
+> Show BI awareness without pretending to have enterprise Salesforce access.
+
+## Phase 6, Documentation and Resume Update
+
+Deliverables:
+
+* Updated README
+* Architecture diagram
+* Screenshots
+* “Business Questions Answered” section
+* Resume bullet updates
+
+Goal:
+
+> Make recruiters understand the value in 30 seconds.
+
+---
+
+# 10. Resume Bullet Upgrade After This
+
+Once done, your resume project should say something like:
+
+```text
+Customer Success Analytics Command Center | Next.js, TypeScript, FastAPI, DuckDB, Polars, SQL, Tableau, Parquet
+• Built a Salesforce-aware customer analytics dashboard modeling accounts, subscriptions, support interactions, product usage, invoices, and expansion opportunities.
+• Implemented real ETL pipelines with Polars to clean raw customer data, generate curated Parquet datasets, and produce manifest-based data quality diagnostics.
+• Wrote SQL analytics marts in DuckDB for churn risk, retention cohorts, customer lifetime value, health scoring, segmentation, and support impact analysis.
+• Created executive dashboards showing MRR, churn rate, retention, LTV, customer health, SLA performance, and at-risk accounts.
+• Exported BI-ready datasets for Tableau and documented Salesforce CRM Analytics dataset and recipe mappings.
+```
+
+This would be much stronger than your current version, which already mentions an AWS analytics dashboard but does not fully prove SQL, BI tooling, or customer lifecycle analytics. 
+
+---
+
+# Final Recommendation
+
+Build this as one polished project, not three separate projects.
+
+The strongest version is:
+
+> **A Salesforce-aware Customer Success Analytics platform that uses real ETL, SQL marts, BI exports, and a polished dashboard to analyze churn, retention, LTV, cohorts, segmentation, support impact, and customer health.**
+
+That makes you look like a hybrid:
+
+* Junior software developer
+* Analytics engineer
+* BI analyst
+* Customer analytics candidate
