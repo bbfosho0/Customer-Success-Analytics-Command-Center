@@ -224,6 +224,20 @@ http://localhost:3000/customer-analytics/retention
 | Static GitHub Pages mode | Next.js exports static pages and uses deterministic fallback fixtures | Recruiter portfolio demo without backend |
 | BI export mode | CSVs in `data/bi_exports/` are loaded into Tableau, Power BI, Looker Studio, or CRM Analytics-style workflows | BI and analytics manager review |
 
+## UI Pages (What Each Screen Contains)
+
+- **/**: Redirects to **/dashboard** to keep the landing experience focused on the operational overview.
+- **/dashboard**: KPI grid (volume, SLA, CSAT, escalations), call volume trend chart with forecast, issue breakdown bar chart, region performance grid, proactive insight cards, and latest calls table.
+- **/metrics**: Global filters, KPI cards, rolling SLA progress panel, automation pilot status list, and channel quality table (share, CSAT, automation, AHT).
+- **/calls**: Call explorer with filters, focus cards for longest-running calls and escalations, paginated calls table, and KPI cards for sentiment, FCR, and SLA.
+- **/calls/[callId]**: Case-level detail view with KPI cards (CSAT, duration, first response, region), timeline of open/close milestones, and signal panel (priority, issue, sentiment, status).
+- **/agents**: Agent performance spotlight cards for the top cohort plus a full leaderboard of agent metrics.
+- **/customer-analytics**: Customer Success overview with KPI grid, health distribution, churn risk preview table, recommended actions, and BI export availability panel.
+- **/customer-analytics/churn-risk**: Risk-level filter chips and the prioritized churn-risk queue table.
+- **/customer-analytics/retention**: Retention cohort heatmap, LTV by segment chart, and a segment performance summary list.
+- **/customer-analytics/ltv**: Focused LTV by segment and plan tier visualization.
+- **/settings**: Refresh controls, configuration toggles, and an audit trail of recent operations.
+
 ## Screenshots
 
 The images below are local dashboard screenshots. Add or replace screenshots in `docs/screenshots/` as the UI evolves.
