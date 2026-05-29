@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from ..schemas import CallFilters, CallsMeta, PaginatedCallsResponse
+from ..schemas import CallDetailResponse, CallFilters, CallsMeta, PaginatedCallsResponse
 from ..services import calls as call_service
 
 router = APIRouter(prefix="/api/calls", tags=["calls"])
@@ -26,11 +26,11 @@ async def list_calls(filters: CallFilters = Depends()) -> PaginatedCallsResponse
     )
 
 
-@router.get("/{call_id}")
-async def get_call(call_id: str):
+@router.get("/{call_id}", response_model=CallDetailResponse)
+async def get_call(call_id: str) -> CallDetailResponse:
     """Return one call record by ID."""
 
     record = await call_service.get_call(call_id)
     if record is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Call not found")
-    return {"data": record}
+    return CallDetailResponse(data=record)

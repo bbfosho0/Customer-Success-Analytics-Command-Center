@@ -233,6 +233,13 @@ export interface components {
             value: number;
         };
         /**
+         * CallDetailResponse
+         * @description Envelope returned for one call record.
+         */
+        CallDetailResponse: {
+            data: components["schemas"]["CallRecord"];
+        };
+        /**
          * CallRecord
          * @description Canonical schema for tabular support-call data.
          */
@@ -428,7 +435,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["CallDetailResponse"];
                 };
             };
             /** @description Validation Error */

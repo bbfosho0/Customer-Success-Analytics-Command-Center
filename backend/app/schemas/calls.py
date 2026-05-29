@@ -37,3 +37,9 @@ class PaginatedCallsResponse(BaseModel):
     data: list[CallRecord]
     meta: CallsMeta
     links: dict[str, str | None]
+
+
+class CallDetailResponse(BaseModel):
+    """Envelope returned for one call record."""
+
+    data: CallRecord

@@ -41,15 +41,15 @@ const defaultSelection: DemoFilterSelection = {
 export const useDemoFilters = create<DemoFilterStore>((set) => ({
   selection: defaultSelection,
   setWindow: (window) =>
-    set((state) => ({
+    set((state: DemoFilterStore) => ({
       selection: { ...state.selection, window },
     })),
   setRegion: (region) =>
-    set((state) => ({
+    set((state: DemoFilterStore) => ({
       selection: { ...state.selection, region },
     })),
   setIntent: (intent) =>
-    set((state) => ({
+    set((state: DemoFilterStore) => ({
       selection: { ...state.selection, intent },
     })),
   reset: () => set({ selection: defaultSelection }),

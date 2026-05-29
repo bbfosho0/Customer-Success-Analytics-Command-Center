@@ -13,9 +13,10 @@ import { buildFilterSummary } from "../../lib/utils/callFiltering";
 interface GlobalFiltersProps {
   activeCount?: number;
   totalCount?: number;
+  sourceLabel?: string;
 }
 
-export function GlobalFilters({ activeCount, totalCount }: GlobalFiltersProps) {
+export function GlobalFilters({ activeCount, totalCount, sourceLabel = "Typed API" }: GlobalFiltersProps) {
   const { selection, setWindow, setRegion, setIntent, reset } = useDemoFilters((state) => ({
     selection: state.selection,
     setWindow: state.setWindow,
@@ -82,7 +83,7 @@ export function GlobalFilters({ activeCount, totalCount }: GlobalFiltersProps) {
         </span>
         <div className="flex flex-wrap gap-2">
           <StatusBadge label="Now showing" value={summary} />
-          <StatusBadge label="Source" value="Local sample" />
+          <StatusBadge label="Source" value={sourceLabel} />
         </div>
       </div>
     </section>
