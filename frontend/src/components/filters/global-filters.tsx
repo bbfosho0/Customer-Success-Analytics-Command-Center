@@ -42,21 +42,21 @@ export function GlobalFilters({ activeCount, totalCount, sourceLabel = "Typed AP
   }, [activeCount, totalCount]);
 
   return (
-    <section className="rounded-[32px] border border-border/60 bg-gradient-to-br from-surface via-surface-strong to-surface shadow-card">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/40 px-6 py-5">
+    <section className="rounded-md border border-border bg-card">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border px-4 py-2.5">
         <div>
-          <p className="text-xs uppercase tracking-[0.4rem] text-muted-foreground">Filters</p>
+          <p className="text-[11px] uppercase tracking-wider text-muted-foreground">Filters</p>
           <p className="text-sm text-muted-foreground">Dial in the preview that best matches your briefing.</p>
         </div>
         <button
           type="button"
           onClick={reset}
-          className="rounded-full border border-border/60 px-4 py-1.5 text-xs font-semibold text-foreground hover:border-foreground"
+          className="rounded-md border border-border px-2.5 py-1.5 text-xs text-foreground hover:bg-muted"
         >
           Reset
         </button>
       </div>
-      <div className="grid gap-6 px-6 py-6 md:grid-cols-3">
+      <div className="grid gap-4 px-4 py-4 md:grid-cols-3">
         <FilterGroup
           label="Window"
           options={timeRangeOptions}
@@ -76,7 +76,7 @@ export function GlobalFilters({ activeCount, totalCount, sourceLabel = "Typed AP
           onSelect={setIntent}
         />
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/40 px-6 py-4 text-xs text-muted-foreground">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3 text-xs text-muted-foreground">
         <span className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-success" />
           {activeLabel}
@@ -103,7 +103,7 @@ function FilterGroup<T extends string>({
 }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-[0.4rem] text-muted-foreground">{label}</p>
+      <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {options.map((option) => (
           <button
@@ -112,8 +112,8 @@ function FilterGroup<T extends string>({
             onClick={() => onSelect(option)}
             className={
               option === active
-                ? "rounded-full bg-accent px-4 py-1.5 text-xs font-semibold text-white shadow-glow"
-                : "rounded-full border border-border/50 px-4 py-1.5 text-xs text-muted-foreground hover:border-accent/60"
+                ? "rounded-md bg-accent px-3 py-1.5 text-xs text-accent-foreground"
+                : "rounded-md border border-border px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted"
             }
           >
             {option}
@@ -126,7 +126,7 @@ function FilterGroup<T extends string>({
 
 function StatusBadge({ label, value }: { label: string; value: string }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-1">
+    <span className="inline-flex items-center gap-2 rounded-md border border-border px-2 py-1">
       <span className="text-muted-foreground">{label}</span>
       <span className="text-foreground">{value}</span>
     </span>

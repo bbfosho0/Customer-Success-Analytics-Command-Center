@@ -1,9 +1,10 @@
 const repoName = "aws-serverless-support-analytics";
-const isGithubPages = process.env.GITHUB_PAGES === "true";
+const isProductionBuild = process.env.NODE_ENV === "production";
+const isGithubPages = isProductionBuild && process.env.GITHUB_PAGES === "true";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
+  output: isProductionBuild ? "export" : undefined,
   basePath: isGithubPages ? `/${repoName}` : undefined,
   assetPrefix: isGithubPages ? `/${repoName}/` : undefined,
   trailingSlash: true,

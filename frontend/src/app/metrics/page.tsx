@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { KpiCard } from "../../components/charts/kpi-card";
 import { GlobalFilters } from "../../components/filters/global-filters";
 import { AppShell } from "../../components/layout/app-shell";
+import { EmptyState, ErrorState, LoadingState, SectionCard } from "../../components/ui/figma-primitives";
 import {
   automationPrograms,
   buildChannelMetrics,
@@ -41,9 +42,9 @@ export default function MetricsPage() {
       description="Live QA, SLA, and automation telemetry to prove the local-first mirror is production ready."
     >
       <GlobalFilters activeCount={activeCount} totalCount={activeCount} />
-      {(metricsQuery.isLoading || callsQuery.isLoading) && <StatePanel message="Loading metric drill-downs…" />}
-      {(metricsQuery.isError || callsQuery.isError) && <StatePanel tone="error" message="Unable to load metric drill-downs from the API." />}
-      {!metricsQuery.isLoading && !metricsQuery.isError && !kpis.length && <StatePanel message="No metrics are available yet." />}
+      {(metricsQuery.isLoading || callsQuery.isLoading) && <SectionCard><LoadingState label="Loading metric drill-downs" /></SectionCard>}
+      {(metricsQuery.isError || callsQuery.isError) && <SectionCard><ErrorState title="Unable to load metric drill-downs from the API" /></SectionCard>}
+      {!metricsQuery.isLoading && !metricsQuery.isError && !kpis.length && <SectionCard><EmptyState title="No metrics are available yet" /></SectionCard>}
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi) => (
           <KpiCard key={kpi.label} {...kpi} />
@@ -53,24 +54,15 @@ export default function MetricsPage() {
         <TrendPanel data={slaTrend} />
         <AutomationPanel programs={automationPrograms} />
       </section>
-      {channels.length ? <ChannelTable metrics={channels} /> : <StatePanel message="No channel metrics match the current filters." />}
+      {channels.length ? <ChannelTable metrics={channels} /> : <SectionCard><EmptyState title="No channel metrics match the current filters" /></SectionCard>}
     </AppShell>
-  );
-}
-
-function StatePanel({ message, tone = "muted" }: { message: string; tone?: "muted" | "error" }) {
-  return (
-    <div className={`rounded-2xl border border-border/60 bg-surface p-5 text-sm shadow-card ${tone === "error" ? "text-danger" : "text-muted-foreground"}`}>
-      {message}
-    </div>
   );
 }
 
 function TrendPanel({ data }: { data: SlaTrendPoint[] }) {
   return (
-    <article className="rounded-3xl border border-border/70 bg-surface p-6 shadow-card">
-      <p className="text-xs uppercase tracking-[0.4rem] text-muted-foreground">Rolling SLA</p>
-      <div className="mt-6 space-y-6">
+    <SectionCard title="Rolling SLA">
+      <div className="space-y-5">
         {data.map((point) => (
           <div key={point.label}>
             <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -87,23 +79,22 @@ function TrendPanel({ data }: { data: SlaTrendPoint[] }) {
           </div>
         ))}
       </div>
-    </article>
+    </SectionCard>
   );
 }
 
 function AutomationPanel({ programs }: { programs: AutomationProgram[] }) {
   return (
-    <article className="rounded-3xl border border-border/70 bg-surface p-6 shadow-card">
-      <p className="text-xs uppercase tracking-[0.4rem] text-muted-foreground">Automation pilots</p>
-      <ul className="mt-5 space-y-4 text-sm">
+    <SectionCard title="Automation pilots">
+      <ul className="space-y-3 text-sm">
         {programs.map((program) => (
-          <li key={program.id} className="rounded-2xl border border-border/60 p-4">
+          <li key={program.id} className="rounded-md border border-border p-3">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-semibold text-foreground">{program.name}</p>
                 <p className="text-xs text-muted-foreground">{program.descriptor}</p>
               </div>
-              <span className="text-xs uppercase tracking-[0.35rem] text-muted-foreground">{program.owner}</span>
+              <span className="text-[11px] uppercase tracking-wider text-muted-foreground">{program.owner}</span>
             </div>
             <div className="mt-3">
               <div className="flex items-center justify-between text-xs text-muted-foreground">
@@ -122,17 +113,13 @@ function AutomationPanel({ programs }: { programs: AutomationProgram[] }) {
           </li>
         ))}
       </ul>
-    </article>
+    </SectionCard>
   );
 }
 
 function ChannelTable({ metrics }: { metrics: ChannelMetric[] }) {
   return (
-    <article className="rounded-3xl border border-border/70 bg-surface shadow-card">
-      <div className="border-b border-border/60 px-6 py-5">
-        <p className="text-xs uppercase tracking-[0.4rem] text-muted-foreground">Channel quality</p>
-        <p className="text-sm text-muted-foreground">Share, CSAT, and automation to prep the AWS go-live.</p>
-      </div>
+    <SectionCard title="Channel quality" description="Share, CSAT, and automation to prep the AWS go-live." className="overflow-hidden">
       <table className="min-w-full divide-y divide-border/60 text-sm">
         <thead className="text-xs uppercase tracking-widest text-muted-foreground">
           <tr>
@@ -155,6 +142,6 @@ function ChannelTable({ metrics }: { metrics: ChannelMetric[] }) {
           ))}
         </tbody>
       </table>
-    </article>
+    </SectionCard>
   );
 }

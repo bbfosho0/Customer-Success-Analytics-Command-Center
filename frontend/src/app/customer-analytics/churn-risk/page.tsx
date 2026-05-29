@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { AppShell } from "../../../components/layout/app-shell";
+import { EmptyState, ErrorState, LoadingState, SectionCard } from "../../../components/ui/figma-primitives";
 import { ChurnRiskTable } from "../../../features/customer-analytics/components/ChurnRiskTable";
 import { atRiskAccounts } from "../../../features/customer-analytics/mappers";
 import { useChurnRiskAccounts } from "../../../features/customer-analytics/hooks/useChurnRiskAccounts";
@@ -23,25 +24,17 @@ export default function ChurnRiskPage() {
               key={level}
               type="button"
               onClick={() => setRiskLevel(level)}
-              className={`rounded-full border border-border/60 px-4 py-2 text-sm ${riskLevel === level ? "bg-accent text-accent-foreground" : "bg-surface text-muted-foreground"}`}
+              className={`rounded-md border border-border px-3 py-1.5 text-sm ${riskLevel === level ? "bg-accent text-accent-foreground" : "bg-card text-muted-foreground hover:bg-muted"}`}
             >
               {level}
             </button>
           ))}
         </div>
-        {query.isLoading && <StatePanel message="Loading churn-risk accounts…" />}
-        {query.isError && <StatePanel tone="error" message="Unable to load churn-risk accounts." />}
-        {!query.isLoading && !query.isError && !rows.length && <StatePanel message="No accounts match the current risk filter." />}
+        {query.isLoading && <SectionCard><LoadingState label="Loading churn-risk accounts" /></SectionCard>}
+        {query.isError && <SectionCard><ErrorState title="Unable to load churn-risk accounts" /></SectionCard>}
+        {!query.isLoading && !query.isError && !rows.length && <SectionCard><EmptyState title="No accounts match the current risk filter" /></SectionCard>}
         {!!rows.length && <ChurnRiskTable rows={rows} />}
       </div>
     </AppShell>
-  );
-}
-
-function StatePanel({ message, tone = "muted" }: { message: string; tone?: "muted" | "error" }) {
-  return (
-    <div className={`rounded-2xl border border-border/60 bg-surface p-5 text-sm shadow-card ${tone === "error" ? "text-danger" : "text-muted-foreground"}`}>
-      {message}
-    </div>
   );
 }

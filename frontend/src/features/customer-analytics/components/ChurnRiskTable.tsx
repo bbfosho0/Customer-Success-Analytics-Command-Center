@@ -1,10 +1,12 @@
+import { SectionCard, StatusBadge } from "../../../components/ui/figma-primitives";
 import type { ChurnRiskAccount } from "../types";
 
 export function ChurnRiskTable({ rows }: { rows: ChurnRiskAccount[] }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-border/60 bg-surface shadow-card">
+    <SectionCard title="Churn risk queue" description="Prioritized Customer Success worklist" className="overflow-hidden">
+      <div className="overflow-x-auto">
       <table className="w-full min-w-[820px] text-left text-sm">
-        <thead className="bg-surface-strong text-xs uppercase tracking-[0.22rem] text-muted-foreground">
+        <thead className="bg-muted text-xs uppercase tracking-wider text-muted-foreground">
           <tr>
             <th className="px-4 py-3">Account</th>
             <th className="px-4 py-3">Segment</th>
@@ -24,13 +26,14 @@ export function ChurnRiskTable({ rows }: { rows: ChurnRiskAccount[] }) {
               <td className="px-4 py-4 text-muted-foreground">{row.plan_tier}</td>
               <td className="px-4 py-4">${row.mrr.toLocaleString()}</td>
               <td className="px-4 py-4">{row.health_score.toFixed(1)}</td>
-              <td className="px-4 py-4">{row.risk_level}</td>
+              <td className="px-4 py-4"><StatusBadge status={row.risk_level} /></td>
               <td className="px-4 py-4 text-muted-foreground">{row.main_risk_driver}</td>
               <td className="px-4 py-4 text-muted-foreground">{row.recommended_action}</td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </SectionCard>
   );
 }

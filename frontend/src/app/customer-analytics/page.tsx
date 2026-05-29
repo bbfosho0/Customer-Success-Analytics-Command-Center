@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 
 import { AppShell } from "../../components/layout/app-shell";
+import { ErrorState, LoadingState, SectionCard, StatusBadge } from "../../components/ui/figma-primitives";
 import { BiExportsPanel } from "../../features/customer-analytics/components/BiExportsPanel";
 import { ChurnRiskTable } from "../../features/customer-analytics/components/ChurnRiskTable";
 import { CustomerHealthDistribution } from "../../features/customer-analytics/components/CustomerHealthDistribution";
@@ -24,19 +25,19 @@ export default function CustomerAnalyticsPage() {
     <AppShell
       title="Customer Success Analytics"
       description="Customer 360 view across churn risk, retention, LTV, support impact, and expansion readiness."
-      actions={<Link className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground" href="/customer-analytics/churn-risk">Risk queue</Link>}
+      actions={<Link className="rounded-md bg-accent px-3 py-1.5 text-sm text-accent-foreground" href="/customer-analytics/churn-risk">Risk queue</Link>}
     >
       <div className="space-y-8">
-        {(overviewQuery.isLoading || churnQuery.isLoading) && <StatePanel message="Loading customer analytics marts…" />}
-        {(overviewQuery.isError || churnQuery.isError) && <StatePanel tone="error" message="Unable to load customer analytics. Regenerate the phase 6 marts or switch to static demo mode." />}
+        {(overviewQuery.isLoading || churnQuery.isLoading) && <SectionCard><LoadingState label="Loading customer analytics marts" /></SectionCard>}
+        {(overviewQuery.isError || churnQuery.isError) && <SectionCard><ErrorState body="Regenerate the phase 6 marts or switch to static demo mode." /></SectionCard>}
         {!!kpis.length && <CustomerKpiGrid kpis={kpis} />}
         {overviewQuery.data && <CustomerHealthDistribution rows={overviewQuery.data.health_distribution} />}
         {!!churnRows.length && <ChurnRiskTable rows={churnRows} />}
         {overviewQuery.data && (
           <section className="grid gap-4 md:grid-cols-3">
             {overviewQuery.data.recommended_actions.map((action) => (
-              <div key={action} className="rounded-2xl border border-border/60 bg-surface p-5 text-sm text-muted-foreground shadow-card">
-                {action}
+              <div key={action} className="rounded-md border border-border bg-card p-4 text-sm text-muted-foreground">
+                <StatusBadge status="Action" /> <span className="ml-2">{action}</span>
               </div>
             ))}
           </section>
@@ -44,13 +45,5 @@ export default function CustomerAnalyticsPage() {
         {exportsQuery.data && <BiExportsPanel rows={exportsQuery.data} />}
       </div>
     </AppShell>
-  );
-}
-
-function StatePanel({ message, tone = "muted" }: { message: string; tone?: "muted" | "error" }) {
-  return (
-    <div className={`rounded-2xl border border-border/60 bg-surface p-5 text-sm shadow-card ${tone === "error" ? "text-danger" : "text-muted-foreground"}`}>
-      {message}
-    </div>
   );
 }

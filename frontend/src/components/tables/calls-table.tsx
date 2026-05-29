@@ -2,7 +2,9 @@
 
 import { useCallback } from "react";
 import type { ReactNode } from "react";
+import { Download } from "lucide-react";
 
+import { SectionCard, StatusBadge as FigmaStatusBadge } from "../ui/figma-primitives";
 import type { MockCallRecord } from "../../lib/data/types";
 
 interface CallsTableProps {
@@ -60,25 +62,26 @@ export function CallsTable({ data, caption }: CallsTableProps) {
   }, [data]);
 
   return (
-    <section id="transcripts" className="rounded-[32px] border border-border/70 bg-surface/95 shadow-card">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/50 px-6 py-5">
-        <div>
-          {caption && <p className="text-xs uppercase tracking-[0.4rem] text-muted-foreground">{caption}</p>}
-          <p className="text-sm text-muted-foreground">{subtitle}</p>
-        </div>
-        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-          <StatusPill label="Resolved" value={`${resolved}/${data.length}`} />
-          <StatusPill label="Urgent" value={urgent.toString()} />
-          <StatusPill label="Avg handle time" value={`${avgHandle}m`} />
-        </div>
+    <SectionCard
+      title={caption ?? "Support interactions"}
+      description={subtitle}
+      action={
         <button
           type="button"
           onClick={handleDownload}
           disabled={!data.length}
-          className="rounded-full border border-border/60 px-4 py-2 text-xs font-semibold text-foreground disabled:opacity-40"
+          className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs text-foreground hover:bg-muted disabled:opacity-40"
         >
-          Download CSV
+          <Download className="h-3.5 w-3.5" />
+          CSV
         </button>
+      }
+      className="overflow-hidden"
+    >
+      <div className="mb-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
+        <StatusPill label="Resolved" value={`${resolved}/${data.length}`} />
+        <StatusPill label="Urgent" value={urgent.toString()} />
+        <StatusPill label="Avg handle" value={`${avgHandle}m`} />
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-border/60">
@@ -121,7 +124,7 @@ export function CallsTable({ data, caption }: CallsTableProps) {
                   <PriorityLabel priority={call.priority} />
                 </td>
                 <td className="px-4 py-4">
-                  <StatusBadge status={call.status} />
+                  <FigmaStatusBadge status={call.status} />
                 </td>
                 <td className="px-4 py-4">
                   <span className="font-semibold">{call.firstResponseMinutes}m</span>
@@ -144,14 +147,13 @@ export function CallsTable({ data, caption }: CallsTableProps) {
           </tbody>
         </table>
       </div>
-    </section>
+    </SectionCard>
   );
 }
-
 function StatusPill({ label, value }: { label: string; value: string }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-1">
-      <span className="uppercase tracking-[0.2rem] text-muted-foreground">{label}</span>
+    <span className="inline-flex items-center gap-2 rounded-md border border-border px-2 py-1">
+      <span className="text-muted-foreground">{label}</span>
       <span className="font-semibold text-foreground">{value}</span>
     </span>
   );
@@ -173,7 +175,7 @@ function ChannelPill({ channel }: { channel: MockCallRecord["channel"] }) {
     sms: "bg-indigo-500/15 text-indigo-200",
   };
   return (
-    <span className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${palette[channel]}`}>
+    <span className={`rounded-md px-2 py-1 text-xs capitalize ${palette[channel]}`}>
       {channel}
     </span>
   );
@@ -195,21 +197,8 @@ function PriorityLabel({ priority }: { priority: MockCallRecord["priority"] }) {
     urgent: "bg-danger/20 text-danger",
   };
   return (
-    <span className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${palette[priority]}`}>
+    <span className={`rounded-md px-2 py-1 text-xs capitalize ${palette[priority]}`}>
       {priority}
-    </span>
-  );
-}
-
-function StatusBadge({ status }: { status: MockCallRecord["status"] }) {
-  const palette: Record<MockCallRecord["status"], string> = {
-    resolved: "bg-success/15 text-success",
-    pending: "bg-warning/15 text-warning",
-    escalated: "bg-danger/15 text-danger",
-  };
-  return (
-    <span className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${palette[status]}`}>
-      {status}
     </span>
   );
 }
