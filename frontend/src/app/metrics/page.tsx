@@ -8,29 +8,42 @@ import { AppShell } from "../../components/layout/app-shell";
 import {
   automationPrograms,
   buildChannelMetrics,
-  buildMetricsKpis,
   slaTrend,
   type AutomationProgram,
   type ChannelMetric,
   type SlaTrendPoint,
 } from "../../lib/data/metrics-data";
-import { callsDataset } from "../../lib/data/calls-data";
+import { useCalls, useMetrics } from "../../lib/api/hooks";
 import { useDemoFilters } from "../../lib/state/demoFilters";
-import { filterCalls } from "../../lib/utils/callFiltering";
+import {
+  buildCallsQueryFromSelection,
+  buildDashboardKpisFromMetrics,
+  toUiCallRecords,
+} from "../../lib/viz/transformers";
 
 export default function MetricsPage() {
   const selection = useDemoFilters((state) => state.selection);
 
-  const filteredCalls = useMemo(() => filterCalls(callsDataset, selection), [selection]);
-  const kpis = useMemo(() => buildMetricsKpis(filteredCalls), [filteredCalls]);
+  const callsQueryParams = useMemo(() => buildCallsQueryFromSelection(selection, 1, 200), [selection]);
+  const callsQuery = useCalls(callsQueryParams);
+  const metricsQuery = useMetrics({
+    region: selection.region === "Global" ? undefined : selection.region,
+    issue_type: selection.intent === "All intents" ? undefined : selection.intent,
+  });
+  const filteredCalls = useMemo(() => toUiCallRecords(callsQuery.data?.data ?? []), [callsQuery.data]);
+  const kpis = useMemo(() => (metricsQuery.data ? buildDashboardKpisFromMetrics(metricsQuery.data) : []), [metricsQuery.data]);
   const channels = useMemo(() => buildChannelMetrics(filteredCalls), [filteredCalls]);
+  const activeCount = callsQuery.data?.meta.total ?? 0;
 
   return (
     <AppShell
       title="Metrics observatory"
       description="Live QA, SLA, and automation telemetry to prove the local-first mirror is production ready."
     >
-      <GlobalFilters activeCount={filteredCalls.length} totalCount={callsDataset.length} />
+      <GlobalFilters activeCount={activeCount} totalCount={activeCount} />
+      {(metricsQuery.isLoading || callsQuery.isLoading) && <StatePanel message="Loading metric drill-downs…" />}
+      {(metricsQuery.isError || callsQuery.isError) && <StatePanel tone="error" message="Unable to load metric drill-downs from the API." />}
+      {!metricsQuery.isLoading && !metricsQuery.isError && !kpis.length && <StatePanel message="No metrics are available yet." />}
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi) => (
           <KpiCard key={kpi.label} {...kpi} />
@@ -40,8 +53,16 @@ export default function MetricsPage() {
         <TrendPanel data={slaTrend} />
         <AutomationPanel programs={automationPrograms} />
       </section>
-      <ChannelTable metrics={channels} />
+      {channels.length ? <ChannelTable metrics={channels} /> : <StatePanel message="No channel metrics match the current filters." />}
     </AppShell>
+  );
+}
+
+function StatePanel({ message, tone = "muted" }: { message: string; tone?: "muted" | "error" }) {
+  return (
+    <div className={`rounded-2xl border border-border/60 bg-surface p-5 text-sm shadow-card ${tone === "error" ? "text-danger" : "text-muted-foreground"}`}>
+      {message}
+    </div>
   );
 }
 

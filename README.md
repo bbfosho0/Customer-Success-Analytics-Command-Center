@@ -240,6 +240,15 @@ aws-serverless-support-analytics/
 - **Operational insights** – Settings page surfaces manifest details, manual refresh button, and ETL health checks.
 - **AWS-ready workflow** – Config toggles for `DATA_SOURCE=s3`, optional Redis cache, and OpenTelemetry hooks keep the stack cloud-ready.
 
+## Operations & Security Hardening
+
+- **CORS** is restricted through `CORS_ORIGINS` (comma-separated, default `http://localhost:3000`). Wildcard origins are only accepted in `APP_ENV=local` or `APP_ENV=test`.
+- **Local auth** issues signed HS256 JWTs from `/api/auth/sign-in`; set `SECRET_KEY` to a non-default value before sharing any demo environment.
+- **Request tracing** adds or propagates `X-Request-ID` on every backend response and writes one structured JSON access log per request.
+- **Caching** keeps local demos responsive by caching Parquet/sample rows and manifest reads in-process; `/api/settings/refresh` clears both caches after ETL refresh.
+- **Friendly validation** returns a correlated `422` envelope when bad query params are supplied, including range errors such as `min_duration_seconds > max_duration_seconds`.
+- **Schema drift control** is enforced in CI by exporting `openapi.json`, regenerating `frontend/src/lib/api/generated/schema.ts`, and failing if the generated file changes.
+
 ## Dashboard Experience (Employer Demo)
 
 The November 2025 refresh turned the `/dashboard` route into a scripted story recruiters can walk through without touching AWS:
@@ -259,7 +268,7 @@ These upgrades all run locally against `data/sample_calls.json` → `data/cleane
 ### 1. Regenerate ETL artifacts & refresh manifest (PowerShell)
 
 ```powershell
-python scripts/generate_parquet.py --input data/sample_calls.json --output data/cleaned_calls.parquet
+python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
 Invoke-RestMethod -Uri http://localhost:8000/api/settings/refresh -Method Post -Headers @{ Authorization = "Bearer <admin-jwt>" }
 ```
 
@@ -288,6 +297,17 @@ npm run api:generate      # regenerates src/lib/api/generated against http://loc
 | `/api/metrics` | GET | KPI snapshots + time-series arrays | `Invoke-RestMethod -Uri 'http://localhost:8000/api/metrics?range=30d'` |
 | `/api/settings/manifest` | GET | Manifest diagnostics (hash, updated_at, file size) | `Invoke-RestMethod -Uri 'http://localhost:8000/api/settings/manifest'` |
 | `/api/auth/sign-in` | POST | Auth stub issuing JWTs for local dev | `Invoke-RestMethod -Uri 'http://localhost:8000/api/auth/sign-in' -Method Post -Headers @{ 'Content-Type' = 'application/json' } -Body '{"username":"admin","password":"dev"}'` |
+
+Common backend environment variables:
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `APP_ENV` | `local` | Controls local/test production safety checks. |
+| `CORS_ORIGINS` | `http://localhost:3000` | Comma-separated allowed browser origins. |
+| `SECRET_KEY` | `dev-secret` | HS256 signing key for local JWTs; change for shared demos. |
+| `PARQUET_PATH` | `data/cleaned_calls.parquet` | Generated call artifact path. |
+| `MANIFEST_PATH` | `data/manifest.json` | Generated manifest path. |
+| `ENABLE_REFRESH_ENDPOINT` | `true` | Gates `/api/settings/refresh`. |
 
 **Sample `/api/calls` response**
 
@@ -419,6 +439,31 @@ The helper script adds a temporary worktree, copies `frontend/out`, writes `.noj
 - **Backend** – Pytest suites across unit (services, repositories), integration (FastAPI TestClient), contract tests (OpenAPI diff), and optional performance smoke tests (<250 ms P95 for `/api/calls`).
 - **Frontend** – Vitest + React Testing Library for components, Playwright E2E covering dashboard flows, Storybook visual regression (Chromatic) for KPI cards/charts.
 - **Shared contracts** – CI verifies that `openapi.json` was regenerated when schema changes occur and that `src/lib/api/generated` is current.
+
+Recommended local check sequence from a fresh clone:
+
+```powershell
+python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
+python -m pytest tests backend/app/tests
+python scripts/export_openapi.py --output openapi.json
+cd frontend
+npm ci
+npm run api:check
+npm run lint
+npm run test
+npm run build
+```
+
+## Troubleshooting
+
+| Symptom | Fix |
+| --- | --- |
+| `data/cleaned_calls.parquet` is missing | Run `python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet`; the API can fall back to `data/sample_calls.json`, but generated artifacts are required for parity checks. |
+| Frontend fetches fail with CORS errors | Confirm backend `CORS_ORIGINS` includes the exact frontend origin, usually `http://localhost:3000`, then restart Uvicorn. |
+| `/api/auth/sign-in` works but protected requests fail | Ensure the client sends `Authorization: Bearer <access_token>` and that `SECRET_KEY` has not changed since the token was issued. |
+| `npm run api:check` changes `schema.ts` | Backend OpenAPI changed; inspect the generated diff and commit `frontend/src/lib/api/generated/schema.ts` with the backend change. |
+| Node or Python version errors | Use Node 20+ and Python 3.11; reinstall with `npm ci` and `pip install -r requirements.txt -r backend/requirements.txt` after switching runtimes. |
+| GitHub Pages/static export tries to call localhost | Build with static demo mode enabled (`GITHUB_PAGES=true` or `NEXT_PUBLIC_DATA_MODE=static`) so hooks use deterministic local fixtures instead of FastAPI. |
 
 ## Contributing
 

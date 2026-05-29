@@ -22,12 +22,22 @@ def filter_call_rows(filters: CallFilters) -> list[dict[str, object]]:
     if filters.issue_type:
         rows = [row for row in rows if str(row.get("issue_type", "")).lower() == filters.issue_type.lower()]
     if filters.status:
-        rows = [row for row in rows if str(row.get("resolution_status", "")).lower() == filters.status.lower()]
+        rows = [row for row in rows if str(row.get("resolution_status", "")).lower() == filters.status]
     if filters.agent_id:
         rows = [row for row in rows if str(row.get("agent_id", "")).lower() == filters.agent_id.lower()]
+    if filters.started_from:
+        rows = [row for row in rows if str(row.get("started_at", "")) >= filters.started_from]
+    if filters.started_to:
+        rows = [row for row in rows if str(row.get("started_at", "")) <= filters.started_to]
+    if filters.min_duration_seconds is not None:
+        rows = [row for row in rows if int(row.get("duration_seconds", 0) or 0) >= filters.min_duration_seconds]
+    if filters.max_duration_seconds is not None:
+        rows = [row for row in rows if int(row.get("duration_seconds", 0) or 0) <= filters.max_duration_seconds]
     if filters.q:
         rows = [row for row in rows if _matches_text(row, filters.q)]
-    return sorted(rows, key=lambda row: str(row.get("started_at", "")), reverse=True)
+
+    reverse = filters.direction == "desc"
+    return sorted(rows, key=lambda row: row.get(filters.sort) or "", reverse=reverse)
 
 
 async def list_calls(filters: CallFilters) -> tuple[list[CallRecord], int]:

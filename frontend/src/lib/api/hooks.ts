@@ -1,75 +1,121 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { queryKeys } from "../constants/queryKeys";
+import { isRefreshManifestEnabled, isStaticDemoMode } from "../utils/env";
 import { apiFetch } from "./client";
-import type { AgentStats, CallsResponse, ManifestInfo, MetricsResponse } from "./generated/schema";
+import {
+  getStaticAgents,
+  getStaticCall,
+  getStaticCalls,
+  getStaticMetrics,
+  staticManifest,
+} from "./static-fixtures";
+import type {
+  AgentStats,
+  AgentsQuery,
+  ApiValidationError,
+  CallDetailResponse,
+  CallsQuery,
+  CallsResponse,
+  ManifestInfo,
+  ManifestResponse,
+  MetricsQuery,
+  MetricsResponse,
+  RefreshManifestResponse,
+} from "./types";
 
-export type CallsQuery = {
-  page?: number;
-  perPage?: number;
-  region?: string;
-  issueType?: string;
-  status?: string;
-  agentId?: string;
-  q?: string;
-};
+export type { AgentsQuery, CallsQuery, MetricsQuery } from "./types";
 
-function buildQuery(params: CallsQuery = {}) {
-  const search = new URLSearchParams();
-  if (params.page) search.set("page", String(params.page));
-  if (params.perPage) search.set("per_page", String(params.perPage));
-  if (params.region) search.set("region", params.region);
-  if (params.issueType) search.set("issue_type", params.issueType);
-  if (params.status) search.set("status", params.status);
-  if (params.agentId) search.set("agent_id", params.agentId);
-  if (params.q) search.set("q", params.q);
-  const query = search.toString();
-  return query ? `?${query}` : "";
+function staticAsync<T>(value: T): Promise<T> {
+  return Promise.resolve(value);
 }
 
-export function useCalls(params: CallsQuery = {}) {
-  return useQuery({
-    queryKey: ["calls", params],
-    queryFn: () => apiFetch<CallsResponse>(`/api/calls${buildQuery(params)}`),
-    staleTime: 30_000,
+export function useCalls(filters: CallsQuery = {}) {
+  const staticMode = isStaticDemoMode();
+  return useQuery<CallsResponse>({
+    queryKey: queryKeys.calls.list(filters),
+    queryFn: ({ signal }: { signal: AbortSignal }) =>
+      staticMode
+        ? staticAsync(getStaticCalls(filters))
+        : apiFetch<CallsResponse, ApiValidationError>("/api/calls", { query: filters, signal }),
+    staleTime: staticMode ? Infinity : 30_000,
   });
 }
 
-export function useMetrics() {
-  return useQuery({
-    queryKey: ["metrics"],
-    queryFn: () => apiFetch<MetricsResponse>("/api/metrics"),
-    staleTime: 30_000,
+export function useCall(callId: string | undefined) {
+  const staticMode = isStaticDemoMode();
+  return useQuery<CallDetailResponse>({
+    queryKey: queryKeys.calls.detail(callId ?? ""),
+    enabled: Boolean(callId),
+    queryFn: ({ signal }: { signal: AbortSignal }) => {
+      if (!callId) throw new Error("A call ID is required");
+      if (staticMode) {
+        const record = getStaticCall(callId);
+        if (!record) throw new Error(`Call not found: ${callId}`);
+        return staticAsync(record);
+      }
+      return apiFetch<CallDetailResponse, ApiValidationError>(`/api/calls/${encodeURIComponent(callId)}`, { signal });
+    },
+    staleTime: staticMode ? Infinity : 30_000,
   });
 }
 
-export function useAgents() {
-  return useQuery({
-    queryKey: ["agents"],
-    queryFn: () => apiFetch<AgentStats[]>("/api/agents"),
-    staleTime: 60_000,
+export function useMetrics(filters: MetricsQuery = {}) {
+  const staticMode = isStaticDemoMode();
+  return useQuery<MetricsResponse>({
+    queryKey: queryKeys.metrics.summary(filters),
+    queryFn: ({ signal }: { signal: AbortSignal }) =>
+      staticMode
+        ? staticAsync(getStaticMetrics())
+        : apiFetch<MetricsResponse, ApiValidationError>("/api/metrics", { query: filters, signal }),
+    staleTime: staticMode ? Infinity : 30_000,
+  });
+}
+
+export function useAgents(filters: AgentsQuery = {}) {
+  const staticMode = isStaticDemoMode();
+  return useQuery<AgentStats[]>({
+    queryKey: queryKeys.agents.list(filters),
+    queryFn: ({ signal }: { signal: AbortSignal }) =>
+      staticMode
+        ? staticAsync(getStaticAgents())
+        : apiFetch<AgentStats[], ApiValidationError>("/api/agents", { query: filters, signal }),
+    staleTime: staticMode ? Infinity : 60_000,
   });
 }
 
 export function useManifest() {
-  return useQuery({
-    queryKey: ["settings", "manifest"],
-    queryFn: async () => {
-      const response = await apiFetch<{ data: ManifestInfo }>("/api/settings/manifest");
+  const staticMode = isStaticDemoMode();
+  return useQuery<ManifestInfo>({
+    queryKey: queryKeys.settings.manifest(),
+    queryFn: async ({ signal }: { signal: AbortSignal }) => {
+      if (staticMode) return staticManifest;
+      const response = await apiFetch<ManifestResponse, ApiValidationError>("/api/settings/manifest", { signal });
       return response.data;
     },
-    staleTime: 60_000,
+    staleTime: staticMode ? Infinity : 60_000,
   });
 }
 
-export function useRefreshData() {
+export function useRefreshManifest() {
   const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: () => apiFetch<{ data: ManifestInfo }>("/api/settings/refresh", { method: "POST" }),
+  const enabled = isRefreshManifestEnabled();
+
+  return useMutation<ManifestInfo, Error>({
+    mutationFn: async () => {
+      if (!enabled) {
+        throw new Error("Manifest refresh is disabled in this frontend environment.");
+      }
+      const response = await apiFetch<RefreshManifestResponse, ApiValidationError>("/api/settings/refresh", { method: "POST" });
+      return response.data;
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["calls"] });
-      queryClient.invalidateQueries({ queryKey: ["metrics"] });
-      queryClient.invalidateQueries({ queryKey: ["agents"] });
-      queryClient.invalidateQueries({ queryKey: ["settings", "manifest"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.calls.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.metrics.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.settings.manifest() });
     },
   });
 }
+
+export const useRefreshData = useRefreshManifest;
