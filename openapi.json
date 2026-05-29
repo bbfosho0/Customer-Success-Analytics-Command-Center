@@ -1,0 +1,1926 @@
+{
+  "components": {
+    "schemas": {
+      "AgentStats": {
+        "additionalProperties": false,
+        "description": "Summaries consumed by the frontend agents view.",
+        "properties": {
+          "agent_id": {
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "avg_rating": {
+            "minimum": 0.0,
+            "title": "Avg Rating",
+            "type": "number"
+          },
+          "avg_resolution_seconds": {
+            "minimum": 0.0,
+            "title": "Avg Resolution Seconds",
+            "type": "integer"
+          },
+          "escalated_calls": {
+            "minimum": 0.0,
+            "title": "Escalated Calls",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "resolved_rate": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Resolved Rate",
+            "type": "number"
+          },
+          "skill_rating": {
+            "minimum": 0.0,
+            "title": "Skill Rating",
+            "type": "number"
+          },
+          "total_calls": {
+            "minimum": 0.0,
+            "title": "Total Calls",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "agent_id",
+          "name",
+          "region",
+          "skill_rating",
+          "avg_rating",
+          "total_calls",
+          "avg_resolution_seconds",
+          "resolved_rate",
+          "escalated_calls"
+        ],
+        "title": "AgentStats",
+        "type": "object"
+      },
+      "AuthCredentials": {
+        "additionalProperties": false,
+        "description": "Simple username/password payload for the local auth endpoint.",
+        "properties": {
+          "password": {
+            "title": "Password",
+            "type": "string"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "AuthCredentials",
+        "type": "object"
+      },
+      "AuthResponse": {
+        "additionalProperties": false,
+        "description": "Envelope returned by the local auth endpoint.",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AuthToken"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "AuthResponse",
+        "type": "object"
+      },
+      "AuthToken": {
+        "additionalProperties": false,
+        "description": "Signed local access token response.",
+        "properties": {
+          "access_token": {
+            "title": "Access Token",
+            "type": "string"
+          },
+          "expires_at": {
+            "title": "Expires At",
+            "type": "string"
+          },
+          "token_type": {
+            "default": "bearer",
+            "title": "Token Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "access_token",
+          "expires_at"
+        ],
+        "title": "AuthToken",
+        "type": "object"
+      },
+      "BiExport": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "rows": {
+            "title": "Rows",
+            "type": "integer"
+          },
+          "size_bytes": {
+            "title": "Size Bytes",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "path",
+          "rows",
+          "size_bytes"
+        ],
+        "title": "BiExport",
+        "type": "object"
+      },
+      "BreakdownMetric": {
+        "additionalProperties": false,
+        "description": "Categorical aggregate metric.",
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "label",
+          "value"
+        ],
+        "title": "BreakdownMetric",
+        "type": "object"
+      },
+      "CallDetailResponse": {
+        "description": "Envelope returned for one call record.",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CallRecord"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "CallDetailResponse",
+        "type": "object"
+      },
+      "CallRecord": {
+        "additionalProperties": false,
+        "description": "Canonical schema for tabular support-call data.",
+        "properties": {
+          "agent_id": {
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "agent_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent Name"
+          },
+          "customer_region": {
+            "title": "Customer Region",
+            "type": "string"
+          },
+          "duration_seconds": {
+            "minimum": 0.0,
+            "title": "Duration Seconds",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "issue_type": {
+            "title": "Issue Type",
+            "type": "string"
+          },
+          "resolution_status": {
+            "title": "Resolution Status",
+            "type": "string"
+          },
+          "skill_rating": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skill Rating"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          }
+        },
+        "required": [
+          "id",
+          "agent_id",
+          "customer_region",
+          "issue_type",
+          "duration_seconds",
+          "resolution_status"
+        ],
+        "title": "CallRecord",
+        "type": "object"
+      },
+      "CallsMeta": {
+        "description": "Pagination metadata returned with every calls collection.",
+        "properties": {
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "per_page": {
+            "title": "Per Page",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "page",
+          "per_page",
+          "total"
+        ],
+        "title": "CallsMeta",
+        "type": "object"
+      },
+      "ChurnRiskAccount": {
+        "additionalProperties": false,
+        "properties": {
+          "account_id": {
+            "title": "Account Id",
+            "type": "string"
+          },
+          "account_name": {
+            "title": "Account Name",
+            "type": "string"
+          },
+          "health_score": {
+            "title": "Health Score",
+            "type": "number"
+          },
+          "main_risk_driver": {
+            "title": "Main Risk Driver",
+            "type": "string"
+          },
+          "mrr": {
+            "title": "Mrr",
+            "type": "number"
+          },
+          "plan_tier": {
+            "title": "Plan Tier",
+            "type": "string"
+          },
+          "priority_rank": {
+            "title": "Priority Rank",
+            "type": "integer"
+          },
+          "recommended_action": {
+            "title": "Recommended Action",
+            "type": "string"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "risk_level": {
+            "title": "Risk Level",
+            "type": "string"
+          },
+          "segment": {
+            "title": "Segment",
+            "type": "string"
+          }
+        },
+        "required": [
+          "account_id",
+          "account_name",
+          "segment",
+          "region",
+          "plan_tier",
+          "mrr",
+          "health_score",
+          "risk_level",
+          "main_risk_driver",
+          "recommended_action",
+          "priority_rank"
+        ],
+        "title": "ChurnRiskAccount",
+        "type": "object"
+      },
+      "CustomerAccountDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "account_id": {
+            "title": "Account Id",
+            "type": "string"
+          },
+          "account_name": {
+            "title": "Account Name",
+            "type": "string"
+          },
+          "avg_active_days": {
+            "title": "Avg Active Days",
+            "type": "number"
+          },
+          "current_mrr": {
+            "title": "Current Mrr",
+            "type": "number"
+          },
+          "customer_success_manager": {
+            "title": "Customer Success Manager",
+            "type": "string"
+          },
+          "failed_payments": {
+            "title": "Failed Payments",
+            "type": "number"
+          },
+          "health_score": {
+            "title": "Health Score",
+            "type": "number"
+          },
+          "main_risk_driver": {
+            "title": "Main Risk Driver",
+            "type": "string"
+          },
+          "orders_processed": {
+            "title": "Orders Processed",
+            "type": "number"
+          },
+          "plan_tier": {
+            "title": "Plan Tier",
+            "type": "string"
+          },
+          "recommended_action": {
+            "title": "Recommended Action",
+            "type": "string"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "restaurant_type": {
+            "title": "Restaurant Type",
+            "type": "string"
+          },
+          "risk_level": {
+            "title": "Risk Level",
+            "type": "string"
+          },
+          "segment": {
+            "title": "Segment",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "support_calls": {
+            "title": "Support Calls",
+            "type": "number"
+          },
+          "weighted_pipeline_amount": {
+            "title": "Weighted Pipeline Amount",
+            "type": "number"
+          }
+        },
+        "required": [
+          "account_id",
+          "account_name",
+          "restaurant_type",
+          "region",
+          "segment",
+          "plan_tier",
+          "status",
+          "current_mrr",
+          "health_score",
+          "risk_level",
+          "main_risk_driver",
+          "recommended_action",
+          "customer_success_manager",
+          "avg_active_days",
+          "orders_processed",
+          "support_calls",
+          "failed_payments",
+          "weighted_pipeline_amount"
+        ],
+        "title": "CustomerAccountDetail",
+        "type": "object"
+      },
+      "CustomerAnalyticsOverview": {
+        "additionalProperties": false,
+        "properties": {
+          "health_distribution": {
+            "items": {
+              "$ref": "#/components/schemas/HealthBand"
+            },
+            "title": "Health Distribution",
+            "type": "array"
+          },
+          "kpis": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerKpi"
+            },
+            "title": "Kpis",
+            "type": "array"
+          },
+          "recommended_actions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Recommended Actions",
+            "type": "array"
+          },
+          "top_churn_drivers": {
+            "items": {
+              "$ref": "#/components/schemas/HealthBand"
+            },
+            "title": "Top Churn Drivers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "kpis",
+          "health_distribution",
+          "top_churn_drivers",
+          "recommended_actions"
+        ],
+        "title": "CustomerAnalyticsOverview",
+        "type": "object"
+      },
+      "CustomerHealthScore": {
+        "additionalProperties": false,
+        "properties": {
+          "account_id": {
+            "title": "Account Id",
+            "type": "string"
+          },
+          "account_name": {
+            "title": "Account Name",
+            "type": "string"
+          },
+          "customer_success_engagement_score": {
+            "title": "Customer Success Engagement Score",
+            "type": "number"
+          },
+          "health_score": {
+            "title": "Health Score",
+            "type": "number"
+          },
+          "main_risk_driver": {
+            "title": "Main Risk Driver",
+            "type": "string"
+          },
+          "mrr": {
+            "title": "Mrr",
+            "type": "number"
+          },
+          "payment_health_score": {
+            "title": "Payment Health Score",
+            "type": "number"
+          },
+          "plan_tier": {
+            "title": "Plan Tier",
+            "type": "string"
+          },
+          "product_usage_score": {
+            "title": "Product Usage Score",
+            "type": "number"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "risk_level": {
+            "title": "Risk Level",
+            "type": "string"
+          },
+          "segment": {
+            "title": "Segment",
+            "type": "string"
+          },
+          "support_experience_score": {
+            "title": "Support Experience Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "account_id",
+          "account_name",
+          "segment",
+          "region",
+          "plan_tier",
+          "mrr",
+          "product_usage_score",
+          "payment_health_score",
+          "support_experience_score",
+          "customer_success_engagement_score",
+          "health_score",
+          "risk_level",
+          "main_risk_driver"
+        ],
+        "title": "CustomerHealthScore",
+        "type": "object"
+      },
+      "CustomerKpi": {
+        "additionalProperties": false,
+        "properties": {
+          "delta": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delta"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "trend": {
+            "default": "flat",
+            "title": "Trend",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value"
+        ],
+        "title": "CustomerKpi",
+        "type": "object"
+      },
+      "ExpansionOpportunity": {
+        "additionalProperties": false,
+        "properties": {
+          "account_id": {
+            "title": "Account Id",
+            "type": "string"
+          },
+          "account_name": {
+            "title": "Account Name",
+            "type": "string"
+          },
+          "expansion_readiness": {
+            "title": "Expansion Readiness",
+            "type": "string"
+          },
+          "health_score": {
+            "title": "Health Score",
+            "type": "number"
+          },
+          "mrr": {
+            "title": "Mrr",
+            "type": "number"
+          },
+          "next_close_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Close Date"
+          },
+          "open_pipeline_amount": {
+            "title": "Open Pipeline Amount",
+            "type": "number"
+          },
+          "plan_tier": {
+            "title": "Plan Tier",
+            "type": "string"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "segment": {
+            "title": "Segment",
+            "type": "string"
+          },
+          "weighted_pipeline_amount": {
+            "title": "Weighted Pipeline Amount",
+            "type": "number"
+          }
+        },
+        "required": [
+          "account_id",
+          "account_name",
+          "segment",
+          "region",
+          "plan_tier",
+          "mrr",
+          "health_score",
+          "weighted_pipeline_amount",
+          "open_pipeline_amount",
+          "next_close_date",
+          "expansion_readiness"
+        ],
+        "title": "ExpansionOpportunity",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthBand": {
+        "additionalProperties": false,
+        "properties": {
+          "customers": {
+            "title": "Customers",
+            "type": "integer"
+          },
+          "mrr": {
+            "title": "Mrr",
+            "type": "number"
+          },
+          "risk_level": {
+            "title": "Risk Level",
+            "type": "string"
+          }
+        },
+        "required": [
+          "risk_level",
+          "customers",
+          "mrr"
+        ],
+        "title": "HealthBand",
+        "type": "object"
+      },
+      "KpiMetric": {
+        "additionalProperties": false,
+        "description": "Single KPI card metric.",
+        "properties": {
+          "delta": {
+            "title": "Delta",
+            "type": "number"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "trend": {
+            "title": "Trend",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value",
+          "delta",
+          "trend"
+        ],
+        "title": "KpiMetric",
+        "type": "object"
+      },
+      "LtvSegment": {
+        "additionalProperties": false,
+        "properties": {
+          "assumed_monthly_churn_rate": {
+            "title": "Assumed Monthly Churn Rate",
+            "type": "number"
+          },
+          "average_mrr": {
+            "title": "Average Mrr",
+            "type": "number"
+          },
+          "customers": {
+            "title": "Customers",
+            "type": "integer"
+          },
+          "estimated_ltv": {
+            "title": "Estimated Ltv",
+            "type": "number"
+          },
+          "plan_tier": {
+            "title": "Plan Tier",
+            "type": "string"
+          },
+          "segment": {
+            "title": "Segment",
+            "type": "string"
+          }
+        },
+        "required": [
+          "segment",
+          "plan_tier",
+          "customers",
+          "average_mrr",
+          "assumed_monthly_churn_rate",
+          "estimated_ltv"
+        ],
+        "title": "LtvSegment",
+        "type": "object"
+      },
+      "ManifestInfo": {
+        "additionalProperties": false,
+        "description": "Metadata describing the generated Parquet artifact.",
+        "properties": {
+          "dataset": {
+            "title": "Dataset",
+            "type": "string"
+          },
+          "generated_at": {
+            "title": "Generated At",
+            "type": "string"
+          },
+          "hash": {
+            "title": "Hash",
+            "type": "string"
+          },
+          "notes": {
+            "title": "Notes",
+            "type": "string"
+          },
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "row_count": {
+            "minimum": 0.0,
+            "title": "Row Count",
+            "type": "integer"
+          },
+          "size_bytes": {
+            "minimum": 0.0,
+            "title": "Size Bytes",
+            "type": "integer"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "dataset",
+          "path",
+          "source",
+          "hash",
+          "row_count",
+          "generated_at",
+          "notes",
+          "size_bytes"
+        ],
+        "title": "ManifestInfo",
+        "type": "object"
+      },
+      "MetricsResponse": {
+        "additionalProperties": false,
+        "description": "Dashboard-level aggregate response.",
+        "properties": {
+          "issue_breakdown": {
+            "items": {
+              "$ref": "#/components/schemas/BreakdownMetric"
+            },
+            "title": "Issue Breakdown",
+            "type": "array"
+          },
+          "kpis": {
+            "items": {
+              "$ref": "#/components/schemas/KpiMetric"
+            },
+            "title": "Kpis",
+            "type": "array"
+          },
+          "region_breakdown": {
+            "items": {
+              "$ref": "#/components/schemas/BreakdownMetric"
+            },
+            "title": "Region Breakdown",
+            "type": "array"
+          }
+        },
+        "required": [
+          "kpis",
+          "issue_breakdown",
+          "region_breakdown"
+        ],
+        "title": "MetricsResponse",
+        "type": "object"
+      },
+      "PaginatedCallsResponse": {
+        "description": "Envelope matching the frontend expectations.",
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/CallRecord"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "links": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Links",
+            "type": "object"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/CallsMeta"
+          }
+        },
+        "required": [
+          "data",
+          "meta",
+          "links"
+        ],
+        "title": "PaginatedCallsResponse",
+        "type": "object"
+      },
+      "RetentionCohortRow": {
+        "additionalProperties": false,
+        "properties": {
+          "cohort_month": {
+            "title": "Cohort Month",
+            "type": "string"
+          },
+          "cohort_size": {
+            "title": "Cohort Size",
+            "type": "integer"
+          },
+          "month_number": {
+            "title": "Month Number",
+            "type": "integer"
+          },
+          "retained_customers": {
+            "title": "Retained Customers",
+            "type": "integer"
+          },
+          "retention_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Retention Rate"
+          }
+        },
+        "required": [
+          "cohort_month",
+          "month_number",
+          "cohort_size",
+          "retained_customers",
+          "retention_rate"
+        ],
+        "title": "RetentionCohortRow",
+        "type": "object"
+      },
+      "SegmentPerformance": {
+        "additionalProperties": false,
+        "properties": {
+          "avg_active_days": {
+            "title": "Avg Active Days",
+            "type": "number"
+          },
+          "avg_health_score": {
+            "title": "Avg Health Score",
+            "type": "number"
+          },
+          "avg_support_calls": {
+            "title": "Avg Support Calls",
+            "type": "number"
+          },
+          "churn_rate": {
+            "title": "Churn Rate",
+            "type": "number"
+          },
+          "current_mrr": {
+            "title": "Current Mrr",
+            "type": "number"
+          },
+          "customers": {
+            "title": "Customers",
+            "type": "integer"
+          },
+          "plan_tier": {
+            "title": "Plan Tier",
+            "type": "string"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "segment": {
+            "title": "Segment",
+            "type": "string"
+          },
+          "weighted_pipeline_amount": {
+            "title": "Weighted Pipeline Amount",
+            "type": "number"
+          }
+        },
+        "required": [
+          "segment",
+          "region",
+          "plan_tier",
+          "customers",
+          "current_mrr",
+          "avg_health_score",
+          "avg_active_days",
+          "avg_support_calls",
+          "churn_rate",
+          "weighted_pipeline_amount"
+        ],
+        "title": "SegmentPerformance",
+        "type": "object"
+      },
+      "SupportImpactRow": {
+        "additionalProperties": false,
+        "properties": {
+          "avg_escalated_calls": {
+            "title": "Avg Escalated Calls",
+            "type": "number"
+          },
+          "avg_health_score": {
+            "title": "Avg Health Score",
+            "type": "number"
+          },
+          "avg_resolution_rate": {
+            "title": "Avg Resolution Rate",
+            "type": "number"
+          },
+          "avg_support_calls": {
+            "title": "Avg Support Calls",
+            "type": "number"
+          },
+          "churn_rate": {
+            "title": "Churn Rate",
+            "type": "number"
+          },
+          "customers": {
+            "title": "Customers",
+            "type": "integer"
+          },
+          "plan_tier": {
+            "title": "Plan Tier",
+            "type": "string"
+          },
+          "segment": {
+            "title": "Segment",
+            "type": "string"
+          }
+        },
+        "required": [
+          "segment",
+          "plan_tier",
+          "customers",
+          "avg_support_calls",
+          "avg_escalated_calls",
+          "avg_resolution_rate",
+          "avg_health_score",
+          "churn_rate"
+        ],
+        "title": "SupportImpactRow",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "AWS Serverless Support Analytics",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Landing route with API status context.",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Root  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Root",
+        "tags": [
+          "root"
+        ]
+      }
+    },
+    "/api/agents": {
+      "get": {
+        "description": "Expose agent performance aggregates.",
+        "operationId": "list_agents_api_agents_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AgentStats"
+                  },
+                  "title": "Response List Agents Api Agents Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Agents",
+        "tags": [
+          "agents"
+        ]
+      }
+    },
+    "/api/auth/sign-in": {
+      "post": {
+        "description": "Issue a signed local JWT for non-empty development credentials.",
+        "operationId": "sign_in_api_auth_sign_in_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthCredentials"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sign In",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/calls": {
+      "get": {
+        "description": "Return a filtered, paginated list of call records.",
+        "operationId": "list_calls_api_calls_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "per_page",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Per Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "region",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Region"
+            }
+          },
+          {
+            "in": "query",
+            "name": "issue_type",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Issue Type"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "resolved",
+                    "pending",
+                    "escalated"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "agent_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Agent Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 80,
+                  "minLength": 2,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "in": "query",
+            "name": "started_from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Started From"
+            }
+          },
+          {
+            "in": "query",
+            "name": "started_to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Started To"
+            }
+          },
+          {
+            "in": "query",
+            "name": "min_duration_seconds",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Min Duration Seconds"
+            }
+          },
+          {
+            "in": "query",
+            "name": "max_duration_seconds",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Max Duration Seconds"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "default": "started_at",
+              "enum": [
+                "started_at",
+                "duration_seconds",
+                "issue_type",
+                "customer_region"
+              ],
+              "title": "Sort",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "direction",
+            "required": false,
+            "schema": {
+              "default": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "title": "Direction",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedCallsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Calls",
+        "tags": [
+          "calls"
+        ]
+      }
+    },
+    "/api/calls/{call_id}": {
+      "get": {
+        "description": "Return one call record by ID.",
+        "operationId": "get_call_api_calls__call_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "call_id",
+            "required": true,
+            "schema": {
+              "title": "Call Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallDetailResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Call",
+        "tags": [
+          "calls"
+        ]
+      }
+    },
+    "/api/customer-analytics/accounts/{account_id}": {
+      "get": {
+        "operationId": "get_account_detail_api_customer_analytics_accounts__account_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "account_id",
+            "required": true,
+            "schema": {
+              "title": "Account Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerAccountDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Account Detail",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/bi-exports": {
+      "get": {
+        "operationId": "get_bi_exports_api_customer_analytics_bi_exports_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BiExport"
+                  },
+                  "title": "Response Get Bi Exports Api Customer Analytics Bi Exports Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Bi Exports",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/churn-risk": {
+      "get": {
+        "operationId": "get_churn_risk_api_customer_analytics_churn_risk_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "risk_level",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Risk Level"
+            }
+          },
+          {
+            "in": "query",
+            "name": "segment",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Segment"
+            }
+          },
+          {
+            "in": "query",
+            "name": "region",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Region"
+            }
+          },
+          {
+            "in": "query",
+            "name": "plan_tier",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Plan Tier"
+            }
+          },
+          {
+            "in": "query",
+            "name": "minimum_mrr",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Minimum Mrr"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ChurnRiskAccount"
+                  },
+                  "title": "Response Get Churn Risk Api Customer Analytics Churn Risk Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Churn Risk",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/expansion-opportunities": {
+      "get": {
+        "operationId": "get_expansion_opportunities_api_customer_analytics_expansion_opportunities_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ExpansionOpportunity"
+                  },
+                  "title": "Response Get Expansion Opportunities Api Customer Analytics Expansion Opportunities Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Expansion Opportunities",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/health": {
+      "get": {
+        "operationId": "get_health_api_customer_analytics_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerHealthScore"
+                  },
+                  "title": "Response Get Health Api Customer Analytics Health Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Health",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/ltv": {
+      "get": {
+        "operationId": "get_ltv_api_customer_analytics_ltv_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/LtvSegment"
+                  },
+                  "title": "Response Get Ltv Api Customer Analytics Ltv Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Ltv",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/overview": {
+      "get": {
+        "operationId": "get_overview_api_customer_analytics_overview_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerAnalyticsOverview"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Overview",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/retention-cohorts": {
+      "get": {
+        "operationId": "get_retention_cohorts_api_customer_analytics_retention_cohorts_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RetentionCohortRow"
+                  },
+                  "title": "Response Get Retention Cohorts Api Customer Analytics Retention Cohorts Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Retention Cohorts",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/segments": {
+      "get": {
+        "operationId": "get_segments_api_customer_analytics_segments_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SegmentPerformance"
+                  },
+                  "title": "Response Get Segments Api Customer Analytics Segments Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Segments",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/customer-analytics/support-impact": {
+      "get": {
+        "operationId": "get_support_impact_api_customer_analytics_support_impact_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SupportImpactRow"
+                  },
+                  "title": "Response Get Support Impact Api Customer Analytics Support Impact Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Support Impact",
+        "tags": [
+          "customer-analytics"
+        ]
+      }
+    },
+    "/api/healthz": {
+      "get": {
+        "description": "Basic liveness check.",
+        "operationId": "healthz_api_healthz_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Healthz Api Healthz Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Healthz",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/metrics": {
+      "get": {
+        "description": "Return dashboard KPI and breakdown aggregates.",
+        "operationId": "get_metrics_api_metrics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Metrics",
+        "tags": [
+          "metrics"
+        ]
+      }
+    },
+    "/api/settings/manifest": {
+      "get": {
+        "description": "Expose manifest metadata so the frontend can display diagnostics.",
+        "operationId": "get_manifest_api_settings_manifest_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/ManifestInfo"
+                  },
+                  "title": "Response Get Manifest Api Settings Manifest Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Manifest",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/settings/refresh": {
+      "post": {
+        "description": "Run the local ETL refresh hook when enabled for development.",
+        "operationId": "refresh_data_api_settings_refresh_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Refresh Data Api Settings Refresh Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Refresh Data",
+        "tags": [
+          "settings"
+        ]
+      }
+    }
+  }
+}

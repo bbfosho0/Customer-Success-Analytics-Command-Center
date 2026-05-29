@@ -8,6 +8,7 @@ import { cn } from "../../lib/utils/cn";
 
 const items: { href: Route; label: string }[] = [
   { href: "/dashboard", label: "Executive" },
+  { href: "/customer-analytics", label: "Customer 360" },
   { href: "/calls", label: "Calls" },
   { href: "/agents", label: "Agents" },
   { href: "/metrics", label: "Metrics" },

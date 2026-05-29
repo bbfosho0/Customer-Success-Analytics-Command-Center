@@ -1,0 +1,13 @@
+account_id,account_name,segment,region,plan_tier,mrr,product_usage_score,payment_health_score,support_experience_score,customer_success_engagement_score,health_score,risk_level,main_risk_driver
+acct_007,Olive Branch Cafe,SMB,Europe,Starter,0.0,3.2059523809523807,0.0,0.0,12,3.5,Critical,Low product adoption
+acct_003,Green Fork Kitchen,SMB,Europe,Starter,1200.0,37.67857142857143,0.0,0.0,12,15.6,Critical,Payment failure
+acct_010,Luna Bakery Collective,SMB,Europe,Starter,1000.0,32.69047619047619,0.0,0.0,22,15.8,Critical,Payment failure
+acct_004,Copper Kettle BBQ,Mid-Market,North America,Pro,0.0,7.594047619047617,0.0,100.0,12,30.1,Critical,Low product adoption
+acct_006,Metro Noodle House,Mid-Market,Asia Pacific,Pro,3900.0,18.444047619047616,0.0,100.0,22,35.9,Critical,Payment failure
+acct_005,Sunrise Taqueria,SMB,Latin America,Starter,900.0,50.30119047619047,100.0,100.0,34,69.4,Watch,Healthy usage and engagement
+acct_012,Pacific Poke Labs,Mid-Market,Asia Pacific,Pro,3600.0,62.47857142857143,100.0,100.0,34,73.7,Watch,Healthy usage and engagement
+acct_009,Beacon Burger Co,Mid-Market,North America,Pro,4700.0,72.02261904761906,100.0,100.0,34,77.0,Watch,Healthy usage and engagement
+acct_001,Northstar Bistro,Mid-Market,North America,Pro,4200.0,75.38690476190476,100.0,100.0,34,78.2,Watch,Healthy usage and engagement
+acct_011,Cedar Table Group,Enterprise,North America,Enterprise,16200.0,96.35595238095237,100.0,100.0,12,81.1,Healthy,CSM risk note
+acct_008,Prime Plate Hospitality,Enterprise,North America,Enterprise,18500.0,100.0,100.0,100.0,34,86.8,Healthy,Healthy usage and engagement
+acct_002,Harbor Sushi Group,Enterprise,North America,Enterprise,14200.0,100.0,100.0,100.0,34,86.8,Healthy,Healthy usage and engagement

@@ -1,0 +1,13 @@
+invoice_id,account_id,invoice_month,amount,paid,payment_failed,payment_date
+inv_001,acct_001,2025-04-01,4200,true,false,2025-04-03
+inv_002,acct_002,2025-04-01,14200,true,false,2025-04-02
+inv_003,acct_003,2025-04-01,1200,false,true,
+inv_004,acct_004,2025-04-01,0,false,false,
+inv_005,acct_005,2025-04-01,900,true,false,2025-04-06
+inv_006,acct_006,2025-04-01,3900,false,true,
+inv_007,acct_007,2025-04-01,0,false,false,
+inv_008,acct_008,2025-04-01,18500,true,false,2025-04-01
+inv_009,acct_009,2025-04-01,4700,true,false,2025-04-04
+inv_010,acct_010,2025-04-01,1000,false,true,
+inv_011,acct_011,2025-04-01,16200,true,false,2025-04-03
+inv_012,acct_012,2025-04-01,3600,true,false,2025-04-05

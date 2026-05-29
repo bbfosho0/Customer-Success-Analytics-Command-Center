@@ -1,0 +1,9 @@
+opportunity_id,account_id,opportunity_type,stage,amount,close_date,probability
+opp_001,acct_001,upsell,Proposal,18000,2025-06-30,0.55
+opp_002,acct_002,renewal,Negotiation,165000,2025-09-15,0.72
+opp_003,acct_003,renewal,Discovery,12000,2025-07-31,0.35
+opp_004,acct_005,cross_sell,Qualified,6400,2025-08-20,0.42
+opp_005,acct_008,upsell,Commit,86000,2025-06-15,0.82
+opp_006,acct_009,upsell,Proposal,22000,2025-07-12,0.61
+opp_007,acct_011,renewal,Negotiation,190000,2025-08-01,0.68
+opp_008,acct_012,cross_sell,Qualified,15000,2025-08-18,0.48

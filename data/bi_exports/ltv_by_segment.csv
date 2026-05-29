@@ -1,0 +1,4 @@
+segment,plan_tier,customers,average_mrr,assumed_monthly_churn_rate,estimated_ltv
+Enterprise,Enterprise,3,16300.0,0.02,611250.0
+Mid-Market,Pro,5,4300.0,0.2,16125.0
+SMB,Starter,4,1050.0,0.25,3150.0

@@ -1,0 +1,13 @@
+touch_id,account_id,touch_type,touch_date,outcome,notes_category
+touch_001,acct_001,qbr,2025-04-10,Expansion interest,positive
+touch_002,acct_002,renewal_call,2025-04-12,Executive sponsor aligned,positive
+touch_003,acct_003,risk_review,2025-04-15,Low adoption and billing concern,risk
+touch_004,acct_004,risk_review,2025-03-04,Churn confirmed,risk
+touch_005,acct_005,training,2025-04-08,Team adoption improved,positive
+touch_006,acct_006,check_in,2025-04-11,Paused rollout,neutral
+touch_007,acct_007,risk_review,2025-01-18,Churn confirmed,risk
+touch_008,acct_008,qbr,2025-04-17,Expansion roadmap approved,positive
+touch_009,acct_009,onboarding,2025-04-19,Launch complete,positive
+touch_010,acct_010,check_in,2025-04-20,Trial needs sponsor,neutral
+touch_011,acct_011,qbr,2025-04-22,Retention blockers identified,risk
+touch_012,acct_012,training,2025-04-24,Usage growing,positive

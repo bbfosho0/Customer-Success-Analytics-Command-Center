@@ -1,20 +1,25 @@
-# AWS Serverless Support Analytics (Local-First Simulation)
+# Customer Success Analytics Command Center
 
-_A local-first analytics workbench that mirrors an AWS S3 + Glue + FastAPI + Next.js stack while running entirely on your laptop. The backend reads ETL artifacts in `data/` to emulate an S3 lakehouse, exposes typed APIs through FastAPI, and the frontend consumes those APIs via Next.js dashboards—ensuring a seamless later migration to managed AWS services._
+_A Salesforce-aware customer analytics dashboard for support, retention, churn risk, customer lifetime value, customer health, segmentation, support impact, expansion opportunities, and BI-ready reporting._
+
+Customer Success Analytics Command Center is a full-stack analytics platform that models Customer 360 data across accounts, subscriptions, product usage, support interactions, invoices, opportunities, and customer success touches. It uses Polars and DuckDB to generate curated Parquet datasets, SQL marts, and BI-ready CSV exports, then exposes the analytics through FastAPI and a polished Next.js dashboard.
 
 ## 🚀 Live Demo (Static Export)
 
 - **URL**: [bbfosho0.github.io/aws-serverless-support-analytics](https://bbfosho0.github.io/aws-serverless-support-analytics/)
-- **What you see**: The fully prerendered Next.js dashboards, including the narrated `/dashboard` experience and every `/calls/[callId]` detail page, served straight from the `gh-pages` branch with the correct `basePath`/`assetPrefix` applied.
+- **What you see**: The fully prerendered Next.js dashboards, including the Customer 360 overview, churn-risk queue, retention/LTV view, support dashboard, and call explorer, served straight from the `gh-pages` branch with the correct `basePath`/`assetPrefix` applied.
 - **Tech**: `next.config.mjs` uses `output: "export"`, `trailingSlash: true`, `GITHUB_PAGES=true` (from `.env.production`) and a `.nojekyll` marker so the `_next` assets are untouched by GitHub.
 
 > Architectural details originate from [FrontArc.md](FrontArc.md) (Next.js blueprint) and [BackArc.md](BackArc.md) (FastAPI blueprint). This README focuses on day-to-day development aligned with those plans.
 
-> The current implementation roadmap is captured in [TAILORED_EXPANSION_PLAN.md](TAILORED_EXPANSION_PLAN.md), which translates the blueprints into a sequenced, codebase-specific expansion plan.
+> The current implementation roadmap is captured in [EXPANSION_PLAN.MD](EXPANSION_PLAN.MD), which translates the blueprints into a sequenced, codebase-specific expansion plan.
 
 ## Table of Contents
 
 - [Technology Stack](#technology-stack)
+- [Business Questions Answered](#business-questions-answered)
+- [Data Pipeline](#data-pipeline)
+- [BI and Salesforce CRM Analytics Readiness](#bi-and-salesforce-crm-analytics-readiness)
 - [Architecture](#architecture)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
@@ -31,29 +36,85 @@ _A local-first analytics workbench that mirrors an AWS S3 + Glue + FastAPI + Nex
 
 | Layer | Tooling |
 | --- | --- |
-| **Frontend** | Next.js (App Router, React 18, TypeScript), Tailwind CSS, shadcn/ui (Radix UI), TanStack Query & Table, Zustand, Nivo + Recharts, framer-motion, Storybook + Vitest + Playwright |
-| **Backend** | FastAPI, Pydantic v2, Uvicorn, Polars/Pandas for Parquet reads, Python BaseSettings, JWT auth stub, structlog, pytest, Ruff, mypy |
-| **Data & ETL** | `support_analytics/etl.py`, `scripts/generate_parquet.py`, Parquet + JSON manifest artifacts, optional Redis cache, future S3fs + boto3 adapters |
+| **Frontend** | Next.js App Router, React 18, TypeScript, Tailwind CSS, TanStack Query, Zustand, generated OpenAPI types |
+| **Backend** | FastAPI, Pydantic v2, Uvicorn, Polars for Parquet reads, JWT local auth, request IDs, structlog, pytest |
+| **Data & ETL** | Polars ETL, DuckDB SQL marts, Parquet artifacts, JSON manifests, Tableau-ready CSV exports |
 | **Infrastructure Targets** | Local filesystem today; future-ready for AWS S3 data lake, AWS Glue crawlers, Fargate/App Runner deployment, OpenAPI-driven client generation via `openapi-typescript` |
 | **Tooling & DX** | npm (pnpm optional), uv/poetry (or pip), Prettier + ESLint, Husky, Thunder Client, VS Code Tailwind/TS/Ruff extensions |
+
+## Business Questions Answered
+
+- Which customers are most likely to churn?
+- How much MRR is currently at risk?
+- Which customer cohorts retain best?
+- Which customer segments have the highest LTV?
+- Which accounts are expansion-ready?
+- Which regions or plan tiers show weak retention?
+- How does support experience affect churn risk?
+- Which accounts should Customer Success prioritize first?
+
+## Data Pipeline
+
+```text
+data/raw/*.csv + support calls
+  -> scripts/generate_customer_analytics.py
+  -> data/curated/*.parquet
+  -> sql/*.sql DuckDB marts
+  -> data/marts/*.parquet
+  -> data/bi_exports/*.csv
+  -> FastAPI customer analytics endpoints
+  -> Next.js Customer 360 pages
+```
+
+Core commands:
+
+```powershell
+python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
+python scripts/generate_customer_analytics.py
+python -m pytest tests backend/app/tests
+python -m scripts.export_openapi
+npm --prefix frontend run api:generate:local
+npm --prefix frontend run test
+npm --prefix frontend run build
+```
+
+## BI and Salesforce CRM Analytics Readiness
+
+- BI exports live in `data/bi_exports/` and are generated from the same SQL marts as the API.
+- Tableau guidance lives in [bi/tableau/README.md](bi/tableau/README.md).
+- Salesforce CRM Analytics readiness docs live in [bi/salesforce_crma/](bi/salesforce_crma/).
+- Resume bullets are in [docs/resume-bullets.md](docs/resume-bullets.md).
+- Interview talking points are in [docs/interview-talking-points.md](docs/interview-talking-points.md).
+
+This is intentionally not a fake live Salesforce or Tableau integration. It is a local-first analytics engineering and BI-readiness demo with documented mappings and clean exports.
+
+## Screenshots
+
+The screenshots below are local dashboard screenshots captured from the static export, not Tableau screenshots.
+
+![Customer analytics overview](docs/screenshots/customer-analytics-overview.png)
+
+![Churn risk queue](docs/screenshots/churn-risk.png)
+
+![Retention and LTV](docs/screenshots/retention-ltv.png)
 
 ## Architecture
 
 The FastAPI + Next.js pairing mirrors the eventual AWS lakehouse by piping raw data through ETL helpers, typed repositories, and generated clients.
 
 ```text
-+----------------------+       +----------------------------+       +-----------------------------+       +---------------------------+
-| data/raw CSV & JSON  | ----> | scripts/generate_parquet + | ----> | data/cleaned_calls.parquet  | ----> | FastAPI routers (calls,   |
-| (local or future S3) |       | support_analytics.etl      |       | data/manifest.json          |       | agents, metrics, settings)|
-+----------------------+       +----------------------------+       +-----------------------------+       +---------------------------+
++----------------------+       +-------------------------------+       +-----------------------------+       +---------------------------+
+| data/raw CSV & JSON  | ----> | Polars ETL + DuckDB SQL marts | ----> | Parquet + BI CSV artifacts  | ----> | FastAPI routers (support  |
+| (local or future S3) |       | support + customer analytics  |       | manifests + mart outputs    |       | and customer analytics)   |
++----------------------+       +-------------------------------+       +-----------------------------+       +---------------------------+
         |                                  |                                   |                                    |
         | future AWS S3 + Glue catalog     | repository + service layer        | Pydantic schemas + OpenAPI         | TanStack Query hooks +
         v                                  v                                   v                                    v
   AWS lakehouse bucket           IO adapters + business logic       Typed envelopes & contracts           Next.js dashboards (App Router)
 ```
 
-1. **Data flow** – `scripts/generate_parquet.py` and `support_analytics.etl` turn CSV/JSON samples into the same Parquet + manifest combo a Glue crawler would create in S3.
-2. **Backend services** – Repositories stream those artifacts via Polars/Pandas, services apply business logic, and routers expose consistent `{ data, meta, links }` responses plus OpenAPI metadata.
+1. **Data flow** – `scripts/generate_parquet.py` builds support-call artifacts, while `scripts/generate_customer_analytics.py` builds Customer 360 curated datasets, DuckDB marts, BI CSV exports, and a customer analytics manifest.
+2. **Backend services** – Services read generated artifacts via Polars, keep business metrics out of frontend-only code, and expose OpenAPI metadata.
 3. **Frontend consumption** – `openapi-typescript` generates clients consumed by TanStack Query hooks, while Tailwind + shadcn/ui render the dashboards described in `FrontArc.md`.
 4. **AWS readiness** – Pointing `DATA_SOURCE` at S3 swaps the storage layer without touching the React code because the contracts and query hooks stay identical.
 
@@ -68,18 +129,19 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt -r backend/requirements.txt
 python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
+python scripts/generate_customer_analytics.py
 uvicorn backend.app.main:app --reload --port 8000   # run from repo root
 cd frontend
 npm install
 npm run dev -- --port=3000
 ```
 
-Once both servers are running, visit `http://localhost:3000/dashboard` and `http://localhost:8000/api/healthz` to verify the simulation.
+Once both servers are running, visit `http://localhost:3000/customer-analytics`, `http://localhost:3000/customer-analytics/churn-risk`, `http://localhost:3000/customer-analytics/retention`, and `http://localhost:8000/api/healthz`.
 
 ### 1. Prerequisites
 
 - Node.js 20+ with `npm` (feel free to substitute another package manager if you already have one configured)
-- Python 3.11+
+- Python 3.14 in this checkout, or another supported Python version with compatible wheels for Polars, PyArrow, DuckDB, and Pydantic
 - [`uv`](https://github.com/astral-sh/uv) for painless virtualenv + dependency management (alternatively use `python -m venv` + `pip`)
 - Git, VS Code, and the Parquet dependencies already pinned in `requirements.txt`
 
@@ -111,13 +173,14 @@ pip install -r requirements.txt
 pip install -r backend/requirements.txt
 ```
 
-### 4. Generate local ETL artifacts (simulated Glue job)
+### 4. Generate local ETL artifacts
 
 ```powershell
 python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
+python scripts/generate_customer_analytics.py
 ```
 
-This placeholder logs the intended transformation and keeps folder wiring intact until real ETL logic lands.
+The first command builds support analytics artifacts. The second validates Customer 360 raw CSVs, writes curated Parquet outputs, runs DuckDB SQL marts, writes BI-ready CSV exports, and updates `data/customer_analytics_manifest.json`.
 
 ### 5. Configure environment variables
 
@@ -193,9 +256,12 @@ Run this after any FastAPI schema change so the React hooks stay in sync.
 aws-serverless-support-analytics/
 ├── FrontArc.md                 # Frontend architecture blueprint (authoritative UI guide)
 ├── BackArc.md                  # Backend architecture blueprint (authoritative API guide)
-├── data/                       # Local-first "S3" artifacts (CSV sources, manifest, sample JSON)
+├── data/                       # Local-first raw, curated, mart, BI export, and manifest artifacts
+├── sql/                        # DuckDB customer analytics marts
+├── bi/                         # Tableau and Salesforce CRM Analytics readiness docs
 ├── scripts/
-│   └── generate_parquet.py     # Logs the intended Glue ETL transformation for now
+│   ├── generate_parquet.py     # Support-call ETL
+│   └── generate_customer_analytics.py # Customer 360, SQL marts, BI exports
 ├── support_analytics/          # Python ETL helper package (descriptive stubs today)
 ├── backend/
 │   ├── requirements.txt        # FastAPI dependency pinning
@@ -204,11 +270,11 @@ aws-serverless-support-analytics/
 │       ├── core/               # Settings + security helpers
 │       ├── models/, schemas/   # Pydantic contracts
 │       ├── services/, repos/   # Business logic + IO stubs
-│       ├── routers/            # Agents, calls, metrics, settings, auth
+│       ├── routers/            # Agents, calls, customer analytics, metrics, settings, auth
 │       └── tests/              # unit / integration / contract placeholders
 ├── frontend/
 │   ├── package.json            # Next.js + Tailwind + TanStack Query setup
-│   ├── src/app/                # App Router routes (dashboard, calls, agents, settings)
+│   ├── src/app/                # App Router routes (customer analytics, dashboard, calls, agents, settings)
 │   ├── src/components/         # Layout, charts, tables, filters, feedback, ui stubs
 │   ├── src/features/           # Feature modules per blueprint section
 │   ├── src/lib/                # api/, state/, viz/, utils/, constants/
@@ -222,23 +288,29 @@ aws-serverless-support-analytics/
 
 (See [FrontArc.md](FrontArc.md) and [BackArc.md](BackArc.md) for deeper per-directory notes.)
 
-## Placeholder Scaffolding Strategy
-
-- **Descriptive Python stubs** – `support_analytics/`, `backend/app/services/*`, and `scripts/generate_parquet.py` log their intent so FastAPI contracts can be developed before real ETL logic exists.
-- **Frontend skeletons** – Every route, feature module, and provider from `FrontArc.md` has a matching component that renders placeholder copy, keeping routing/API imports stable for future work.
-- **Testing hooks** – Pytest, Vitest, and Playwright directories already exist with smoke tests so CI wiring can begin immediately.
-- **Documentation parity** – This README plus `FrontArc.md`/`BackArc.md` keep the documented structure and filesystem aligned while real implementations replace the placeholders.
-
 ## Key Features
 
 - **Local AWS simulation** – Parquet + manifest files emulate S3/Glue outputs; switching to real AWS storage later is a config-only change.
+- **Customer 360 model** – Account-level curated data joins subscriptions, product usage, invoices, opportunities, customer success touches, and support signals.
+- **SQL analytics marts** – DuckDB SQL files produce churn risk, retention cohorts, LTV, customer health, support impact, expansion, and segment performance marts.
+- **BI-ready exports** – CSV files under `data/bi_exports/` are documented for Tableau-style workflows and CRM Analytics-ready mapping.
 - **Typed FastAPI layer** – Routers for calls, agents, metrics, settings, health, and auth stub share Pydantic models across services.
+- **Customer analytics API** – `/api/customer-analytics/*` endpoints serve generated marts for overview, churn risk, retention, LTV, segments, health, support impact, expansion, BI exports, and account detail.
 - **Next.js dashboards** – App Router layouts, KPI cards, charts (Nivo/Recharts), and TanStack Table explorer deliver modern UX.
 - **Employer-facing narrative layer** – Revamped hero, shared mock filters, KPI runways, dual actual/forecast visuals, and severity-aware insights ensure the `/dashboard` route feels like a polished on-site demo even when running locally.
 - **Extensible design system** – Tailwind tokens, shadcn/ui primitives, and Radix-driven accessibility guidelines.
 - **Query-driven data layer** – TanStack Query hooks encapsulate caching, streaming, and optimistic updates tied to generated OpenAPI clients.
 - **Operational insights** – Settings page surfaces manifest details, manual refresh button, and ETL health checks.
 - **AWS-ready workflow** – Config toggles for `DATA_SOURCE=s3`, optional Redis cache, and OpenTelemetry hooks keep the stack cloud-ready.
+
+## Operations & Security Hardening
+
+- **CORS** is restricted through `CORS_ORIGINS` (comma-separated, default `http://localhost:3000`). Wildcard origins are only accepted in `APP_ENV=local` or `APP_ENV=test`.
+- **Local auth** issues signed HS256 JWTs from `/api/auth/sign-in`; set `SECRET_KEY` to a non-default value before sharing any demo environment.
+- **Request tracing** adds or propagates `X-Request-ID` on every backend response and writes one structured JSON access log per request.
+- **Caching** keeps local demos responsive by caching Parquet/sample rows and manifest reads in-process; `/api/settings/refresh` clears both caches after ETL refresh.
+- **Friendly validation** returns a correlated `422` envelope when bad query params are supplied, including range errors such as `min_duration_seconds > max_duration_seconds`.
+- **Schema drift control** is enforced in CI by exporting `openapi.json`, regenerating `frontend/src/lib/api/generated/schema.ts`, and failing if the generated file changes.
 
 ## Dashboard Experience (Employer Demo)
 
@@ -259,7 +331,7 @@ These upgrades all run locally against `data/sample_calls.json` → `data/cleane
 ### 1. Regenerate ETL artifacts & refresh manifest (PowerShell)
 
 ```powershell
-python scripts/generate_parquet.py --input data/sample_calls.json --output data/cleaned_calls.parquet
+python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
 Invoke-RestMethod -Uri http://localhost:8000/api/settings/refresh -Method Post -Headers @{ Authorization = "Bearer <admin-jwt>" }
 ```
 
@@ -286,8 +358,23 @@ npm run api:generate      # regenerates src/lib/api/generated against http://loc
 | `/api/calls/{id}` | GET | Detailed call payload (timeline, notes, derived metrics) | `Invoke-RestMethod -Uri 'http://localhost:8000/api/calls/12345'` |
 | `/api/agents` | GET | Agent leaderboard aggregations | `Invoke-RestMethod -Uri 'http://localhost:8000/api/agents?sort=rating'` |
 | `/api/metrics` | GET | KPI snapshots + time-series arrays | `Invoke-RestMethod -Uri 'http://localhost:8000/api/metrics?range=30d'` |
+| `/api/customer-analytics/overview` | GET | Customer 360 executive KPIs and health distribution | `Invoke-RestMethod -Uri 'http://localhost:8000/api/customer-analytics/overview'` |
+| `/api/customer-analytics/churn-risk` | GET | Prioritized churn-risk queue | `Invoke-RestMethod -Uri 'http://localhost:8000/api/customer-analytics/churn-risk?risk_level=Critical'` |
+| `/api/customer-analytics/retention-cohorts` | GET | Retention cohort rows for heatmaps | `Invoke-RestMethod -Uri 'http://localhost:8000/api/customer-analytics/retention-cohorts'` |
+| `/api/customer-analytics/ltv` | GET | LTV estimates by segment and plan | `Invoke-RestMethod -Uri 'http://localhost:8000/api/customer-analytics/ltv'` |
 | `/api/settings/manifest` | GET | Manifest diagnostics (hash, updated_at, file size) | `Invoke-RestMethod -Uri 'http://localhost:8000/api/settings/manifest'` |
 | `/api/auth/sign-in` | POST | Auth stub issuing JWTs for local dev | `Invoke-RestMethod -Uri 'http://localhost:8000/api/auth/sign-in' -Method Post -Headers @{ 'Content-Type' = 'application/json' } -Body '{"username":"admin","password":"dev"}'` |
+
+Common backend environment variables:
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `APP_ENV` | `local` | Controls local/test production safety checks. |
+| `CORS_ORIGINS` | `http://localhost:3000` | Comma-separated allowed browser origins. |
+| `SECRET_KEY` | `dev-secret` | HS256 signing key for local JWTs; change for shared demos. |
+| `PARQUET_PATH` | `data/cleaned_calls.parquet` | Generated call artifact path. |
+| `MANIFEST_PATH` | `data/manifest.json` | Generated manifest path. |
+| `ENABLE_REFRESH_ENDPOINT` | `true` | Gates `/api/settings/refresh`. |
 
 **Sample `/api/calls` response**
 
@@ -419,6 +506,31 @@ The helper script adds a temporary worktree, copies `frontend/out`, writes `.noj
 - **Backend** – Pytest suites across unit (services, repositories), integration (FastAPI TestClient), contract tests (OpenAPI diff), and optional performance smoke tests (<250 ms P95 for `/api/calls`).
 - **Frontend** – Vitest + React Testing Library for components, Playwright E2E covering dashboard flows, Storybook visual regression (Chromatic) for KPI cards/charts.
 - **Shared contracts** – CI verifies that `openapi.json` was regenerated when schema changes occur and that `src/lib/api/generated` is current.
+
+Recommended local check sequence from a fresh clone:
+
+```powershell
+python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
+python -m pytest tests backend/app/tests
+python scripts/export_openapi.py --output openapi.json
+cd frontend
+npm ci
+npm run api:check
+npm run lint
+npm run test
+npm run build
+```
+
+## Troubleshooting
+
+| Symptom | Fix |
+| --- | --- |
+| `data/cleaned_calls.parquet` is missing | Run `python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet`; the API can fall back to `data/sample_calls.json`, but generated artifacts are required for parity checks. |
+| Frontend fetches fail with CORS errors | Confirm backend `CORS_ORIGINS` includes the exact frontend origin, usually `http://localhost:3000`, then restart Uvicorn. |
+| `/api/auth/sign-in` works but protected requests fail | Ensure the client sends `Authorization: Bearer <access_token>` and that `SECRET_KEY` has not changed since the token was issued. |
+| `npm run api:check` changes `schema.ts` | Backend OpenAPI changed; inspect the generated diff and commit `frontend/src/lib/api/generated/schema.ts` with the backend change. |
+| Node or Python version errors | Use Node 20+ and Python 3.11; reinstall with `npm ci` and `pip install -r requirements.txt -r backend/requirements.txt` after switching runtimes. |
+| GitHub Pages/static export tries to call localhost | Build with static demo mode enabled (`GITHUB_PAGES=true` or `NEXT_PUBLIC_DATA_MODE=static`) so hooks use deterministic local fixtures instead of FastAPI. |
 
 ## Contributing
 

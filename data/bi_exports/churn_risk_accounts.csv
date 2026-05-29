@@ -1,0 +1,13 @@
+account_id,account_name,segment,region,plan_tier,mrr,health_score,risk_level,main_risk_driver,recommended_action,priority_rank
+acct_007,Olive Branch Cafe,SMB,Europe,Starter,0.0,3.5,Critical,Low product adoption,Schedule CSM risk review and adoption plan,1
+acct_003,Green Fork Kitchen,SMB,Europe,Starter,1200.0,15.6,Critical,Payment failure,Schedule CSM risk review and adoption plan,2
+acct_010,Luna Bakery Collective,SMB,Europe,Starter,1000.0,15.8,Critical,Payment failure,Schedule CSM risk review and adoption plan,3
+acct_004,Copper Kettle BBQ,Mid-Market,North America,Pro,0.0,30.1,Critical,Low product adoption,Schedule CSM risk review and adoption plan,4
+acct_006,Metro Noodle House,Mid-Market,Asia Pacific,Pro,3900.0,35.9,Critical,Payment failure,Schedule CSM risk review and adoption plan,5
+acct_005,Sunrise Taqueria,SMB,Latin America,Starter,900.0,69.4,Watch,Healthy usage and engagement,Continue regular success cadence,6
+acct_012,Pacific Poke Labs,Mid-Market,Asia Pacific,Pro,3600.0,73.7,Watch,Healthy usage and engagement,Continue regular success cadence,7
+acct_009,Beacon Burger Co,Mid-Market,North America,Pro,4700.0,77.0,Watch,Healthy usage and engagement,Advance expansion opportunity,8
+acct_001,Northstar Bistro,Mid-Market,North America,Pro,4200.0,78.2,Watch,Healthy usage and engagement,Continue regular success cadence,9
+acct_011,Cedar Table Group,Enterprise,North America,Enterprise,16200.0,81.1,Healthy,CSM risk note,Advance expansion opportunity,10
+acct_008,Prime Plate Hospitality,Enterprise,North America,Enterprise,18500.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,11
+acct_002,Harbor Sushi Group,Enterprise,North America,Enterprise,14200.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,12

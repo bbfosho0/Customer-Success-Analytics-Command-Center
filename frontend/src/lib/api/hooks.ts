@@ -107,7 +107,7 @@ export function useRefreshManifest() {
         throw new Error("Manifest refresh is disabled in this frontend environment.");
       }
       const response = await apiFetch<RefreshManifestResponse, ApiValidationError>("/api/settings/refresh", { method: "POST" });
-      return response.data;
+      return response.data as ManifestInfo;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.calls.all });

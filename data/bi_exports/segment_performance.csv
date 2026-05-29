@@ -1,0 +1,6 @@
+segment,region,plan_tier,customers,current_mrr,avg_health_score,avg_active_days,avg_support_calls,churn_rate,weighted_pipeline_amount
+Enterprise,North America,Enterprise,3,48900.0,84.9,26.33,1.0,0.0,318520.0
+Mid-Market,North America,Pro,3,8900.0,61.77,15.83,1.0,0.3333,23320.0
+Mid-Market,Asia Pacific,Pro,2,7500.0,54.8,12.75,0.0,0.0,7200.0
+SMB,Europe,Starter,3,2200.0,11.63,8.17,1.0,0.3333,4200.0
+SMB,Latin America,Starter,1,900.0,69.4,17.0,0.0,0.0,2688.0

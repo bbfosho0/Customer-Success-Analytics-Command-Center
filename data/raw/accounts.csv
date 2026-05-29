@@ -1,0 +1,13 @@
+account_id,account_name,restaurant_type,region,segment,signup_date,account_owner,customer_success_manager
+acct_001,Northstar Bistro,Fast Casual,North America,Mid-Market,2024-01-12,Maya Chen,Jordan Ellis
+acct_002,Harbor Sushi Group,Fine Dining,North America,Enterprise,2023-09-04,Liam Brooks,Avery Morgan
+acct_003,Green Fork Kitchen,Fast Casual,Europe,SMB,2024-03-18,Noah Singh,Riley Patel
+acct_004,Copper Kettle BBQ,Casual Dining,North America,Mid-Market,2023-11-21,Sofia Reed,Jordan Ellis
+acct_005,Sunrise Taqueria,Quick Service,Latin America,SMB,2024-05-07,Ethan Park,Casey Nguyen
+acct_006,Metro Noodle House,Quick Service,Asia Pacific,Mid-Market,2023-08-15,Maya Chen,Taylor Kim
+acct_007,Olive Branch Cafe,Cafe,Europe,SMB,2024-02-02,Liam Brooks,Riley Patel
+acct_008,Prime Plate Hospitality,Fine Dining,North America,Enterprise,2023-06-29,Sofia Reed,Avery Morgan
+acct_009,Beacon Burger Co,Quick Service,North America,Mid-Market,2024-04-10,Noah Singh,Jordan Ellis
+acct_010,Luna Bakery Collective,Cafe,Europe,SMB,2023-12-05,Ethan Park,Riley Patel
+acct_011,Cedar Table Group,Casual Dining,North America,Enterprise,2023-07-17,Maya Chen,Avery Morgan
+acct_012,Pacific Poke Labs,Fast Casual,Asia Pacific,Mid-Market,2024-06-03,Sofia Reed,Taylor Kim

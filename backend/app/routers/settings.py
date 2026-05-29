@@ -29,4 +29,5 @@ async def refresh_data() -> dict[str, object]:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Refresh endpoint disabled")
     manifest = trigger_refresh(resolve_repo_path("scripts/generate_parquet.py"))
     clear_data_cache()
+    manifest_repo.clear_manifest_cache()
     return {"data": manifest}
