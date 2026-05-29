@@ -1,4 +1,4 @@
-import type { CallRecord } from "../api/generated/schema";
+import type { CallRecord } from "../api/types";
 
 export function toVolumeSeries(records: CallRecord[]) {
   return records.map((record) => ({
