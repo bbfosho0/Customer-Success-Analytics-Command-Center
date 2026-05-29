@@ -1,6 +1,5 @@
 import { AppShell } from "../../components/layout/app-shell";
 import { RefreshPanel } from "../../features/settings/refresh-panel";
-import { diagnostics, refreshHistory } from "../../lib/data/settings-data";
 
 const toggles = [
   {
@@ -34,7 +33,7 @@ export default function SettingsPage() {
       actions={<></>}
     >
       <section className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <RefreshPanel diagnostics={diagnostics} history={refreshHistory} />
+        <RefreshPanel />
         <div className="space-y-6">
           <TogglePanel />
           <AuditPanel />

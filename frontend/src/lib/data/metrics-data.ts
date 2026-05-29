@@ -1,4 +1,3 @@
-import { callsDataset } from "./calls-data";
 import type { DashboardKpi, MockCallRecord } from "./types";
 
 export interface ChannelMetric {
@@ -31,12 +30,8 @@ function buildMiniSparkline(seed: number, length = 10): number[] {
     return parseFloat((slope + wave).toFixed(1));
   });
 }
-function withFallback(calls: MockCallRecord[]): MockCallRecord[] {
-  return calls.length ? calls : callsDataset;
-}
-
 export function buildMetricsKpis(calls: MockCallRecord[]): DashboardKpi[] {
-  const workingSet = withFallback(calls);
+  const workingSet = calls;
   const totalCalls = Math.max(1, workingSet.length);
   const firstResponseAvg =
     workingSet.reduce((acc, call) => acc + call.firstResponseMinutes, 0) / totalCalls;
@@ -90,7 +85,7 @@ export function buildMetricsKpis(calls: MockCallRecord[]): DashboardKpi[] {
 }
 
 export function buildChannelMetrics(calls: MockCallRecord[]): ChannelMetric[] {
-  const workingSet = withFallback(calls);
+  const workingSet = calls;
   if (!workingSet.length) return [];
 
   const map = new Map<string, ChannelMetric>();
