@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, conint
+from typing import Annotated
+
+from pydantic import BaseModel, Field
 
 
 class PaginationParams(BaseModel):
     """Simple pagination envelope."""
 
-    page: conint(ge=1) = 1
-    per_page: conint(ge=1, le=200) = 50
+    page: Annotated[int, Field(ge=1)] = 1
+    per_page: Annotated[int, Field(ge=1, le=200)] = 50

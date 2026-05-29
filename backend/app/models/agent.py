@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class AgentStats(BaseModel):
@@ -11,6 +11,11 @@ class AgentStats(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     agent_id: str
-    avg_rating: float
-    total_calls: int
-    avg_resolution_seconds: int
+    name: str
+    region: str
+    skill_rating: float = Field(ge=0)
+    avg_rating: float = Field(ge=0)
+    total_calls: int = Field(ge=0)
+    avg_resolution_seconds: int = Field(ge=0)
+    resolved_rate: float = Field(ge=0, le=100)
+    escalated_calls: int = Field(ge=0)

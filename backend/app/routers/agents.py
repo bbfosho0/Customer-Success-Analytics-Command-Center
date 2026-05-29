@@ -12,6 +12,6 @@ router = APIRouter(prefix="/api/agents", tags=["agents"])
 
 @router.get("", response_model=list[AgentStats])
 async def list_agents() -> list[AgentStats]:
-    """Expose placeholder leaderboard data."""
+    """Expose agent performance aggregates."""
 
     return agent_service.list_agent_stats()

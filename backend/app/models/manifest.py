@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ManifestInfo(BaseModel):
@@ -10,7 +10,11 @@ class ManifestInfo(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
+    dataset: str
     path: str
+    source: str
     hash: str
-    size_bytes: int
-    updated_at: str
+    row_count: int = Field(ge=0)
+    generated_at: str
+    notes: str
+    size_bytes: int = Field(ge=0)

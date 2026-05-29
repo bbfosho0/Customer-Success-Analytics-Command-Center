@@ -10,6 +10,8 @@ _A local-first analytics workbench that mirrors an AWS S3 + Glue + FastAPI + Nex
 
 > Architectural details originate from [FrontArc.md](FrontArc.md) (Next.js blueprint) and [BackArc.md](BackArc.md) (FastAPI blueprint). This README focuses on day-to-day development aligned with those plans.
 
+> The current implementation roadmap is captured in [TAILORED_EXPANSION_PLAN.md](TAILORED_EXPANSION_PLAN.md), which translates the blueprints into a sequenced, codebase-specific expansion plan.
+
 ## Table of Contents
 
 - [Technology Stack](#technology-stack)
