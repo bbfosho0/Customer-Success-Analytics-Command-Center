@@ -1,0 +1,182 @@
+import { ArrowDown, ArrowUp, Minus, AlertTriangle, AlertOctagon, Info, Loader2, Inbox } from "lucide-react";
+import { cn } from "./ui/utils";
+import { Status } from "./data";
+
+export function KpiCard({
+  label,
+  value,
+  delta,
+  hint,
+  unit,
+}: {
+  label: string;
+  value: string | number;
+  delta?: number; // percentage, positive = up
+  hint?: string;
+  unit?: string;
+}) {
+  const dir = delta === undefined ? null : delta > 0 ? "up" : delta < 0 ? "down" : "flat";
+  const dirColor =
+    dir === "up" ? "text-emerald-600 dark:text-emerald-400"
+    : dir === "down" ? "text-rose-600 dark:text-rose-400"
+    : "text-muted-foreground";
+  const DirIcon = dir === "up" ? ArrowUp : dir === "down" ? ArrowDown : Minus;
+  return (
+    <div className="rounded-md border border-border bg-card p-4">
+      <div className="flex items-baseline justify-between gap-2">
+        <span className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</span>
+        {delta !== undefined && (
+          <span className={cn("inline-flex items-center gap-0.5 text-[11px] tabular-nums", dirColor)}>
+            <DirIcon className="h-3 w-3" />
+            {Math.abs(delta).toFixed(1)}%
+          </span>
+        )}
+      </div>
+      <div className="mt-1 flex items-baseline gap-1">
+        <span className="text-[22px] tabular-nums tracking-tight text-foreground">{value}</span>
+        {unit && <span className="text-xs text-muted-foreground">{unit}</span>}
+      </div>
+      {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
+    </div>
+  );
+}
+
+export function StatusBadge({ status }: { status: Status }) {
+  const map: Record<Status, { label: string; cls: string; dot: string }> = {
+    resolved: {
+      label: "Resolved",
+      cls: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900",
+      dot: "bg-emerald-500",
+    },
+    escalated: {
+      label: "Escalated",
+      cls: "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-900",
+      dot: "bg-rose-500",
+    },
+    open: {
+      label: "Open",
+      cls: "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-300 dark:border-sky-900",
+      dot: "bg-sky-500",
+    },
+    pending: {
+      label: "Pending",
+      cls: "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-900",
+      dot: "bg-amber-500",
+    },
+  };
+  const m = map[status];
+  return (
+    <span className={cn("inline-flex items-center gap-1.5 rounded-md border px-1.5 py-0.5 text-[11px]", m.cls)}>
+      <span className={cn("h-1.5 w-1.5 rounded-full", m.dot)} />
+      {m.label}
+    </span>
+  );
+}
+
+export function Chip({ children, active, onClick }: { children: React.ReactNode; active?: boolean; onClick?: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs transition-colors",
+        active
+          ? "border-foreground/30 bg-foreground/5 text-foreground"
+          : "border-border bg-card text-muted-foreground hover:text-foreground hover:bg-muted",
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function SectionCard({
+  title,
+  description,
+  action,
+  children,
+  className,
+}: {
+  title?: string;
+  description?: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("rounded-md border border-border bg-card", className)}>
+      {(title || action) && (
+        <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2.5">
+          <div>
+            {title && <h3 className="text-[13px] text-foreground">{title}</h3>}
+            {description && <p className="text-xs text-muted-foreground">{description}</p>}
+          </div>
+          {action}
+        </div>
+      )}
+      <div className="min-w-0 p-4">{children}</div>
+    </div>
+  );
+}
+
+export function EmptyState({ title, body, icon: Icon = Inbox }: { title: string; body?: string; icon?: any }) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-2 px-4 py-10 text-center">
+      <div className="rounded-full border border-border bg-muted p-2 text-muted-foreground">
+        <Icon className="h-4 w-4" />
+      </div>
+      <p className="text-sm text-foreground">{title}</p>
+      {body && <p className="max-w-sm text-xs text-muted-foreground">{body}</p>}
+    </div>
+  );
+}
+
+export function LoadingState({ label = "Loading" }: { label?: string }) {
+  return (
+    <div className="flex items-center justify-center gap-2 px-4 py-10 text-xs text-muted-foreground">
+      <Loader2 className="h-3.5 w-3.5 animate-spin" /> {label}…
+    </div>
+  );
+}
+
+export function ErrorState({ title = "Couldn't load data", body, retry }: { title?: string; body?: string; retry?: () => void }) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-2 px-4 py-10 text-center">
+      <div className="rounded-full border border-rose-200 bg-rose-50 p-2 text-rose-600 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-400">
+        <AlertOctagon className="h-4 w-4" />
+      </div>
+      <p className="text-sm text-foreground">{title}</p>
+      {body && <p className="max-w-sm text-xs text-muted-foreground">{body}</p>}
+      {retry && (
+        <button onClick={retry} className="mt-1 rounded-md border border-border bg-card px-2.5 py-1 text-xs hover:bg-muted">
+          Retry
+        </button>
+      )}
+    </div>
+  );
+}
+
+export function InsightItem({
+  severity,
+  title,
+  body,
+}: {
+  severity: "info" | "warn" | "critical";
+  title: string;
+  body: string;
+}) {
+  const map = {
+    info: { Icon: Info, cls: "text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-900 bg-sky-50/60 dark:bg-sky-950/30" },
+    warn: { Icon: AlertTriangle, cls: "text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-900 bg-amber-50/60 dark:bg-amber-950/30" },
+    critical: { Icon: AlertOctagon, cls: "text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900 bg-rose-50/60 dark:bg-rose-950/30" },
+  } as const;
+  const { Icon, cls } = map[severity];
+  return (
+    <div className={cn("flex gap-2.5 rounded-md border px-3 py-2.5", cls)}>
+      <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+      <div className="min-w-0">
+        <p className="text-[13px] text-foreground">{title}</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">{body}</p>
+      </div>
+    </div>
+  );
+}
