@@ -1,4 +1,29 @@
-agent_id,name,region,skill_rating
-A-101,Jordan Li,NA,4.8
-A-102,Mina Flores,EU,4.6
-A-103,Ben Park,APAC,4.2
+agent_id,agent_name,agent_region,skill_rating
+agent_001,Alex Patel,us-east-1,4.25
+agent_002,Jordan Rivera,us-west-2,3.15
+agent_003,Sam Johnson,eu-west-1,3.6
+agent_004,Taylor Davis,eu-central-1,3.5
+agent_005,Morgan Chen,ap-southeast-1,4.43
+agent_006,Riley Lopez,ap-northeast-1,4.32
+agent_007,Casey Miller,us-east-1,4.71
+agent_008,Avery Nguyen,us-west-2,3.26
+agent_009,Quinn Kim,eu-west-1,3.86
+agent_010,Skyler Brown,eu-central-1,3.15
+agent_011,Alex Patel,ap-southeast-1,3.49
+agent_012,Jordan Rivera,ap-northeast-1,4.01
+agent_013,Sam Johnson,us-east-1,3.15
+agent_014,Taylor Davis,us-west-2,3.46
+agent_015,Morgan Chen,eu-west-1,4.27
+agent_016,Riley Lopez,eu-central-1,4.08
+agent_017,Casey Miller,ap-southeast-1,3.5
+agent_018,Avery Nguyen,ap-northeast-1,4.16
+agent_019,Quinn Kim,us-east-1,4.56
+agent_020,Skyler Brown,us-west-2,3.11
+agent_021,Alex Patel,eu-west-1,4.55
+agent_022,Jordan Rivera,eu-central-1,4.36
+agent_023,Sam Johnson,ap-southeast-1,3.71
+agent_024,Taylor Davis,ap-northeast-1,3.38
+agent_025,Morgan Chen,us-east-1,4.82
+agent_026,Riley Lopez,us-west-2,3.71
+agent_027,Casey Miller,eu-west-1,3.27
+agent_028,Avery Nguyen,eu-central-1,3.27

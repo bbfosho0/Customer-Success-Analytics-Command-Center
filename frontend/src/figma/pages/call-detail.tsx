@@ -24,10 +24,15 @@ export function CallDetailPage({ id, onBack, onOpen }: { id: string; onBack: () 
   });
 
   const regionCalls = useMemo(() => toFigmaCalls(regionCallsQuery.data?.data ?? []), [regionCallsQuery.data]);
-  const agent = useMemo(
-    () => (agentsQuery.data ?? []).find((a) => a.agent_id === call?.agentId) ?? null,
-    [agentsQuery.data, call],
-  );
+  const agent = useMemo(() => {
+    if (!call) return null;
+    const all = agentsQuery.data ?? [];
+    const direct = all.find((a) => a.agent_id === call.agentId);
+    if (direct) return direct;
+    const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const byName = all.find((a) => normalize(a.name) === normalize(call.agent));
+    return byName ?? null;
+  }, [agentsQuery.data, call]);
   const signals = useMemo(() => (call ? getCallSignals(call) : null), [call]);
   const similar = useMemo(
     () => (call ? regionCalls.filter((c) => c.issueType === call.issueType && c.id !== call.id).slice(0, 6) : []),

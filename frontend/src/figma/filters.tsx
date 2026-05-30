@@ -161,7 +161,11 @@ export function applyFilters<T extends { region: string; issueType: string; stat
   f: FilterState,
 ): T[] {
   const cutoffMs = { "24h": 1, "3d": 3, "7d": 7, "30d": 30, "90d": 90 }[f.dateRange] * 24 * 60 * 60 * 1000;
-  const since = Date.now() - cutoffMs;
+  const anchor = rows.reduce((max, row) => {
+    const ts = new Date(row.startedAt).getTime();
+    return Number.isFinite(ts) ? Math.max(max, ts) : max;
+  }, 0);
+  const since = (anchor || Date.now()) - cutoffMs;
   const q = f.search.trim().toLowerCase();
   return rows.filter((r) => {
     if (f.region !== "all" && r.region !== f.region) return false;

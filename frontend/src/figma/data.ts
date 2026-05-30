@@ -92,12 +92,13 @@ function serviceFromIssue(issue: string) {
 
 export function toFigmaCalls(records: CallRecord[]): FigmaCall[] {
   const uiCalls = toUiCallRecords(records);
-  return uiCalls.map((call) => {
+  return uiCalls.map((call, index) => {
+    const raw = records[index];
     const seed = hashString(call.id);
     return {
       id: call.id,
       agent: call.agent,
-      agentId: call.agent,
+      agentId: raw?.agent_id ?? call.agent,
       region: call.region,
       issueType: call.issue,
       durationSec: call.durationSeconds,

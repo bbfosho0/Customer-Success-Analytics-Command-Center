@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   LayoutDashboard,
   PhoneCall,
@@ -15,6 +15,7 @@ import {
   HeartHandshake,
 } from "lucide-react";
 import { cn } from "./ui/utils";
+import { useTheme } from "next-themes";
 
 export type Route =
   | { name: "dashboard" }
@@ -49,12 +50,8 @@ export function AppShell({
 }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    document.documentElement.style.colorScheme = theme;
-  }, [theme]);
+  const { resolvedTheme, setTheme } = useTheme();
+  const theme = resolvedTheme === "light" ? "light" : "dark";
 
   const activeName = route.name === "call" ? "calls" : route.name;
   const crumb =
