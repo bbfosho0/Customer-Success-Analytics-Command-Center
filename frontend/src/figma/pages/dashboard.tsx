@@ -1,4 +1,6 @@
-import { useMemo, useState } from "react";
+"use client";
+
+import { useMemo } from "react";
 import {
   Area,
   Bar,
@@ -12,35 +14,58 @@ import {
   YAxis,
 } from "recharts";
 import { ChevronRight } from "lucide-react";
+
 import {
-  CALLS,
-  INSIGHTS,
-  buildIssueBreakdown,
-  buildRegionPerformance,
-  buildVolumeSeries,
   fmtDuration,
   fmtRelative,
-  getSlaCompliance,
-  getAvgCsat,
+  toFigmaCalls,
 } from "../data";
-import { GlobalFilters, FilterState, DEFAULT_FILTERS, applyFilters } from "../filters";
+import { GlobalFilters, applyFilters, useFigmaFilters } from "../filters";
 import { KpiCard, SectionCard, StatusBadge, InsightItem } from "../primitives";
 import { PageHeader } from "../shell";
+import { useCalls, useMetrics } from "../../lib/api/hooks";
+import { proactiveInsights } from "../../lib/data/dashboard-data";
+import {
+  buildCallsQueryFromSelection,
+  buildDashboardKpisFromMetrics,
+  buildIssueBreakdownFromMetrics,
+  buildRegionPerformanceFromMetrics,
+  buildVolumeSeriesFromCalls,
+} from "../../lib/viz/transformers";
+
+const MAX_CALLS = 200;
 
 export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: string) => void; onAllCalls: () => void }) {
-  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
-  const filtered = useMemo(() => applyFilters(CALLS, filters), [filters]);
-  const series = useMemo(() => buildVolumeSeries(filtered), [filtered]);
-  const breakdown = useMemo(() => buildIssueBreakdown(filtered).slice(0, 6), [filtered]);
-  const regions = useMemo(() => buildRegionPerformance(filtered), [filtered]);
-  const latest = filtered.slice(0, 8);
+  const { filters, selection, setFilters } = useFigmaFilters();
+  const callsQuery = useCalls(buildCallsQueryFromSelection(selection, 1, MAX_CALLS));
+  const metricsQuery = useMetrics({
+    region: filters.region === "all" ? undefined : filters.region,
+    issue_type: filters.issueType === "all" ? undefined : filters.issueType,
+  });
 
-  const resolved = filtered.filter((c) => c.status === "resolved").length;
-  const escalated = filtered.filter((c) => c.status === "escalated").length;
-  const avgDur = filtered.length ? Math.round(filtered.reduce((a, c) => a + c.durationSec, 0) / filtered.length) : 0;
-  const resolvedRate = filtered.length ? (resolved / filtered.length) * 100 : 0;
-  const slaCompliance = useMemo(() => getSlaCompliance(filtered), [filtered]);
-  const avgCsat = useMemo(() => getAvgCsat(filtered), [filtered]);
+  const calls = useMemo(() => toFigmaCalls(callsQuery.data?.data ?? []), [callsQuery.data]);
+  const filtered = useMemo(() => applyFilters(calls, filters), [calls, filters]);
+  const kpis = useMemo(
+    () => (metricsQuery.data ? buildDashboardKpisFromMetrics(metricsQuery.data) : []),
+    [metricsQuery.data],
+  );
+  const series = useMemo(
+    () => buildVolumeSeriesFromCalls(callsQuery.data?.data ?? []).map((point) => ({
+      date: point.date,
+      calls: point.total,
+      forecast: point.forecast,
+    })),
+    [callsQuery.data],
+  );
+  const breakdown = useMemo(
+    () => (metricsQuery.data ? buildIssueBreakdownFromMetrics(metricsQuery.data) : []),
+    [metricsQuery.data],
+  );
+  const regions = useMemo(
+    () => (metricsQuery.data ? buildRegionPerformanceFromMetrics(metricsQuery.data) : []),
+    [metricsQuery.data],
+  );
+  const latest = filtered.slice(0, 8);
 
   return (
     <div className="space-y-4">
@@ -48,24 +73,21 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
         title="Overview"
         description="Operational snapshot of AWS serverless support across regions."
       />
-      <GlobalFilters value={filters} onChange={setFilters} count={filtered.length} total={CALLS.length} />
+      <GlobalFilters value={filters} onChange={setFilters} count={filtered.length} total={callsQuery.data?.meta.total ?? filtered.length} />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
-        <KpiCard label="Total calls" value={filtered.length.toLocaleString()} delta={4.2} hint="vs. prior window" />
-        <KpiCard label="Avg duration" value={fmtDuration(avgDur)} delta={-2.1} hint="lower is better" />
-        <KpiCard label="Resolved rate" value={resolvedRate.toFixed(1)} unit="%" delta={1.4} />
-        <KpiCard label="Escalations" value={escalated.toLocaleString()} delta={-6.2} />
-        <KpiCard label="SLA compliance" value={slaCompliance.toFixed(1)} unit="%" delta={0.8} hint="≤ 10 min handle" />
-        <KpiCard label="Avg CSAT" value={avgCsat.toFixed(1)} unit="/5" delta={0.2} />
-        <KpiCard label="Active regions" value={regions.filter((r) => r.total > 0).length} hint="of 6" />
+        {kpis.map((kpi) => (
+          <KpiCard key={kpi.label} label={kpi.label} value={kpi.value} delta={kpi.delta} hint={kpi.descriptor} />
+        ))}
+        <KpiCard label="Active regions" value={regions.filter((r) => r.volume > 0).length} hint="of 6" />
       </div>
 
       <div className="grid gap-3 lg:grid-cols-3">
         <SectionCard
           title="Call volume"
-          description="Daily calls, last 14 days"
+          description="Daily calls and forecast, last 14 days"
           className="lg:col-span-2"
-          action={<LegendDot items={[{ label: "Calls", color: "var(--chart-1)" }, { label: "Escalated", color: "var(--chart-5)" }]} />}
+          action={<LegendDot items={[{ label: "Calls", color: "var(--chart-1)" }, { label: "Forecast", color: "var(--chart-5)" }]} />}
         >
           <div className="h-[220px] w-full min-w-0">
             <ResponsiveContainer width="100%" height={220}>
@@ -81,7 +103,7 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
                 <YAxis key="y-axis" tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} width={32} />
                 <Tooltip key="tooltip" contentStyle={chartTooltipStyle} cursor={{ stroke: "var(--border)" }} />
                 <Area key="area" type="monotone" dataKey="calls" name="Calls" stroke="var(--chart-1)" strokeWidth={1.5} fill="url(#dashVolumeGrad)" />
-                <Line key="line" type="monotone" dataKey="escalated" name="Escalated" stroke="var(--chart-5)" strokeWidth={1.5} dot={false} />
+                <Line key="line" type="monotone" dataKey="forecast" name="Forecast" stroke="var(--chart-5)" strokeWidth={1.5} dot={false} />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
@@ -102,23 +124,23 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
         </SectionCard>
       </div>
 
-      <SectionCard title="Region performance" description="Calls, resolution rate, avg handle time">
+      <SectionCard title="Region performance" description="Volume, SLA, CSAT, and escalations">
         <div className="grid grid-cols-1 gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {regions.map((r) => (
             <div key={r.region} className="bg-card p-3">
               <div className="flex items-center justify-between">
                 <span className="text-[12px] tabular-nums text-foreground">{r.region}</span>
-                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{r.total} calls</span>
+                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{r.volume} calls</span>
               </div>
               <div className="mt-2 flex items-baseline justify-between">
-                <span className="text-[20px] tabular-nums">{(r.resolvedRate * 100).toFixed(0)}%</span>
-                <span className="text-[11px] text-muted-foreground">{fmtDuration(r.avgDurationSec)}</span>
+                <span className="text-[20px] tabular-nums">{r.sla.toFixed(0)}%</span>
+                <span className="text-[11px] text-muted-foreground">{r.csat.toFixed(1)} CSAT</span>
               </div>
               <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-muted">
-                <div className="h-full bg-accent" style={{ width: `${r.resolvedRate * 100}%` }} />
+                <div className="h-full bg-accent" style={{ width: `${r.sla}%` }} />
               </div>
               <div className="mt-2 text-[10px] text-muted-foreground">
-                {r.escalated} escalated
+                {r.escalations} escalated
               </div>
             </div>
           ))}
@@ -128,8 +150,8 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
       <div className="grid gap-3 lg:grid-cols-3">
         <SectionCard title="Insights" description="Auto-generated from analytics signals" className="lg:col-span-1">
           <div className="space-y-2">
-            {INSIGHTS.map((i) => (
-              <InsightItem key={i.title} {...i} />
+            {proactiveInsights.map((i) => (
+              <InsightItem key={i.title} severity={i.severity === "warning" ? "warn" : i.severity} title={i.title} body={i.detail} />
             ))}
           </div>
         </SectionCard>

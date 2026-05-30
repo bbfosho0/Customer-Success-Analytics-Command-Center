@@ -31,10 +31,18 @@ export interface Agent {
   id: string;
   name: string;
   region: Region;
-  skill: number; // 1-5
+  geoRegion: string; // display region: NA, EMEA, APAC, LATAM
+  specialty: string;
+  csat: number; // percentage 0-100
+  sla: number; // percentage 0-100
+  calls: number; // recent call count
+  aht: number; // average handle time in minutes
+  focus: string;
+  // kept for backward compat with call-detail and aggregations
+  skill: number;
   totalCalls: number;
   avgDurationSec: number;
-  resolutionRate: number; // 0-1
+  resolutionRate: number;
   escalated: number;
 }
 
@@ -73,35 +81,16 @@ function mulberry32(seed: number) {
 const rand = mulberry32(42);
 const pick = <T,>(arr: T[]) => arr[Math.floor(rand() * arr.length)];
 
-const AGENT_NAMES = [
-  "Priya Natarajan",
-  "Marcus Holloway",
-  "Lena Brandt",
-  "Hiroshi Tanaka",
-  "Sofia Alvarez",
-  "Daniel Okafor",
-  "Mei Chen",
-  "Aaron Kowalski",
-  "Yuki Sato",
-  "Elena Rossi",
-  "Omar Haddad",
-  "Ravi Subramanian",
+export const AGENTS: Agent[] = [
+  { id: "AG-1000", name: "Nova Carter",       region: "us-east-1",     geoRegion: "NA",   specialty: "Escalations", csat: 72, sla: 70, calls: 12, aht: 11.4, focus: "Escalation follow-up", skill: 3, totalCalls: 142, avgDurationSec: 684,  resolutionRate: 0.72, escalated: 39 },
+  { id: "AG-1001", name: "Maya Chen",          region: "eu-west-1",     geoRegion: "EMEA", specialty: "Escalations", csat: 76, sla: 70, calls: 12, aht: 11.7, focus: "Escalation follow-up", skill: 4, totalCalls: 158, avgDurationSec: 702,  resolutionRate: 0.76, escalated: 37 },
+  { id: "AG-1002", name: "Dante Ruiz",         region: "ap-southeast-1",geoRegion: "APAC", specialty: "Escalations", csat: 80, sla: 70, calls: 12, aht: 10.8, focus: "Escalation follow-up", skill: 4, totalCalls: 164, avgDurationSec: 648,  resolutionRate: 0.80, escalated: 32 },
+  { id: "AG-1003", name: "Elena Popov",        region: "us-east-1",     geoRegion: "LATAM",specialty: "Escalations", csat: 84, sla: 70, calls: 11, aht: 12.3, focus: "Escalation follow-up", skill: 4, totalCalls: 131, avgDurationSec: 738,  resolutionRate: 0.84, escalated: 20 },
+  { id: "AG-1004", name: "Kai Ndirangu",       region: "us-west-2",     geoRegion: "NA",   specialty: "Escalations", csat: 84, sla: 70, calls: 14, aht:  9.8, focus: "Escalation follow-up", skill: 5, totalCalls: 178, avgDurationSec: 588,  resolutionRate: 0.84, escalated: 28 },
+  { id: "AG-1005", name: "Zara Iqbal",         region: "eu-central-1",  geoRegion: "EMEA", specialty: "Escalations", csat: 88, sla: 72, calls: 10, aht:  9.1, focus: "Escalation follow-up", skill: 5, totalCalls: 119, avgDurationSec: 546,  resolutionRate: 0.88, escalated: 14 },
+  { id: "AG-1006", name: "Ravi Subramanian",   region: "ap-northeast-1",geoRegion: "APAC", specialty: "Escalations", csat: 91, sla: 75, calls:  9, aht:  8.6, focus: "Escalation follow-up", skill: 5, totalCalls: 108, avgDurationSec: 516,  resolutionRate: 0.91, escalated:  9 },
+  { id: "AG-1007", name: "Sofia Alvarez",      region: "us-west-2",     geoRegion: "NA",   specialty: "Escalations", csat: 68, sla: 68, calls: 16, aht: 13.2, focus: "Escalation follow-up", skill: 3, totalCalls: 192, avgDurationSec: 792,  resolutionRate: 0.68, escalated: 61 },
 ];
-
-export const AGENTS: Agent[] = AGENT_NAMES.map((name, i) => {
-  const total = 80 + Math.floor(rand() * 220);
-  const resolved = 0.62 + rand() * 0.32;
-  return {
-    id: `AG-${1000 + i}`,
-    name,
-    region: REGIONS[i % REGIONS.length],
-    skill: Math.min(5, 3 + Math.floor(rand() * 3)),
-    totalCalls: total,
-    avgDurationSec: 240 + Math.floor(rand() * 540),
-    resolutionRate: resolved,
-    escalated: Math.floor(total * (1 - resolved) * (0.4 + rand() * 0.4)),
-  };
-});
 
 const SUMMARIES = [
   "Customer hitting 30s timeout on POST handler during peak EU hours.",
@@ -263,6 +252,39 @@ export function fmtRelative(iso: string) {
   const hrs = Math.floor(mins / 60);
   if (hrs < 24) return `${hrs}h ago`;
   return `${Math.floor(hrs / 24)}d ago`;
+}
+
+export function getCallSignals(call: Call) {
+  const n = call.id.charCodeAt(5) * 7919 + call.id.charCodeAt(6) * 6271 + call.durationSec;
+  const r0 = ((n * 1664525 + 1013904223) & 0x7fffffff);
+  const r1 = ((n * 22695477 + 1) & 0x7fffffff);
+  const r2 = ((n * 214013 + 2531011) & 0x7fffffff);
+  const r3 = ((n * 1103515245 + 12345) & 0x7fffffff);
+  const csat = 1 + (r0 % 5);
+  const sentiments = ["positive", "neutral", "negative"] as const;
+  const sentiment = sentiments[r1 % 3];
+  const fcr = r2 % 10 > 3;
+  const slaBreach = call.status === "escalated" || r3 % 10 < 2;
+  const firstResponseSec = 30 + (r0 % 270);
+  const priorities = ["P1", "P2", "P3", "P4"] as const;
+  const priority = call.status === "escalated" ? "P1" : priorities[1 + (r1 % 3)];
+  return { csat, sentiment, fcr, slaBreach, firstResponseSec, priority };
+}
+
+export function getSlaCompliance(calls: Call[]) {
+  if (!calls.length) return 0;
+  const ok = calls.filter((c) => !getCallSignals(c).slaBreach).length;
+  return (ok / calls.length) * 100;
+}
+
+export function getAvgCsat(calls: Call[]) {
+  if (!calls.length) return 0;
+  return calls.reduce((s, c) => s + getCallSignals(c).csat, 0) / calls.length;
+}
+
+export function getFcrRate(calls: Call[]) {
+  if (!calls.length) return 0;
+  return (calls.filter((c) => getCallSignals(c).fcr).length / calls.length) * 100;
 }
 
 export function fmtBytes(n: number) {

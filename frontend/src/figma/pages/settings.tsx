@@ -1,9 +1,12 @@
+"use client";
+
 import { RefreshCw, Database, Wifi, CheckCircle2, Copy, FileText, Clock } from "lucide-react";
 import { useState } from "react";
-import { MANIFEST, fmtBytes } from "../data";
+
 import { SectionCard } from "../primitives";
 import { PageHeader } from "../shell";
 import { cn } from "../ui/utils";
+import { useManifest, useRefreshManifest } from "../../lib/api/hooks";
 
 export function SettingsPage({
   mode,
@@ -12,17 +15,18 @@ export function SettingsPage({
   mode: "live" | "demo";
   refreshDisabled?: boolean;
 }) {
-  const [refreshing, setRefreshing] = useState(false);
+  const manifestQuery = useManifest();
+  const refreshMutation = useRefreshManifest();
   const [lastRefreshed, setLastRefreshed] = useState<string | null>(null);
 
-  const refresh = () => {
-    if (refreshDisabled || refreshing) return;
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-      setLastRefreshed(new Date().toLocaleString());
-    }, 900);
+  const refresh = async () => {
+    if (refreshDisabled || refreshMutation.isPending) return;
+    await refreshMutation.mutateAsync();
+    setLastRefreshed(new Date().toLocaleString());
   };
+
+  const manifest = manifestQuery.data;
+  const columns = MANIFEST_COLUMNS;
 
   return (
     <div className="space-y-4">
@@ -57,7 +61,7 @@ export function SettingsPage({
           action={
             <button
               onClick={refresh}
-              disabled={refreshDisabled || refreshing}
+              disabled={refreshDisabled || refreshMutation.isPending}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs",
                 refreshDisabled
@@ -66,8 +70,8 @@ export function SettingsPage({
               )}
               title={refreshDisabled ? "Disabled by config (read-only demo mode)" : undefined}
             >
-              <RefreshCw className={cn("h-3.5 w-3.5", refreshing && "animate-spin")} />
-              {refreshing ? "Refreshing" : "Refresh now"}
+              <RefreshCw className={cn("h-3.5 w-3.5", refreshMutation.isPending && "animate-spin")} />
+              {refreshMutation.isPending ? "Refreshing" : "Refresh now"}
             </button>
           }
         >
@@ -81,40 +85,44 @@ export function SettingsPage({
         </SectionCard>
       </div>
 
-      <SectionCard title="Dataset manifest" description={MANIFEST.datasetName}>
+      <SectionCard title="Dataset manifest" description={manifest?.dataset ?? "Support analytics"}>
         <dl className="grid grid-cols-1 gap-y-2 text-xs md:grid-cols-2">
-          <Row label="Name" value={<span className="font-mono">{MANIFEST.datasetName}</span>} />
-          <Row label="Rows" value={<span className="tabular-nums">{MANIFEST.rowCount.toLocaleString()}</span>} />
+          <Row label="Name" value={<span className="font-mono">{manifest?.dataset ?? "support-calls"}</span>} />
+          <Row label="Rows" value={<span className="tabular-nums">{manifest?.row_count?.toLocaleString() ?? "—"}</span>} />
           <Row
             label="Path"
             value={
               <span className="flex items-center gap-1.5">
-                <span className="truncate font-mono text-[11px]">{MANIFEST.path}</span>
-                <button className="rounded p-0.5 text-muted-foreground hover:bg-muted" onClick={() => navigator.clipboard?.writeText(MANIFEST.path)}>
-                  <Copy className="h-3 w-3" />
-                </button>
+                <span className="truncate font-mono text-[11px]">{manifest?.path ?? "—"}</span>
+                {manifest?.path && (
+                  <button className="rounded p-0.5 text-muted-foreground hover:bg-muted" onClick={() => navigator.clipboard?.writeText(manifest.path)}>
+                    <Copy className="h-3 w-3" />
+                  </button>
+                )}
               </span>
             }
           />
-          <Row label="Size" value={fmtBytes(MANIFEST.sizeBytes)} />
+          <Row label="Size" value={manifest ? fmtBytes(manifest.size_bytes) : "—"} />
           <Row
             label="Hash"
             value={
               <span className="flex items-center gap-1.5">
-                <span className="truncate font-mono text-[11px]">{MANIFEST.hash}</span>
-                <button className="rounded p-0.5 text-muted-foreground hover:bg-muted" onClick={() => navigator.clipboard?.writeText(MANIFEST.hash)}>
-                  <Copy className="h-3 w-3" />
-                </button>
+                <span className="truncate font-mono text-[11px]">{manifest?.hash ?? "—"}</span>
+                {manifest?.hash && (
+                  <button className="rounded p-0.5 text-muted-foreground hover:bg-muted" onClick={() => navigator.clipboard?.writeText(manifest.hash)}>
+                    <Copy className="h-3 w-3" />
+                  </button>
+                )}
               </span>
             }
           />
-          <Row label="Generated" value={new Date(MANIFEST.generatedAt).toLocaleString()} />
+          <Row label="Generated" value={manifest ? new Date(manifest.generated_at).toLocaleString() : "—"} />
         </dl>
       </SectionCard>
 
       <SectionCard
         title="Columns"
-        description={`${MANIFEST.columns.length} fields in the analytics contract`}
+        description={`${columns.length} fields in the analytics contract`}
         action={
           <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
             <FileText className="h-3 w-3" /> phase-2 schema
@@ -130,7 +138,7 @@ export function SettingsPage({
               </tr>
             </thead>
             <tbody>
-              {MANIFEST.columns.map((c) => (
+              {columns.map((c) => (
                 <tr key={c.name} className="border-b border-border last:border-0">
                   <td className="px-4 py-2 font-mono text-[12px]">{c.name}</td>
                   <td className="px-4 py-2 text-muted-foreground">{c.type}</td>
@@ -193,6 +201,18 @@ const AUDIT_ENTRIES = [
   { op: "BI export: retention_cohorts.csv", result: "success", detail: "12 rows", ts: "2026-05-27T16:04:22Z" },
 ];
 
+const MANIFEST_COLUMNS = [
+  { name: "id", type: "string" },
+  { name: "agent_id", type: "string" },
+  { name: "agent_name", type: "string" },
+  { name: "customer_region", type: "string" },
+  { name: "issue_type", type: "string" },
+  { name: "duration_seconds", type: "integer" },
+  { name: "resolution_status", type: "string" },
+  { name: "started_at", type: "datetime" },
+  { name: "skill_rating", type: "number" },
+];
+
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex items-start gap-3 border-b border-border/60 py-1.5 last:border-0 md:border-0">
@@ -200,4 +220,10 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
       <dd className="min-w-0 flex-1 text-foreground">{value}</dd>
     </div>
   );
+}
+
+function fmtBytes(n: number) {
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / 1024 / 1024).toFixed(2)} MB`;
 }

@@ -1,40 +1,78 @@
+"use client";
+
 import { useMemo, useState } from "react";
 import {
   Area, Bar, BarChart, CartesianGrid, ComposedChart, Line, LineChart, ResponsiveContainer,
   Tooltip, XAxis, YAxis,
 } from "recharts";
-import { CALLS, buildIssueBreakdown, buildRegionPerformance, buildVolumeSeries, fmtDuration, getSlaCompliance, getAvgCsat, getFcrRate } from "../data";
-import { GlobalFilters, FilterState, DEFAULT_FILTERS, applyFilters } from "../filters";
+
+import { buildChannelMetrics } from "../../lib/data/metrics-data";
+import { useCalls, useMetrics } from "../../lib/api/hooks";
+import { GlobalFilters, applyFilters, useFigmaFilters } from "../filters";
 import { KpiCard, SectionCard } from "../primitives";
 import { PageHeader } from "../shell";
 import { chartTooltipStyle, LegendDot } from "./dashboard";
 import { cn } from "../ui/utils";
+import { buildIssueBreakdown, buildVolumeSeries, fmtDuration, getSlaCompliance, getAvgCsat, getFcrRate, toFigmaCalls } from "../data";
+import {
+  buildCallsQueryFromSelection,
+  buildDashboardKpisFromMetrics,
+  buildIssueBreakdownFromMetrics,
+  buildRegionPerformanceFromMetrics,
+  toUiCallRecords,
+} from "../../lib/viz/transformers";
+
+const MAX_CALLS = 200;
 
 export function MetricsPage() {
-  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
+  const { filters, selection, setFilters } = useFigmaFilters();
   const [tab, setTab] = useState<"overview" | "volume" | "breakdown" | "regions">("overview");
-  const data = useMemo(() => applyFilters(CALLS, filters), [filters]);
-  const series = useMemo(() => buildVolumeSeries(data), [data]);
-  const breakdown = useMemo(() => buildIssueBreakdown(data), [data]);
-  const regions = useMemo(() => buildRegionPerformance(data), [data]);
 
-  const resolved = data.filter((c) => c.status === "resolved").length;
-  const escalated = data.filter((c) => c.status === "escalated").length;
-  const avgDur = data.length ? Math.round(data.reduce((a, c) => a + c.durationSec, 0) / data.length) : 0;
+  const callsQuery = useCalls(buildCallsQueryFromSelection(selection, 1, MAX_CALLS));
+  const metricsQuery = useMetrics({
+    region: filters.region === "all" ? undefined : filters.region,
+    issue_type: filters.issueType === "all" ? undefined : filters.issueType,
+  });
+
+  const calls = useMemo(() => toFigmaCalls(callsQuery.data?.data ?? []), [callsQuery.data]);
+  const uiCalls = useMemo(() => toUiCallRecords(callsQuery.data?.data ?? []), [callsQuery.data]);
+  const data = useMemo(() => applyFilters(calls, filters), [calls, filters]);
+  const series = useMemo(() => buildVolumeSeries(data), [data]);
+  const metricKpis = useMemo(
+    () => (metricsQuery.data ? buildDashboardKpisFromMetrics(metricsQuery.data) : []),
+    [metricsQuery.data],
+  );
+  const breakdown = useMemo(
+    () => {
+      if (metricsQuery.data) return buildIssueBreakdownFromMetrics(metricsQuery.data);
+      const total = Math.max(1, data.length);
+      return buildIssueBreakdown(data).map((item, index) => ({
+        ...item,
+        percentage: Number(((item.count / total) * 100).toFixed(1)),
+        trend: (index % 3) * 1.5 - 1,
+      }));
+    },
+    [metricsQuery.data, data],
+  );
+  const regions = useMemo(
+    () => (metricsQuery.data ? buildRegionPerformanceFromMetrics(metricsQuery.data) : []),
+    [metricsQuery.data],
+  );
+
   const sla = useMemo(() => getSlaCompliance(data), [data]);
   const csat = useMemo(() => getAvgCsat(data), [data]);
   const fcr = useMemo(() => getFcrRate(data), [data]);
+  const channelMetrics = useMemo(() => buildChannelMetrics(uiCalls), [uiCalls]);
 
   return (
     <div className="space-y-4">
       <PageHeader title="Metrics" description="Drill into volume, resolution, and regional performance." />
-      <GlobalFilters value={filters} onChange={setFilters} count={data.length} total={CALLS.length} />
+      <GlobalFilters value={filters} onChange={setFilters} count={data.length} total={callsQuery.data?.meta.total ?? data.length} />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
-        <KpiCard label="Calls" value={data.length.toLocaleString()} delta={4.2} />
-        <KpiCard label="Resolved" value={resolved.toLocaleString()} delta={1.4} />
-        <KpiCard label="Escalated" value={escalated.toLocaleString()} delta={-6.2} />
-        <KpiCard label="Avg duration" value={fmtDuration(avgDur)} delta={-2.1} />
+        {metricKpis.map((kpi) => (
+          <KpiCard key={kpi.label} label={kpi.label} value={kpi.value} delta={kpi.delta} hint={kpi.descriptor} />
+        ))}
         <KpiCard label="SLA compliance" value={sla.toFixed(1)} unit="%" delta={0.8} />
         <KpiCard label="Avg CSAT" value={csat.toFixed(1)} unit="/5" delta={0.2} />
         <KpiCard label="FCR rate" value={fcr.toFixed(1)} unit="%" delta={1.1} hint="First contact resolved" />
@@ -112,7 +150,7 @@ export function MetricsPage() {
                     width={48}
                     tickFormatter={(v) => `${v}m`}
                   />
-                  <Tooltip key="tooltip" contentStyle={chartTooltipStyle} cursor={{ stroke: "var(--border)" }} formatter={(v: number) => `${v}m`} />
+                  <Tooltip key="tooltip" contentStyle={chartTooltipStyle} cursor={{ stroke: "var(--border)" }} formatter={(v) => `${Number(v ?? 0)}m`} />
                   <Line key="line" type="monotone" dataKey="avgMin" name="Avg" stroke="var(--chart-3)" strokeWidth={1.5} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
@@ -201,17 +239,13 @@ export function MetricsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {[
-                    { channel: "Phone", share: 64, csat: 3.8, automation: 12, aht: "8m 42s" },
-                    { channel: "Chat", share: 22, csat: 4.1, automation: 48, aht: "4m 15s" },
-                    { channel: "Email", share: 14, csat: 3.6, automation: 31, aht: "—" },
-                  ].map((ch) => (
+                  {channelMetrics.map((ch) => (
                     <tr key={ch.channel} className="border-b border-border last:border-0">
                       <td className="px-4 py-2 text-foreground">{ch.channel}</td>
                       <td className="px-4 py-2 tabular-nums">{ch.share}%</td>
                       <td className="px-4 py-2 tabular-nums">{ch.csat}/5</td>
                       <td className="px-4 py-2 tabular-nums">{ch.automation}%</td>
-                      <td className="px-4 py-2 tabular-nums text-muted-foreground">{ch.aht}</td>
+                      <td className="px-4 py-2 tabular-nums text-muted-foreground">{fmtDuration(Math.round(ch.avgHandleTime * 60))}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -232,8 +266,8 @@ export function MetricsPage() {
               <BarChart
                 data={regions.map((r) => ({
                   region: r.region,
-                  resolved: Math.max(0, r.total - r.escalated),
-                  escalated: r.escalated,
+                  resolved: Math.max(0, r.volume - r.escalations),
+                  escalated: r.escalations,
                 }))}
                 margin={{ top: 4, right: 8, left: -16, bottom: 0 }}
                 barGap={4}

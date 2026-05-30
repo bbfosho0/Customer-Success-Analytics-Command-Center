@@ -1,11 +1,37 @@
-import { AGENTS } from "../data";
+"use client";
+
+import { useMemo } from "react";
+
 import { SectionCard } from "../primitives";
 import { PageHeader } from "../shell";
+import { useAgents } from "../../lib/api/hooks";
 
-const sorted = [...AGENTS].sort((a, b) => a.csat - b.csat);
-const spotlight = sorted.slice(0, 3);
+const regionMap: Record<string, string> = {
+  "us-east-1": "NA",
+  "us-west-2": "NA",
+  "eu-west-1": "EMEA",
+  "eu-central-1": "EMEA",
+  "ap-southeast-1": "APAC",
+  "ap-northeast-1": "APAC",
+};
 
 export function AgentsPage() {
+  const agentsQuery = useAgents({ sort: "total_calls", direction: "desc" });
+  const agents = useMemo(() => (agentsQuery.data ?? []).map((agent) => ({
+    id: agent.agent_id,
+    name: agent.name,
+    geoRegion: regionMap[agent.region] ?? agent.region,
+    specialty: agent.escalated_calls > 0 ? "Escalations" : "Core",
+    csat: Number((agent.avg_rating * 20).toFixed(0)),
+    sla: Number(Math.min(99, Math.max(70, agent.resolved_rate)).toFixed(0)),
+    calls: agent.total_calls,
+    aht: Number((agent.avg_resolution_seconds / 60).toFixed(1)),
+    focus: agent.escalated_calls > 0 ? "Escalation follow-up" : "Quality coaching",
+  })), [agentsQuery.data]);
+
+  const sorted = useMemo(() => [...agents].sort((a, b) => a.csat - b.csat), [agents]);
+  const spotlight = sorted.slice(0, 3);
+
   return (
     <div className="space-y-4">
       <PageHeader

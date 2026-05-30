@@ -1,17 +1,25 @@
 import { create } from "zustand";
 
 export const timeRangeOptions = ["24h", "3d", "7d", "30d", "90d"] as const;
-export const regionOptions = ["Global", "NA", "EMEA", "APAC", "LATAM", "ANZ"] as const;
+export const regionOptions = [
+  "Global",
+  "us-east-1",
+  "us-west-2",
+  "eu-west-1",
+  "eu-central-1",
+  "ap-southeast-1",
+  "ap-northeast-1",
+] as const;
 export const intentOptions = [
   "All intents",
-  "Billing",
-  "Outage",
-  "Refund",
-  "Upgrade",
-  "Security",
-  "Compliance",
-  "Integrations",
-  "Voice Quality",
+  "Lambda timeout",
+  "API Gateway 5xx",
+  "Cold start",
+  "IAM permission",
+  "DynamoDB throttle",
+  "S3 access",
+  "Step Functions",
+  "CloudWatch logs",
 ] as const;
 
 export type TimeRange = (typeof timeRangeOptions)[number];

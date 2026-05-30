@@ -1,16 +1,21 @@
+"use client";
+
 import { useMemo, useState } from "react";
 import { ArrowUpDown, ChevronLeft, ChevronRight, Download, RefreshCw } from "lucide-react";
-import { AGENTS, CALLS, fmtDuration, fmtRelative, getSlaCompliance, getAvgCsat, getFcrRate } from "../data";
-import { GlobalFilters, FilterState, DEFAULT_FILTERS, applyFilters } from "../filters";
+
+import { fmtDuration, fmtRelative, getSlaCompliance, getAvgCsat, getFcrRate, toFigmaCalls } from "../data";
+import { GlobalFilters, applyFilters, useFigmaFilters } from "../filters";
 import { EmptyState, ErrorState, LoadingState, SectionCard, StatusBadge } from "../primitives";
 import { PageHeader } from "../shell";
 import { cn } from "../ui/utils";
+import { useAgents, useCalls } from "../../lib/api/hooks";
 
 type SortField = "startedAt" | "durationSec" | "agent" | "region" | "status";
 const PAGE_SIZE = 12;
+const MAX_CALLS = 200;
 
-export function CallsPage({ onOpen, fakeState }: { onOpen: (id: string) => void; fakeState?: "loading" | "error" | "empty" }) {
-  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
+export function CallsPage({ onOpen }: { onOpen: (id: string) => void }) {
+  const { filters, setFilters } = useFigmaFilters();
   const [agent, setAgent] = useState<string>("all");
   const [minDur, setMinDur] = useState(0);
   const [maxDur, setMaxDur] = useState(1800);
@@ -19,9 +24,19 @@ export function CallsPage({ onOpen, fakeState }: { onOpen: (id: string) => void;
   const [page, setPage] = useState(1);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  const callsQuery = useCalls({
+    page: 1,
+    per_page: MAX_CALLS,
+    region: filters.region === "all" ? undefined : filters.region,
+    issue_type: filters.issueType === "all" ? undefined : filters.issueType,
+  });
+  const agentsQuery = useAgents({ sort: "total_calls", direction: "desc" });
+
+  const calls = useMemo(() => toFigmaCalls(callsQuery.data?.data ?? []), [callsQuery.data]);
+
   const rows = useMemo(() => {
-    let r = applyFilters(CALLS, filters);
-    if (agent !== "all") r = r.filter((c) => c.agentId === agent);
+    let r = applyFilters(calls, filters);
+    if (agent !== "all") r = r.filter((c) => c.agentId === agent || c.agent === agent);
     r = r.filter((c) => c.durationSec >= minDur && c.durationSec <= maxDur);
     r.sort((a, b) => {
       const av = (a as any)[sortField];
@@ -30,7 +45,7 @@ export function CallsPage({ onOpen, fakeState }: { onOpen: (id: string) => void;
       return sortDir === "asc" ? cmp : -cmp;
     });
     return r;
-  }, [filters, agent, minDur, maxDur, sortField, sortDir]);
+  }, [calls, filters, agent, minDur, maxDur, sortField, sortDir]);
 
   const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const pageRows = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -50,6 +65,14 @@ export function CallsPage({ onOpen, fakeState }: { onOpen: (id: string) => void;
     if (sortField === f) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     else { setSortField(f); setSortDir("desc"); }
   };
+
+  const tableState = callsQuery.isLoading
+    ? "loading"
+    : callsQuery.isError
+      ? "error"
+      : rows.length === 0
+        ? "empty"
+        : "ready";
 
   return (
     <div className="space-y-4">
@@ -117,14 +140,14 @@ export function CallsPage({ onOpen, fakeState }: { onOpen: (id: string) => void;
         </div>
       )}
 
-      <GlobalFilters value={filters} onChange={(f) => { setFilters(f); setPage(1); }} count={rows.length} total={CALLS.length} />
+      <GlobalFilters value={filters} onChange={(f) => { setFilters(f); setPage(1); }} count={rows.length} total={callsQuery.data?.meta.total ?? rows.length} />
 
       <div className="flex flex-wrap items-center gap-2 rounded-md border border-border bg-card p-2.5">
         <label className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2 h-8 text-xs">
           <span className="text-muted-foreground">Agent</span>
           <select value={agent} onChange={(e) => setAgent(e.target.value)} style={{ colorScheme: "inherit" }} className="bg-transparent outline-none [&>option]:bg-popover [&>option]:text-popover-foreground">
             <option value="all">All</option>
-            {AGENTS.map((a) => (<option key={a.id} value={a.id}>{a.name}</option>))}
+            {(agentsQuery.data ?? []).map((a) => (<option key={a.agent_id} value={a.agent_id}>{a.name}</option>))}
           </select>
         </label>
         <div className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-2 h-8 text-xs">
@@ -171,11 +194,11 @@ export function CallsPage({ onOpen, fakeState }: { onOpen: (id: string) => void;
           </div>
         }
       >
-        {fakeState === "loading" ? (
+        {tableState === "loading" ? (
           <LoadingState label="Fetching calls" />
-        ) : fakeState === "error" ? (
+        ) : tableState === "error" ? (
           <ErrorState body="The analytics service returned a 503. Retry in a few seconds." retry={() => {}} />
-        ) : fakeState === "empty" || rows.length === 0 ? (
+        ) : tableState === "empty" ? (
           <EmptyState title="No calls match the current filters" body="Widen the date range or clear filters to see more results." />
         ) : (
           <div className="-m-4 overflow-x-auto">

@@ -1,16 +1,14 @@
 import { staticCalls } from "../../../lib/api/static-fixtures";
-import { CallDetailClient } from "./call-detail-client";
-
-export function generateStaticParams() {
-  return staticCalls.map((call) => ({ callId: call.id }));
-}
-
-export const dynamicParams = false;
+import { CallDetailRoute } from "./call-detail-route";
 
 interface CallDetailPageProps {
   params: { callId: string };
 }
 
+export function generateStaticParams() {
+  return staticCalls.map((call) => ({ callId: call.id }));
+}
+
 export default function CallDetailPage({ params }: CallDetailPageProps) {
-  return <CallDetailClient callId={params.callId} />;
+  return <CallDetailRoute callId={params.callId} />;
 }

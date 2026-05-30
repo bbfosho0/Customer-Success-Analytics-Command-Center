@@ -5,6 +5,7 @@ import { CallsPage } from "./components/pages/calls";
 import { CallDetailPage } from "./components/pages/call-detail";
 import { AgentsPage } from "./components/pages/agents";
 import { MetricsPage } from "./components/pages/metrics";
+import { CustomerAnalyticsPage } from "./components/pages/customer-analytics";
 import { SettingsPage } from "./components/pages/settings";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
       )}
       {route.name === "agents" && <AgentsPage />}
       {route.name === "metrics" && <MetricsPage />}
+      {route.name === "customer360" && <CustomerAnalyticsPage />}
       {route.name === "settings" && <SettingsPage mode={mode} refreshDisabled={mode === "demo"} />}
     </AppShell>
   );

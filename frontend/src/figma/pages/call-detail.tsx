@@ -1,20 +1,50 @@
+"use client";
+
 import { ArrowLeft, Copy, ExternalLink } from "lucide-react";
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { CALLS, AGENTS, fmtDuration, fmtRelative, buildIssueBreakdown, getCallSignals } from "../data";
+
+import { buildIssueBreakdown, fmtDuration, fmtRelative, getCallSignals, toFigmaCalls } from "../data";
 import { EmptyState, SectionCard, StatusBadge } from "../primitives";
 import { PageHeader } from "../shell";
 import { chartTooltipStyle } from "./dashboard";
+import { useAgents, useCall, useCalls } from "../../lib/api/hooks";
+
+const MAX_CALLS = 200;
 
 export function CallDetailPage({ id, onBack, onOpen }: { id: string; onBack: () => void; onOpen: (id: string) => void }) {
-  const call = CALLS.find((c) => c.id === id);
-  const agent = useMemo(() => AGENTS.find((a) => a.id === call?.agentId), [call]);
+  const callQuery = useCall(id);
+  const agentsQuery = useAgents({ sort: "total_calls", direction: "desc" });
+
+  const call = useMemo(() => (callQuery.data?.data ? toFigmaCalls([callQuery.data.data])[0] : null), [callQuery.data]);
+  const regionCallsQuery = useCalls({
+    page: 1,
+    per_page: MAX_CALLS,
+    region: call?.region,
+  });
+
+  const regionCalls = useMemo(() => toFigmaCalls(regionCallsQuery.data?.data ?? []), [regionCallsQuery.data]);
+  const agent = useMemo(
+    () => (agentsQuery.data ?? []).find((a) => a.agent_id === call?.agentId) ?? null,
+    [agentsQuery.data, call],
+  );
   const signals = useMemo(() => (call ? getCallSignals(call) : null), [call]);
   const similar = useMemo(
-    () => (call ? CALLS.filter((c) => c.issueType === call.issueType && c.id !== call.id).slice(0, 6) : []),
-    [call],
+    () => (call ? regionCalls.filter((c) => c.issueType === call.issueType && c.id !== call.id).slice(0, 6) : []),
+    [call, regionCalls],
   );
-  const issueDist = useMemo(() => (call ? buildIssueBreakdown(CALLS.filter((c) => c.region === call.region)) : []), [call]);
+  const issueDist = useMemo(() => (call ? buildIssueBreakdown(regionCalls) : []), [call, regionCalls]);
+
+  if (callQuery.isLoading) {
+    return (
+      <div>
+        <button onClick={onBack} className="mb-3 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="h-3 w-3" /> Back to calls
+        </button>
+        <EmptyState title="Loading call detail" />
+      </div>
+    );
+  }
 
   if (!call) {
     return (
@@ -130,13 +160,13 @@ export function CallDetailPage({ id, onBack, onOpen }: { id: string; onBack: () 
                 </div>
                 <div className="min-w-0">
                   <p className="truncate text-[13px]">{agent.name}</p>
-                  <p className="text-[11px] font-mono text-muted-foreground">{agent.id} · {agent.region}</p>
+                  <p className="text-[11px] font-mono text-muted-foreground">{agent.agent_id} · {agent.region}</p>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                <Stat label="Skill" value={`${agent.skill}/5`} />
-                <Stat label="Calls" value={agent.totalCalls} />
-                <Stat label="Resolved" value={`${(agent.resolutionRate * 100).toFixed(0)}%`} />
+                <Stat label="Skill" value={`${agent.skill_rating.toFixed(1)}/5`} />
+                <Stat label="Calls" value={agent.total_calls} />
+                <Stat label="Resolved" value={`${agent.resolved_rate.toFixed(0)}%`} />
               </div>
             </div>
           ) : (
