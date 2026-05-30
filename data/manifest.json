@@ -1,9 +1,21 @@
 {
   "dataset": "cleaned_calls",
-  "path": "data/cleaned_calls.parquet",
+  "path": "data\\cleaned_calls.parquet",
   "source": "local-simulation",
-  "hash": "placeholder",
-  "row_count": 0,
-  "generated_at": "2025-11-27T00:00:00Z",
-  "notes": "Stub manifest describing the parquet artifact produced by the ETL placeholder."
+  "hash": "8e745618ad72e8e2a8cfd83cc69d23e7f89c70462d890a31d1d859f4f1d2826a",
+  "row_count": 2,
+  "generated_at": "2026-05-30T05:35:59.853511+00:00",
+  "size_bytes": 5790,
+  "columns": [
+    "id",
+    "agent_id",
+    "agent_name",
+    "customer_region",
+    "issue_type",
+    "duration_seconds",
+    "resolution_status",
+    "started_at",
+    "skill_rating"
+  ],
+  "notes": "Generated from data/sample_calls.json and data/agents.csv for local API/UI development."
 }

@@ -1,6 +1,6 @@
 {
   "dataset_name": "customer_analytics",
-  "generated_at": "2026-05-29T17:39:44.288783+00:00",
+  "generated_at": "2026-05-30T05:36:01.702798+00:00",
   "source_files": [
     "data/raw/accounts.csv",
     "data/raw/subscriptions.csv",
@@ -64,12 +64,12 @@
     "data/bi_exports/segment_performance.csv": 5
   },
   "hashes": {
-    "data/raw/accounts.csv": "1da0f9870c6bfc91dcb2dcef50c8e556e3f192b9e67ca336e59deb3b45817630",
-    "data/raw/subscriptions.csv": "7456de9465dc13d54306ac2a9cddc9aa67531b1285ad1a22130e7b8de42be68e",
-    "data/raw/product_usage.csv": "34d2e114d354af5bd1622c93a516576cee940c18334a3ee150c669686c98e4c2",
-    "data/raw/invoices.csv": "29c1e8232501c455918965b67a5c4101458a0b96f04fbf6db8565b14b3bf741e",
-    "data/raw/opportunities.csv": "39b057e4af710de1d98b6171056b9c0ccd6b078e685ed8c8108e24eddd53a491",
-    "data/raw/customer_success_touches.csv": "743b942c187cf10922ed649522ac0d3aa474ea1cd8278cec93f0af851d5ad316",
+    "data/raw/accounts.csv": "0627a500082f24442d484d6fba0a8cc1a51a409171606759395e92d8e8690d2e",
+    "data/raw/subscriptions.csv": "8f7125c322ebe622eb0004d4cd271446dc806a91b5da97e5c12796e0dbfa47ec",
+    "data/raw/product_usage.csv": "55c1e00584123ef71f5b99ace121203c8561f178b24070ec808f5472e4ddb194",
+    "data/raw/invoices.csv": "97a7581dddb7761becdb989d6d17db98a8859410b2d04efa74790b8a416e2cbb",
+    "data/raw/opportunities.csv": "135411b13e1c09dab46ec23b91a0b978930df1a1d1fb312124b8eccc0dddf6f8",
+    "data/raw/customer_success_touches.csv": "dffffd96c0d394ccded149522efa3e2658fe024f2ba441032ebe5fdd938b32db",
     "data/curated/accounts.parquet": "788d027d32248d8e95342848df84059f5310f2cc84cf9c72c7b66dd7718fe801",
     "data/curated/subscriptions.parquet": "f9d0e1431102de35c010b6ba8361afe16cf360da1a1a40863eafcc733a2f4feb",
     "data/curated/product_usage.parquet": "03e185239645e30c34aab0dcc5ed6c3dc9faccc0b4280101f2b6c658ec9ddf8e",
