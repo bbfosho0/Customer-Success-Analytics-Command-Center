@@ -7,16 +7,22 @@
 ![Next.js](https://img.shields.io/badge/Next.js-Dashboard-000000)
 ![Parquet](https://img.shields.io/badge/Parquet-Analytics%20Artifacts-4A90E2)
 
-Customer Success Analytics Command Center is an analytics engineering portfolio project that turns raw support and customer-operational data into a publishable analytics product: reproducible ETL, SQL marts, typed APIs, a routed dashboard, and BI-ready exports.
+## About This Project
 
-The repo is intentionally local-first. Polars validates and shapes source data, DuckDB materializes marts, Parquet stores curated outputs, FastAPI exposes typed contracts, and a Next.js frontend consumes those contracts through generated types and React Query hooks. The same project can run in live local mode or export as a static demo for GitHub Pages.
+Customer Success Analytics Command Center is a full-stack analytics engineering portfolio product that converts raw customer, subscription, usage, billing, opportunity, and support data into decision-ready customer success intelligence.
 
-## What This Project Demonstrates
+The project builds a reproducible analytics workflow from ingestion to delivery: Polars validation and transformation, DuckDB SQL marts, Parquet and CSV outputs, typed FastAPI contracts, and a routed Next.js dashboard. Its business surface focuses on Customer 360 health scoring, churn risk prioritization, retention cohorts, lifetime value analysis, support impact, and expansion opportunities.
 
-- Analytics engineering: deterministic sample generation, ETL validation, curated Parquet artifacts, manifest outputs, and SQL marts.
-- Product analytics delivery: a usable frontend with operational support views plus customer analytics routes for churn risk, retention, and LTV.
-- Contract discipline: OpenAPI export, generated frontend schema types, typed hooks, and backward-compatible API consumption.
-- BI readiness: CSV exports and Salesforce CRM Analytics/Tableau-oriented documentation without pretending a live enterprise integration exists.
+This repository is intentionally credible for technical review. It demonstrates AWS-style lakehouse patterns and BI / Salesforce CRM Analytics readiness through working artifacts and mapping documentation, without claiming a live enterprise integration.
+
+## Highlights
+
+- Builds curated Customer 360 data from operational source files and support interaction data.
+- Computes account health scores, risk bands, primary risk drivers, and recommended customer-success actions.
+- Materializes marts for churn risk, retention cohorts, LTV, customer health, support impact, expansion opportunities, and segment performance.
+- Serves typed analytics contracts with FastAPI and generated TypeScript API types.
+- Presents routed Next.js views for support operations, account health, churn risk, retention, LTV, and exports.
+- Produces BI-ready CSV exports and Salesforce CRM Analytics / Tableau-oriented implementation documentation.
 
 ## Architecture
 
@@ -57,7 +63,7 @@ flowchart LR
     A[DuckDB marts] --> B[data/bi_exports/*.csv]
     B --> C[Tableau / Power BI / Looker Studio]
     B --> D[Salesforce CRM Analytics-ready mapping docs]
-    D --> E[dataset mapping, recipe plan, SAQL, dashboard wireframe]
+    D --> E[Dataset mapping, recipe plan, SAQL, dashboard wireframe]
 ```
 
 ## Product Surface
@@ -67,26 +73,26 @@ Current routed pages:
 - `/dashboard`: support operations overview with KPI cards, call volume, issue mix, region performance, insights, and latest calls.
 - `/metrics`: filtered performance drilldown with KPI comparisons, channel quality, SLA context, and regional breakdowns.
 - `/calls`: searchable call explorer with focus cards and a paginated interaction table.
-- `/calls/[callId]`: single-call detail with timeline, signals, region context, and linked agent information.
+- `/calls/[callId]`: interaction detail with timeline, signals, region context, and linked agent data.
 - `/agents`: leaderboard and spotlight views for support agent performance.
-- `/customer-analytics`: customer success overview across health, churn exposure, actions, and exports.
+- `/customer-analytics`: Customer 360 overview across health, churn exposure, actions, and exports.
 - `/customer-analytics/churn-risk`: prioritized churn queue.
 - `/customer-analytics/retention`: cohort retention and segment summaries.
-- `/customer-analytics/ltv`: LTV-focused segment analysis.
+- `/customer-analytics/ltv`: lifetime-value analysis by segment and plan.
 - `/settings`: manifest, refresh controls, and environment diagnostics.
 
 The index route redirects to `/dashboard`.
 
-## Data and Contracts
+## Data Products and Contracts
 
 Key generated artifacts:
 
 - `data/cleaned_calls.parquet`: curated support-call dataset produced from deterministic sample data.
-- `data/curated/*.parquet`: Customer 360 dimension-style curated outputs.
+- `data/curated/*.parquet`: curated Customer 360 dimension-style outputs.
 - `data/marts/*.parquet`: analytical marts for churn risk, retention, LTV, health, support impact, expansion, and segments.
-- `data/bi_exports/*.csv`: BI-consumable flat exports.
-- `data/manifest.json` and `data/customer_analytics_manifest.json`: refresh metadata and lineage.
-- `openapi.json`: checked-in backend contract source for local schema generation.
+- `data/bi_exports/*.csv`: flat exports designed for BI tools.
+- `data/manifest.json` and `data/customer_analytics_manifest.json`: refresh metadata and lineage artifacts.
+- `openapi.json`: checked-in backend contract source for deterministic frontend type generation.
 
 Key marts:
 
@@ -99,7 +105,7 @@ Key marts:
 - `expansion_opportunities`
 - `segment_performance`
 
-The frontend consumes the backend through generated schema types in `frontend/src/lib/api/generated/schema.ts` and centralized hooks in `frontend/src/lib/api/hooks.ts`. Static demo mode is handled in the data layer, not page-local mocks.
+The frontend consumes generated schema types in `frontend/src/lib/api/generated/schema.ts` through centralized hooks. Static demo mode is handled in the data layer rather than page-local mocks.
 
 ## Local Workflow
 
@@ -118,11 +124,7 @@ python scripts/generate_parquet.py --input data/sample_calls.json --agents data/
 python scripts/generate_customer_analytics.py
 ```
 
-Current sample-data defaults:
-
-- agent roster uses deterministic human names
-- call IDs are uppercase in `CALL_0001` format
-- generated outputs remain compatible with the backend API and frontend hooks
+The generated data uses deterministic identifiers and remains compatible with backend contracts and frontend hooks.
 
 ### 3. Run the backend
 
@@ -138,16 +140,14 @@ curl http://localhost:8000/api/healthz
 
 ### 4. Generate frontend API types
 
-Use the live backend when you want to regenerate from the currently running app:
+```bash
+npm --prefix frontend run api:generate:local
+```
+
+To regenerate types from a running FastAPI service instead:
 
 ```bash
 npm --prefix frontend run api:generate
-```
-
-Use the checked-in OpenAPI file when you want a deterministic local regeneration without starting FastAPI:
-
-```bash
-npm --prefix frontend run api:generate:local
 ```
 
 ### 5. Run the frontend
@@ -158,25 +158,21 @@ npm --prefix frontend run dev
 
 Open `http://localhost:3000/dashboard`.
 
-## Static Demo and Publishing
+## Publishing and Static Demo
 
-There are two frontend build paths:
-
-- Local production/static verification:
+For local production verification:
 
 ```bash
 npm --prefix frontend run build
 ```
 
-- GitHub Pages export:
+For GitHub Pages export:
 
 ```bash
 GITHUB_PAGES=true npm --prefix frontend run build
 ```
 
-`main` is the source branch. `gh-pages` is reserved for published static output.
-
-Static demo mode is activated by GitHub Pages detection or by setting `NEXT_PUBLIC_STATIC_DEMO=true`, which makes the frontend serve deterministic fixture-backed responses without requiring FastAPI.
+`main` is the source branch. `gh-pages` is reserved for published static output. Static demo mode is activated by GitHub Pages detection or by setting `NEXT_PUBLIC_STATIC_DEMO=true`, which allows deterministic fixture-backed responses without requiring FastAPI.
 
 ## Validation Commands
 
@@ -194,25 +190,9 @@ npm --prefix frontend run test
 npm --prefix frontend run build
 ```
 
-## Screenshot Workflow
-
-Screenshot capture is manual by design for portfolio-quality output. The required filenames and route coverage live in [docs/screenshots/README.md](docs/screenshots/README.md).
-
-Current checked-in screenshots are limited. Before external sharing, refresh the screenshot set for:
-
-- `/dashboard`
-- `/metrics`
-- `/calls`
-- `/calls/CALL_0001`
-- `/agents`
-- `/customer-analytics`
-- `/customer-analytics/churn-risk`
-- `/customer-analytics/retention`
-- `/customer-analytics/ltv`
-
 ## BI and CRM Analytics Readiness
 
-This project does not claim a live Salesforce, Tableau, or AWS integration. The value is in the modeling and output readiness:
+This project does not claim a live Salesforce, Tableau, or AWS integration. It demonstrates implementation readiness through analytics artifacts and documentation:
 
 - Tableau notes: `bi/tableau/README.md`
 - Salesforce CRM Analytics mapping: `bi/salesforce_crma/dataset_mapping.md`
@@ -220,29 +200,25 @@ This project does not claim a live Salesforce, Tableau, or AWS integration. The 
 - Dashboard wireframe: `bi/salesforce_crma/dashboard_wireframe.md`
 - SAQL examples: `bi/salesforce_crma/saql_examples.md`
 
-That makes the repo credible for analytics-engineering and BI-platform conversations without overstating operational integrations.
-
 ## Repository Map
 
 ```text
 backend/app/                  FastAPI routers, services, schemas, and tests
-data/raw/                     Source customer/account datasets
-data/curated/                 Curated Customer 360 parquet outputs
-data/marts/                   DuckDB mart parquet outputs
+data/raw/                     Source customer and account datasets
+data/curated/                 Curated Customer 360 Parquet outputs
+data/marts/                   DuckDB mart Parquet outputs
 data/bi_exports/              BI-ready CSV exports
 frontend/src/app/             Next.js App Router routes
-frontend/src/figma/           Routed redesign page compositions and UI primitives
+frontend/src/figma/           Routed redesign compositions and UI primitives
 frontend/src/lib/api/         API client, generated schema, hooks, and static demo fixtures
 frontend/src/lib/viz/         DTO-to-UI transformers
 sql/                          DuckDB mart definitions
-scripts/                      Sample generation, parquet generation, analytics generation, OpenAPI export
+scripts/                      Data generation, analytics processing, and OpenAPI export
 bi/                           Tableau and CRM Analytics documentation
-docs/                         Screenshots, architecture notes, demo notes, resume/interview support
-openapi.json                  Checked-in backend contract for deterministic frontend type generation
+docs/                         Architecture, demo, screenshot, resume, and interview support
+openapi.json                  Checked-in backend contract for deterministic type generation
 ```
 
-## Why This Reads Well To Employers
+## Portfolio Relevance
 
-- It shows end-to-end ownership across data generation, ETL, mart modeling, API design, typed frontend integration, and documentation.
-- It is concrete enough to run locally and audit technically.
-- It avoids fake enterprise claims while still showing AWS, BI, and CRM analytics readiness through artifacts and documented workflows.
+This project demonstrates end-to-end ownership across analytics engineering, SQL modeling, API design, typed frontend integration, BI export readiness, and clear technical documentation. It is designed to be run, inspected, and discussed in a software development, analytics engineering, business intelligence, or customer analytics interview.
