@@ -7,8 +7,8 @@ const call: CallRecord = {
   id: "CALL_0123",
   agent_id: "agent_001",
   agent_name: "Nova Carter",
-  customer_region: "EMEA",
-  issue_type: "Billing",
+  customer_region: "eu-west-1",
+  issue_type: "Lambda timeout",
   duration_seconds: 600,
   resolution_status: "resolved",
   started_at: "2025-10-15T04:00:00.000Z",
@@ -20,8 +20,8 @@ const metrics: MetricsResponse = {
     { label: "Total interactions", value: "42", delta: 0, trend: "flat" },
     { label: "Avg handle time", value: "10m", delta: -2, trend: "down" },
   ],
-  issue_breakdown: [{ label: "Billing", value: 20 }],
-  region_breakdown: [{ label: "EMEA", value: 12 }],
+  issue_breakdown: [{ label: "Lambda timeout", value: 20 }],
+  region_breakdown: [{ label: "eu-west-1", value: 12 }],
 };
 
 describe("API DTO transformers", () => {
@@ -31,16 +31,16 @@ describe("API DTO transformers", () => {
     expect(result.id).toBe("CALL_0123");
     expect(result.caseId).toBe("CASE-CALL-0123");
     expect(result.agent).toBe("Nova Carter");
-    expect(result.region).toBe("EMEA");
-    expect(result.issue).toBe("Billing");
+    expect(result.region).toBe("eu-west-1");
+    expect(result.issue).toBe("Lambda timeout");
     expect(result.status).toBe("resolved");
     expect(result.durationSeconds).toBe(600);
   });
 
   it("keeps shared filters serializable for API query keys and request params", () => {
-    const result = buildCallsQueryFromSelection({ window: "7d", region: "EMEA", intent: "Billing" }, 2, 25);
+    const result = buildCallsQueryFromSelection({ window: "7d", region: "eu-west-1", intent: "Lambda timeout" }, 2, 25);
 
-    expect(result).toEqual({ page: 2, per_page: 25, region: "EMEA", issue_type: "Billing" });
+    expect(result).toEqual({ page: 2, per_page: 25, region: "eu-west-1", issue_type: "Lambda timeout" });
   });
 
   it("converts API metrics into existing KPI card props", () => {

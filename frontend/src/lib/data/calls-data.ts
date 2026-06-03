@@ -6,20 +6,20 @@ const agents = Array.from({ length: AGENT_ROSTER_SIZE }, (_, index) => buildAgen
 const regions = ["us-east-1", "us-west-2", "eu-west-1", "eu-central-1", "ap-southeast-1", "ap-northeast-1"];
 const channels: MockCallRecord["channel"][] = ["voice", "chat", "email", "sms"];
 const issues = [
-  "Billing",
-  "Outage",
-  "Refund",
-  "Upgrade",
-  "Security",
-  "Compliance",
-  "Integrations",
-  "Voice Quality",
+  "Lambda timeout",
+  "API Gateway 5xx",
+  "Cold start",
+  "IAM permission",
+  "DynamoDB throttle",
+  "S3 access",
+  "Step Functions",
+  "CloudWatch logs",
 ];
 const priorities: MockCallRecord["priority"][] = ["low", "normal", "high", "urgent"];
 const sentiments: MockCallRecord["sentiment"][] = ["positive", "neutral", "negative"];
 const statuses: MockCallRecord["status"][] = ["resolved", "pending", "escalated"];
 
-const baseDate = Date.UTC(2025, 9, 15, 4, 0, 0);
+const baseDate = Date.UTC(2026, 5, 1, 8, 0, 0);
 
 function isoFromIndex(idx: number) {
   return new Date(baseDate + idx * 37 * 60 * 1000).toISOString();
@@ -28,18 +28,18 @@ function isoFromIndex(idx: number) {
 export const callsDataset: MockCallRecord[] = Array.from({ length: 180 }, (_, index) => {
   const openedAt = isoFromIndex(index);
   const duration = 240 + ((index * 17) % 840);
-  const priority = priorities[index % priorities.length];
-  const status = statuses[index % statuses.length];
+  const priority = priorities[(index * 3 + Math.floor(index / 13)) % priorities.length];
+  const status = statuses[(index * 5 + Math.floor(index / 10)) % statuses.length];
   const firstResponseMinutes = 3 + ((index * 5) % 28);
   const closedAt = new Date(new Date(openedAt).getTime() + duration * 1000).toISOString();
 
   return {
     id: formatCallId(index),
     caseId: `CASE-${2025 + Math.floor(index / 90)}-${(9000 + index).toString()}`,
-    agent: agents[index % agents.length],
-    region: regions[index % regions.length],
-    channel: channels[index % channels.length],
-    issue: issues[index % issues.length],
+    agent: agents[(index * 5) % agents.length],
+    region: regions[(index * 5 + Math.floor(index / 11)) % regions.length],
+    channel: channels[(index * 7 + Math.floor(index / 9)) % channels.length],
+    issue: issues[(index * 3 + Math.floor(index / 7)) % issues.length],
     priority,
     sentiment: sentiments[(index * 3) % sentiments.length],
     status,
