@@ -18,8 +18,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "AWS Serverless Support Analytics",
-  description: "Local-first dashboards backed by FastAPI.",
+  title: "Customer Success Analytics Command Center",
+  description: "Customer 360, churn risk, retention, LTV, and support analytics dashboard.",
 };
 
 export default function RootLayout({
