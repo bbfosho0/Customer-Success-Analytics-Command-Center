@@ -14,6 +14,13 @@ export function filterCalls(records: MockCallRecord[], selection: DemoFilterSele
 
   const latestTimestamp = records.reduce((max, call) => Math.max(max, Date.parse(call.openedAt)), 0);
   const windowMs = rangeToMs[selection.window];
+  if (!latestTimestamp) {
+    return records.filter((call) => {
+      if (selection.region !== "Global" && call.region !== selection.region) return false;
+      if (selection.intent !== "All intents" && call.issue !== selection.intent) return false;
+      return true;
+    });
+  }
   const windowStart = latestTimestamp - windowMs;
 
   return records.filter((call) => {

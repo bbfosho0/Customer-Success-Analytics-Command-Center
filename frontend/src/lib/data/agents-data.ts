@@ -1,7 +1,7 @@
 import type { AgentPerformance } from "./types";
 import { AGENT_ROSTER_SIZE, buildAgentName } from "./identity";
 
-const regions = ["NA", "EMEA", "APAC", "LATAM"];
+const regions = ["us-east-1", "us-west-2", "eu-west-1", "eu-central-1", "ap-southeast-1", "ap-northeast-1"];
 const focuses = [
   ["Billing mastery", "AI co-pilot"],
   ["Voice empathy", "Premium accounts"],

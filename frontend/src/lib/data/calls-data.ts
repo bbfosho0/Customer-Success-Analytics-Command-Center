@@ -3,7 +3,7 @@ import { AGENT_ROSTER_SIZE, buildAgentName, formatCallId } from "./identity";
 
 const agents = Array.from({ length: AGENT_ROSTER_SIZE }, (_, index) => buildAgentName(index));
 
-const regions = ["NA", "EMEA", "APAC", "LATAM", "ANZ"];
+const regions = ["us-east-1", "us-west-2", "eu-west-1", "eu-central-1", "ap-southeast-1", "ap-northeast-1"];
 const channels: MockCallRecord["channel"][] = ["voice", "chat", "email", "sms"];
 const issues = [
   "Billing",

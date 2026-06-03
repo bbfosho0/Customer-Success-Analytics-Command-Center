@@ -165,7 +165,18 @@ export function applyFilters<T extends { region: string; issueType: string; stat
     const ts = new Date(row.startedAt).getTime();
     return Number.isFinite(ts) ? Math.max(max, ts) : max;
   }, 0);
-  const since = (anchor || Date.now()) - cutoffMs;
+  if (!anchor) return rows.filter((r) => {
+    if (f.region !== "all" && r.region !== f.region) return false;
+    if (f.issueType !== "all" && r.issueType !== f.issueType) return false;
+    if (f.status !== "all" && r.status !== f.status) return false;
+    const q = f.search.trim().toLowerCase();
+    if (q) {
+      const hay = `${r.id ?? ""} ${r.agent ?? ""} ${r.customer ?? ""}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  const since = anchor - cutoffMs;
   const q = f.search.trim().toLowerCase();
   return rows.filter((r) => {
     if (f.region !== "all" && r.region !== f.region) return false;

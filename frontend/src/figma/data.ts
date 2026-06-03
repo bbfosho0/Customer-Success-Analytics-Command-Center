@@ -114,7 +114,11 @@ export function toFigmaCalls(records: CallRecord[]): FigmaCall[] {
 export function buildVolumeSeries(calls: FigmaCall[]) {
   const days = 14;
   const buckets: { date: string; calls: number; resolved: number; escalated: number }[] = [];
-  const now = new Date();
+  const anchorMs = calls.reduce((max, call) => {
+    const ts = new Date(call.startedAt).getTime();
+    return Number.isFinite(ts) ? Math.max(max, ts) : max;
+  }, 0);
+  const now = new Date(anchorMs || Date.now());
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date(now);
     d.setDate(now.getDate() - i);
