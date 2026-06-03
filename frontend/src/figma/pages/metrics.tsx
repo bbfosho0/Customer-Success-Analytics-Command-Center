@@ -28,7 +28,17 @@ export function MetricsPage() {
 
   const calls = useMemo(() => toFigmaCalls(callsQuery.data?.data ?? []), [callsQuery.data]);
   const uiCalls = useMemo(() => toUiCallRecords(callsQuery.data?.data ?? []), [callsQuery.data]);
-  const data = useMemo(() => applyFilters(calls, filters), [calls, filters]);
+  const baseCalls = useMemo(() => {
+    const query = filters.search.trim().toLowerCase();
+    return calls.filter((call) => {
+      if (filters.region !== "all" && call.region !== filters.region) return false;
+      if (filters.issueType !== "all" && call.issueType !== filters.issueType) return false;
+      if (filters.status !== "all" && call.status !== filters.status) return false;
+      if (!query) return true;
+      return `${call.id} ${call.agent} ${call.customer} ${call.region} ${call.issueType} ${call.status}`.toLowerCase().includes(query);
+    });
+  }, [calls, filters]);
+  const data = useMemo(() => applyFilters(baseCalls, filters), [baseCalls, filters]);
   const uiFilteredCalls = useMemo(() => {
     const query = filters.search.trim().toLowerCase();
     return uiCalls.filter((call) => {
@@ -41,23 +51,54 @@ export function MetricsPage() {
   }, [uiCalls, filters]);
   const series = useMemo(() => buildVolumeSeries(data), [data]);
   const metricKpis = useMemo(() => {
-    const total = data.length;
-    const resolved = data.filter((c) => c.status === "resolved").length;
-    const escalated = data.filter((c) => c.status === "escalated").length;
-    const avgDuration = total ? Math.round(data.reduce((sum, row) => sum + row.durationSec, 0) / total) : 0;
-    const slaPct = getSlaCompliance(data);
-    const avgCsat = getAvgCsat(data);
-    const fcrPct = getFcrRate(data);
+    const ranges: Record<string, number> = { "24h": 1, "3d": 3, "7d": 7, "30d": 30, "90d": 90 };
+    const windowDays = ranges[filters.dateRange];
+    const windowMs = windowDays * 24 * 60 * 60 * 1000;
+    const currentAnchor = baseCalls.reduce((max, row) => Math.max(max, new Date(row.startedAt).getTime()), 0);
+    const currentSince = currentAnchor - windowMs;
+    const previousStart = currentSince - windowMs;
+    const previousEnd = currentSince;
+
+    const current = baseCalls.filter((row) => {
+      const ts = new Date(row.startedAt).getTime();
+      return ts >= currentSince;
+    });
+    const previous = baseCalls.filter((row) => {
+      const ts = new Date(row.startedAt).getTime();
+      return ts >= previousStart && ts < previousEnd;
+    });
+
+    const total = current.length;
+    const resolved = current.filter((c) => c.status === "resolved").length;
+    const escalated = current.filter((c) => c.status === "escalated").length;
+    const avgDuration = total ? Math.round(current.reduce((sum, row) => sum + row.durationSec, 0) / total) : 0;
+    const slaPct = getSlaCompliance(current);
+    const avgCsat = getAvgCsat(current);
+    const fcrPct = getFcrRate(current);
+
+    const prevTotal = previous.length;
+    const prevResolved = previous.filter((c) => c.status === "resolved").length;
+    const prevEscalated = previous.filter((c) => c.status === "escalated").length;
+    const prevAvgDuration = prevTotal ? Math.round(previous.reduce((sum, row) => sum + row.durationSec, 0) / prevTotal) : 0;
+    const prevSlaPct = getSlaCompliance(previous);
+    const prevAvgCsat = getAvgCsat(previous);
+    const prevFcrPct = getFcrRate(previous);
+
+    const pctDelta = (currentValue: number, previousValue: number) => {
+      if (!Number.isFinite(previousValue) || previousValue === 0) return 0;
+      return ((currentValue - previousValue) / previousValue) * 100;
+    };
+
     return [
-      { label: "Total interactions", value: total.toLocaleString(), delta: 0, descriptor: "filtered dataset" },
-      { label: "Avg handle time", value: fmtDuration(avgDuration), delta: 0, descriptor: "filtered dataset" },
-      { label: "Resolution rate", value: total ? `${((resolved / total) * 100).toFixed(1)}%` : "0.0%", delta: 0, descriptor: "filtered dataset" },
-      { label: "Escalations", value: escalated.toLocaleString(), delta: 0, descriptor: "filtered dataset" },
-      { label: "SLA compliance", value: slaPct.toFixed(1), unit: "%", delta: 0, descriptor: "≤ 10 min handle time" },
-      { label: "Avg CSAT", value: avgCsat.toFixed(1), unit: "/5", delta: 0, descriptor: "filtered dataset" },
-      { label: "FCR rate", value: fcrPct.toFixed(1), unit: "%", delta: 0, descriptor: "first contact resolved" },
+      { label: "Total interactions", value: total.toLocaleString(), delta: pctDelta(total, prevTotal), descriptor: "vs previous equal window" },
+      { label: "Avg handle time", value: fmtDuration(avgDuration), delta: pctDelta(avgDuration, prevAvgDuration), descriptor: "vs previous equal window" },
+      { label: "Resolution rate", value: total ? `${((resolved / total) * 100).toFixed(1)}%` : "0.0%", delta: pctDelta(total ? (resolved / total) * 100 : 0, prevTotal ? (prevResolved / prevTotal) * 100 : 0), descriptor: "vs previous equal window" },
+      { label: "Escalations", value: escalated.toLocaleString(), delta: pctDelta(escalated, prevEscalated), descriptor: "vs previous equal window" },
+      { label: "SLA compliance", value: slaPct.toFixed(1), unit: "%", delta: pctDelta(slaPct, prevSlaPct), descriptor: "vs previous equal window" },
+      { label: "Avg CSAT", value: avgCsat.toFixed(1), unit: "/5", delta: pctDelta(avgCsat, prevAvgCsat), descriptor: "vs previous equal window" },
+      { label: "FCR rate", value: fcrPct.toFixed(1), unit: "%", delta: pctDelta(fcrPct, prevFcrPct), descriptor: "vs previous equal window" },
     ];
-  }, [data]);
+  }, [baseCalls, filters.dateRange]);
   const breakdown = useMemo(() => buildIssueBreakdown(data).slice(0, 6), [data]);
   const regions = useMemo(() => buildRegionPerformance(data).map((r) => ({
     region: r.region,
