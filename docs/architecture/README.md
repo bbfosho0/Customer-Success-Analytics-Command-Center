@@ -1,11 +1,11 @@
-# Architecture Assets
+# Architecture Notes
 
-Place final architecture images here.
+The canonical architecture visuals now live in the Mermaid sections of the top-level [README.md](../../README.md).
 
-Expected files:
+This folder is optional support space for exported diagrams if you want static image versions later. If you add rendered assets, keep them aligned with the three README views:
 
-- `customer-success-command-center.png`
-- `customer-360-data-flow.png`
-- `bi-export-workflow.png`
+- data pipeline
+- API and frontend flow
+- BI export workflow
 
-The README currently uses a Mermaid diagram and references this folder for future visual assets.
+Avoid adding placeholder images here. Only commit rendered diagrams that match the current branch behavior and file layout.

@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, local-first-approach]
+    branches: [main]
 
 jobs:
   backend:
