@@ -1,6 +1,6 @@
 {
   "dataset_name": "customer_analytics",
-  "generated_at": "2026-06-03T10:43:25.186285+00:00",
+  "generated_at": "2026-06-03T10:48:21.895392+00:00",
   "source_files": [
     "data/raw/accounts.csv",
     "data/raw/subscriptions.csv",
