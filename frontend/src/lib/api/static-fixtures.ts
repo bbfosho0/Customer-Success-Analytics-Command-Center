@@ -1,5 +1,6 @@
 import { agentsPerformance } from "../data/agents-data";
 import { callsDataset } from "../data/calls-data";
+import { normalizeCallId } from "../data/identity";
 import type { AgentStats, CallRecord, CallsQuery, CallsResponse, ManifestInfo, MetricsResponse } from "./types";
 
 const STATIC_MANIFEST_GENERATED_AT = "2025-10-15T04:00:00.000Z";
@@ -10,8 +11,8 @@ function normalizeStatus(status: string | null | undefined) {
 
 function toApiCall(record: (typeof callsDataset)[number], index: number): CallRecord {
   return {
-    id: record.id,
-    agent_id: `agent_${(index % agentsPerformance.length) + 1}`,
+    id: normalizeCallId(record.id),
+    agent_id: `agent_${String((index % agentsPerformance.length) + 1).padStart(3, "0")}`,
     agent_name: record.agent,
     customer_region: record.region,
     issue_type: record.issue,
@@ -82,13 +83,13 @@ export function getStaticCalls(filters: CallsQuery = {}): CallsResponse {
 }
 
 export function getStaticCall(callId: string) {
-  const record = staticCalls.find((call) => call.id === callId);
+  const record = staticCalls.find((call) => normalizeCallId(call.id) === normalizeCallId(callId));
   return record ? { data: record } : null;
 }
 
 export function getStaticAgents(): AgentStats[] {
   return agentsPerformance.map((agent, index) => {
-    const agentId = `agent_${index + 1}`;
+    const agentId = `agent_${String(index + 1).padStart(3, "0")}`;
     const calls = staticCalls.filter((call) => call.agent_id === agentId);
     const totalCalls = calls.length;
     const resolvedCalls = calls.filter((call) => normalizeStatus(call.resolution_status) === "resolved").length;
@@ -111,7 +112,7 @@ export function getStaticAgents(): AgentStats[] {
 
 function breakdown(rows: CallRecord[], key: "issue_type" | "customer_region") {
   const counts = rows.reduce<Record<string, number>>((acc, row) => {
-    const label = row[key] || "Unknown";
+    const label = row[key] || (key === "customer_region" ? "Unknown region" : "Unassigned");
     acc[label] = (acc[label] ?? 0) + 1;
     return acc;
   }, {});

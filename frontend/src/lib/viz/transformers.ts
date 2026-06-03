@@ -1,5 +1,6 @@
 import type { AgentStats, CallRecord, CallsQuery, MetricsResponse } from "../api/types";
 import type { DemoFilterSelection } from "../state/demoFilters";
+import { normalizeCallId } from "../data/identity";
 import type {
   AgentPerformance,
   DashboardKpi,
@@ -49,15 +50,16 @@ export function buildCallsQueryFromSelection(selection: DemoFilterSelection, pag
 }
 
 export function toUiCallRecord(record: CallRecord): MockCallRecord {
-  const seed = hashString(record.id);
+  const id = normalizeCallId(record.id);
+  const seed = hashString(id);
   const openedAt = record.started_at ?? new Date(0).toISOString();
   const closedAt = new Date(Date.parse(openedAt) + record.duration_seconds * 1000).toISOString();
   const status = normalizeStatus(record.resolution_status);
   const firstResponseMinutes = 3 + (seed % 28);
 
   return {
-    id: record.id,
-    caseId: record.id.toUpperCase().startsWith("CASE-") ? record.id : `CASE-${record.id.replace(/[^a-z0-9]/gi, "-").toUpperCase()}`,
+    id,
+    caseId: id.startsWith("CASE-") ? id : `CASE-${id.replace(/[^a-z0-9]/gi, "-").toUpperCase()}`,
     agent: record.agent_name ?? record.agent_id,
     region: record.customer_region,
     channel: channels[seed % channels.length],

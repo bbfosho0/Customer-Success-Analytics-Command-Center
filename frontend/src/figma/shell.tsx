@@ -68,14 +68,14 @@ export function AppShell({
           collapsed ? "w-[56px]" : "w-[220px]",
         )}
       >
-        <div className="flex items-center gap-2 border-b border-border px-3 h-12">
+          <div className="flex items-center gap-2 border-b border-border px-3 h-12">
           <div className="grid h-6 w-6 place-items-center rounded-sm bg-foreground text-background text-[11px] tracking-tight">
             AS
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <p className="truncate text-[13px] text-foreground">Support Analytics</p>
-              <p className="truncate text-[10px] text-muted-foreground">AWS Serverless</p>
+              <p className="break-words text-[13px] leading-tight text-foreground">Support Analytics</p>
+              <p className="break-words text-[10px] leading-tight text-muted-foreground">AWS Serverless</p>
             </div>
           )}
         </div>
@@ -97,7 +97,7 @@ export function AppShell({
                 title={collapsed ? item.label : undefined}
               >
                 <Icon className={cn("h-4 w-4 shrink-0", active && "text-accent")} />
-                {!collapsed && <span className="truncate">{item.label}</span>}
+                {!collapsed && <span className="break-words leading-tight">{item.label}</span>}
               </button>
             );
           })}
@@ -216,15 +216,17 @@ export function PageHeader({
   title,
   description,
   actions,
+  titleClassName,
 }: {
   title: string;
   description?: string;
   actions?: React.ReactNode;
+  titleClassName?: string;
 }) {
   return (
-    <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 className="text-[18px] tracking-tight">{title}</h1>
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+      <div className="min-w-0">
+        <h1 className={cn("font-display break-words text-[18px] font-semibold leading-tight tracking-tight", titleClassName)}>{title}</h1>
         {description && <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>}
       </div>
       {actions && <div className="flex items-center gap-2">{actions}</div>}

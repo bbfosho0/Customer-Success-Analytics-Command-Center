@@ -69,7 +69,7 @@ export function MetricsPage() {
       <PageHeader title="Metrics" description="Drill into volume, resolution, and regional performance." />
       <GlobalFilters value={filters} onChange={setFilters} count={data.length} total={callsQuery.data?.meta.total ?? data.length} />
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 2xl:grid-cols-7">
         {metricKpis.map((kpi) => (
           <KpiCard key={kpi.label} label={kpi.label} value={kpi.value} delta={kpi.delta} hint={kpi.descriptor} />
         ))}
@@ -126,7 +126,7 @@ export function MetricsPage() {
                 <BarChart data={breakdown} layout="vertical" margin={{ top: 4, right: 12, left: -8, bottom: 0 }}>
                   <CartesianGrid key="grid" stroke="var(--border)" strokeDasharray="2 3" horizontal={false} />
                   <XAxis key="x-axis" type="number" tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                  <YAxis key="y-axis" dataKey="issue" type="category" width={120} tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis key="y-axis" dataKey="issue" type="category" width={140} tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
                   <Tooltip key="tooltip" contentStyle={chartTooltipStyle} cursor={{ fill: "var(--muted)" }} />
                   <Bar key="bar-count" dataKey="count" fill="var(--chart-2)" radius={[0, 2, 2, 0]} barSize={10} />
                 </BarChart>
@@ -167,7 +167,7 @@ export function MetricsPage() {
               const pct = getSlaCompliance(subset);
               return (
                 <div key={item.issue} className="flex items-center gap-3">
-                  <span className="w-[160px] shrink-0 truncate text-[12px] text-muted-foreground">{item.issue}</span>
+                  <span className="min-w-0 flex-1 whitespace-normal break-words text-[12px] text-muted-foreground">{item.issue}</span>
                   <div className="flex-1">
                     <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
                       <div

@@ -172,9 +172,18 @@ npm --prefix frontend install
 ### 2. Generate Support and Customer Analytics Data
 
 ```bash
+python scripts/generate_support_sample.py
 python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
 python scripts/generate_customer_analytics.py
 ```
+
+The generated support sample now uses:
+
+- unique human agent names in `data/agents.csv`
+- uppercase call IDs in the `CALL_0001` format
+- explicit fallback labels such as `Unassigned` and `Unknown region` instead of vague `Unknown`
+
+The local refresh workflow is otherwise unchanged.
 
 ### 3. Run Backend
 
@@ -237,6 +246,8 @@ http://localhost:3000/customer-analytics/retention
 - **/customer-analytics/retention**: Retention cohort heatmap, LTV by segment chart, and a segment performance summary list.
 - **/customer-analytics/ltv**: Focused LTV by segment and plan tier visualization.
 - **/settings**: Refresh controls, configuration toggles, and an audit trail of recent operations.
+
+Across the UI, long labels are designed to wrap instead of clipping at common browser zoom levels, and call IDs use a dedicated monospace style.
 
 ## Screenshots
 

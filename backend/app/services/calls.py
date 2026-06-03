@@ -52,7 +52,8 @@ async def list_calls(filters: CallFilters) -> tuple[list[CallRecord], int]:
 async def get_call(call_id: str) -> CallRecord | None:
     """Find a single call by ID."""
 
+    needle = call_id.lower()
     for row in load_call_rows():
-        if str(row.get("id")) == call_id:
+        if str(row.get("id", "")).lower() == needle:
             return CallRecord.model_validate(row)
     return None

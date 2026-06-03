@@ -93,7 +93,7 @@ export function SettingsPage({
             label="Path"
             value={
               <span className="flex items-center gap-1.5">
-                <span className="truncate font-mono text-[11px]">{manifest?.path ?? "—"}</span>
+                <span className="break-all font-mono text-[11px]">{manifest?.path ?? "—"}</span>
                 {manifest?.path && (
                   <button className="rounded p-0.5 text-muted-foreground hover:bg-muted" onClick={() => navigator.clipboard?.writeText(manifest.path)}>
                     <Copy className="h-3 w-3" />
@@ -107,7 +107,7 @@ export function SettingsPage({
             label="Hash"
             value={
               <span className="flex items-center gap-1.5">
-                <span className="truncate font-mono text-[11px]">{manifest?.hash ?? "—"}</span>
+                <span className="break-all font-mono text-[11px]">{manifest?.hash ?? "—"}</span>
                 {manifest?.hash && (
                   <button className="rounded p-0.5 text-muted-foreground hover:bg-muted" onClick={() => navigator.clipboard?.writeText(manifest.hash)}>
                     <Copy className="h-3 w-3" />

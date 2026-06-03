@@ -32,11 +32,42 @@ ISSUES = [
 
 STATUSES = ["resolved", "escalated", "pending", "open"]
 
+AGENT_NAMES = [
+    "Aaliyah Alvarez",
+    "Adrian Bennett",
+    "Bella Chen",
+    "Caleb Desai",
+    "Danica El-Sayed",
+    "Elias Fletcher",
+    "Farah Gupta",
+    "Gianna Hassan",
+    "Hugo Iqbal",
+    "Imani Johnson",
+    "Jalen Khan",
+    "Keira Laurent",
+    "Lucian Morales",
+    "Mireya Nakamura",
+    "Nadia Osei",
+    "Omar Patel",
+    "Priya Quinn",
+    "Rowan Rivera",
+    "Samir Silva",
+    "Talia Thompson",
+    "Valeria Ueda",
+    "Wen Vasquez",
+    "Xavier Williams",
+    "Yara Zhao",
+    "Zuri Anderson",
+    "Amir Bose",
+    "Leila Chowdhury",
+    "Noah Diaz",
+]
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate deterministic support sample dataset.")
-    parser.add_argument("--calls", type=int, default=360, help="Number of support calls.")
-    parser.add_argument("--agents", type=int, default=24, help="Number of agents.")
+    parser.add_argument("--calls", type=int, default=420, help="Number of support calls.")
+    parser.add_argument("--agents", type=int, default=28, help="Number of agents.")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for deterministic output.")
     parser.add_argument("--calls-output", type=Path, default=Path("data/sample_calls.json"))
     parser.add_argument("--agents-output", type=Path, default=Path("data/agents.csv"))
@@ -44,11 +75,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def generate_agents(count: int, rng: random.Random) -> list[dict[str, object]]:
-    first_names = ["Alex", "Jordan", "Sam", "Taylor", "Morgan", "Riley", "Casey", "Avery", "Quinn", "Skyler"]
-    last_names = ["Patel", "Nguyen", "Chen", "Rivera", "Kim", "Lopez", "Johnson", "Brown", "Miller", "Davis"]
     agents = []
     for idx in range(count):
-        name = f"{first_names[idx % len(first_names)]} {last_names[(idx * 3) % len(last_names)]}"
+        if idx < len(AGENT_NAMES):
+            name = AGENT_NAMES[idx]
+        else:
+            name = f"{AGENT_NAMES[idx % len(AGENT_NAMES)]} {idx // len(AGENT_NAMES) + 2}"
         agents.append(
             {
                 "agent_id": f"agent_{idx+1:03d}",
@@ -70,7 +102,7 @@ def generate_calls(count: int, agents: list[dict[str, object]], rng: random.Rand
         status = rng.choices(STATUSES, weights=[58, 16, 20, 6], k=1)[0]
         calls.append(
             {
-                "id": f"call_{idx+1:04d}",
+                "id": f"CALL_{idx+1:04d}",
                 "agent_id": agent["agent_id"],
                 "customer_region": REGIONS[(idx + rng.randint(0, 3)) % len(REGIONS)],
                 "issue_type": rng.choices(ISSUES, weights=[20, 16, 14, 12, 12, 10, 8, 8], k=1)[0],

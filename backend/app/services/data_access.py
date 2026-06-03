@@ -38,7 +38,7 @@ def _load_sample_records() -> list[dict[str, Any]]:
         records.append(
             {
                 **record,
-                "agent_name": agent.get("name", record["agent_id"]),
+                "agent_name": agent.get("name") or "Unassigned agent",
                 "skill_rating": float(agent.get("skill_rating", 0) or 0),
             }
         )

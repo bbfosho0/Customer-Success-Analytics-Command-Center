@@ -23,8 +23,8 @@ export function KpiCard({
   const DirIcon = dir === "up" ? ArrowUp : dir === "down" ? ArrowDown : Minus;
   return (
     <div className="rounded-md border border-border bg-card p-4">
-      <div className="flex items-baseline justify-between gap-2">
-        <span className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</span>
+      <div className="flex min-w-0 flex-wrap items-baseline justify-between gap-2">
+        <span className="min-w-0 break-words text-[11px] uppercase tracking-wider text-muted-foreground">{label}</span>
         {delta !== undefined && (
           <span className={cn("inline-flex items-center gap-0.5 text-[11px] tabular-nums", dirColor)}>
             <DirIcon className="h-3 w-3" />
@@ -32,11 +32,11 @@ export function KpiCard({
           </span>
         )}
       </div>
-      <div className="mt-1 flex items-baseline gap-1">
+      <div className="mt-1 flex min-w-0 items-baseline gap-1">
         <span className="text-[22px] tabular-nums tracking-tight text-foreground">{value}</span>
         {unit && <span className="text-xs text-muted-foreground">{unit}</span>}
       </div>
-      {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
+      {hint && <p className="mt-1 break-words text-xs leading-relaxed text-muted-foreground">{hint}</p>}
     </div>
   );
 }
@@ -105,12 +105,12 @@ export function SectionCard({
   return (
     <div className={cn("rounded-md border border-border bg-card", className)}>
       {(title || action) && (
-        <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2.5">
-          <div>
-            {title && <h3 className="text-[13px] text-foreground">{title}</h3>}
-            {description && <p className="text-xs text-muted-foreground">{description}</p>}
+        <div className="flex min-w-0 items-start justify-between gap-3 border-b border-border px-4 py-2.5">
+          <div className="min-w-0">
+            {title && <h3 className="break-words text-[13px] font-medium leading-snug text-foreground">{title}</h3>}
+            {description && <p className="break-words text-xs leading-relaxed text-muted-foreground">{description}</p>}
           </div>
-          {action}
+          <div className="shrink-0">{action}</div>
         </div>
       )}
       <div className="min-w-0 p-4">{children}</div>
@@ -125,7 +125,7 @@ export function EmptyState({ title, body, icon: Icon = Inbox }: { title: string;
         <Icon className="h-4 w-4" />
       </div>
       <p className="text-sm text-foreground">{title}</p>
-      {body && <p className="max-w-sm text-xs text-muted-foreground">{body}</p>}
+      {body && <p className="max-w-sm break-words text-xs leading-relaxed text-muted-foreground">{body}</p>}
     </div>
   );
 }
@@ -174,8 +174,8 @@ export function InsightItem({
     <div className={cn("flex gap-2.5 rounded-md border px-3 py-2.5", cls)}>
       <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
       <div className="min-w-0">
-        <p className="text-[13px] text-foreground">{title}</p>
-        <p className="mt-0.5 text-xs text-muted-foreground">{body}</p>
+        <p className="break-words text-[13px] leading-snug text-foreground">{title}</p>
+        <p className="mt-0.5 break-words text-xs leading-relaxed text-muted-foreground">{body}</p>
       </div>
     </div>
   );

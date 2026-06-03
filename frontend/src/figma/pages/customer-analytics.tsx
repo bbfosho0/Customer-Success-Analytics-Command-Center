@@ -156,7 +156,7 @@ export function CustomerAnalyticsPage({ initialTab = "overview" }: { initialTab?
 
       {tab === "overview" && (
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 2xl:grid-cols-5">
             <KpiCard label="Total accounts" value={healthSummary.total} />
             <KpiCard label="Avg health score" value={avgHealth} unit="/100" delta={2.1} />
             <KpiCard label="At-risk MRR" value={fmtMrr(atRiskMrr)} delta={-3.2} hint="Critical + At Risk" />
@@ -228,8 +228,12 @@ export function CustomerAnalyticsPage({ initialTab = "overview" }: { initialTab?
                         <td className="px-4 py-2">
                           <HealthBadge score={c.health_score} risk={c.risk_level} />
                         </td>
-                        <td className="max-w-[130px] truncate px-4 py-2 text-muted-foreground">{c.main_risk_driver}</td>
-                        <td className="max-w-[120px] truncate px-4 py-2 text-muted-foreground">{c.recommended_action}</td>
+                        <td className="px-4 py-2 text-muted-foreground">
+                          <span className="block min-w-0 whitespace-normal break-words">{c.main_risk_driver}</span>
+                        </td>
+                        <td className="px-4 py-2 text-muted-foreground">
+                          <span className="block min-w-0 whitespace-normal break-words">{c.recommended_action}</span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -252,10 +256,10 @@ export function CustomerAnalyticsPage({ initialTab = "overview" }: { initialTab?
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
                           <RiskDot risk={c.risk_level} />
-                          <span className="truncate text-[13px]">{c.account_name}</span>
+                          <span className="break-words text-[13px]">{c.account_name}</span>
                           <span className="shrink-0 text-[10px] text-muted-foreground">{getCsmName(c.account_id)}</span>
                         </div>
-                        <p className="mt-0.5 text-[11px] text-muted-foreground">{c.recommended_action}</p>
+                        <p className="mt-0.5 whitespace-normal break-words text-[11px] text-muted-foreground">{c.recommended_action}</p>
                       </div>
                       <span className="shrink-0 tabular-nums text-[11px] text-muted-foreground">{fmtMrr(c.mrr)}</span>
                     </div>
@@ -346,9 +350,13 @@ export function CustomerAnalyticsPage({ initialTab = "overview" }: { initialTab?
                         <td className="px-4 py-2">
                           <HealthBadge score={c.health_score} risk={c.risk_level} />
                         </td>
-                        <td className="max-w-[130px] truncate px-4 py-2 text-muted-foreground">{c.main_risk_driver}</td>
+                        <td className="px-4 py-2 text-muted-foreground">
+                          <span className="block min-w-0 whitespace-normal break-words">{c.main_risk_driver}</span>
+                        </td>
                         <td className="px-4 py-2 text-muted-foreground">{getCsmName(c.account_id)}</td>
-                        <td className="max-w-[120px] truncate px-4 py-2 text-muted-foreground">{c.recommended_action}</td>
+                        <td className="px-4 py-2 text-muted-foreground">
+                          <span className="block min-w-0 whitespace-normal break-words">{c.recommended_action}</span>
+                        </td>
                       </tr>
                     ))}
                 </tbody>

@@ -16,6 +16,12 @@ import {
 import { ChevronRight } from "lucide-react";
 
 import {
+  buildIssueBreakdown,
+  buildRegionPerformance,
+  buildVolumeSeries,
+  getAvgCsat,
+  getFcrRate,
+  getSlaCompliance,
   fmtDuration,
   fmtRelative,
   toFigmaCalls,
@@ -28,9 +34,6 @@ import { proactiveInsights } from "../../lib/data/dashboard-data";
 import {
   buildCallsQueryFromSelection,
   buildDashboardKpisFromMetrics,
-  buildIssueBreakdownFromMetrics,
-  buildRegionPerformanceFromMetrics,
-  buildVolumeSeriesFromCalls,
 } from "../../lib/viz/transformers";
 
 const MAX_CALLS = 200;
@@ -45,26 +48,78 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
 
   const calls = useMemo(() => toFigmaCalls(callsQuery.data?.data ?? []), [callsQuery.data]);
   const filtered = useMemo(() => applyFilters(calls, filters), [calls, filters]);
-  const kpis = useMemo(
-    () => (metricsQuery.data ? buildDashboardKpisFromMetrics(metricsQuery.data) : []),
-    [metricsQuery.data],
+  const comparableRows = useMemo(
+    () =>
+      calls.filter((r) => {
+        if (filters.region !== "all" && r.region !== filters.region) return false;
+        if (filters.issueType !== "all" && r.issueType !== filters.issueType) return false;
+        if (filters.status !== "all" && r.status !== filters.status) return false;
+        const q = filters.search.trim().toLowerCase();
+        if (!q) return true;
+        const hay = `${r.id} ${r.agent} ${r.customer}`.toLowerCase();
+        return hay.includes(q);
+      }),
+    [calls, filters],
   );
+  const kpis = useMemo(() => {
+    if (!filtered.length) return metricsQuery.data ? buildDashboardKpisFromMetrics(metricsQuery.data) : [];
+    const resolved = filtered.filter((c) => c.status === "resolved").length;
+    const escalated = filtered.filter((c) => c.status === "escalated").length;
+    const avgDuration = Math.round(filtered.reduce((sum, row) => sum + row.durationSec, 0) / filtered.length);
+
+    const rangeMs = { "24h": 1, "3d": 3, "7d": 7, "30d": 30, "90d": 90 }[filters.dateRange] * 24 * 60 * 60 * 1000;
+    const anchor = comparableRows.reduce((max, row) => Math.max(max, new Date(row.startedAt).getTime()), 0) || Date.now();
+    const currentStart = anchor - rangeMs;
+    const previousStart = currentStart - rangeMs;
+    const previousEnd = currentStart;
+
+    const previousRows = comparableRows.filter((row) => {
+      const ts = new Date(row.startedAt).getTime();
+      return ts >= previousStart && ts < previousEnd;
+    });
+    const prevResolved = previousRows.filter((c) => c.status === "resolved").length;
+    const prevEscalated = previousRows.filter((c) => c.status === "escalated").length;
+    const prevAvgDuration = previousRows.length
+      ? Math.round(previousRows.reduce((sum, row) => sum + row.durationSec, 0) / previousRows.length)
+      : 0;
+
+    const pctDelta = (current: number, previous: number) => {
+      if (!Number.isFinite(previous) || previous === 0) return 0;
+      return ((current - previous) / previous) * 100;
+    };
+
+    const resolutionRate = (resolved / filtered.length) * 100;
+    const prevResolutionRate = previousRows.length ? (prevResolved / previousRows.length) * 100 : 0;
+
+    return [
+      { label: "Total interactions", value: filtered.length.toLocaleString(), delta: pctDelta(filtered.length, previousRows.length), descriptor: "vs previous equal window", trend: "flat", category: "stability", sparkline: [], goal: "n/a" },
+      { label: "Avg handle time", value: fmtDuration(avgDuration), delta: pctDelta(avgDuration, prevAvgDuration), descriptor: "vs previous equal window", trend: "flat", category: "efficiency", sparkline: [], goal: "n/a" },
+      { label: "Resolution rate", value: `${resolutionRate.toFixed(1)}%`, delta: pctDelta(resolutionRate, prevResolutionRate), descriptor: "vs previous equal window", trend: "flat", category: "stability", sparkline: [], goal: "n/a" },
+      { label: "Escalations", value: escalated.toLocaleString(), delta: pctDelta(escalated, prevEscalated), descriptor: "vs previous equal window", trend: "flat", category: "efficiency", sparkline: [], goal: "n/a" },
+    ];
+  }, [filtered, metricsQuery.data, filters.dateRange, comparableRows]);
   const series = useMemo(
-    () => buildVolumeSeriesFromCalls(callsQuery.data?.data ?? []).map((point) => ({
-      date: point.date,
-      calls: point.total,
-      forecast: point.forecast,
-    })),
-    [callsQuery.data],
+    () =>
+      buildVolumeSeries(filtered).map((point) => ({
+        date: point.date,
+        calls: point.calls,
+        forecast: Math.max(0, point.calls + 1),
+      })),
+    [filtered],
   );
-  const breakdown = useMemo(
-    () => (metricsQuery.data ? buildIssueBreakdownFromMetrics(metricsQuery.data) : []),
-    [metricsQuery.data],
-  );
-  const regions = useMemo(
-    () => (metricsQuery.data ? buildRegionPerformanceFromMetrics(metricsQuery.data) : []),
-    [metricsQuery.data],
-  );
+  const breakdown = useMemo(() => buildIssueBreakdown(filtered).slice(0, 6), [filtered]);
+  const regions = useMemo(() => {
+    const rows = buildRegionPerformance(filtered);
+    return rows.map((r) => ({
+      region: r.region,
+      volume: r.total,
+      sla: r.resolvedRate * 100,
+      csat: getAvgCsat(filtered.filter((c) => c.region === r.region)),
+      escalations: r.escalated,
+      fcr: getFcrRate(filtered.filter((c) => c.region === r.region)),
+      slaCompliance: getSlaCompliance(filtered.filter((c) => c.region === r.region)),
+    }));
+  }, [filtered]);
   const latest = filtered.slice(0, 8);
 
   return (
@@ -75,7 +130,7 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
       />
       <GlobalFilters value={filters} onChange={setFilters} count={filtered.length} total={callsQuery.data?.meta.total ?? filtered.length} />
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 2xl:grid-cols-7">
         {kpis.map((kpi) => (
           <KpiCard key={kpi.label} label={kpi.label} value={kpi.value} delta={kpi.delta} hint={kpi.descriptor} />
         ))}
@@ -115,7 +170,7 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
               <BarChart data={breakdown} layout="vertical" margin={{ top: 4, right: 12, left: -8, bottom: 0 }}>
                 <CartesianGrid key="grid" stroke="var(--border)" strokeDasharray="2 3" horizontal={false} />
                 <XAxis key="x-axis" type="number" tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
-                <YAxis key="y-axis" dataKey="issue" type="category" width={110} tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
+                <YAxis key="y-axis" dataKey="issue" type="category" width={130} tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
                 <Tooltip key="tooltip" contentStyle={chartTooltipStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar key="bar-count" dataKey="count" fill="var(--chart-2)" radius={[0, 2, 2, 0]} barSize={10} />
               </BarChart>
@@ -186,10 +241,10 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
                     onClick={() => onOpenCall(c.id)}
                     className="cursor-pointer border-b border-border last:border-0 hover:bg-muted/60"
                   >
-                    <td className="px-4 py-2 font-mono text-[11px] text-foreground">{c.id}</td>
-                    <td className="px-4 py-2">{c.customer}</td>
+                    <td className="px-4 py-2 text-[11px] text-foreground"><span className="call-id">{c.id}</span></td>
+                    <td className="px-4 py-2 break-words">{c.customer}</td>
                     <td className="px-4 py-2 tabular-nums text-muted-foreground">{c.region}</td>
-                    <td className="px-4 py-2">{c.issueType}</td>
+                    <td className="px-4 py-2 whitespace-normal break-words">{c.issueType}</td>
                     <td className="px-4 py-2 tabular-nums">{fmtDuration(c.durationSec)}</td>
                     <td className="px-4 py-2"><StatusBadge status={c.status} /></td>
                     <td className="px-4 py-2 text-muted-foreground">{fmtRelative(c.startedAt)}</td>

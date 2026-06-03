@@ -9,7 +9,8 @@ from .data_access import load_call_rows
 
 
 def _breakdown(rows: list[dict[str, object]], key: str) -> list[BreakdownMetric]:
-    counts = Counter(str(row.get(key, "Unknown")) for row in rows)
+    fallback = "Unknown region" if key == "customer_region" else "Unassigned"
+    counts = Counter(str(row.get(key, fallback)) for row in rows)
     return [BreakdownMetric(label=label, value=float(value)) for label, value in counts.most_common()]
 
 

@@ -1,13 +1,13 @@
 account_id,account_name,restaurant_type,region,segment,plan_tier,status,current_mrr,mrr,avg_active_days,orders_processed,support_calls,escalated_calls,failed_payments,open_pipeline_amount,weighted_pipeline_amount,health_score,risk_level,main_risk_driver,recommended_action,customer_success_manager
-acct_008,Prime Plate Hospitality,Fine Dining,North America,Enterprise,Enterprise,active,18500.0,18500.0,29.5,49850,1,0,0,86000,70520.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,Avery Morgan
-acct_011,Cedar Table Group,Casual Dining,North America,Enterprise,Enterprise,active,16200.0,16200.0,22.0,31900,1,0,0,190000,129200.00000000001,81.1,Healthy,CSM risk note,Advance expansion opportunity,Avery Morgan
-acct_002,Harbor Sushi Group,Fine Dining,North America,Enterprise,Enterprise,active,14200.0,14200.0,27.5,38150,1,0,0,165000,118800.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,Avery Morgan
-acct_009,Beacon Burger Co,Quick Service,North America,Mid-Market,Pro,active,4700.0,4700.0,22.0,8240,1,0,0,22000,13420.0,77.0,Watch,Healthy usage and engagement,Advance expansion opportunity,Jordan Ellis
-acct_001,Northstar Bistro,Fast Casual,North America,Mid-Market,Pro,active,4200.0,4200.0,23.0,8050,1,0,0,18000,9900.0,78.2,Watch,Healthy usage and engagement,Continue regular success cadence,Jordan Ellis
+acct_008,Prime Plate Hospitality,Fine Dining,North America,Enterprise,Enterprise,active,18500.0,18500.0,29.5,49850,0,0,0,86000,70520.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,Avery Morgan
+acct_011,Cedar Table Group,Casual Dining,North America,Enterprise,Enterprise,active,16200.0,16200.0,22.0,31900,0,0,0,190000,129200.00000000001,81.1,Healthy,CSM risk note,Advance expansion opportunity,Avery Morgan
+acct_002,Harbor Sushi Group,Fine Dining,North America,Enterprise,Enterprise,active,14200.0,14200.0,27.5,38150,0,0,0,165000,118800.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,Avery Morgan
+acct_009,Beacon Burger Co,Quick Service,North America,Mid-Market,Pro,active,4700.0,4700.0,22.0,8240,0,0,0,22000,13420.0,77.0,Watch,Healthy usage and engagement,Advance expansion opportunity,Jordan Ellis
+acct_001,Northstar Bistro,Fast Casual,North America,Mid-Market,Pro,active,4200.0,4200.0,23.0,8050,0,0,0,18000,9900.0,78.2,Watch,Healthy usage and engagement,Continue regular success cadence,Jordan Ellis
 acct_006,Metro Noodle House,Quick Service,Asia Pacific,Mid-Market,Pro,paused,3900.0,3900.0,6.0,900,0,0,1,0,0.0,35.9,Critical,Payment failure,Schedule CSM risk review and adoption plan,Taylor Kim
 acct_012,Pacific Poke Labs,Fast Casual,Asia Pacific,Mid-Market,Pro,active,3600.0,3600.0,19.5,5750,0,0,0,15000,7200.0,73.7,Watch,Healthy usage and engagement,Continue regular success cadence,Taylor Kim
-acct_003,Green Fork Kitchen,Fast Casual,Europe,SMB,Starter,active,1200.0,1200.0,12.5,1740,1,1,1,12000,4200.0,15.6,Critical,Payment failure,Schedule CSM risk review and adoption plan,Riley Patel
-acct_010,Luna Bakery Collective,Cafe,Europe,SMB,Starter,trial,1000.0,1000.0,11.0,1360,1,1,1,0,0.0,15.8,Critical,Payment failure,Schedule CSM risk review and adoption plan,Riley Patel
+acct_003,Green Fork Kitchen,Fast Casual,Europe,SMB,Starter,active,1200.0,1200.0,12.5,1740,0,0,1,12000,4200.0,40.6,At Risk,Payment failure,Schedule CSM risk review and adoption plan,Riley Patel
+acct_010,Luna Bakery Collective,Cafe,Europe,SMB,Starter,trial,1000.0,1000.0,11.0,1360,0,0,1,0,0.0,40.8,At Risk,Payment failure,Schedule CSM risk review and adoption plan,Riley Patel
 acct_005,Sunrise Taqueria,Quick Service,Latin America,SMB,Starter,active,900.0,900.0,17.0,2820,0,0,0,6400,2688.0,69.4,Watch,Healthy usage and engagement,Continue regular success cadence,Casey Nguyen
-acct_007,Olive Branch Cafe,Cafe,Europe,SMB,Starter,churned,0.0,1100.0,1.0,120,1,1,0,0,0.0,3.5,Critical,Low product adoption,Schedule CSM risk review and adoption plan,Riley Patel
-acct_004,Copper Kettle BBQ,Casual Dining,North America,Mid-Market,Pro,churned,0.0,5100.0,2.5,340,1,0,0,0,0.0,30.1,Critical,Low product adoption,Schedule CSM risk review and adoption plan,Jordan Ellis
+acct_007,Olive Branch Cafe,Cafe,Europe,SMB,Starter,churned,0.0,1100.0,1.0,120,0,0,0,0,0.0,28.5,Critical,Low product adoption,Schedule CSM risk review and adoption plan,Riley Patel
+acct_004,Copper Kettle BBQ,Casual Dining,North America,Mid-Market,Pro,churned,0.0,5100.0,2.5,340,0,0,0,0,0.0,30.1,Critical,Low product adoption,Schedule CSM risk review and adoption plan,Jordan Ellis

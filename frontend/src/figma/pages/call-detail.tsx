@@ -70,6 +70,7 @@ export function CallDetailPage({ id, onBack, onOpen }: { id: string; onBack: () 
 
       <PageHeader
         title={call.id}
+        titleClassName="call-id"
         description={call.summary}
         actions={
           <>
@@ -164,8 +165,8 @@ export function CallDetailPage({ id, onBack, onOpen }: { id: string; onBack: () 
                   {agent.name.split(" ").map((n) => n[0]).join("")}
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-[13px]">{agent.name}</p>
-                  <p className="text-[11px] font-mono text-muted-foreground">{agent.agent_id} · {agent.region}</p>
+                  <p className="break-words text-[13px]">{agent.name}</p>
+                  <p className="text-[11px] text-muted-foreground"><span className="call-id">{agent.agent_id}</span> · {agent.region}</p>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-2 text-center text-xs">
@@ -213,8 +214,8 @@ export function CallDetailPage({ id, onBack, onOpen }: { id: string; onBack: () 
               <tbody>
                 {similar.map((c) => (
                   <tr key={c.id} onClick={() => onOpen(c.id)} className="cursor-pointer border-b border-border last:border-0 hover:bg-muted/60">
-                    <td className="px-4 py-2 font-mono text-[11px]">{c.id}</td>
-                    <td className="px-4 py-2">{c.agent}</td>
+                    <td className="px-4 py-2 text-[11px]"><span className="call-id">{c.id}</span></td>
+                    <td className="px-4 py-2 break-words">{c.agent}</td>
                     <td className="px-4 py-2 tabular-nums text-muted-foreground">{c.region}</td>
                     <td className="px-4 py-2 tabular-nums">{fmtDuration(c.durationSec)}</td>
                     <td className="px-4 py-2"><StatusBadge status={c.status} /></td>

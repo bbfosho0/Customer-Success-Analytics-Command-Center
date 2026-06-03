@@ -4,8 +4,8 @@ import type { CallRecord, MetricsResponse } from "../../lib/api/types";
 import { buildCallsQueryFromSelection, buildDashboardKpisFromMetrics, toUiCallRecord } from "../../lib/viz/transformers";
 
 const call: CallRecord = {
-  id: "call_123",
-  agent_id: "agent_1",
+  id: "CALL_0123",
+  agent_id: "agent_001",
   agent_name: "Nova Carter",
   customer_region: "EMEA",
   issue_type: "Billing",
@@ -28,7 +28,8 @@ describe("API DTO transformers", () => {
   it("maps canonical call DTOs to table-ready call records", () => {
     const result = toUiCallRecord(call);
 
-    expect(result.caseId).toBe("CASE-CALL-123");
+    expect(result.id).toBe("CALL_0123");
+    expect(result.caseId).toBe("CASE-CALL-0123");
     expect(result.agent).toBe("Nova Carter");
     expect(result.region).toBe("EMEA");
     expect(result.issue).toBe("Billing");

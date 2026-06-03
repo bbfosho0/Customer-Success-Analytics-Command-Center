@@ -67,8 +67,8 @@ export function AppShell({ children, title, description, actions }: AppShellProp
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <p className="truncate text-[13px] text-foreground">Command Center</p>
-              <p className="truncate text-[10px] text-muted-foreground">Customer Success</p>
+              <p className="break-words text-[13px] leading-tight text-foreground">Command Center</p>
+              <p className="break-words text-[10px] leading-tight text-muted-foreground">Customer Success</p>
             </div>
           )}
         </Link>
@@ -88,7 +88,7 @@ export function AppShell({ children, title, description, actions }: AppShellProp
                 title={collapsed ? item.label : undefined}
               >
                 <Icon className={cn("h-4 w-4 shrink-0", active && "text-accent")} />
-                {!collapsed && <span className="truncate">{item.label}</span>}
+                {!collapsed && <span className="break-words leading-tight">{item.label}</span>}
               </Link>
             );
           })}
@@ -179,8 +179,8 @@ export function AppShell({ children, title, description, actions }: AppShellProp
 export function PageHeader({ title, description, actions }: PageHeaderProps) {
   return (
     <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 className="text-[18px] tracking-tight text-foreground">{title}</h1>
+        <div className="min-w-0">
+        <h1 className="break-words text-[18px] font-semibold leading-tight tracking-tight text-foreground">{title}</h1>
         {description && <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>}
       </div>
       {actions && <div className="flex items-center gap-2">{actions}</div>}

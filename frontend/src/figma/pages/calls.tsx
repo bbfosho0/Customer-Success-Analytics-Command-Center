@@ -120,7 +120,7 @@ export function CallsPage({ onOpen }: { onOpen: (id: string) => void }) {
               </div>
               <div className="min-w-0">
                 <p className="text-[11px] uppercase tracking-wider text-amber-700 dark:text-amber-400">Longest running call</p>
-                <p className="truncate text-[13px] text-foreground">{longestCall.id} · {longestCall.customer}</p>
+                <p className="whitespace-normal break-words text-[13px] text-foreground"><span className="call-id">{longestCall.id}</span> · {longestCall.customer}</p>
                 <p className="text-[11px] text-muted-foreground">{fmtDuration(longestCall.durationSec)} · {longestCall.issueType} · {longestCall.region}</p>
               </div>
             </div>
@@ -132,7 +132,7 @@ export function CallsPage({ onOpen }: { onOpen: (id: string) => void }) {
               </div>
               <div className="min-w-0">
                 <p className="text-[11px] uppercase tracking-wider text-rose-700 dark:text-rose-400">Most escalated customer</p>
-                <p className="truncate text-[13px] text-foreground">{mostEscalatedCustomer.customer}</p>
+                <p className="whitespace-normal break-words text-[13px] text-foreground">{mostEscalatedCustomer.customer}</p>
                 <p className="text-[11px] text-muted-foreground">{mostEscalatedCustomer.count} escalations in current filter window</p>
               </div>
             </div>
@@ -225,10 +225,10 @@ export function CallsPage({ onOpen }: { onOpen: (id: string) => void }) {
                       selectedId === c.id ? "bg-muted/70" : "hover:bg-muted/50",
                     )}
                   >
-                    <td className="px-4 py-2 font-mono text-[11px] text-foreground">{c.id}</td>
-                    <td className="px-4 py-2">{c.agent}</td>
+                    <td className="px-4 py-2 text-[11px] text-foreground"><span className="call-id">{c.id}</span></td>
+                    <td className="px-4 py-2 break-words">{c.agent}</td>
                     <td className="px-4 py-2 tabular-nums text-muted-foreground">{c.region}</td>
-                    <td className="px-4 py-2">{c.issueType}</td>
+                    <td className="px-4 py-2 whitespace-normal break-words">{c.issueType}</td>
                     <td className="px-4 py-2 tabular-nums">{fmtDuration(c.durationSec)}</td>
                     <td className="px-4 py-2"><StatusBadge status={c.status} /></td>
                     <td className="px-4 py-2 text-muted-foreground">{fmtRelative(c.startedAt)}</td>

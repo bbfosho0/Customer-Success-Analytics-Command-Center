@@ -1,22 +1,7 @@
 import type { MockCallRecord } from "./types";
+import { AGENT_ROSTER_SIZE, buildAgentName, formatCallId } from "./identity";
 
-const agents = [
-  "Nova Carter",
-  "Jaiya Patel",
-  "Luca Fernández",
-  "Maya Chen",
-  "Devin Brooks",
-  "Riya Kapoor",
-  "Oliver Grant",
-  "Sora Kim",
-  "Iris Bennett",
-  "Mateo Silva",
-  "Anika Shah",
-  "Noah Martinez",
-  "Isla Reyes",
-  "Theo Laurent",
-  "Harper Quinn",
-];
+const agents = Array.from({ length: AGENT_ROSTER_SIZE }, (_, index) => buildAgentName(index));
 
 const regions = ["NA", "EMEA", "APAC", "LATAM", "ANZ"];
 const channels: MockCallRecord["channel"][] = ["voice", "chat", "email", "sms"];
@@ -49,7 +34,7 @@ export const callsDataset: MockCallRecord[] = Array.from({ length: 180 }, (_, in
   const closedAt = new Date(new Date(openedAt).getTime() + duration * 1000).toISOString();
 
   return {
-    id: `call_${(index + 1).toString().padStart(4, "0")}`,
+    id: formatCallId(index),
     caseId: `CASE-${2025 + Math.floor(index / 90)}-${(9000 + index).toString()}`,
     agent: agents[index % agents.length],
     region: regions[index % regions.length],
