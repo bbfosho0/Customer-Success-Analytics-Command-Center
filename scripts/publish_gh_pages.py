@@ -25,6 +25,28 @@ def run(command: list[str], cwd: Path) -> None:
     subprocess.run(command, cwd=cwd, check=True)
 
 
+def branch_exists(ref: str) -> bool:
+    """Return whether a local or remote git ref exists."""
+    return subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", ref],
+        cwd=REPO_ROOT,
+    ).returncode == 0
+
+
+def add_pages_worktree(target: Path) -> None:
+    """Create a gh-pages worktree from local/remote branch, or orphan it on first deploy."""
+    subprocess.run(["git", "fetch", "origin", "gh-pages"], cwd=REPO_ROOT)
+    if branch_exists("refs/heads/gh-pages"):
+        run(["git", "worktree", "add", "-f", str(target), "gh-pages"], cwd=REPO_ROOT)
+        return
+    if branch_exists("refs/remotes/origin/gh-pages"):
+        run(["git", "worktree", "add", "-f", "-b", "gh-pages", str(target), "origin/gh-pages"], cwd=REPO_ROOT)
+        return
+
+    run(["git", "worktree", "add", "-f", "--detach", str(target), "HEAD"], cwd=REPO_ROOT)
+    run(["git", "checkout", "--orphan", "gh-pages"], cwd=target)
+
+
 def ensure_build_exists() -> None:
     """Validate that `frontend/out` exists before publishing.
 
@@ -74,11 +96,15 @@ def main() -> int:
     ensure_build_exists()
     args = parse_args()
 
-    run(["git", "worktree", "add", "-f", str(WORKTREE_DIR), "gh-pages"], cwd=REPO_ROOT)
+    add_pages_worktree(WORKTREE_DIR)
     try:
         clear_worktree(WORKTREE_DIR)
         copy_export(WORKTREE_DIR)
         run(["git", "add", "-A"], cwd=WORKTREE_DIR)
+        diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=WORKTREE_DIR)
+        if diff.returncode == 0:
+            print("No changes to publish; gh-pages is already up to date.")
+            return 0
         run(["git", "commit", "-m", args.message], cwd=WORKTREE_DIR)
         if not args.skip_push:
             run(["git", "push", "origin", "gh-pages"], cwd=WORKTREE_DIR)
