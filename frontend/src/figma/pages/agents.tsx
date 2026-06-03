@@ -23,13 +23,13 @@ export function AgentsPage() {
     geoRegion: regionMap[agent.region] ?? agent.region,
     specialty: agent.escalated_calls > 0 ? "Escalations" : "Core",
     csat: Number((agent.avg_rating * 20).toFixed(0)),
-    sla: Number(Math.min(99, Math.max(70, agent.resolved_rate)).toFixed(0)),
+    sla: Number(Math.min(100, Math.max(0, agent.resolved_rate)).toFixed(0)),
     calls: agent.total_calls,
     aht: Number((agent.avg_resolution_seconds / 60).toFixed(1)),
     focus: agent.escalated_calls > 0 ? "Escalation follow-up" : "Quality coaching",
   })), [agentsQuery.data]);
 
-  const sorted = useMemo(() => [...agents].sort((a, b) => a.csat - b.csat), [agents]);
+  const sorted = useMemo(() => [...agents].sort((a, b) => b.sla - a.sla || b.csat - a.csat), [agents]);
   const spotlight = sorted.slice(0, 3);
 
   return (
