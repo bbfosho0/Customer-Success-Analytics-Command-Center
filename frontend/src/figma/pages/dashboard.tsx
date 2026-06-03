@@ -113,6 +113,7 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
     return rows.map((r) => ({
       region: r.region,
       volume: r.total,
+      resolved: r.resolved,
       sla: r.resolvedRate * 100,
       csat: getAvgCsat(filtered.filter((c) => c.region === r.region)),
       escalations: r.escalated,
@@ -140,7 +141,7 @@ export function DashboardPage({ onOpenCall, onAllCalls }: { onOpenCall: (id: str
       <div className="grid gap-3 lg:grid-cols-3">
         <SectionCard
           title="Call volume"
-          description="Daily calls and forecast, last 14 days"
+          description="Daily calls and forecast for days with matching data"
           className="lg:col-span-2"
           action={<LegendDot items={[{ label: "Calls", color: "var(--chart-1)" }, { label: "Forecast", color: "var(--chart-5)" }]} />}
         >

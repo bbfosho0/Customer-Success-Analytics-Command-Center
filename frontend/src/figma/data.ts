@@ -112,38 +112,45 @@ export function toFigmaCalls(records: CallRecord[]): FigmaCall[] {
 }
 
 export function buildVolumeSeries(calls: FigmaCall[]) {
-  const days = 14;
-  const buckets: { date: string; calls: number; resolved: number; escalated: number }[] = [];
-  const anchorMs = calls.reduce((max, call) => {
-    const ts = new Date(call.startedAt).getTime();
-    return Number.isFinite(ts) ? Math.max(max, ts) : max;
-  }, 0);
-  const now = new Date(anchorMs || Date.now());
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(now.getDate() - i);
-    d.setHours(0, 0, 0, 0);
-    const next = new Date(d);
-    next.setDate(d.getDate() + 1);
-    const inDay = calls.filter((c) => {
-      const t = new Date(c.startedAt).getTime();
-      return t >= d.getTime() && t < next.getTime();
-    });
-    buckets.push({
-      date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-      calls: inDay.length,
-      resolved: inDay.filter((c) => c.status === "resolved").length,
-      escalated: inDay.filter((c) => c.status === "escalated").length,
-    });
-  }
-  return buckets;
+  const buckets = new Map<string, { date: string; calls: number; resolved: number; escalated: number; durationSec: number; avgDurationSec: number }>();
+
+  calls.forEach((call) => {
+    const started = new Date(call.startedAt);
+    if (!Number.isFinite(started.getTime())) return;
+
+    const dayKey = started.toISOString().slice(0, 10);
+    const existing = buckets.get(dayKey) ?? {
+      date: started.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }),
+      calls: 0,
+      resolved: 0,
+      escalated: 0,
+      durationSec: 0,
+      avgDurationSec: 0,
+    };
+
+    existing.calls += 1;
+    existing.durationSec += call.durationSec;
+    existing.avgDurationSec = Math.round(existing.durationSec / existing.calls);
+    if (call.status === "resolved") existing.resolved += 1;
+    if (call.status === "escalated") existing.escalated += 1;
+    buckets.set(dayKey, existing);
+  });
+
+  return Array.from(buckets.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([, value]) => value);
 }
 
 export function buildIssueBreakdown(calls: FigmaCall[]) {
-  return ISSUE_TYPES.map((t) => ({
-    issue: t,
-    count: calls.filter((c) => c.issueType === t).length,
-  })).sort((a, b) => b.count - a.count);
+  const counts = new Map<string, number>();
+  calls.forEach((call) => {
+    const issue = call.issueType || "Unassigned";
+    counts.set(issue, (counts.get(issue) ?? 0) + 1);
+  });
+
+  return Array.from(counts.entries())
+    .map(([issue, count]) => ({ issue, count }))
+    .sort((a, b) => b.count - a.count || a.issue.localeCompare(b.issue));
 }
 
 export function buildRegionPerformance(calls: FigmaCall[]) {
@@ -155,6 +162,7 @@ export function buildRegionPerformance(calls: FigmaCall[]) {
     return {
       region: r,
       total: sub.length,
+      resolved,
       resolvedRate: sub.length ? resolved / sub.length : 0,
       escalated,
       avgDurationSec: avg,

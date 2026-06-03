@@ -5,6 +5,13 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   backend:
     name: Backend tests and OpenAPI export
@@ -36,6 +43,8 @@ jobs:
     needs: backend
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -56,3 +65,11 @@ jobs:
         run: npm --prefix frontend run test
       - name: Build frontend static export
         run: npm --prefix frontend run build
+        env:
+          GITHUB_PAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'true' || 'false' }}
+      - name: Publish static export to gh-pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python scripts/publish_gh_pages.py --message "Deploy static export from ${GITHUB_SHA}"
