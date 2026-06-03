@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/healthz": {
+    "/": {
         parameters: {
             query?: never;
             header?: never;
@@ -12,12 +12,52 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Healthz
-         * @description Basic liveness check.
+         * Root
+         * @description Landing route with API status context.
          */
-        get: operations["healthz_api_healthz_get"];
+        get: operations["root__get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/agents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Agents
+         * @description Expose agent performance aggregates.
+         */
+        get: operations["list_agents_api_agents_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/sign-in": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign In
+         * @description Issue a signed local JWT for non-empty development credentials.
+         */
+        post: operations["sign_in_api_auth_sign_in_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -64,174 +104,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/agents": {
+    "/api/customer-analytics/accounts/{account_id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * List Agents
-         * @description Expose agent performance aggregates.
-         */
-        get: operations["list_agents_api_agents_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/metrics": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Metrics
-         * @description Return dashboard KPI and breakdown aggregates.
-         */
-        get: operations["get_metrics_api_metrics_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/customer-analytics/overview": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Overview */
-        get: operations["get_overview_api_customer_analytics_overview_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/customer-analytics/churn-risk": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Churn Risk */
-        get: operations["get_churn_risk_api_customer_analytics_churn_risk_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/customer-analytics/retention-cohorts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Retention Cohorts */
-        get: operations["get_retention_cohorts_api_customer_analytics_retention_cohorts_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/customer-analytics/ltv": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Ltv */
-        get: operations["get_ltv_api_customer_analytics_ltv_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/customer-analytics/segments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Segments */
-        get: operations["get_segments_api_customer_analytics_segments_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/customer-analytics/health": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Health */
-        get: operations["get_health_api_customer_analytics_health_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/customer-analytics/expansion-opportunities": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Expansion Opportunities */
-        get: operations["get_expansion_opportunities_api_customer_analytics_expansion_opportunities_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/customer-analytics/support-impact": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Support Impact */
-        get: operations["get_support_impact_api_customer_analytics_support_impact_get"];
+        /** Get Account Detail */
+        get: operations["get_account_detail_api_customer_analytics_accounts__account_id__get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -257,15 +138,174 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/customer-analytics/accounts/{account_id}": {
+    "/api/customer-analytics/churn-risk": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get Account Detail */
-        get: operations["get_account_detail_api_customer_analytics_accounts__account_id__get"];
+        /** Get Churn Risk */
+        get: operations["get_churn_risk_api_customer_analytics_churn_risk_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/customer-analytics/expansion-opportunities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Expansion Opportunities */
+        get: operations["get_expansion_opportunities_api_customer_analytics_expansion_opportunities_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/customer-analytics/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Health */
+        get: operations["get_health_api_customer_analytics_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/customer-analytics/ltv": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Ltv */
+        get: operations["get_ltv_api_customer_analytics_ltv_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/customer-analytics/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Overview */
+        get: operations["get_overview_api_customer_analytics_overview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/customer-analytics/retention-cohorts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Retention Cohorts */
+        get: operations["get_retention_cohorts_api_customer_analytics_retention_cohorts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/customer-analytics/segments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Segments */
+        get: operations["get_segments_api_customer_analytics_segments_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/customer-analytics/support-impact": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Support Impact */
+        get: operations["get_support_impact_api_customer_analytics_support_impact_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/healthz": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Healthz
+         * @description Basic liveness check.
+         */
+        get: operations["healthz_api_healthz_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Metrics
+         * @description Return dashboard KPI and breakdown aggregates.
+         */
+        get: operations["get_metrics_api_metrics_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -314,46 +354,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/auth/sign-in": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Sign In
-         * @description Issue a signed local JWT for non-empty development credentials.
-         */
-        post: operations["sign_in_api_auth_sign_in_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Root
-         * @description Landing route with API status context.
-         */
-        get: operations["root__get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -365,32 +365,32 @@ export interface components {
         AgentStats: {
             /** Agent Id */
             agent_id: string;
+            /** Avg Rating */
+            avg_rating: number;
+            /** Avg Resolution Seconds */
+            avg_resolution_seconds: number;
+            /** Escalated Calls */
+            escalated_calls: number;
             /** Name */
             name: string;
             /** Region */
             region: string;
-            /** Skill Rating */
-            skill_rating: number;
-            /** Avg Rating */
-            avg_rating: number;
-            /** Total Calls */
-            total_calls: number;
-            /** Avg Resolution Seconds */
-            avg_resolution_seconds: number;
             /** Resolved Rate */
             resolved_rate: number;
-            /** Escalated Calls */
-            escalated_calls: number;
+            /** Skill Rating */
+            skill_rating: number;
+            /** Total Calls */
+            total_calls: number;
         };
         /**
          * AuthCredentials
          * @description Simple username/password payload for the local auth endpoint.
          */
         AuthCredentials: {
-            /** Username */
-            username: string;
             /** Password */
             password: string;
+            /** Username */
+            username: string;
         };
         /**
          * AuthResponse
@@ -406,13 +406,13 @@ export interface components {
         AuthToken: {
             /** Access Token */
             access_token: string;
+            /** Expires At */
+            expires_at: string;
             /**
              * Token Type
              * @default bearer
              */
             token_type: string;
-            /** Expires At */
-            expires_at: string;
         };
         /** BiExport */
         BiExport: {
@@ -447,24 +447,24 @@ export interface components {
          * @description Canonical schema for tabular support-call data.
          */
         CallRecord: {
-            /** Id */
-            id: string;
             /** Agent Id */
             agent_id: string;
             /** Agent Name */
             agent_name?: string | null;
             /** Customer Region */
             customer_region: string;
-            /** Issue Type */
-            issue_type: string;
             /** Duration Seconds */
             duration_seconds: number;
+            /** Id */
+            id: string;
+            /** Issue Type */
+            issue_type: string;
             /** Resolution Status */
             resolution_status: string;
-            /** Started At */
-            started_at?: string | null;
             /** Skill Rating */
             skill_rating?: number | null;
+            /** Started At */
+            started_at?: string | null;
         };
         /**
          * CallsMeta
@@ -484,24 +484,24 @@ export interface components {
             account_id: string;
             /** Account Name */
             account_name: string;
-            /** Segment */
-            segment: string;
-            /** Region */
-            region: string;
-            /** Plan Tier */
-            plan_tier: string;
-            /** Mrr */
-            mrr: number;
             /** Health Score */
             health_score: number;
-            /** Risk Level */
-            risk_level: string;
             /** Main Risk Driver */
             main_risk_driver: string;
-            /** Recommended Action */
-            recommended_action: string;
+            /** Mrr */
+            mrr: number;
+            /** Plan Tier */
+            plan_tier: string;
             /** Priority Rank */
             priority_rank: number;
+            /** Recommended Action */
+            recommended_action: string;
+            /** Region */
+            region: string;
+            /** Risk Level */
+            risk_level: string;
+            /** Segment */
+            segment: string;
         };
         /** CustomerAccountDetail */
         CustomerAccountDetail: {
@@ -509,49 +509,49 @@ export interface components {
             account_id: string;
             /** Account Name */
             account_name: string;
-            /** Restaurant Type */
-            restaurant_type: string;
-            /** Region */
-            region: string;
-            /** Segment */
-            segment: string;
-            /** Plan Tier */
-            plan_tier: string;
-            /** Status */
-            status: string;
-            /** Current Mrr */
-            current_mrr: number;
-            /** Health Score */
-            health_score: number;
-            /** Risk Level */
-            risk_level: string;
-            /** Main Risk Driver */
-            main_risk_driver: string;
-            /** Recommended Action */
-            recommended_action: string;
-            /** Customer Success Manager */
-            customer_success_manager: string;
             /** Avg Active Days */
             avg_active_days: number;
-            /** Orders Processed */
-            orders_processed: number;
-            /** Support Calls */
-            support_calls: number;
+            /** Current Mrr */
+            current_mrr: number;
+            /** Customer Success Manager */
+            customer_success_manager: string;
             /** Failed Payments */
             failed_payments: number;
+            /** Health Score */
+            health_score: number;
+            /** Main Risk Driver */
+            main_risk_driver: string;
+            /** Orders Processed */
+            orders_processed: number;
+            /** Plan Tier */
+            plan_tier: string;
+            /** Recommended Action */
+            recommended_action: string;
+            /** Region */
+            region: string;
+            /** Restaurant Type */
+            restaurant_type: string;
+            /** Risk Level */
+            risk_level: string;
+            /** Segment */
+            segment: string;
+            /** Status */
+            status: string;
+            /** Support Calls */
+            support_calls: number;
             /** Weighted Pipeline Amount */
             weighted_pipeline_amount: number;
         };
         /** CustomerAnalyticsOverview */
         CustomerAnalyticsOverview: {
-            /** Kpis */
-            kpis: components["schemas"]["CustomerKpi"][];
             /** Health Distribution */
             health_distribution: components["schemas"]["HealthBand"][];
-            /** Top Churn Drivers */
-            top_churn_drivers: components["schemas"]["HealthBand"][];
+            /** Kpis */
+            kpis: components["schemas"]["CustomerKpi"][];
             /** Recommended Actions */
             recommended_actions: string[];
+            /** Top Churn Drivers */
+            top_churn_drivers: components["schemas"]["HealthBand"][];
         };
         /** CustomerHealthScore */
         CustomerHealthScore: {
@@ -559,42 +559,42 @@ export interface components {
             account_id: string;
             /** Account Name */
             account_name: string;
-            /** Segment */
-            segment: string;
-            /** Region */
-            region: string;
-            /** Plan Tier */
-            plan_tier: string;
-            /** Mrr */
-            mrr: number;
-            /** Product Usage Score */
-            product_usage_score: number;
-            /** Payment Health Score */
-            payment_health_score: number;
-            /** Support Experience Score */
-            support_experience_score: number;
             /** Customer Success Engagement Score */
             customer_success_engagement_score: number;
             /** Health Score */
             health_score: number;
-            /** Risk Level */
-            risk_level: string;
             /** Main Risk Driver */
             main_risk_driver: string;
+            /** Mrr */
+            mrr: number;
+            /** Payment Health Score */
+            payment_health_score: number;
+            /** Plan Tier */
+            plan_tier: string;
+            /** Product Usage Score */
+            product_usage_score: number;
+            /** Region */
+            region: string;
+            /** Risk Level */
+            risk_level: string;
+            /** Segment */
+            segment: string;
+            /** Support Experience Score */
+            support_experience_score: number;
         };
         /** CustomerKpi */
         CustomerKpi: {
-            /** Label */
-            label: string;
-            /** Value */
-            value: string;
             /** Delta */
             delta?: number | null;
+            /** Label */
+            label: string;
             /**
              * Trend
              * @default flat
              */
             trend: string;
+            /** Value */
+            value: string;
         };
         /** ExpansionOpportunity */
         ExpansionOpportunity: {
@@ -602,24 +602,24 @@ export interface components {
             account_id: string;
             /** Account Name */
             account_name: string;
-            /** Segment */
-            segment: string;
-            /** Region */
-            region: string;
-            /** Plan Tier */
-            plan_tier: string;
-            /** Mrr */
-            mrr: number;
-            /** Health Score */
-            health_score: number;
-            /** Weighted Pipeline Amount */
-            weighted_pipeline_amount: number;
-            /** Open Pipeline Amount */
-            open_pipeline_amount: number;
-            /** Next Close Date */
-            next_close_date: string | null;
             /** Expansion Readiness */
             expansion_readiness: string;
+            /** Health Score */
+            health_score: number;
+            /** Mrr */
+            mrr: number;
+            /** Next Close Date */
+            next_close_date: string | null;
+            /** Open Pipeline Amount */
+            open_pipeline_amount: number;
+            /** Plan Tier */
+            plan_tier: string;
+            /** Region */
+            region: string;
+            /** Segment */
+            segment: string;
+            /** Weighted Pipeline Amount */
+            weighted_pipeline_amount: number;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -628,41 +628,41 @@ export interface components {
         };
         /** HealthBand */
         HealthBand: {
-            /** Risk Level */
-            risk_level: string;
             /** Customers */
             customers: number;
             /** Mrr */
             mrr: number;
+            /** Risk Level */
+            risk_level: string;
         };
         /**
          * KpiMetric
          * @description Single KPI card metric.
          */
         KpiMetric: {
-            /** Label */
-            label: string;
-            /** Value */
-            value: string;
             /** Delta */
             delta: number;
+            /** Label */
+            label: string;
             /** Trend */
             trend: string;
+            /** Value */
+            value: string;
         };
         /** LtvSegment */
         LtvSegment: {
-            /** Segment */
-            segment: string;
-            /** Plan Tier */
-            plan_tier: string;
-            /** Customers */
-            customers: number;
-            /** Average Mrr */
-            average_mrr: number;
             /** Assumed Monthly Churn Rate */
             assumed_monthly_churn_rate: number;
+            /** Average Mrr */
+            average_mrr: number;
+            /** Customers */
+            customers: number;
             /** Estimated Ltv */
             estimated_ltv: number;
+            /** Plan Tier */
+            plan_tier: string;
+            /** Segment */
+            segment: string;
         };
         /**
          * ManifestInfo
@@ -671,30 +671,30 @@ export interface components {
         ManifestInfo: {
             /** Dataset */
             dataset: string;
-            /** Path */
-            path: string;
-            /** Source */
-            source: string;
-            /** Hash */
-            hash: string;
-            /** Row Count */
-            row_count: number;
             /** Generated At */
             generated_at: string;
+            /** Hash */
+            hash: string;
             /** Notes */
             notes: string;
+            /** Path */
+            path: string;
+            /** Row Count */
+            row_count: number;
             /** Size Bytes */
             size_bytes: number;
+            /** Source */
+            source: string;
         };
         /**
          * MetricsResponse
          * @description Dashboard-level aggregate response.
          */
         MetricsResponse: {
-            /** Kpis */
-            kpis: components["schemas"]["KpiMetric"][];
             /** Issue Breakdown */
             issue_breakdown: components["schemas"]["BreakdownMetric"][];
+            /** Kpis */
+            kpis: components["schemas"]["KpiMetric"][];
             /** Region Breakdown */
             region_breakdown: components["schemas"]["BreakdownMetric"][];
         };
@@ -705,20 +705,20 @@ export interface components {
         PaginatedCallsResponse: {
             /** Data */
             data: components["schemas"]["CallRecord"][];
-            meta: components["schemas"]["CallsMeta"];
             /** Links */
             links: {
                 [key: string]: string | null;
             };
+            meta: components["schemas"]["CallsMeta"];
         };
         /** RetentionCohortRow */
         RetentionCohortRow: {
             /** Cohort Month */
             cohort_month: string;
-            /** Month Number */
-            month_number: number;
             /** Cohort Size */
             cohort_size: number;
+            /** Month Number */
+            month_number: number;
             /** Retained Customers */
             retained_customers: number;
             /** Retention Rate */
@@ -726,58 +726,58 @@ export interface components {
         };
         /** SegmentPerformance */
         SegmentPerformance: {
-            /** Segment */
-            segment: string;
-            /** Region */
-            region: string;
-            /** Plan Tier */
-            plan_tier: string;
-            /** Customers */
-            customers: number;
-            /** Current Mrr */
-            current_mrr: number;
-            /** Avg Health Score */
-            avg_health_score: number;
             /** Avg Active Days */
             avg_active_days: number;
+            /** Avg Health Score */
+            avg_health_score: number;
             /** Avg Support Calls */
             avg_support_calls: number;
             /** Churn Rate */
             churn_rate: number;
+            /** Current Mrr */
+            current_mrr: number;
+            /** Customers */
+            customers: number;
+            /** Plan Tier */
+            plan_tier: string;
+            /** Region */
+            region: string;
+            /** Segment */
+            segment: string;
             /** Weighted Pipeline Amount */
             weighted_pipeline_amount: number;
         };
         /** SupportImpactRow */
         SupportImpactRow: {
-            /** Segment */
-            segment: string;
-            /** Plan Tier */
-            plan_tier: string;
-            /** Customers */
-            customers: number;
-            /** Avg Support Calls */
-            avg_support_calls: number;
             /** Avg Escalated Calls */
             avg_escalated_calls: number;
-            /** Avg Resolution Rate */
-            avg_resolution_rate: number;
             /** Avg Health Score */
             avg_health_score: number;
+            /** Avg Resolution Rate */
+            avg_resolution_rate: number;
+            /** Avg Support Calls */
+            avg_support_calls: number;
             /** Churn Rate */
             churn_rate: number;
+            /** Customers */
+            customers: number;
+            /** Plan Tier */
+            plan_tier: string;
+            /** Segment */
+            segment: string;
         };
         /** ValidationError */
         ValidationError: {
+            /** Context */
+            ctx?: Record<string, never>;
+            /** Input */
+            input?: unknown;
             /** Location */
             loc: (string | number)[];
             /** Message */
             msg: string;
             /** Error Type */
             type: string;
-            /** Input */
-            input?: unknown;
-            /** Context */
-            ctx?: Record<string, never>;
         };
     };
     responses: never;
@@ -788,7 +788,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    healthz_api_healthz_get: {
+    root__get: {
         parameters: {
             query?: never;
             header?: never;
@@ -806,6 +806,59 @@ export interface operations {
                     "application/json": {
                         [key: string]: string;
                     };
+                };
+            };
+        };
+    };
+    list_agents_api_agents_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentStats"][];
+                };
+            };
+        };
+    };
+    sign_in_api_auth_sign_in_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AuthCredentials"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
@@ -884,11 +937,13 @@ export interface operations {
             };
         };
     };
-    list_agents_api_agents_get: {
+    get_account_detail_api_customer_analytics_accounts__account_id__get: {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                account_id: string;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -899,12 +954,21 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AgentStats"][];
+                    "application/json": components["schemas"]["CustomerAccountDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
     };
-    get_metrics_api_metrics_get: {
+    get_bi_exports_api_customer_analytics_bi_exports_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -919,27 +983,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["MetricsResponse"];
-                };
-            };
-        };
-    };
-    get_overview_api_customer_analytics_overview_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CustomerAnalyticsOverview"];
+                    "application/json": components["schemas"]["BiExport"][];
                 };
             };
         };
@@ -979,7 +1023,7 @@ export interface operations {
             };
         };
     };
-    get_retention_cohorts_api_customer_analytics_retention_cohorts_get: {
+    get_expansion_opportunities_api_customer_analytics_expansion_opportunities_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -994,47 +1038,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RetentionCohortRow"][];
-                };
-            };
-        };
-    };
-    get_ltv_api_customer_analytics_ltv_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["LtvSegment"][];
-                };
-            };
-        };
-    };
-    get_segments_api_customer_analytics_segments_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SegmentPerformance"][];
+                    "application/json": components["schemas"]["ExpansionOpportunity"][];
                 };
             };
         };
@@ -1059,7 +1063,7 @@ export interface operations {
             };
         };
     };
-    get_expansion_opportunities_api_customer_analytics_expansion_opportunities_get: {
+    get_ltv_api_customer_analytics_ltv_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -1074,7 +1078,67 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ExpansionOpportunity"][];
+                    "application/json": components["schemas"]["LtvSegment"][];
+                };
+            };
+        };
+    };
+    get_overview_api_customer_analytics_overview_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerAnalyticsOverview"];
+                };
+            };
+        };
+    };
+    get_retention_cohorts_api_customer_analytics_retention_cohorts_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RetentionCohortRow"][];
+                };
+            };
+        };
+    };
+    get_segments_api_customer_analytics_segments_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SegmentPerformance"][];
                 };
             };
         };
@@ -1099,7 +1163,7 @@ export interface operations {
             };
         };
     };
-    get_bi_exports_api_customer_analytics_bi_exports_get: {
+    healthz_api_healthz_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -1114,18 +1178,18 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BiExport"][];
+                    "application/json": {
+                        [key: string]: string;
+                    };
                 };
             };
         };
     };
-    get_account_detail_api_customer_analytics_accounts__account_id__get: {
+    get_metrics_api_metrics_get: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                account_id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
@@ -1136,16 +1200,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CustomerAccountDetail"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
+                    "application/json": components["schemas"]["MetricsResponse"];
                 };
             };
         };
@@ -1189,61 +1244,6 @@ export interface operations {
                 content: {
                     "application/json": {
                         [key: string]: unknown;
-                    };
-                };
-            };
-        };
-    };
-    sign_in_api_auth_sign_in_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AuthCredentials"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AuthResponse"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    root__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: string;
                     };
                 };
             };
