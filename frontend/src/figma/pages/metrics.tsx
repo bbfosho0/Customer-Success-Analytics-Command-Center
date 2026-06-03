@@ -103,6 +103,7 @@ export function MetricsPage() {
   const regions = useMemo(() => buildRegionPerformance(data).map((r) => ({
     region: r.region,
     volume: r.total,
+    resolved: r.resolved,
     sla: r.resolvedRate * 100,
     csat: getAvgCsat(data.filter((c) => c.region === r.region)),
     escalations: r.escalated,
@@ -203,7 +204,7 @@ export function MetricsPage() {
             <div className="h-[260px] w-full min-w-0">
               <ResponsiveContainer width="100%" height={260}>
                 <LineChart
-                  data={series.map((s) => ({ ...s, avgMin: +(((360 + s.calls * 2)) / 60).toFixed(1) }))}
+                  data={series.map((s) => ({ ...s, avgMin: Number((s.avgDurationSec / 60).toFixed(1)) }))}
                   margin={{ top: 4, right: 12, left: 4, bottom: 0 }}
                 >
                   <CartesianGrid key="grid" stroke="var(--border)" strokeDasharray="2 3" vertical={false} />
@@ -331,7 +332,7 @@ export function MetricsPage() {
               <BarChart
                 data={regions.map((r) => ({
                   region: r.region,
-                  resolved: Math.max(0, r.volume - r.escalations),
+                  resolved: r.resolved,
                   escalated: r.escalations,
                 }))}
                 margin={{ top: 4, right: 8, left: -16, bottom: 0 }}
@@ -342,7 +343,7 @@ export function MetricsPage() {
                 <YAxis key="y-axis" tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} width={32} />
                 <Tooltip key="tooltip" contentStyle={chartTooltipStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar key="bar-resolved" dataKey="resolved" name="Resolved" fill="var(--chart-1)" radius={[2, 2, 0, 0]} barSize={14} />
-                <Bar key="bar-escalated" dataKey="escalated" name="Escalated" fill="var(--chart-5)" radius={[2, 2, 0, 0]} barSize={14} />
+                <Bar key="bar-escalated" dataKey="escalated" name="Escalated" fill="var(--chart-5)" radius={[2, 2, 0, 0]} barSize={14} minPointSize={3} />
               </BarChart>
             </ResponsiveContainer>
           </div>

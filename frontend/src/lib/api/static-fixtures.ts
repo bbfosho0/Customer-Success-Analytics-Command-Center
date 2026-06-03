@@ -3,7 +3,7 @@ import { callsDataset } from "../data/calls-data";
 import { normalizeCallId } from "../data/identity";
 import type { AgentStats, CallRecord, CallsQuery, CallsResponse, ManifestInfo, MetricsResponse } from "./types";
 
-const STATIC_MANIFEST_GENERATED_AT = "2025-10-15T04:00:00.000Z";
+const STATIC_MANIFEST_GENERATED_AT = "2026-06-03T08:00:00.000Z";
 
 function normalizeStatus(status: string | null | undefined) {
   return status?.toLowerCase();
