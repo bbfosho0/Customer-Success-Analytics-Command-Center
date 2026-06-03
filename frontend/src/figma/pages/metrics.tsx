@@ -6,19 +6,15 @@ import {
   Tooltip, XAxis, YAxis,
 } from "recharts";
 
-import { buildChannelMetrics } from "../../lib/data/metrics-data";
-import { useCalls, useMetrics } from "../../lib/api/hooks";
+import { useCalls } from "../../lib/api/hooks";
 import { GlobalFilters, applyFilters, useFigmaFilters } from "../filters";
 import { KpiCard, SectionCard } from "../primitives";
 import { PageHeader } from "../shell";
 import { chartTooltipStyle, LegendDot } from "./dashboard";
 import { cn } from "../ui/utils";
-import { buildIssueBreakdown, buildVolumeSeries, fmtDuration, getSlaCompliance, getAvgCsat, getFcrRate, toFigmaCalls } from "../data";
+import { buildIssueBreakdown, buildRegionPerformance, buildVolumeSeries, fmtDuration, getSlaCompliance, getAvgCsat, getFcrRate, toFigmaCalls } from "../data";
 import {
   buildCallsQueryFromSelection,
-  buildDashboardKpisFromMetrics,
-  buildIssueBreakdownFromMetrics,
-  buildRegionPerformanceFromMetrics,
   toUiCallRecords,
 } from "../../lib/viz/transformers";
 
@@ -29,40 +25,71 @@ export function MetricsPage() {
   const [tab, setTab] = useState<"overview" | "volume" | "breakdown" | "regions">("overview");
 
   const callsQuery = useCalls(buildCallsQueryFromSelection(selection, 1, MAX_CALLS));
-  const metricsQuery = useMetrics({
-    region: filters.region === "all" ? undefined : filters.region,
-    issue_type: filters.issueType === "all" ? undefined : filters.issueType,
-  });
 
   const calls = useMemo(() => toFigmaCalls(callsQuery.data?.data ?? []), [callsQuery.data]);
   const uiCalls = useMemo(() => toUiCallRecords(callsQuery.data?.data ?? []), [callsQuery.data]);
   const data = useMemo(() => applyFilters(calls, filters), [calls, filters]);
+  const uiFilteredCalls = useMemo(() => {
+    const query = filters.search.trim().toLowerCase();
+    return uiCalls.filter((call) => {
+      if (filters.region !== "all" && call.region !== filters.region) return false;
+      if (filters.issueType !== "all" && call.issue !== filters.issueType) return false;
+      if (filters.status !== "all" && call.status !== filters.status) return false;
+      if (!query) return true;
+      return `${call.id} ${call.agent} ${call.region} ${call.issue} ${call.status}`.toLowerCase().includes(query);
+    });
+  }, [uiCalls, filters]);
   const series = useMemo(() => buildVolumeSeries(data), [data]);
-  const metricKpis = useMemo(
-    () => (metricsQuery.data ? buildDashboardKpisFromMetrics(metricsQuery.data) : []),
-    [metricsQuery.data],
-  );
-  const breakdown = useMemo(
-    () => {
-      if (metricsQuery.data) return buildIssueBreakdownFromMetrics(metricsQuery.data);
-      const total = Math.max(1, data.length);
-      return buildIssueBreakdown(data).map((item, index) => ({
-        ...item,
-        percentage: Number(((item.count / total) * 100).toFixed(1)),
-        trend: (index % 3) * 1.5 - 1,
-      }));
-    },
-    [metricsQuery.data, data],
-  );
-  const regions = useMemo(
-    () => (metricsQuery.data ? buildRegionPerformanceFromMetrics(metricsQuery.data) : []),
-    [metricsQuery.data],
-  );
-
-  const sla = useMemo(() => getSlaCompliance(data), [data]);
-  const csat = useMemo(() => getAvgCsat(data), [data]);
-  const fcr = useMemo(() => getFcrRate(data), [data]);
-  const channelMetrics = useMemo(() => buildChannelMetrics(uiCalls), [uiCalls]);
+  const metricKpis = useMemo(() => {
+    const total = data.length;
+    const resolved = data.filter((c) => c.status === "resolved").length;
+    const escalated = data.filter((c) => c.status === "escalated").length;
+    const avgDuration = total ? Math.round(data.reduce((sum, row) => sum + row.durationSec, 0) / total) : 0;
+    const slaPct = getSlaCompliance(data);
+    const avgCsat = getAvgCsat(data);
+    const fcrPct = getFcrRate(data);
+    return [
+      { label: "Total interactions", value: total.toLocaleString(), delta: 0, descriptor: "filtered dataset" },
+      { label: "Avg handle time", value: fmtDuration(avgDuration), delta: 0, descriptor: "filtered dataset" },
+      { label: "Resolution rate", value: total ? `${((resolved / total) * 100).toFixed(1)}%` : "0.0%", delta: 0, descriptor: "filtered dataset" },
+      { label: "Escalations", value: escalated.toLocaleString(), delta: 0, descriptor: "filtered dataset" },
+      { label: "SLA compliance", value: slaPct.toFixed(1), unit: "%", delta: 0, descriptor: "≤ 10 min handle time" },
+      { label: "Avg CSAT", value: avgCsat.toFixed(1), unit: "/5", delta: 0, descriptor: "filtered dataset" },
+      { label: "FCR rate", value: fcrPct.toFixed(1), unit: "%", delta: 0, descriptor: "first contact resolved" },
+    ];
+  }, [data]);
+  const breakdown = useMemo(() => buildIssueBreakdown(data).slice(0, 6), [data]);
+  const regions = useMemo(() => buildRegionPerformance(data).map((r) => ({
+    region: r.region,
+    volume: r.total,
+    sla: r.resolvedRate * 100,
+    csat: getAvgCsat(data.filter((c) => c.region === r.region)),
+    escalations: r.escalated,
+    fcr: getFcrRate(data.filter((c) => c.region === r.region)),
+    slaCompliance: getSlaCompliance(data.filter((c) => c.region === r.region)),
+  })), [data]);
+  const channelMetrics = useMemo(() => {
+    const channels = new Map<string, { channel: string; share: number; csat: number; automation: number; avgHandleTime: number }>();
+    const total = Math.max(uiFilteredCalls.length, 1);
+    for (const call of uiFilteredCalls) {
+      const channel = call.channel ?? "other";
+      const entry = channels.get(channel) ?? { channel, share: 0, csat: 0, automation: 0, avgHandleTime: 0 };
+      entry.share += 1;
+      entry.csat += Number(call.csat ?? 0);
+      entry.automation += call.status === "resolved" ? 1 : 0;
+      entry.avgHandleTime += Number(call.durationSeconds ?? 0);
+      channels.set(channel, entry);
+    }
+    return Array.from(channels.values())
+      .map((row) => ({
+        channel: row.channel,
+        share: Math.round((row.share / total) * 100),
+        csat: Number((row.csat / Math.max(row.share, 1)).toFixed(1)),
+        automation: Math.round((row.automation / Math.max(row.share, 1)) * 100),
+        avgHandleTime: row.avgHandleTime / Math.max(row.share, 1),
+      }))
+      .sort((a, b) => b.share - a.share);
+  }, [uiFilteredCalls]);
 
   return (
     <div className="space-y-4">
@@ -71,11 +98,8 @@ export function MetricsPage() {
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 2xl:grid-cols-7">
         {metricKpis.map((kpi) => (
-          <KpiCard key={kpi.label} label={kpi.label} value={kpi.value} delta={kpi.delta} hint={kpi.descriptor} />
+          <KpiCard key={kpi.label} label={kpi.label} value={kpi.value} delta={kpi.delta} hint={kpi.descriptor} unit={kpi.unit} />
         ))}
-        <KpiCard label="SLA compliance" value={sla.toFixed(1)} unit="%" delta={0.8} />
-        <KpiCard label="Avg CSAT" value={csat.toFixed(1)} unit="/5" delta={0.2} />
-        <KpiCard label="FCR rate" value={fcr.toFixed(1)} unit="%" delta={1.1} hint="First contact resolved" />
       </div>
 
       <div className="inline-flex items-center gap-0.5 rounded-md border border-border bg-card p-0.5 text-xs">
@@ -123,7 +147,7 @@ export function MetricsPage() {
           <SectionCard title="Issue type breakdown">
             <div className="h-[260px] w-full min-w-0">
               <ResponsiveContainer width="100%" height={260}>
-                <BarChart data={breakdown} layout="vertical" margin={{ top: 4, right: 12, left: -8, bottom: 0 }}>
+              <BarChart data={breakdown} layout="vertical" margin={{ top: 4, right: 12, left: -8, bottom: 0 }}>
                   <CartesianGrid key="grid" stroke="var(--border)" strokeDasharray="2 3" horizontal={false} />
                   <XAxis key="x-axis" type="number" tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
                   <YAxis key="y-axis" dataKey="issue" type="category" width={140} tick={{ fill: "var(--muted-foreground)", fontSize: 10 }} axisLine={false} tickLine={false} />
@@ -162,10 +186,10 @@ export function MetricsPage() {
       {(tab === "overview" || tab === "volume") && (
         <SectionCard title="Rolling SLA by issue type" description="SLA compliance (≤ 10 min handle time) across top categories">
           <div className="space-y-3">
-            {buildIssueBreakdown(data).slice(0, 6).map((item) => {
-              const subset = data.filter((c) => c.issueType === item.issue);
-              const pct = getSlaCompliance(subset);
-              return (
+                  {breakdown.map((item) => {
+                    const subset = data.filter((c) => c.issueType === item.issue);
+                    const pct = getSlaCompliance(subset);
+                    return (
                 <div key={item.issue} className="flex items-center gap-3">
                   <span className="min-w-0 flex-1 whitespace-normal break-words text-[12px] text-muted-foreground">{item.issue}</span>
                   <div className="flex-1">
@@ -241,10 +265,10 @@ export function MetricsPage() {
                 <tbody>
                   {channelMetrics.map((ch) => (
                     <tr key={ch.channel} className="border-b border-border last:border-0">
-                      <td className="px-4 py-2 text-foreground">{ch.channel}</td>
-                      <td className="px-4 py-2 tabular-nums">{ch.share}%</td>
-                      <td className="px-4 py-2 tabular-nums">{ch.csat}/5</td>
-                      <td className="px-4 py-2 tabular-nums">{ch.automation}%</td>
+                    <td className="px-4 py-2 text-foreground">{ch.channel}</td>
+                    <td className="px-4 py-2 tabular-nums">{ch.share}%</td>
+                    <td className="px-4 py-2 tabular-nums">{ch.csat}/5</td>
+                    <td className="px-4 py-2 tabular-nums">{ch.automation}%</td>
                       <td className="px-4 py-2 tabular-nums text-muted-foreground">{fmtDuration(Math.round(ch.avgHandleTime * 60))}</td>
                     </tr>
                   ))}

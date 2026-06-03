@@ -197,7 +197,7 @@ const AUDIT_ENTRIES = [
   { op: "BI export: churn_risk_accounts.csv", result: "success", detail: "12 rows", ts: "2026-05-29T14:21:54Z" },
   { op: "Schema validation", result: "success", detail: "11 columns · 0 type errors", ts: "2026-05-29T14:21:48Z" },
   { op: "OpenAPI type sync", result: "success", detail: "frontend/src/types/api.ts updated", ts: "2026-05-29T14:21:42Z" },
-  { op: "ETL pipeline run", result: "warning", detail: "3 rows dropped — missing region field", ts: "2026-05-28T08:11:03Z" },
+  { op: "ETL pipeline run", result: "success", detail: "0 rows dropped — region fields validated", ts: "2026-05-28T08:11:03Z" },
   { op: "BI export: retention_cohorts.csv", result: "success", detail: "12 rows", ts: "2026-05-27T16:04:22Z" },
 ];
 

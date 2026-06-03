@@ -43,8 +43,8 @@ def list_agent_stats() -> list[AgentStats]:
         stats.append(
             AgentStats(
                 agent_id=agent_id,
-                name=agent.get("name") or "Unassigned agent",
-                region=agent.get("region", "Unknown region"),
+                name=agent.get("agent_name") or "Unknown agent",
+                region=agent.get("agent_region") or "Unknown region",
                 skill_rating=skill_rating,
                 avg_rating=skill_rating,
                 total_calls=total,
