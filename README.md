@@ -83,6 +83,16 @@ Current routed pages:
 
 The index route redirects to `/dashboard`.
 
+## Screenshots
+
+These captures come from the GitHub Pages demo and show the support ops and Customer 360 views recruiters can scan quickly.
+
+| Dashboard | Metrics |
+| --- | --- |
+| ![Dashboard overview](docs/screenshots/dashboard.png) | ![Metrics overview](docs/screenshots/metrics.png) |
+| ![Customer 360 overview](docs/screenshots/customer-analytics-overview.png) | ![Churn risk queue](docs/screenshots/churn-risk.png) |
+| ![Retention cohort view](docs/screenshots/retention.png) | ![LTV by segment](docs/screenshots/ltv.png) |
+
 ## Data Products and Contracts
 
 Key generated artifacts:

@@ -4,7 +4,7 @@ This folder holds employer-facing UI captures for the current routed product. Sc
 
 ## Required filenames
 
-- `dashboard.png` for `/dashboard`
+- `dashboard.png` for the root dashboard view (`/`, also reachable as `/dashboard`)
 - `metrics.png` for `/metrics`
 - `calls.png` for `/calls`
 - `call-detail.png` for `/calls/CALL_0001`
@@ -16,13 +16,21 @@ This folder holds employer-facing UI captures for the current routed product. Sc
 
 ## Current checked-in assets
 
+- `dashboard.png`
+- `metrics.png`
+- `calls.png`
+- `call-detail.png`
+- `agents.png`
 - `customer-analytics-overview.png`
 - `churn-risk.png`
-- `retention-ltv.png`
+- `retention.png`
+- `ltv.png`
+- `retention-ltv.png` (legacy)
 
 ## Refresh rules
 
 - Capture from the current `BETTER` or `main` branch after validation passes.
 - Use desktop viewport sizing consistently across the full set.
 - Prefer static-demo mode or a stable local dataset so counts and labels remain deterministic.
-- Replace legacy files such as `retention-ltv.png` once the new route-specific set is available.
+- Prefer full-page screenshots from the deployed GitHub Pages demo when the route is public and stable.
+- Replace legacy files such as `retention-ltv.png` once the new route-specific set is no longer needed.
