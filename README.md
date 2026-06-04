@@ -15,6 +15,8 @@ The project builds a reproducible analytics workflow from ingestion to delivery:
 
 This repository is intentionally credible for technical review. It demonstrates AWS-style lakehouse patterns and BI / Salesforce CRM Analytics readiness through working artifacts and mapping documentation, without claiming a live enterprise integration.
 
+Live site: https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/
+
 ## Highlights
 
 - Builds curated Customer 360 data from operational source files and support interaction data.
