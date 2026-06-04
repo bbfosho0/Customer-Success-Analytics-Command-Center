@@ -25,6 +25,7 @@ This folder holds employer-facing UI captures for the current routed product. Sc
 - `churn-risk.png`
 - `retention.png`
 - `ltv.png`
+- `readme-gallery.png`
 - `retention-ltv.png` (legacy)
 
 ## Refresh rules
