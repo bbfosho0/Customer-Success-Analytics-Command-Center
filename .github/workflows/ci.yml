@@ -27,6 +27,7 @@ jobs:
         run: |
           python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
           python scripts/generate_customer_analytics.py
+          python scripts/export_salesforce_crma.py
       - name: Run Python tests
         run: python -m pytest tests backend/app/tests
       - name: Export OpenAPI schema

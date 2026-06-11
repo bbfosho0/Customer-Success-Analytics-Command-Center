@@ -1,0 +1,42 @@
+{
+  "source_file": "data/marts/ltv_by_segment.parquet",
+  "output_dataset_name": "LTV_By_Segment",
+  "fields": [
+    {
+      "field_name": "Segment__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "segment"
+    },
+    {
+      "field_name": "Plan_Tier__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "plan_tier"
+    },
+    {
+      "field_name": "Customers__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "customers"
+    },
+    {
+      "field_name": "Average_MRR__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "average_mrr"
+    },
+    {
+      "field_name": "Assumed_Monthly_Churn_Rate__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "assumed_monthly_churn_rate"
+    },
+    {
+      "field_name": "Estimated_LTV__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "estimated_ltv"
+    }
+  ]
+}
