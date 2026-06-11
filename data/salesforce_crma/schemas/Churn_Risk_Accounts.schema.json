@@ -1,0 +1,72 @@
+{
+  "source_file": "data/marts/churn_risk_accounts.parquet",
+  "output_dataset_name": "Churn_Risk_Accounts",
+  "fields": [
+    {
+      "field_name": "Account_Id__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "identifier",
+      "original_source_column": "account_id"
+    },
+    {
+      "field_name": "Account_Name__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "account_name"
+    },
+    {
+      "field_name": "Segment__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "segment"
+    },
+    {
+      "field_name": "Region__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "region"
+    },
+    {
+      "field_name": "Plan_Tier__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "plan_tier"
+    },
+    {
+      "field_name": "MRR__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "mrr"
+    },
+    {
+      "field_name": "Health_Score__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "health_score"
+    },
+    {
+      "field_name": "Risk_Band__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "risk_level"
+    },
+    {
+      "field_name": "Main_Risk_Driver__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "main_risk_driver"
+    },
+    {
+      "field_name": "Recommended_Action__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "recommended_action"
+    },
+    {
+      "field_name": "Priority_Rank__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "priority_rank"
+    }
+  ]
+}

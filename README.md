@@ -42,6 +42,8 @@ flowchart LR
     F --> H[data/marts/*.parquet]
     F --> I[data/bi_exports/*.csv]
     F --> J[data/customer_analytics_manifest.json]
+    H --> L[scripts/export_salesforce_crma.py]
+    L --> M[data/salesforce_crma/*.csv and schemas/*.json]
     D --> K[data/manifest.json]
 ```
 
@@ -63,9 +65,11 @@ flowchart LR
 ```mermaid
 flowchart LR
     A[DuckDB marts] --> B[data/bi_exports/*.csv]
-    B --> C[Tableau / Power BI / Looker Studio]
-    B --> D[Salesforce CRM Analytics-ready mapping docs]
-    D --> E[Dataset mapping, recipe plan, SAQL, dashboard wireframe]
+    A --> C[scripts/export_salesforce_crma.py]
+    C --> D[data/salesforce_crma CSVs and schema JSON]
+    B --> E[Tableau / Power BI / Looker Studio]
+    D --> F[CRM Analytics dataset upload]
+    F --> G[Customer 360, churn, retention, LTV, support, and expansion dashboards]
 ```
 
 ## Product Surface
@@ -190,6 +194,7 @@ Recommended full validation pass:
 python scripts/generate_support_sample.py
 python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
 python scripts/generate_customer_analytics.py
+python scripts/export_salesforce_crma.py
 python -m pytest tests backend/app/tests
 python scripts/export_openapi.py --output openapi.json
 npm --prefix frontend run api:generate:local
@@ -197,6 +202,19 @@ npm --prefix frontend run lint
 npm --prefix frontend run test
 npm --prefix frontend run build
 ```
+
+## Salesforce CRM Analytics Export
+
+After generating the customer analytics marts, the repository can produce a dedicated CRM Analytics-ready delivery layer:
+
+```bash
+python scripts/generate_customer_analytics.py
+python scripts/export_salesforce_crma.py
+```
+
+The exporter writes six domain datasets to `data/salesforce_crma/`: Customer 360, churn risk accounts, retention cohorts, LTV by segment, expansion opportunities, and support impact on churn. It converts modeled columns to readable Salesforce-style custom field names and creates field-level schema JSON under `data/salesforce_crma/schemas/` with inferred types and suggested CRM Analytics roles. See `data/salesforce_crma/README.md` for dataset definitions and a Developer Edition upload walkthrough.
+
+This export demonstrates **Salesforce CRM Analytics readiness** for portfolio review. It does not claim a live Salesforce production integration, automated org deployment, or ongoing synchronization.
 
 ## BI and CRM Analytics Readiness
 
@@ -216,6 +234,7 @@ data/raw/                     Source customer and account datasets
 data/curated/                 Curated Customer 360 Parquet outputs
 data/marts/                   DuckDB mart Parquet outputs
 data/bi_exports/              BI-ready CSV exports
+data/salesforce_crma/          CRM Analytics-ready CSVs, schemas, and upload guidance
 frontend/src/app/             Next.js App Router routes
 frontend/src/figma/           Routed redesign compositions and UI primitives
 frontend/src/lib/api/         API client, generated schema, hooks, and static demo fixtures

@@ -1,0 +1,54 @@
+{
+  "source_file": "data/marts/support_impact_on_churn.parquet",
+  "output_dataset_name": "Support_Impact_On_Churn",
+  "fields": [
+    {
+      "field_name": "Segment__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "segment"
+    },
+    {
+      "field_name": "Plan_Tier__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "plan_tier"
+    },
+    {
+      "field_name": "Customers__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "customers"
+    },
+    {
+      "field_name": "Avg_Support_Calls__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "avg_support_calls"
+    },
+    {
+      "field_name": "Avg_Escalated_Calls__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "avg_escalated_calls"
+    },
+    {
+      "field_name": "Avg_Resolution_Rate__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "avg_resolution_rate"
+    },
+    {
+      "field_name": "Avg_Health_Score__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "avg_health_score"
+    },
+    {
+      "field_name": "Churn_Rate__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "churn_rate"
+    }
+  ]
+}

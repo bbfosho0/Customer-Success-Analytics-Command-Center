@@ -1,0 +1,36 @@
+{
+  "source_file": "data/marts/retention_cohorts.parquet",
+  "output_dataset_name": "Retention_Cohorts",
+  "fields": [
+    {
+      "field_name": "Cohort_Month__c",
+      "inferred_data_type": "Date",
+      "suggested_crm_analytics_role": "date",
+      "original_source_column": "cohort_month"
+    },
+    {
+      "field_name": "Month_Number__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "month_number"
+    },
+    {
+      "field_name": "Cohort_Size__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "cohort_size"
+    },
+    {
+      "field_name": "Retained_Customers__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "retained_customers"
+    },
+    {
+      "field_name": "Retention_Rate__c",
+      "inferred_data_type": "Numeric",
+      "suggested_crm_analytics_role": "measure",
+      "original_source_column": "retention_rate"
+    }
+  ]
+}
