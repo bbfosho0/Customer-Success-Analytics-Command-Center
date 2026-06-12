@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveDashboard xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <content xsi:nil="true"/>
+    <application>Customer_Success_Command_Center</application>
+    <dateVersion>1</dateVersion>
+    <description>Customer retention dashboard for cohort performance, lifecycle trends, and cohort detail.</description>
+    <masterLabel>Retention Cohort Dashboard</masterLabel>
+</WaveDashboard>

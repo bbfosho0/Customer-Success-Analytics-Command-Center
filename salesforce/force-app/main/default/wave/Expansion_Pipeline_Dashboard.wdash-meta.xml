@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveDashboard xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <content xsi:nil="true"/>
+    <application>Customer_Success_Command_Center</application>
+    <dateVersion>1</dateVersion>
+    <description>Customer expansion dashboard for open value, weighted value, readiness, timing, and prioritized opportunities.</description>
+    <masterLabel>Expansion Pipeline Dashboard</masterLabel>
+</WaveDashboard>

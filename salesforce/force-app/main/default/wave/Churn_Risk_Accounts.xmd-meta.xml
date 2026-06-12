@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>Churn_Risk_Accounts</dataset>
+    <dimensions>
+        <field>Account_Id__c</field>
+        <isDerived>false</isDerived>
+        <label>Account ID</label>
+        <members>
+            <color>#2E5BFF</color>
+            <label>Account ID</label>
+            <member>Account ID</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Account_Name__c</field>
+        <isDerived>false</isDerived>
+        <label>Account</label>
+        <members>
+            <color>#008C8C</color>
+            <label>Account</label>
+            <member>Account</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Risk_Band__c</field>
+        <isDerived>false</isDerived>
+        <label>Risk Band</label>
+        <members>
+            <color>#BA0517</color>
+            <label>Critical</label>
+            <member>Critical</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <members>
+            <color>#D85A00</color>
+            <label>At Risk</label>
+            <member>At Risk</member>
+            <sortIndex>1</sortIndex>
+        </members>
+        <members>
+            <color>#A85D00</color>
+            <label>Watch</label>
+            <member>Watch</member>
+            <sortIndex>2</sortIndex>
+        </members>
+        <members>
+            <color>#2E844A</color>
+            <label>Healthy</label>
+            <member>Healthy</member>
+            <sortIndex>3</sortIndex>
+        </members>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Main_Risk_Driver__c</field>
+        <isDerived>false</isDerived>
+        <label>Primary Risk Driver</label>
+        <members>
+            <color>#2E844A</color>
+            <label>Primary Risk Driver</label>
+            <member>Primary Risk Driver</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Recommended_Action__c</field>
+        <isDerived>false</isDerived>
+        <label>Recommended Action</label>
+        <members>
+            <color>#14274E</color>
+            <label>Recommended Action</label>
+            <member>Recommended Action</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Segment__c</field>
+        <isDerived>false</isDerived>
+        <label>Customer Segment</label>
+        <members>
+            <color>#BA0517</color>
+            <label>Customer Segment</label>
+            <member>Customer Segment</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>5</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Region__c</field>
+        <isDerived>false</isDerived>
+        <label>Region</label>
+        <members>
+            <color>#2E5BFF</color>
+            <label>Region</label>
+            <member>Region</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>6</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Plan_Tier__c</field>
+        <isDerived>false</isDerived>
+        <label>Plan Tier</label>
+        <members>
+            <color>#008C8C</color>
+            <label>Plan Tier</label>
+            <member>Plan Tier</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>7</sortIndex>
+    </dimensions>
+    <measures>
+        <field>MRR__c</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Monthly Recurring Revenue (MRR)</label>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>Health_Score__c</field>
+        <formatDecimalDigits>1</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Health Score</label>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>Priority_Rank__c</field>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Priority Rank</label>
+        <sortIndex>2</sortIndex>
+    </measures>
+</WaveXmd>
