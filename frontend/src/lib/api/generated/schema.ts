@@ -484,6 +484,8 @@ export interface components {
             account_id: string;
             /** Account Name */
             account_name: string;
+            /** Customer Success Manager */
+            customer_success_manager: string;
             /** Health Score */
             health_score: number;
             /** Main Risk Driver */
@@ -602,6 +604,10 @@ export interface components {
             account_id: string;
             /** Account Name */
             account_name: string;
+            /** Close Month */
+            close_month?: string | null;
+            /** Customer Success Manager */
+            customer_success_manager: string;
             /** Expansion Readiness */
             expansion_readiness: string;
             /** Health Score */
@@ -715,10 +721,14 @@ export interface components {
         RetentionCohortRow: {
             /** Cohort Month */
             cohort_month: string;
+            /** Cohort Quarter */
+            cohort_quarter?: string | null;
             /** Cohort Size */
             cohort_size: number;
             /** Month Number */
             month_number: number;
+            /** Month Since Acquisition */
+            month_since_acquisition?: string | null;
             /** Retained Customers */
             retained_customers: number;
             /** Retention Rate */

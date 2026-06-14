@@ -9,10 +9,22 @@
       "original_source_column": "cohort_month"
     },
     {
+      "field_name": "Cohort_Quarter__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "cohort_quarter"
+    },
+    {
       "field_name": "Month_Number__c",
       "inferred_data_type": "Numeric",
       "suggested_crm_analytics_role": "measure",
       "original_source_column": "month_number"
+    },
+    {
+      "field_name": "Month_Since_Acquisition__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "month_since_acquisition"
     },
     {
       "field_name": "Cohort_Size__c",

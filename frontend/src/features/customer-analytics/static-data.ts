@@ -2,9 +2,12 @@ import type {
   BiExport,
   ChurnRiskAccount,
   CustomerAnalyticsOverview,
+  CustomerHealthScore,
+  ExpansionOpportunity,
   LtvSegment,
   RetentionCohortRow,
   SegmentPerformance,
+  SupportImpactRow,
 } from "./types";
 
 export const staticCustomerOverview: CustomerAnalyticsOverview = {
@@ -46,6 +49,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Critical",
     main_risk_driver: "Low product adoption",
     recommended_action: "Schedule CSM risk review and adoption plan",
+    customer_success_manager: "Riley Patel",
     priority_rank: 1,
   },
   {
@@ -59,6 +63,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Critical",
     main_risk_driver: "Payment failure",
     recommended_action: "Schedule CSM risk review and adoption plan",
+    customer_success_manager: "Taylor Kim",
     priority_rank: 2,
   },
   {
@@ -72,6 +77,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "At Risk",
     main_risk_driver: "Payment failure",
     recommended_action: "Schedule CSM risk review and adoption plan",
+    customer_success_manager: "Riley Patel",
     priority_rank: 3,
   },
   {
@@ -85,6 +91,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "At Risk",
     main_risk_driver: "Low product adoption",
     recommended_action: "Run adoption workshop and usage review",
+    customer_success_manager: "Jordan Ellis",
     priority_rank: 4,
   },
   {
@@ -98,6 +105,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "At Risk",
     main_risk_driver: "Escalated support experience",
     recommended_action: "Review support touchpoints before renewal",
+    customer_success_manager: "Jordan Ellis",
     priority_rank: 5,
   },
   {
@@ -111,6 +119,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Watch",
     main_risk_driver: "Low product adoption",
     recommended_action: "Keep on success cadence and adoption nudges",
+    customer_success_manager: "Avery Morgan",
     priority_rank: 6,
   },
   {
@@ -124,6 +133,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Watch",
     main_risk_driver: "Payment failure",
     recommended_action: "Monitor payment health and retry outcomes",
+    customer_success_manager: "Riley Patel",
     priority_rank: 7,
   },
   {
@@ -137,6 +147,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Watch",
     main_risk_driver: "Escalated support experience",
     recommended_action: "Keep watch and prep renewal playbook",
+    customer_success_manager: "Avery Morgan",
     priority_rank: 8,
   },
   {
@@ -150,6 +161,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Watch",
     main_risk_driver: "Low product adoption",
     recommended_action: "Advance product adoption and executive check-in",
+    customer_success_manager: "Taylor Kim",
     priority_rank: 9,
   },
   {
@@ -163,6 +175,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Healthy",
     main_risk_driver: "Healthy usage and engagement",
     recommended_action: "Continue regular success cadence",
+    customer_success_manager: "Avery Morgan",
     priority_rank: 10,
   },
   {
@@ -176,6 +189,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Healthy",
     main_risk_driver: "Healthy usage and engagement",
     recommended_action: "Continue regular success cadence",
+    customer_success_manager: "Casey Nguyen",
     priority_rank: 11,
   },
   {
@@ -189,6 +203,7 @@ export const staticChurnRisk: ChurnRiskAccount[] = [
     risk_level: "Healthy",
     main_risk_driver: "Healthy usage and engagement",
     recommended_action: "Continue regular success cadence",
+    customer_success_manager: "Jordan Ellis",
     priority_rank: 12,
   },
 ];
@@ -220,3 +235,7 @@ export const staticBiExports: BiExport[] = [
   { name: "retention_cohorts", path: "data/bi_exports/retention_cohorts.csv", rows: 72, size_bytes: 2500 },
   { name: "ltv_by_segment", path: "data/bi_exports/ltv_by_segment.csv", rows: 3, size_bytes: 420 },
 ];
+
+export const staticCustomerHealth: CustomerHealthScore[] = [];
+export const staticExpansionOpportunities: ExpansionOpportunity[] = [];
+export const staticSupportImpact: SupportImpactRow[] = [];

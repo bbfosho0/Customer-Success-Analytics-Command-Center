@@ -1,19 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { apiFetch } from "../../../lib/api/client";
-import type { ApiValidationError, RetentionCohortRow } from "../../../lib/api/types";
+import type { RetentionCohortRow } from "../../../lib/api/types";
 import { queryKeys } from "../../../lib/constants/queryKeys";
-import { isStaticDemoMode } from "../../../lib/utils/env";
+import { buildCustomerAnalyticsQuery } from "../query";
 import { staticRetention } from "../static-data";
 
 export function useRetentionCohorts() {
-  const staticMode = isStaticDemoMode();
+  const query = buildCustomerAnalyticsQuery<RetentionCohortRow[]>(
+    "/api/customer-analytics/retention-cohorts",
+    staticRetention,
+  );
+
   return useQuery<RetentionCohortRow[]>({
     queryKey: queryKeys.customerAnalytics.retention(),
-    queryFn: ({ signal }) =>
-      staticMode
-        ? Promise.resolve(staticRetention)
-        : apiFetch<RetentionCohortRow[], ApiValidationError>("/api/customer-analytics/retention-cohorts", { signal }),
-    staleTime: staticMode ? Infinity : 60_000,
+    queryFn: query.queryFn,
+    staleTime: query.staleTime,
   });
 }

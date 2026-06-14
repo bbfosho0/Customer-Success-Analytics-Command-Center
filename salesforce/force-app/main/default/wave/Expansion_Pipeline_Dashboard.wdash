@@ -1,1 +1,1339 @@
-{"dataSourceLinksInfo":{"enableAutomaticLinking":true,"excludeRelationships":[],"links":[]},"filters":[],"gridLayouts":[{"maxWidth":1440,"name":"Default","numColumns":49,"pages":[{"label":"Expansion Pipeline","name":"expansion-action-queue","navigationHidden":false,"widgets":[{"colspan":31,"column":1,"name":"exp_detail_title","row":1,"rowspan":3,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":38,"column":1,"name":"exp_detail_subtitle","row":4,"rowspan":3,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":6,"column":41,"name":"exp_detail_reset","row":2,"rowspan":3,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#B7C5D5","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":1,"name":"exp_detail_back","row":8,"rowspan":4,"widgetStyle":{"backgroundColor":"#EEF4FF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":1,"name":"exp_detail_selector_segment","row":13,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":13,"name":"exp_detail_selector_region","row":13,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":25,"name":"exp_detail_selector_plan","row":13,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":37,"name":"exp_detail_selector_close","row":13,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":1,"name":"exp_detail_number_open","row":19,"rowspan":8,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#008C8C","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":11,"column":13,"name":"exp_detail_number_weighted","row":19,"rowspan":8,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#2E5BFF","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":23,"column":25,"name":"exp_detail_chart_readiness","row":19,"rowspan":20,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":23,"column":1,"name":"exp_detail_chart_timeline","row":29,"rowspan":20,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":47,"column":1,"name":"exp_detail_table","row":51,"rowspan":30,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}}]}],"rowHeight":"fine","selectors":[],"style":{"alignmentX":"left","alignmentY":"top","backgroundColor":"#14274E","cellSpacingX":5,"cellSpacingY":5,"fit":"original","gutterColor":"#F6F4EF"},"version":1.0},{"maxWidth":375,"name":"Mobile","numColumns":12,"pages":[{"label":"Expansion Pipeline","name":"expansion-action-queue","navigationHidden":false,"widgets":[{"colspan":12,"column":0,"name":"exp_detail_title","row":0,"rowspan":4,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":12,"column":0,"name":"exp_detail_subtitle","row":4,"rowspan":4,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":6,"column":3,"name":"exp_detail_reset","row":8,"rowspan":3,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":10,"column":1,"name":"exp_detail_back","row":12,"rowspan":4,"widgetStyle":{"backgroundColor":"#EEF4FF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":10,"column":1,"name":"exp_detail_number_open","row":18,"rowspan":7,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#008C8C","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":10,"column":1,"name":"exp_detail_number_weighted","row":26,"rowspan":7,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#2E5BFF","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":12,"column":0,"name":"exp_detail_chart_readiness","row":34,"rowspan":23,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":12,"column":0,"name":"exp_detail_chart_timeline","row":58,"rowspan":23,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":12,"column":0,"name":"exp_detail_table","row":82,"rowspan":34,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}}]}],"rowHeight":"fine","selectors":["maxWidth(599)"],"style":{"alignmentX":"left","alignmentY":"top","backgroundColor":"#14274E","cellSpacingX":3,"cellSpacingY":3,"fit":"original","gutterColor":"#F6F4EF"},"version":1.0}],"layouts":[],"steps":{"exp_detail_filter_segment":{"broadcastFacet":true,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Segment__c\"],\"order\":[[\"Segment__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"exp_detail_filter_region":{"broadcastFacet":true,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Region__c\"],\"order\":[[\"Region__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"exp_detail_open":{"broadcastFacet":false,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"sum\",\"Open_Pipeline_Amount__c\"]],\"filters\":[]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"exp_detail_timeline":{"broadcastFacet":false,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"sum\",\"Weighted_Pipeline_Amount__c\"]],\"groups\":[\"Next_Close_Date__c\"],\"order\":[[\"Next_Close_Date__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"vbar"}},"exp_detail_readiness":{"broadcastFacet":false,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"sum\",\"Open_Pipeline_Amount__c\"],[\"sum\",\"Weighted_Pipeline_Amount__c\"]],\"groups\":[\"Expansion_Readiness__c\"],\"order\":[[\"sum_Open_Pipeline_Amount__c\",{\"ascending\":false}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"exp_detail_weighted":{"broadcastFacet":false,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"sum\",\"Weighted_Pipeline_Amount__c\"]],\"filters\":[]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"exp_detail_filter_close":{"broadcastFacet":true,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Next_Close_Date__c\"],\"order\":[[\"Next_Close_Date__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"exp_detail_filter_plan":{"broadcastFacet":true,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Plan_Tier__c\"],\"order\":[[\"Plan_Tier__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"exp_detail_queue":{"broadcastFacet":false,"datasets":[{"name":"Expansion_Opportunities"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"sum\",\"Open_Pipeline_Amount__c\"],[\"sum\",\"Weighted_Pipeline_Amount__c\"],[\"avg\",\"Health_Score__c\"]],\"limit\":100,\"groups\":[\"Account_Name__c\",\"Expansion_Readiness__c\",\"Next_Close_Date__c\",\"Segment__c\",\"Region__c\",\"Plan_Tier__c\"],\"order\":[[\"sum_Weighted_Pipeline_Amount__c\",{\"ascending\":false}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"parameters":{"columnProperties":{},"columns":[],"customBulkActions":[],"headerProperties":{},"interactions":[],"maxColumnWidth":300,"minColumnWidth":60,"mode":"variable","totals":false},"type":"table"}}},"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1,"tooltipStyle":{"backgroundColor":"#0A1733","labelColor":"#C9D4E5","valueColor":"#FFFFFF"}},"widgets":{"exp_detail_selector_segment":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"exp_detail_filter_segment","title":"Customer Segment"},"type":"listselector"},"exp_detail_number_weighted":{"parameters":{"compact":true,"exploreLink":true,"interactions":[],"measureField":"sum_Weighted_Pipeline_Amount__c","numberColor":"#0A1733","numberSize":28,"showActionMenu":true,"step":"exp_detail_weighted","textAlignment":"left","title":"Weighted Expansion Pipeline","titleColor":"#5E6C84","titleSize":12,"tooltip":{"customizeTooltip":false}},"type":"number"},"exp_detail_selector_close":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"exp_detail_filter_close","title":"Expected Close Date"},"type":"listselector"},"exp_detail_title":{"parameters":{"content":{"richTextContent":[{"attributes":{"color":"#FFFFFF","size":"22px","bold":true},"insert":"Expansion Pipeline Dashboard"},{"attributes":{"align":"left"},"insert":"\n"}]},"interactions":[],"showActionMenu":false},"type":"text"},"exp_detail_number_open":{"parameters":{"compact":true,"exploreLink":true,"interactions":[],"measureField":"sum_Open_Pipeline_Amount__c","numberColor":"#0A1733","numberSize":28,"showActionMenu":true,"step":"exp_detail_open","textAlignment":"left","title":"Open Expansion Pipeline","titleColor":"#5E6C84","titleSize":12,"tooltip":{"customizeTooltip":false}},"type":"number"},"exp_detail_table":{"parameters":{"borderColor":"#D9DEE7","borderWidth":1,"cell":{"backgroundColor":"#FFFFFF","fontColor":"#172B4D","fontSize":12},"columnProperties":{},"columns":[],"customBulkActions":[],"exploreLink":true,"header":{"backgroundColor":"#EEF1F6","fontColor":"#0A1733","fontSize":12},"headerProperties":{},"innerMajorBorderColor":"#D9DEE7","innerMinorBorderColor":"#EEF1F6","interactions":[],"maxColumnWidth":280,"minColumnWidth":70,"mode":"variable","numberOfLines":2,"pivoted":false,"showActionMenu":true,"showRowIndexColumn":false,"step":"exp_detail_queue","totals":false,"verticalPadding":9},"type":"table"},"exp_detail_subtitle":{"parameters":{"content":{"richTextContent":[{"attributes":{"color":"#DCE6F5","size":"13px","bold":false},"insert":"A prioritized view of potential growth, probability-adjusted value, customer readiness, and timing"},{"attributes":{"align":"left"},"insert":"\n"}]},"interactions":[],"showActionMenu":false},"type":"text"},"exp_detail_selector_region":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"exp_detail_filter_region","title":"Region"},"type":"listselector"},"exp_detail_chart_readiness":{"parameters":{"autoFitMode":"fit","totalValue":"computeTotal","legend":{"descOrder":false,"showHeader":false,"show":true,"customSize":"auto","position":"right-top","inside":false},"axisMode":"multi","tooltip":{"content":{"legend":{"showBinLabel":true,"measures":[],"showNullValues":true,"customizeLegend":false,"showPercentage":true,"showDimensions":true,"showMeasures":true,"dimensions":[]}}},"visualizationType":"hbar","exploreLink":true,"title":{"fontSize":15,"subtitleFontSize":11,"label":"Open and Weighted Pipeline by Readiness","align":"left","subtitleLabel":"Compares full potential value with probability-adjusted value at each readiness level."},"trellis":{"flipLabels":false,"showGridLines":true,"size":[100,100],"enable":false,"type":"x","chartsPerLine":4},"totalLabel":"","columnMap":{"split":[],"trellis":[],"dimension":["Expansion_Readiness__c"],"dimensionAxis":["Expansion_Readiness__c"],"plots":["sum_Open_Pipeline_Amount__c","sum_Weighted_Pipeline_Amount__c"]},"showActionMenu":true,"measureAxis2":{"sqrtScale":false,"showTitle":false,"showAxis":false,"title":"","customDomain":{"showDomain":false}},"valueType":"compactNumber","measureAxis1":{"sqrtScale":false,"showTitle":true,"showAxis":true,"title":"Pipeline Value","customDomain":{"showDomain":false}},"step":"exp_detail_readiness","theme":"wave","applyConditionalFormatting":false,"dimensionAxis":{"showTitle":true,"customSize":"auto","showAxis":true,"title":"Expansion Readiness"}},"type":"chart"},"exp_detail_chart_timeline":{"parameters":{"autoFitMode":"fit","totalValue":"computeTotal","legend":{"descOrder":false,"showHeader":false,"show":false,"customSize":"auto","position":"right-top","inside":false},"axisMode":"multi","tooltip":{"content":{"legend":{"showBinLabel":true,"measures":[],"showNullValues":true,"customizeLegend":false,"showPercentage":true,"showDimensions":true,"showMeasures":true,"dimensions":[]}}},"visualizationType":"vbar","exploreLink":true,"title":{"fontSize":15,"subtitleFontSize":11,"label":"Weighted Pipeline Timeline","align":"left","subtitleLabel":"Shows when probability-adjusted expansion value is currently expected to close."},"trellis":{"flipLabels":false,"showGridLines":true,"size":[100,100],"enable":false,"type":"x","chartsPerLine":4},"totalLabel":"","columnMap":{"split":[],"trellis":[],"dimension":["Next_Close_Date__c"],"dimensionAxis":["Next_Close_Date__c"],"plots":["sum_Weighted_Pipeline_Amount__c"]},"showActionMenu":true,"measureAxis2":{"sqrtScale":false,"showTitle":false,"showAxis":false,"title":"","customDomain":{"showDomain":false}},"valueType":"compactNumber","measureAxis1":{"sqrtScale":false,"showTitle":true,"showAxis":true,"title":"Weighted Expansion Pipeline","customDomain":{"showDomain":false}},"step":"exp_detail_timeline","theme":"wave","applyConditionalFormatting":false,"dimensionAxis":{"showTitle":true,"customSize":"auto","showAxis":true,"title":"Expected Close Date"}},"type":"chart"},"exp_detail_reset":{"parameters":{"destinationLink":{"name":"Expansion_Pipeline_Dashboard","namespace":""},"destinationType":"dashboard","fontSize":12,"includeState":false,"text":"Reset filters","textAlignment":"center","textColor":"#14274E"},"type":"link"},"exp_detail_selector_plan":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"exp_detail_filter_plan","title":"Plan Tier"},"type":"listselector"},"exp_detail_back":{"parameters":{"destinationLink":{"name":"Landing_Page","namespace":""},"destinationType":"dashboard","fontSize":13,"includeState":false,"text":"Back to Command Center","textAlignment":"left","textColor":"#2E5BFF"},"type":"link"}}}
+{
+  "dataSourceLinksInfo": {
+    "enableAutomaticLinking": true,
+    "excludeRelationships": [],
+    "links": []
+  },
+  "filters": [],
+  "gridLayouts": [
+    {
+      "maxWidth": 1600,
+      "name": "Default",
+      "numColumns": 48,
+      "pages": [
+        {
+          "label": "Expansion Pipeline",
+          "name": "expansion-action-queue",
+          "navigationHidden": false,
+          "widgets": [
+            {
+              "colspan": 48,
+              "column": 0,
+              "name": "exp_detail_header_container",
+              "row": 0,
+              "rowspan": 8,
+              "widgetStyle": {
+                "backgroundColor": "#0F172A",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 32,
+              "column": 1,
+              "name": "exp_detail_title",
+              "row": 1,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 8,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 6,
+              "column": 41,
+              "name": "exp_detail_reset",
+              "row": 2,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#F8FAFC",
+                "borderColor": "#CBD5E1",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 7,
+              "column": 33,
+              "name": "exp_detail_back",
+              "row": 2,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#F8FAFC",
+                "borderColor": "#CBD5E1",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_selector_csm",
+              "row": 9,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 12,
+              "name": "exp_detail_selector_segment",
+              "row": 9,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 24,
+              "name": "exp_detail_selector_region",
+              "row": 9,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 36,
+              "name": "exp_detail_selector_plan",
+              "row": 9,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_number_open",
+              "row": 16,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#0D9488",
+                "borderEdges": [
+                  "top"
+                ],
+                "borderRadius": 8,
+                "borderWidth": 3
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 12,
+              "name": "exp_detail_number_weighted",
+              "row": 16,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#2563EB",
+                "borderEdges": [
+                  "top"
+                ],
+                "borderRadius": 8,
+                "borderWidth": 3
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 24,
+              "name": "exp_detail_number_ready",
+              "row": 16,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#16A34A",
+                "borderEdges": [
+                  "top"
+                ],
+                "borderRadius": 8,
+                "borderWidth": 3
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 36,
+              "name": "exp_detail_number_health",
+              "row": 16,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#16A34A",
+                "borderEdges": [
+                  "top"
+                ],
+                "borderRadius": 8,
+                "borderWidth": 3
+              }
+            },
+            {
+              "colspan": 24,
+              "column": 0,
+              "name": "exp_detail_chart_readiness",
+              "row": 24,
+              "rowspan": 20,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 24,
+              "column": 24,
+              "name": "exp_detail_chart_timeline",
+              "row": 24,
+              "rowspan": 20,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 48,
+              "column": 0,
+              "name": "exp_detail_table",
+              "row": 45,
+              "rowspan": 28,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            }
+          ]
+        }
+      ],
+      "rowHeight": "fine",
+      "selectors": [
+        "minWidth(600)"
+      ],
+      "style": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "backgroundColor": "#F7F8FA",
+        "cellSpacingX": 4,
+        "cellSpacingY": 4,
+        "fit": "original",
+        "gutterColor": "#F7F8FA"
+      },
+      "version": 1
+    },
+    {
+      "maxWidth": 375,
+      "name": "Mobile",
+      "numColumns": 12,
+      "pages": [
+        {
+          "label": "Expansion Pipeline",
+          "name": "expansion-action-queue",
+          "navigationHidden": false,
+          "widgets": [
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_header_container",
+              "row": 0,
+              "rowspan": 10,
+              "widgetStyle": {
+                "backgroundColor": "#0F172A",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 10,
+              "column": 1,
+              "name": "exp_detail_title",
+              "row": 1,
+              "rowspan": 5,
+              "widgetStyle": {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 8,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 5,
+              "column": 6,
+              "name": "exp_detail_reset",
+              "row": 6,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#F8FAFC",
+                "borderColor": "#CBD5E1",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 5,
+              "column": 1,
+              "name": "exp_detail_back",
+              "row": 6,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#F8FAFC",
+                "borderColor": "#CBD5E1",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_selector_csm",
+              "row": 11,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_selector_segment",
+              "row": 18,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_selector_region",
+              "row": 25,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_selector_plan",
+              "row": 32,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_number_open",
+              "row": 39,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_number_weighted",
+              "row": 46,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_number_ready",
+              "row": 53,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_number_health",
+              "row": 60,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_chart_readiness",
+              "row": 67,
+              "rowspan": 22,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_chart_timeline",
+              "row": 90,
+              "rowspan": 22,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "exp_detail_table",
+              "row": 113,
+              "rowspan": 34,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            }
+          ]
+        }
+      ],
+      "rowHeight": "fine",
+      "selectors": [
+        "maxWidth(599)"
+      ],
+      "style": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "backgroundColor": "#F7F8FA",
+        "cellSpacingX": 3,
+        "cellSpacingY": 3,
+        "fit": "original",
+        "gutterColor": "#F7F8FA"
+      },
+      "version": 1
+    }
+  ],
+  "layouts": [],
+  "steps": {
+    "exp_detail_filter_csm": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Customer_Success_Manager__c\"],\"order\":[[\"Customer_Success_Manager__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_filter_segment": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Segment__c\"],\"order\":[[\"Segment__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_filter_region": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Region__c\"],\"order\":[[\"Region__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_filter_plan": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Plan_Tier__c\"],\"order\":[[\"Plan_Tier__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_open": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"sum\",\"Open_Pipeline_Amount__c\"]],\"filters\":[]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_weighted": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"sum\",\"Weighted_Pipeline_Amount__c\"]],\"filters\":[]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_ready": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"filters\":[[\"Expansion_Readiness__c\",[\"Expansion Ready\"],\"in\"]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_health": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"avg\",\"Health_Score__c\"]],\"filters\":[]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_readiness": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"sum\",\"Open_Pipeline_Amount__c\"],[\"sum\",\"Weighted_Pipeline_Amount__c\"]],\"groups\":[\"Expansion_Readiness__c\"],\"order\":[[\"sum_Open_Pipeline_Amount__c\",{\"ascending\":false}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "exp_detail_timeline": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"sum\",\"Weighted_Pipeline_Amount__c\"]],\"groups\":[\"Close_Month__c\"],\"order\":[[\"Close_Month__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "vbar"
+      }
+    },
+    "exp_detail_queue": {
+      "datasets": [
+        {
+          "name": "Expansion_Opportunities"
+        }
+      ],
+      "isFacet": false,
+      "isGlobal": false,
+      "label": "portfolio_table",
+      "query": {
+        "query": "{\"measures\":[],\"values\":[\"Account_Name__c\",\"Expansion_Readiness__c\",\"Open_Pipeline_Amount__c\",\"Weighted_Pipeline_Amount__c\",\"Health_Score__c\",\"Next_Close_Date__c\",\"Close_Month__c\",\"Customer_Success_Manager__c\"],\"groups\":[],\"filters\":[],\"order\":[[\"Weighted_Pipeline_Amount__c\",{\"ascending\":false}]],\"limit\":50}",
+        "version": -1
+      },
+      "selectMode": "none",
+      "type": "grain",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "valuestable"
+      }
+    }
+  },
+  "widgetStyle": {
+    "backgroundColor": "#FFFFFF",
+    "borderColor": "#E2E8F0",
+    "borderEdges": [
+      "all"
+    ],
+    "borderRadius": 8,
+    "borderWidth": 1,
+    "tooltipStyle": {
+      "backgroundColor": "#0F172A",
+      "labelColor": "#CBD5E1",
+      "valueColor": "#FFFFFF"
+    }
+  },
+  "widgets": {
+    "exp_detail_header_container": {
+      "parameters": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "fit": "original",
+        "interactions": []
+      },
+      "type": "container"
+    },
+    "exp_detail_title": {
+      "parameters": {
+        "content": {
+          "richTextContent": [
+            {
+              "attributes": {
+                "color": "#FFFFFF",
+                "size": "24px",
+                "bold": true
+              },
+              "insert": "Expansion Pipeline Dashboard"
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            },
+            {
+              "attributes": {
+                "color": "#CBD5E1",
+                "size": "12px",
+                "bold": false
+              },
+              "insert": "Prioritize growth opportunities by readiness, probability-adjusted value, timing, and owner."
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            },
+            {
+              "attributes": {
+                "color": "#94A3B8",
+                "size": "12px",
+                "bold": false
+              },
+              "insert": "Illustrative 2025 portfolio snapshot"
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            }
+          ]
+        },
+        "interactions": [],
+        "showActionMenu": false
+      },
+      "type": "text"
+    },
+    "exp_detail_reset": {
+      "parameters": {
+        "destinationLink": {
+          "name": "Expansion_Pipeline_Dashboard",
+          "namespace": ""
+        },
+        "destinationType": "dashboard",
+        "fontSize": 12,
+        "includeState": false,
+        "text": "Reset filters",
+        "textAlignment": "center",
+        "textColor": "#0F172A"
+      },
+      "type": "link"
+    },
+    "exp_detail_back": {
+      "parameters": {
+        "destinationLink": {
+          "name": "Landing_Page",
+          "namespace": ""
+        },
+        "destinationType": "dashboard",
+        "fontSize": 12,
+        "includeState": false,
+        "text": "Back to command center",
+        "textAlignment": "center",
+        "textColor": "#0F172A"
+      },
+      "type": "link"
+    },
+    "exp_detail_selector_csm": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "exp_detail_filter_csm",
+        "title": "Customer Success Manager"
+      },
+      "type": "listselector"
+    },
+    "exp_detail_selector_segment": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "exp_detail_filter_segment",
+        "title": "Customer Segment"
+      },
+      "type": "listselector"
+    },
+    "exp_detail_selector_region": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "exp_detail_filter_region",
+        "title": "Region"
+      },
+      "type": "listselector"
+    },
+    "exp_detail_selector_plan": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "exp_detail_filter_plan",
+        "title": "Plan Tier"
+      },
+      "type": "listselector"
+    },
+    "exp_detail_number_open": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "sum_Open_Pipeline_Amount__c",
+        "numberColor": "#0D9488",
+        "numberSize": 30,
+        "showActionMenu": false,
+        "step": "exp_detail_open",
+        "textAlignment": "left",
+        "title": "Open Expansion Pipeline",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "exp_detail_number_weighted": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "sum_Weighted_Pipeline_Amount__c",
+        "numberColor": "#2563EB",
+        "numberSize": 30,
+        "showActionMenu": false,
+        "step": "exp_detail_weighted",
+        "textAlignment": "left",
+        "title": "Weighted Pipeline",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "exp_detail_number_ready": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "count",
+        "numberColor": "#16A34A",
+        "numberSize": 30,
+        "showActionMenu": false,
+        "step": "exp_detail_ready",
+        "textAlignment": "left",
+        "title": "Expansion-Ready Accounts",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "exp_detail_number_health": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "avg_Health_Score__c",
+        "numberColor": "#16A34A",
+        "numberSize": 30,
+        "showActionMenu": false,
+        "step": "exp_detail_health",
+        "textAlignment": "left",
+        "title": "Average Health Score",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "exp_detail_chart_readiness": {
+      "parameters": {
+        "autoFitMode": "fit",
+        "totalValue": "computeTotal",
+        "legend": {
+          "descOrder": false,
+          "showHeader": false,
+          "show": true,
+          "customSize": "auto",
+          "position": "bottom-center",
+          "inside": false
+        },
+        "axisMode": "multi",
+        "tooltip": {
+          "content": {
+            "legend": {
+              "showBinLabel": true,
+              "measures": [],
+              "showNullValues": true,
+              "customizeLegend": false,
+              "showPercentage": true,
+              "showDimensions": true,
+              "showMeasures": true,
+              "dimensions": []
+            }
+          }
+        },
+        "visualizationType": "hbar",
+        "exploreLink": false,
+        "title": {
+          "align": "left",
+          "fontSize": 15,
+          "label": "Open and Weighted Pipeline by Readiness",
+          "subtitleFontSize": 11,
+          "subtitleLabel": "Full potential value compared with probability-adjusted value."
+        },
+        "trellis": {
+          "flipLabels": false,
+          "showGridLines": true,
+          "size": [
+            100,
+            100
+          ],
+          "enable": false,
+          "type": "x",
+          "chartsPerLine": 4
+        },
+        "totalLabel": "",
+        "columnMap": {
+          "split": [],
+          "trellis": [],
+          "dimension": [
+            "Expansion_Readiness__c"
+          ],
+          "dimensionAxis": [
+            "Expansion_Readiness__c"
+          ],
+          "plots": [
+            "sum_Open_Pipeline_Amount__c",
+            "sum_Weighted_Pipeline_Amount__c"
+          ]
+        },
+        "showActionMenu": false,
+        "measureAxis2": {
+          "sqrtScale": false,
+          "showTitle": false,
+          "showAxis": false,
+          "title": "",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "valueType": "compactNumber",
+        "measureAxis1": {
+          "sqrtScale": false,
+          "showTitle": true,
+          "showAxis": true,
+          "title": "Pipeline Value",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "step": "exp_detail_readiness",
+        "theme": "wave",
+        "applyConditionalFormatting": false,
+        "dimensionAxis": {
+          "showTitle": true,
+          "customSize": "auto",
+          "showAxis": true,
+          "title": "Expansion Readiness"
+        }
+      },
+      "type": "chart"
+    },
+    "exp_detail_chart_timeline": {
+      "parameters": {
+        "autoFitMode": "fit",
+        "totalValue": "computeTotal",
+        "legend": {
+          "descOrder": false,
+          "showHeader": false,
+          "show": false,
+          "customSize": "auto",
+          "position": "bottom-center",
+          "inside": false
+        },
+        "axisMode": "multi",
+        "tooltip": {
+          "content": {
+            "legend": {
+              "showBinLabel": true,
+              "measures": [],
+              "showNullValues": true,
+              "customizeLegend": false,
+              "showPercentage": true,
+              "showDimensions": true,
+              "showMeasures": true,
+              "dimensions": []
+            }
+          }
+        },
+        "visualizationType": "vbar",
+        "exploreLink": false,
+        "title": {
+          "align": "left",
+          "fontSize": 15,
+          "label": "Weighted Pipeline by Expected Close Month",
+          "subtitleFontSize": 11,
+          "subtitleLabel": "Monthly timing view of the illustrative 2025 opportunity pipeline."
+        },
+        "trellis": {
+          "flipLabels": false,
+          "showGridLines": true,
+          "size": [
+            100,
+            100
+          ],
+          "enable": false,
+          "type": "x",
+          "chartsPerLine": 4
+        },
+        "totalLabel": "",
+        "columnMap": {
+          "split": [],
+          "trellis": [],
+          "dimension": [
+            "Close_Month__c"
+          ],
+          "dimensionAxis": [
+            "Close_Month__c"
+          ],
+          "plots": [
+            "sum_Weighted_Pipeline_Amount__c"
+          ]
+        },
+        "showActionMenu": false,
+        "measureAxis2": {
+          "sqrtScale": false,
+          "showTitle": false,
+          "showAxis": false,
+          "title": "",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "valueType": "compactNumber",
+        "measureAxis1": {
+          "sqrtScale": false,
+          "showTitle": true,
+          "showAxis": true,
+          "title": "Weighted Expansion Pipeline",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "step": "exp_detail_timeline",
+        "theme": "wave",
+        "applyConditionalFormatting": false,
+        "dimensionAxis": {
+          "showTitle": true,
+          "customSize": "auto",
+          "showAxis": true,
+          "title": "Expected Close Month"
+        }
+      },
+      "type": "chart"
+    },
+    "exp_detail_table": {
+      "parameters": {
+        "borderColor": "#E2E8F0",
+        "borderWidth": 1,
+        "cell": {
+          "backgroundColor": "#FFFFFF",
+          "fontColor": "#0F172A",
+          "fontSize": 11
+        },
+        "columnProperties": {
+          "Account_Name__c": {
+            "type": "text",
+            "parameters": {
+              "width": 270
+            }
+          },
+          "Expansion_Readiness__c": {
+            "type": "text",
+            "parameters": {
+              "width": 245
+            }
+          },
+          "Open_Pipeline_Amount__c": {
+            "type": "text",
+            "parameters": {
+              "width": 245
+            }
+          },
+          "Weighted_Pipeline_Amount__c": {
+            "type": "text",
+            "parameters": {
+              "width": 270
+            }
+          },
+          "Health_Score__c": {
+            "type": "text",
+            "parameters": {
+              "width": 190
+            }
+          },
+          "Customer_Success_Manager__c": {
+            "type": "text",
+            "parameters": {
+              "width": 300
+            }
+          }
+        },
+        "columns": [
+          "Account_Name__c",
+          "Expansion_Readiness__c",
+          "Open_Pipeline_Amount__c",
+          "Weighted_Pipeline_Amount__c",
+          "Health_Score__c",
+          "Customer_Success_Manager__c"
+        ],
+        "customBulkActions": [],
+        "exploreLink": false,
+        "header": {
+          "backgroundColor": "#F1F5F9",
+          "fontColor": "#0F172A",
+          "fontSize": 10
+        },
+        "headerProperties": {},
+        "innerMajorBorderColor": "#E2E8F0",
+        "innerMinorBorderColor": "#F1F5F9",
+        "interactions": [],
+        "maxColumnWidth": 300,
+        "minColumnWidth": 64,
+        "mode": "variable",
+        "numberOfLines": 2,
+        "pivoted": false,
+        "showActionMenu": false,
+        "showRowIndexColumn": false,
+        "step": "exp_detail_queue",
+        "totals": false,
+        "verticalPadding": 6
+      },
+      "type": "table"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
     <dataset>Support_Impact_On_Churn</dataset>
     <dimensions>
@@ -34,7 +34,7 @@
     </measures>
     <measures>
         <field>Churn_Rate__c</field>
-        <formatCustomFormat>[&quot;0.0%&quot;,100]</formatCustomFormat>
+        <formatCustomFormat>["0.0%",100]</formatCustomFormat>
         <formatDecimalDigits>2</formatDecimalDigits>
         <isDerived>false</isDerived>
         <label>Churn Rate</label>
@@ -56,7 +56,7 @@
     </measures>
     <measures>
         <field>Avg_Resolution_Rate__c</field>
-        <formatCustomFormat>[&quot;0.0%&quot;,100]</formatCustomFormat>
+        <formatCustomFormat>["0.0%",1]</formatCustomFormat>
         <formatDecimalDigits>1</formatDecimalDigits>
         <isDerived>false</isDerived>
         <label>Average Resolution Rate</label>

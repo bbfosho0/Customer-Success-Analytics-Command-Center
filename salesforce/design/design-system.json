@@ -1,0 +1,738 @@
+{
+  "name": "crm-analytics-customer-success-command-center",
+  "version": "1.0.0",
+  "scope": {
+    "product": "Salesforce CRM Analytics",
+    "dashboard": "Customer Success Command Center",
+    "intent": "Normalize visual presentation while preserving every metric, query, binding, dataset, step, and business calculation."
+  },
+  "designDirection": {
+    "theme": "clean-light-executive-command-center",
+    "description": "Calm, structured, readable, and consistent. Use a light page background, white cards, subtle borders, restrained navy accents, and semantic status colors only where they communicate business meaning.",
+    "productFeel": "polished-saas-analytics",
+    "antiPatterns": [
+      "separately-styled-widgets",
+      "heavy-shadows",
+      "mixed-dark-and-light-kpi-cards-in-same-row",
+      "tiny-text-for-business-meaning"
+    ]
+  },
+  "tokens": {
+    "colors": {
+      "pageBackground": "#F6F8FB",
+      "cardBackground": "#FFFFFF",
+      "primaryText": "#0F172A",
+      "secondaryText": "#334155",
+      "mutedText": "#64748B",
+      "border": "#D9E2EC",
+      "primaryAccent": "#0B1F3A",
+      "positiveMetric": "#16A34A",
+      "warningMetric": "#F59E0B",
+      "negativeRiskMetric": "#DC2626",
+      "neutralChartFill": "#4FB6D3",
+      "tableHeaderBackground": "#F1F5F9",
+      "gridlineColor": "#E5EAF0"
+    },
+    "componentColors": {
+      "navigationBackground": "#1E293B",
+      "navigationBorder": "#475569",
+      "secondaryActionBackground": "#F8FAFC",
+      "secondaryActionBorder": "#CBD5E1",
+      "subtlePanelBackground": "#F8FAFC",
+      "filterToolbarBackground": "#FBFCFE",
+      "healthTileBackground": "#F8FAFC",
+      "chartCardBorder": "#D8E1EC",
+      "tableCardBorder": "#D8E1EC",
+      "transparent": "rgba(255, 255, 255, 0)"
+    },
+    "colorUsage": {
+      "pageBackground": "Dashboard canvas/background",
+      "cardBackground": "All widget/card backgrounds",
+      "primaryText": "Main titles, KPI values, important table text",
+      "secondaryText": "Labels, chart titles, normal table text",
+      "mutedText": "Subtitles, descriptions, helper text, axis labels",
+      "border": "Card borders, table borders, filter borders",
+      "primaryAccent": "Header, primary nav, selected state, revenue emphasis",
+      "positiveMetric": "Healthy, good, positive status",
+      "warningMetric": "Watch, caution, medium priority",
+      "negativeRiskMetric": "At Risk, Critical, churn risk, danger",
+      "neutralChartFill": "Default bar/fill color when chart is not status-specific",
+      "tableHeaderBackground": "Table header rows and subtle section headers"
+    },
+    "typography": {
+      "sizes": {
+        "dashboardTitle": "24px",
+        "sectionTitle": "16px",
+        "kpiValue": "32px",
+        "kpiLabel": "12px",
+        "chartTitle": "14px",
+        "chartAxisLabel": "11px",
+        "tableHeader": "11px",
+        "tableBody": "12px",
+        "tooltipBodyText": "12px"
+      },
+      "weights": {
+        "dashboardTitleWeight": 700,
+        "sectionTitleWeight": 700,
+        "kpiValueWeight": 700,
+        "kpiLabelWeight": 500,
+        "chartTitleWeight": 700,
+        "chartAxisLabelWeight": 400,
+        "tableHeaderWeight": 700,
+        "tableBodyWeight": 400,
+        "tooltipBodyWeight": 400
+      },
+      "rules": {
+        "minimumFontSize": "10px",
+        "dashboardTitleColor": "primaryText",
+        "kpiValueColor": "primaryText",
+        "normalLabelColor": "secondaryText",
+        "helperTextColor": "mutedText",
+        "avoidMixedBoldUnderlineAndColorOnSmallText": true,
+        "avoidTinyTextAsPrimaryMeaningCarrier": true
+      }
+    },
+    "titles": {
+      "titleColor": "#0F172A",
+      "titleSize": "14px",
+      "titleWeight": 700,
+      "subtitleColor": "#64748B",
+      "subtitleSize": "11px",
+      "subtitleWeight": 400
+    },
+    "cards": {
+      "cardBackground": "#FFFFFF",
+      "cardBorder": "1px solid #D9E2EC",
+      "cardRadius": "10px",
+      "cardPaddingDesktop": "16px",
+      "cardPaddingTablet": "14px",
+      "cardPaddingMobile": "12px",
+      "cardGapDesktop": "16px",
+      "cardGapTablet": "14px",
+      "cardGapMobile": "12px",
+      "shadow": {
+        "enabled": false,
+        "style": "subtle-and-consistent-if-used"
+      }
+    },
+    "kpi": {
+      "kpiValueSizeDesktop": "32px",
+      "kpiValueSizeTablet": "28px",
+      "kpiValueSizeMobile": "26px",
+      "kpiLabelSize": "12px",
+      "kpiSubtitleSize": "11px",
+      "leftAccentBorderWidth": [
+        "3px",
+        "4px"
+      ]
+    },
+    "charts": {
+      "title": {
+        "chartTitleSize": "14px",
+        "chartTitleWeight": 700,
+        "chartTitleColor": "#0F172A",
+        "chartSubtitleSize": "11px",
+        "chartSubtitleColor": "#64748B"
+      },
+      "axis": {
+        "axisLabelSize": "11px",
+        "axisLabelColor": "#64748B",
+        "axisTitleSize": "11px",
+        "axisTitleColor": "#64748B"
+      },
+      "legend": {
+        "textSize": "11px",
+        "textColor": "secondaryText",
+        "hideWhenSingleSeries": true,
+        "avoidCompressingChart": true
+      },
+      "gridlines": {
+        "gridlineColor": "#E5EAF0",
+        "gridlineWidth": "1px",
+        "gridlineOpacity": 1
+      },
+      "spacing": {
+        "paddingDesktop": "16px",
+        "paddingMobile": "12px",
+        "titleToPlotGap": "8px"
+      }
+    },
+    "tables": {
+      "header": {
+        "background": "#F1F5F9",
+        "textColor": "#0F172A",
+        "fontSize": "11px",
+        "fontWeight": 700,
+        "borderColor": "#D9E2EC"
+      },
+      "body": {
+        "fontSize": "12px",
+        "textColor": "#334155",
+        "rowHeightDesktop": "36px",
+        "rowHeightTablet": "36px",
+        "rowHeightMobile": "40px",
+        "borderColor": "#E5EAF0"
+      }
+    },
+    "spacing": {
+      "dashboardOuterPaddingDesktop": "16px",
+      "dashboardOuterPaddingTablet": "14px",
+      "dashboardOuterPaddingMobile": "12px",
+      "sectionGapDesktop": "16px",
+      "sectionGapTablet": "14px",
+      "sectionGapMobile": "12px",
+      "cardGapDesktop": "16px",
+      "cardGapTablet": "14px",
+      "cardGapMobile": "12px"
+    },
+    "minimumReadableSizes": {
+      "minimumKpiValueMobile": "26px",
+      "minimumKpiLabelMobile": "11px",
+      "minimumChartTitleMobile": "13px",
+      "minimumAxisLabelMobile": "10px",
+      "minimumTableBodyMobile": "12px",
+      "minimumButtonTextMobile": "12px"
+    }
+  },
+  "semanticColorRules": {
+    "positive": {
+      "token": "positiveMetric",
+      "useFor": [
+        "healthy",
+        "good-status",
+        "positive-outcomes"
+      ]
+    },
+    "warning": {
+      "token": "warningMetric",
+      "useFor": [
+        "watch",
+        "caution",
+        "medium-priority"
+      ]
+    },
+    "negativeRisk": {
+      "token": "negativeRiskMetric",
+      "useFor": [
+        "at-risk",
+        "critical",
+        "churn-risk",
+        "negative-movement",
+        "danger"
+      ]
+    },
+    "neutral": {
+      "token": "neutralChartFill",
+      "useFor": [
+        "neutral-revenue-bars",
+        "non-status-default-fills",
+        "expansion-pipeline"
+      ]
+    },
+    "structural": {
+      "token": "primaryAccent",
+      "useFor": [
+        "header",
+        "navigation",
+        "selected-state",
+        "revenue-emphasis-used-sparingly"
+      ]
+    }
+  },
+  "widgetCategoryRules": {
+    "header": {
+      "backgroundColor": "primaryAccent",
+      "titleColor": "cardBackground",
+      "subtitleColor": "mutedText",
+      "titleSize": "dashboardTitle",
+      "titleWeight": "dashboardTitleWeight",
+      "subtitleSize": "11px",
+      "subtitleWeight": 400,
+      "cardStyle": {
+        "useCardSystem": true,
+        "mixDarkAndLightInSameHeaderBlock": false
+      }
+    },
+    "kpi": {
+      "backgroundColor": "cardBackground",
+      "borderColor": "border",
+      "borderRadius": "10px",
+      "padding": {
+        "desktop": "16px",
+        "tablet": "14px",
+        "mobile": "12px"
+      },
+      "value": {
+        "align": "left",
+        "sizeDesktop": "32px",
+        "sizeTablet": "28px",
+        "sizeMobile": "26px",
+        "weight": 700
+      },
+      "label": {
+        "size": "12px",
+        "weight": 500,
+        "color": "secondaryText"
+      },
+      "subtitle": {
+        "size": "11px",
+        "weight": 400,
+        "color": "mutedText"
+      },
+      "accent": {
+        "preferredStyle": "small-left-border",
+        "widthOptions": [
+          "3px",
+          "4px"
+        ],
+        "avoidAggressiveDualEncoding": true
+      },
+      "rules": {
+        "equalHeightInRow": true,
+        "noLargeEmptyArea": true,
+        "valueMustRemainLargerThanChartText": true,
+        "noMixedCenterAndLeftAlignment": true,
+        "noSingleDarkTileInLightRow": true
+      }
+    },
+    "chart": {
+      "backgroundColor": "cardBackground",
+      "borderColor": "border",
+      "borderRadius": "10px",
+      "padding": {
+        "desktop": "16px",
+        "mobile": "12px"
+      },
+      "title": {
+        "size": "14px",
+        "weight": 700,
+        "color": "primaryText"
+      },
+      "subtitle": {
+        "size": "11px",
+        "weight": 400,
+        "color": "mutedText"
+      },
+      "axis": {
+        "labelSize": "11px",
+        "labelColor": "mutedText",
+        "titleSize": "11px",
+        "titleColor": "mutedText"
+      },
+      "legend": {
+        "textSize": "11px",
+        "textColor": "secondaryText",
+        "hideWhenSingleSeries": true,
+        "avoidCompression": true
+      },
+      "gridlines": {
+        "color": "gridlineColor",
+        "width": "1px",
+        "opacity": 1
+      },
+      "rules": {
+        "minimumTitleToPlotGap": "8px",
+        "preserveLeftPaddingForHorizontalBars": true,
+        "preventLabelCollision": true,
+        "avoidStatusColorsOnNeutralCharts": true
+      }
+    },
+    "table": {
+      "backgroundColor": "cardBackground",
+      "borderColor": "border",
+      "borderRadius": "10px",
+      "header": {
+        "backgroundColor": "tableHeaderBackground",
+        "textColor": "primaryText",
+        "fontSize": "11px",
+        "fontWeight": 700
+      },
+      "body": {
+        "textColor": "secondaryText",
+        "fontSize": "12px",
+        "rowHeightDesktop": "36px",
+        "rowHeightTablet": "36px",
+        "rowHeightMobile": "40px"
+      },
+      "alignment": {
+        "numericColumns": "right",
+        "nameAndLabelColumns": "left"
+      },
+      "riskHighlighting": {
+        "prefer": [
+          "small-semantic-pill",
+          "small-semantic-text",
+          "left-marker-for-critical"
+        ],
+        "avoid": [
+          "full-row-red-background",
+          "simultaneous-colored-text-background-and-icons"
+        ]
+      },
+      "mobile": {
+        "moveLowerInOrder": true,
+        "preferStackedCardsIfSupported": true,
+        "allowHorizontalScrollIfNeeded": true,
+        "minimumBodyFontSize": "12px"
+      }
+    },
+    "filter": {
+      "backgroundColor": "cardBackground",
+      "borderColor": "border",
+      "borderRadius": "10px",
+      "titleColor": "secondaryText",
+      "valueColor": "primaryText",
+      "fontSize": "12px",
+      "rules": {
+        "filtersNearTop": true,
+        "stackVerticallyOnMobileIfSupported": true,
+        "resetBelowFiltersOnMobilePreferred": true,
+        "avoidSingleCrampedHorizontalRowOnMobile": true
+      }
+    },
+    "container": {
+      "backgroundColor": "cardBackground",
+      "borderColor": "border",
+      "borderRadius": "10px",
+      "rules": {
+        "useForSharedSurfaceGrouping": true,
+        "alignChildContentToSharedGrid": true,
+        "keepSpacingConsistent": true
+      }
+    }
+  },
+  "kpiSemanticColors": {
+    "revenueArrMrr": "primaryAccent",
+    "customerCountNeutralCount": "primaryText",
+    "healthGoodStatus": "positiveMetric",
+    "watchMediumRisk": "warningMetric",
+    "atRiskCriticalChurnRisk": "negativeRiskMetric",
+    "expansionPipeline": "neutralChartFill"
+  },
+  "layoutRules": {
+    "desktop": {
+      "outerPadding": "16px",
+      "sectionGap": "16px",
+      "cardGap": "16px",
+      "kpiRow": {
+        "enabled": true,
+        "arrangement": "single-horizontal-row",
+        "tileCount": 5,
+        "equalWidth": true,
+        "equalHeight": true,
+        "gapRange": [
+          "12px",
+          "16px"
+        ]
+      },
+      "rowOrder": [
+        "header-title-nav-banner",
+        "filter-row",
+        "kpi-summary-row",
+        "main-insight-row",
+        "action-row"
+      ],
+      "mainInsightRow": {
+        "left": "Current MRR Exposure by Risk Band",
+        "right": "Portfolio Health Mix",
+        "leftWidth": "64%",
+        "rightWidth": "36%"
+      },
+      "actionRow": {
+        "left": "Priority Risk Queue table",
+        "right": "Revenue Requiring Attention by Owner",
+        "leftWidth": "64%",
+        "rightWidth": "36%"
+      }
+    },
+    "tablet": {
+      "outerPadding": "14px",
+      "sectionGap": "14px",
+      "cardGap": "14px",
+      "rowOrder": [
+        "header",
+        "filters-2-per-row",
+        "kpi-cards-2-or-3-per-row",
+        "portfolio-health-mix",
+        "current-mrr-exposure-by-risk-band",
+        "revenue-requiring-attention-by-owner",
+        "priority-risk-queue"
+      ],
+      "kpiPattern": [
+        "ARR",
+        "Customers",
+        "Health Score",
+        "At-Risk ARR",
+        "Expansion Pipeline"
+      ],
+      "rules": {
+        "avoidFiveKpisInSingleRow": true,
+        "keepChartsFullWidthWhenCramped": true,
+        "reduceSideBySideDensity": true,
+        "prioritizeReadabilityOverDesktopProportions": true,
+        "minimumKpiValue": "28px"
+      }
+    },
+    "mobile": {
+      "outerPadding": "12px",
+      "sectionGap": "12px",
+      "cardGap": "12px",
+      "rowOrder": [
+        "header",
+        "filters",
+        "kpi-cards",
+        "portfolio-health-mix",
+        "current-mrr-exposure-by-risk-band",
+        "revenue-requiring-attention-by-owner",
+        "priority-risk-queue",
+        "secondary-navigation"
+      ],
+      "kpiColumns": {
+        "narrowPhones": 1,
+        "widerMobile": 2
+      },
+      "rules": {
+        "singleColumnStackingPreferred": true,
+        "chartsFullWidth": true,
+        "tablesLowerPriority": true,
+        "avoidTinyChartLabels": true,
+        "avoidExcessiveHorizontalScroll": true
+      }
+    },
+    "cardAlignment": {
+      "sameRowAlignTopAndBottom": true,
+      "kpisEqualHeight": true,
+      "consistentChartTitlePositioning": true,
+      "avoidRandomVerticalOffsets": true
+    },
+    "density": {
+      "desktop": "moderately-dense",
+      "tablet": "reduced-side-by-side-density",
+      "mobile": "reading-flow-priority",
+      "doNotCompressFontsToFitMoreContent": true
+    }
+  },
+  "mobileCompatibility": {
+    "assumption": "Apply safe mobile rules only when the dashboard JSON clearly supports device-specific layouts, page variants, or breakpoint-specific positioning.",
+    "fallbackIfResponsiveUnsupported": "Produce a separate layout-normalization patch proposal instead of destructive rewrites.",
+    "safeMobileRules": [
+      "use-single-column-stacking-for-narrow-layouts",
+      "place-filters-near-top",
+      "place-kpi-cards-immediately-after-filters",
+      "use-1-or-2-kpi-columns-only",
+      "keep-all-charts-full-width",
+      "move-dense-tables-below-summary-and-chart-sections",
+      "do-not-shrink-text-below-minimum-readable-sizes",
+      "avoid-horizontal-bar-charts-narrower-than-label-requirements",
+      "avoid-chart-labels-below-10px",
+      "avoid-table-body-text-below-12px",
+      "avoid-hover-only-tooltips-for-essential-meaning",
+      "avoid-forcing-all-desktop-widgets-above-the-fold-on-mobile"
+    ],
+    "reducedChartDensity": {
+      "hideUnnecessaryLegends": true,
+      "preferDirectLabelsOnlyWhenNoCollision": true,
+      "reduceNonEssentialGridlines": true,
+      "keepChartSubtitlesShort": true,
+      "avoidTooManyCategoriesInCrampedSpace": true
+    },
+    "filterBehavior": {
+      "preferredOrder": [
+        "filters-stacked-vertically-full-width",
+        "reset-filters-button-below-filters",
+        "optional-collapsed-filter-container-if-supported",
+        "avoid-single-horizontal-filter-row"
+      ]
+    }
+  },
+  "modes": {
+    "audit": {
+      "description": "Does not modify JSON. Reports inconsistencies against this design spec."
+    },
+    "style-only": {
+      "description": "Applies colors, typography, borders, padding, chart styles, table styles, and KPI styling. Does not move widgets.",
+      "changesLayout": false
+    },
+    "layout-normalize": {
+      "description": "Applies style-only changes, then adjusts widget layout values based on approved desktop, tablet, and mobile layout rules.",
+      "changesLayout": true
+    },
+    "diff-check": {
+      "description": "Compares before and after JSON and fails if forbidden fields changed."
+    }
+  },
+  "safetyFlags": {
+    "styleOnlyMode": true,
+    "layoutMode": true,
+    "mobileMode": true
+  },
+  "allowedChanges": [
+    "widget-and-card-background-colors",
+    "widget-and-card-border-colors",
+    "widget-and-card-border-radius",
+    "widget-and-card-padding-and-spacing",
+    "font-sizes",
+    "font-weights",
+    "text-colors",
+    "kpi-value-colors",
+    "kpi-label-colors",
+    "chart-fill-colors",
+    "chart-axis-label-styles",
+    "chart-gridline-styles",
+    "chart-legend-style-and-visibility-when-data-meaning-is-unchanged",
+    "table-header-background",
+    "table-header-text-style",
+    "table-body-text-style",
+    "table-row-height-or-padding",
+    "widget-layout-values-in-optional-layout-normalization-mode",
+    "device-specific-layout-metadata-if-clearly-supported",
+    "reusable-style-tokens-or-constants-in-separate-normalizer-script",
+    "non-destructive-dashboard-json-formatting"
+  ],
+  "forbiddenChanges": [
+    "dataset-names",
+    "dataset-references",
+    "query-definitions",
+    "saql",
+    "sql",
+    "soql",
+    "step-names",
+    "step-logic",
+    "measures",
+    "dimensions",
+    "filters",
+    "filter-bindings",
+    "selection-bindings",
+    "interaction-bindings",
+    "faceting-behavior",
+    "dashboard-navigation-targets",
+    "widget-ids",
+    "step-ids",
+    "field-names",
+    "calculated-fields",
+    "number-formatting-semantics",
+    "currency-semantics",
+    "sort-order-unless-already-supported-as-visual-only",
+    "limits",
+    "joins",
+    "dataflows",
+    "recipes",
+    "security-predicates",
+    "permissions",
+    "generated-data",
+    "metric-definitions",
+    "business-label-meaning",
+    "widget-type-conversion-without-approval",
+    "widget-deletion",
+    "new-metric-widget-addition",
+    "manual-one-off-styling-that-violates-token-system"
+  ],
+  "normalizerRequirements": {
+    "implementationMode": "controlled-style-normalizer-script",
+    "workflow": [
+      "load-dashboard-json",
+      "preserve-backup-copy",
+      "traverse-widgets-and-components",
+      "apply-style-tokens-based-on-widget-role",
+      "apply-optional-layout-normalization-only-when-enabled",
+      "produce-diff",
+      "validate-forbidden-keys-were-not-changed",
+      "save-normalized-json",
+      "report-every-modified-widget-by-id-name-type",
+      "report-skipped-widgets-with-reasons"
+    ],
+    "diffCheckCategories": [
+      "datasets",
+      "queries",
+      "steps",
+      "bindings",
+      "measures",
+      "dimensions",
+      "filters",
+      "facets",
+      "navigation-targets",
+      "widget-ids",
+      "step-ids",
+      "field-references",
+      "calculated-fields",
+      "security-settings"
+    ]
+  },
+  "qaChecklist": {
+    "overallVisualQuality": [
+      "Dashboard looks like one unified product, not separate widgets.",
+      "Light theme is consistent across all cards.",
+      "No random dark KPI tile remains.",
+      "Header feels intentional and not visually overpowering.",
+      "Executive summary can be understood in 3 to 5 seconds."
+    ],
+    "kpiRow": [
+      "All KPI cards use the same background, radius, border, and padding.",
+      "KPI values are large and readable.",
+      "KPI labels are consistent.",
+      "Semantic colors make sense.",
+      "No KPI tile looks accidentally selected or unrelated to the others."
+    ],
+    "charts": [
+      "Chart titles are readable and consistent.",
+      "Axis labels are not tiny.",
+      "Gridlines are subtle.",
+      "Bar colors are consistent.",
+      "Risk colors are used only where they communicate risk.",
+      "Chart labels do not collide with bars, axes, or borders."
+    ],
+    "tables": [
+      "Table header is visually distinct.",
+      "Table body text is readable.",
+      "Rows have enough height.",
+      "Numeric columns align consistently.",
+      "Risk and critical indicators are visible but not noisy.",
+      "The table no longer feels like a raw default grid."
+    ],
+    "layout": [
+      "Card gaps are consistent.",
+      "Cards align cleanly across rows.",
+      "Desktop layout has clear sections.",
+      "Tablet layout does not squeeze 5 KPI cards into one cramped row.",
+      "Mobile layout stacks cleanly.",
+      "Dense tables are moved lower on mobile.",
+      "Filters remain usable on smaller screens."
+    ],
+    "color": [
+      "Navy is used for structure and primary emphasis only.",
+      "Green means healthy and positive.",
+      "Orange means watch and warning.",
+      "Red means risk and critical.",
+      "Teal and blue chart fills are used consistently for neutral charts.",
+      "Border and muted text colors are consistent."
+    ],
+    "typography": [
+      "No critical text is below 10px.",
+      "KPI values are visually dominant.",
+      "Section titles are clear.",
+      "Subtitles are readable but not distracting.",
+      "Table text is readable without zooming."
+    ],
+    "mobile": [
+      "Mobile does not require excessive horizontal scrolling.",
+      "KPI cards remain readable.",
+      "Charts remain readable.",
+      "Filters are usable.",
+      "Table is lower priority and not the first thing users must fight with.",
+      "Hover-only information is not required to understand key metrics."
+    ],
+    "implementationSafety": [
+      "No datasets changed.",
+      "No queries changed.",
+      "No steps changed.",
+      "No bindings changed.",
+      "No filters changed.",
+      "No measures changed.",
+      "No dimensions changed.",
+      "No widget IDs changed.",
+      "No step IDs changed.",
+      "No dashboard behavior changed.",
+      "JSON diff shows only approved style and layout changes."
+    ]
+  }
+}

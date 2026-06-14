@@ -44,6 +44,7 @@ class ChurnRiskAccount(BaseModel):
     risk_level: str
     main_risk_driver: str
     recommended_action: str
+    customer_success_manager: str
     priority_rank: int
 
 
@@ -51,7 +52,9 @@ class RetentionCohortRow(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     cohort_month: str
+    cohort_quarter: str | None = None
     month_number: int
+    month_since_acquisition: str | None = None
     cohort_size: int
     retained_customers: int
     retention_rate: float | None
@@ -114,6 +117,8 @@ class ExpansionOpportunity(BaseModel):
     weighted_pipeline_amount: float
     open_pipeline_amount: float
     next_close_date: str | None
+    close_month: str | None = None
+    customer_success_manager: str
     expansion_readiness: str
 
 

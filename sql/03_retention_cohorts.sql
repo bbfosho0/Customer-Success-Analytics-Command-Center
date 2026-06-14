@@ -23,7 +23,13 @@ cohort_activity AS (
 )
 SELECT
   cohort_month,
+  concat(
+    cast(year(cohort_month) AS VARCHAR),
+    ' Q',
+    cast(quarter(cohort_month) AS VARCHAR)
+  ) AS cohort_quarter,
   month_number,
+  concat('Month ', lpad(cast(month_number AS VARCHAR), 2, '0')) AS month_since_acquisition,
   cohort_size,
   retained_customers,
   round(retained_customers::DOUBLE / nullif(cohort_size, 0), 4) AS retention_rate

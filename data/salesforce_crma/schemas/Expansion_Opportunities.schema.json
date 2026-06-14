@@ -63,6 +63,18 @@
       "original_source_column": "next_close_date"
     },
     {
+      "field_name": "Close_Month__c",
+      "inferred_data_type": "Date",
+      "suggested_crm_analytics_role": "date",
+      "original_source_column": "close_month"
+    },
+    {
+      "field_name": "Customer_Success_Manager__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "customer_success_manager"
+    },
+    {
       "field_name": "Expansion_Readiness__c",
       "inferred_data_type": "Text",
       "suggested_crm_analytics_role": "dimension",

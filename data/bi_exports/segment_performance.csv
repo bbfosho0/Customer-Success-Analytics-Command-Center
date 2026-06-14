@@ -1,6 +1,13 @@
 segment,region,plan_tier,customers,current_mrr,avg_health_score,avg_active_days,avg_support_calls,churn_rate,weighted_pipeline_amount
-Enterprise,North America,Enterprise,3,48900.0,84.9,26.33,0.0,0.0,318520.0
-Mid-Market,North America,Pro,3,8900.0,61.77,15.83,0.0,0.3333,23320.0
-Mid-Market,Asia Pacific,Pro,2,7500.0,54.8,12.75,0.0,0.0,7200.0
-SMB,Europe,Starter,3,2200.0,36.63,8.17,0.0,0.3333,4200.0
-SMB,Latin America,Starter,1,900.0,69.4,17.0,0.0,0.0,2688.0
+Enterprise,North America,Enterprise,8,123000.0,87.06,25.56,0.0,0.0,872720.0
+Enterprise,Latin America,Enterprise,4,88540.0,76.9,18.13,0.0,0.0,0.0
+Enterprise,Europe,Enterprise,5,85925.0,76.78,17.9,0.0,0.0,0.0
+Enterprise,Asia Pacific,Enterprise,4,79080.0,88.15,24.88,0.0,0.0,591260.0
+Mid-Market,North America,Pro,12,54008.0,48.49,8.96,0.0,0.0833,23320.0
+Mid-Market,Latin America,Pro,9,42579.0,83.28,21.89,0.0,0.0,142460.0
+Mid-Market,Asia Pacific,Pro,10,42152.0,47.46,8.2,0.0,0.0,7200.0
+Mid-Market,Europe,Pro,8,37592.0,82.64,21.5,0.0,0.0,84320.0
+SMB,Europe,Starter,12,14509.0,63.09,14.54,0.0,0.0833,22560.0
+SMB,Asia Pacific,Starter,10,13220.0,82.64,21.5,0.0,0.0,34480.0
+SMB,Latin America,Starter,10,11487.0,74.61,18.2,0.0,0.0,21388.0
+SMB,North America,Starter,8,10576.0,82.66,21.5,0.0,0.0,30060.0

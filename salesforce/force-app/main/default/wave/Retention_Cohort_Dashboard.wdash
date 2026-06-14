@@ -1,1 +1,1201 @@
-{"dataSourceLinksInfo":{"enableAutomaticLinking":true,"excludeRelationships":[],"links":[]},"filters":[],"gridLayouts":[{"maxWidth":1440,"name":"Default","numColumns":49,"pages":[{"label":"Retention Cohorts","name":"retention-cohort-explorer","navigationHidden":false,"widgets":[{"colspan":31,"column":1,"name":"ret_detail_title","row":1,"rowspan":3,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":38,"column":1,"name":"ret_detail_subtitle","row":4,"rowspan":3,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":6,"column":41,"name":"ret_detail_reset","row":2,"rowspan":3,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#B7C5D5","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":1,"name":"ret_detail_back","row":8,"rowspan":4,"widgetStyle":{"backgroundColor":"#EEF4FF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":13,"name":"ret_detail_selector","row":8,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":1,"name":"ret_detail_number_rate","row":14,"rowspan":8,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#008C8C","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":11,"column":13,"name":"ret_detail_number_size","row":14,"rowspan":8,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#2E5BFF","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":23,"column":25,"name":"ret_detail_chart_trend","row":14,"rowspan":18,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":47,"column":1,"name":"ret_detail_chart_heatmap","row":34,"rowspan":25,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":47,"column":1,"name":"ret_detail_table_widget","row":61,"rowspan":28,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}}]}],"rowHeight":"fine","selectors":[],"style":{"alignmentX":"left","alignmentY":"top","backgroundColor":"#14274E","cellSpacingX":5,"cellSpacingY":5,"fit":"original","gutterColor":"#F6F4EF"},"version":1.0},{"maxWidth":375,"name":"Mobile","numColumns":12,"pages":[{"label":"Retention Cohorts","name":"retention-cohort-explorer","navigationHidden":false,"widgets":[{"colspan":12,"column":0,"name":"ret_detail_title","row":0,"rowspan":4,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":12,"column":0,"name":"ret_detail_subtitle","row":4,"rowspan":4,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":6,"column":3,"name":"ret_detail_reset","row":8,"rowspan":3,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":10,"column":1,"name":"ret_detail_back","row":12,"rowspan":4,"widgetStyle":{"backgroundColor":"#EEF4FF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":10,"column":1,"name":"ret_detail_selector","row":17,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":10,"column":1,"name":"ret_detail_number_rate","row":22,"rowspan":7,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#008C8C","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":10,"column":1,"name":"ret_detail_number_size","row":30,"rowspan":7,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#2E5BFF","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":12,"column":0,"name":"ret_detail_chart_trend","row":38,"rowspan":22,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":12,"column":0,"name":"ret_detail_chart_heatmap","row":61,"rowspan":27,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":12,"column":0,"name":"ret_detail_table_widget","row":89,"rowspan":33,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}}]}],"rowHeight":"fine","selectors":["maxWidth(599)"],"style":{"alignmentX":"left","alignmentY":"top","backgroundColor":"#14274E","cellSpacingX":3,"cellSpacingY":3,"fit":"original","gutterColor":"#F6F4EF"},"version":1.0}],"layouts":[],"steps":{"ret_detail_trend":{"broadcastFacet":false,"datasets":[{"name":"Retention_Cohorts"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"avg\",\"Retention_Rate__c\"]],\"groups\":[\"Month_Number__c\"],\"order\":[[\"Month_Number__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"visualizationType":"line"}},"ret_detail_filter":{"broadcastFacet":true,"datasets":[{"name":"Retention_Cohorts"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Cohort_Month__c\"],\"order\":[[\"Cohort_Month__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"ret_detail_heatmap":{"broadcastFacet":false,"datasets":[{"name":"Retention_Cohorts"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"avg\",\"Retention_Rate__c\"]],\"groups\":[\"Cohort_Month__c\",\"Month_Number__c\"],\"order\":[[\"Cohort_Month__c\",{\"ascending\":true}],[\"Month_Number__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"matrix"}},"ret_detail_rate":{"broadcastFacet":false,"datasets":[{"name":"Retention_Cohorts"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"avg\",\"Retention_Rate__c\"]],\"filters\":[]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"ret_detail_size":{"broadcastFacet":false,"datasets":[{"name":"Retention_Cohorts"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"max\",\"Cohort_Size__c\"]],\"filters\":[]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"ret_detail_table":{"broadcastFacet":false,"datasets":[{"name":"Retention_Cohorts"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"avg\",\"Retention_Rate__c\"],[\"max\",\"Cohort_Size__c\"],[\"sum\",\"Retained_Customers__c\"]],\"groups\":[\"Cohort_Month__c\",\"Month_Number__c\"],\"order\":[[\"Cohort_Month__c\",{\"ascending\":true}],[\"Month_Number__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"parameters":{"columnProperties":{},"columns":[],"customBulkActions":[],"headerProperties":{},"interactions":[],"maxColumnWidth":300,"minColumnWidth":60,"mode":"variable","totals":false},"type":"table"}}},"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1,"tooltipStyle":{"backgroundColor":"#0A1733","labelColor":"#C9D4E5","valueColor":"#FFFFFF"}},"widgets":{"ret_detail_back":{"parameters":{"destinationLink":{"name":"Landing_Page","namespace":""},"destinationType":"dashboard","fontSize":13,"includeState":false,"text":"Back to Command Center","textAlignment":"left","textColor":"#2E5BFF"},"type":"link"},"ret_detail_number_rate":{"parameters":{"compact":true,"exploreLink":true,"interactions":[],"measureField":"avg_Retention_Rate__c","numberColor":"#0A1733","numberSize":28,"showActionMenu":true,"step":"ret_detail_rate","textAlignment":"left","title":"Average Retention Rate","titleColor":"#5E6C84","titleSize":12,"tooltip":{"customizeTooltip":false}},"type":"number"},"ret_detail_number_size":{"parameters":{"compact":true,"exploreLink":true,"interactions":[],"measureField":"max_Cohort_Size__c","numberColor":"#0A1733","numberSize":28,"showActionMenu":true,"step":"ret_detail_size","textAlignment":"left","title":"Largest Starting Cohort","titleColor":"#5E6C84","titleSize":12,"tooltip":{"customizeTooltip":false}},"type":"number"},"ret_detail_subtitle":{"parameters":{"content":{"richTextContent":[{"attributes":{"color":"#DCE6F5","size":"13px","bold":false},"insert":"Explore how acquisition cohorts retain over time, with starting-size context and a detailed cohort table"},{"attributes":{"align":"left"},"insert":"\n"}]},"interactions":[],"showActionMenu":false},"type":"text"},"ret_detail_chart_trend":{"parameters":{"autoFitMode":"fit","totalValue":"computeTotal","legend":{"descOrder":false,"showHeader":false,"show":false,"customSize":"auto","position":"right-top","inside":false},"axisMode":"multi","tooltip":{"content":{"legend":{"showBinLabel":true,"measures":[],"showNullValues":true,"customizeLegend":false,"showPercentage":true,"showDimensions":true,"showMeasures":true,"dimensions":[]}}},"visualizationType":"line","exploreLink":true,"title":{"fontSize":15,"subtitleFontSize":11,"label":"Average Retention Curve","align":"left","subtitleLabel":"Shows the typical share of customers remaining as the lifecycle progresses."},"trellis":{"flipLabels":false,"showGridLines":true,"size":[100,100],"enable":false,"type":"x","chartsPerLine":4},"totalLabel":"","columnMap":{"split":[],"trellis":[],"dimension":["Month_Number__c"],"dimensionAxis":["Month_Number__c"],"plots":["avg_Retention_Rate__c"]},"showActionMenu":true,"measureAxis2":{"sqrtScale":false,"showTitle":false,"showAxis":false,"title":"","customDomain":{"showDomain":false}},"valueType":"percent","measureAxis1":{"sqrtScale":false,"showTitle":true,"showAxis":true,"title":"Retention Rate","customDomain":{"showDomain":false}},"step":"ret_detail_trend","theme":"wave","applyConditionalFormatting":false,"dimensionAxis":{"showTitle":true,"customSize":"auto","showAxis":true,"title":"Month Since Acquisition"}},"type":"chart"},"ret_detail_table_widget":{"parameters":{"borderColor":"#D9DEE7","borderWidth":1,"cell":{"backgroundColor":"#FFFFFF","fontColor":"#172B4D","fontSize":12},"columnProperties":{},"columns":[],"customBulkActions":[],"exploreLink":true,"header":{"backgroundColor":"#EEF1F6","fontColor":"#0A1733","fontSize":12},"headerProperties":{},"innerMajorBorderColor":"#D9DEE7","innerMinorBorderColor":"#EEF1F6","interactions":[],"maxColumnWidth":280,"minColumnWidth":70,"mode":"variable","numberOfLines":2,"pivoted":false,"showActionMenu":true,"showRowIndexColumn":false,"step":"ret_detail_table","totals":false,"verticalPadding":9},"type":"table"},"ret_detail_chart_heatmap":{"parameters":{"autoFitMode":"fit","totalValue":"computeTotal","legend":{"descOrder":false,"showHeader":false,"show":true,"customSize":"auto","position":"right-top","inside":false},"highColor":"#008C8C","tooltip":{"content":{"legend":{"showBinLabel":true,"measures":[],"showNullValues":true,"customizeLegend":false,"showPercentage":true,"showDimensions":true,"showMeasures":true,"dimensions":[]}}},"lowColor":"#E7F6F4","visualizationType":"matrix","exploreLink":true,"title":{"fontSize":15,"subtitleFontSize":11,"label":"Cohort Retention Heatmap","align":"left","subtitleLabel":"Compares retention by starting cohort and month since acquisition."},"totalLabel":"","columnMap":{"r":["avg_Retention_Rate__c"],"split":[],"color":["avg_Retention_Rate__c"],"x":["Month_Number__c"],"y":["Cohort_Month__c"],"trellis":[],"dimensionAxis":[],"plots":["avg_Retention_Rate__c"]},"showActionMenu":true,"valueType":"percent","x":{"showTitle":true,"showAxis":true,"title":"Month Since Acquisition"},"y":{"showTitle":true,"showAxis":true,"title":"Customer Cohort"},"step":"ret_detail_heatmap","theme":"wave","applyConditionalFormatting":false},"type":"chart"},"ret_detail_reset":{"parameters":{"destinationLink":{"name":"Retention_Cohort_Dashboard","namespace":""},"destinationType":"dashboard","fontSize":12,"includeState":false,"text":"Reset filters","textAlignment":"center","textColor":"#14274E"},"type":"link"},"ret_detail_title":{"parameters":{"content":{"richTextContent":[{"attributes":{"color":"#FFFFFF","size":"22px","bold":true},"insert":"Retention Cohort Dashboard"},{"attributes":{"align":"left"},"insert":"\n"}]},"interactions":[],"showActionMenu":false},"type":"text"},"ret_detail_selector":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"ret_detail_filter","title":"Customer Cohort"},"type":"listselector"}}}
+{
+  "dataSourceLinksInfo": {
+    "enableAutomaticLinking": true,
+    "excludeRelationships": [],
+    "links": []
+  },
+  "filters": [],
+  "gridLayouts": [
+    {
+      "maxWidth": 1600,
+      "name": "Default",
+      "numColumns": 48,
+      "pages": [
+        {
+          "label": "Retention Cohorts",
+          "name": "retention-cohort-explorer",
+          "navigationHidden": false,
+          "widgets": [
+            {
+              "colspan": 48,
+              "column": 0,
+              "name": "ret_detail_header_container",
+              "row": 0,
+              "rowspan": 8,
+              "widgetStyle": {
+                "backgroundColor": "#0F172A",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 30,
+              "column": 1,
+              "name": "ret_detail_title",
+              "row": 1,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 8,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 8,
+              "column": 32,
+              "name": "ret_detail_back",
+              "row": 2,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#172033",
+                "borderColor": "#334155",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 6,
+              "column": 41,
+              "name": "ret_detail_reset",
+              "row": 2,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#EFF6FF",
+                "borderColor": "#BFDBFE",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "ret_detail_selector",
+              "row": 9,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 12,
+              "name": "ret_detail_number_rate",
+              "row": 9,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#16A34A",
+                "borderEdges": [
+                  "left"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 4
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 24,
+              "name": "ret_detail_number_size",
+              "row": 9,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#2563EB",
+                "borderEdges": [
+                  "left"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 4
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 36,
+              "name": "ret_detail_number_ltv",
+              "row": 9,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#0D9488",
+                "borderEdges": [
+                  "left"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 4
+              }
+            },
+            {
+              "colspan": 16,
+              "column": 0,
+              "name": "ret_detail_chart_heatmap",
+              "row": 17,
+              "rowspan": 23,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 32,
+              "column": 16,
+              "name": "ret_detail_chart_trend",
+              "row": 17,
+              "rowspan": 23,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 48,
+              "column": 0,
+              "name": "ret_detail_chart_ltv",
+              "row": 41,
+              "rowspan": 15,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 48,
+              "column": 0,
+              "name": "ret_detail_table_widget",
+              "row": 57,
+              "rowspan": 22,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            }
+          ]
+        }
+      ],
+      "rowHeight": "fine",
+      "selectors": [
+        "minWidth(600)"
+      ],
+      "style": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "backgroundColor": "#F7F8FA",
+        "cellSpacingX": 4,
+        "cellSpacingY": 4,
+        "fit": "original",
+        "gutterColor": "#F7F8FA"
+      },
+      "version": 1
+    },
+    {
+      "maxWidth": 375,
+      "name": "Mobile",
+      "numColumns": 12,
+      "pages": [
+        {
+          "label": "Retention Cohorts",
+          "name": "retention-cohort-explorer",
+          "navigationHidden": false,
+          "widgets": [
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "ret_detail_header_container",
+              "row": 0,
+              "rowspan": 13,
+              "widgetStyle": {
+                "backgroundColor": "#0F172A",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 10,
+              "column": 1,
+              "name": "ret_detail_title_mobile",
+              "row": 1,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 8,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 5,
+              "column": 1,
+              "name": "ret_detail_back",
+              "row": 8,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#172033",
+                "borderColor": "#334155",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 5,
+              "column": 6,
+              "name": "ret_detail_reset",
+              "row": 8,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#EFF6FF",
+                "borderColor": "#BFDBFE",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "ret_detail_selector",
+              "row": 14,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "ret_detail_number_rate",
+              "row": 21,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#16A34A",
+                "borderEdges": [
+                  "left"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 4
+              }
+            },
+            {
+              "colspan": 6,
+              "column": 0,
+              "name": "ret_detail_number_size",
+              "row": 29,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#2563EB",
+                "borderEdges": [
+                  "left"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 4
+              }
+            },
+            {
+              "colspan": 6,
+              "column": 6,
+              "name": "ret_detail_number_ltv",
+              "row": 29,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#0D9488",
+                "borderEdges": [
+                  "left"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 4
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "ret_detail_chart_trend",
+              "row": 37,
+              "rowspan": 20,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "ret_detail_chart_heatmap",
+              "row": 58,
+              "rowspan": 26,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "ret_detail_chart_ltv",
+              "row": 85,
+              "rowspan": 18,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "ret_detail_table_widget",
+              "row": 104,
+              "rowspan": 32,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            }
+          ]
+        }
+      ],
+      "rowHeight": "fine",
+      "selectors": [
+        "maxWidth(599)"
+      ],
+      "style": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "backgroundColor": "#F7F8FA",
+        "cellSpacingX": 3,
+        "cellSpacingY": 3,
+        "fit": "original",
+        "gutterColor": "#F7F8FA"
+      },
+      "version": 1
+    }
+  ],
+  "layouts": [],
+  "steps": {
+    "ret_detail_filter": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Retention_Cohorts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Cohort_Month__c\"],\"order\":[[\"Cohort_Month__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "ret_detail_rate": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Retention_Cohorts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"avg\",\"Retention_Rate__c\"]],\"filters\":[]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "ret_detail_size": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Retention_Cohorts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"max\",\"Cohort_Size__c\"]],\"filters\":[]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "ret_detail_ltv_avg": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "LTV_By_Segment"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"avg\",\"Estimated_LTV__c\"]],\"filters\":[]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "ret_detail_trend": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Retention_Cohorts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"avg\",\"Retention_Rate__c\"]],\"groups\":[\"Month_Since_Acquisition__c\"],\"order\":[[\"Month_Since_Acquisition__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "line"
+      }
+    },
+    "ret_detail_heatmap": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Retention_Cohorts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"avg\",\"Retention_Rate__c\"]],\"groups\":[\"Cohort_Quarter__c\",\"Month_Since_Acquisition__c\"],\"order\":[[\"Cohort_Quarter__c\",{\"ascending\":true}],[\"Month_Since_Acquisition__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "matrix"
+      }
+    },
+    "ret_detail_ltv": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "LTV_By_Segment"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"avg\",\"Estimated_LTV__c\"]],\"groups\":[\"Segment__c\"],\"order\":[[\"avg_Estimated_LTV__c\",{\"ascending\":false}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "ret_detail_table": {
+      "datasets": [
+        {
+          "name": "Retention_Cohorts"
+        }
+      ],
+      "isFacet": false,
+      "isGlobal": false,
+      "label": "portfolio_table",
+      "query": {
+        "query": "{\"measures\":[],\"values\":[\"Cohort_Quarter__c\",\"Month_Since_Acquisition__c\",\"Cohort_Size__c\",\"Retained_Customers__c\",\"Retention_Rate__c\"],\"groups\":[],\"filters\":[],\"order\":[[\"Cohort_Quarter__c\",{\"ascending\":true}],[\"Month_Since_Acquisition__c\",{\"ascending\":true}]],\"limit\":100}",
+        "version": -1
+      },
+      "selectMode": "none",
+      "type": "grain",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "valuestable"
+      }
+    }
+  },
+  "widgetStyle": {
+    "backgroundColor": "#FFFFFF",
+    "borderColor": "#E2E8F0",
+    "borderEdges": [
+      "all"
+    ],
+    "borderRadius": 8,
+    "borderWidth": 1,
+    "tooltipStyle": {
+      "backgroundColor": "#0F172A",
+      "labelColor": "#CBD5E1",
+      "valueColor": "#FFFFFF"
+    }
+  },
+  "widgets": {
+    "ret_detail_header_container": {
+      "parameters": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "fit": "original",
+        "interactions": []
+      },
+      "type": "container"
+    },
+    "ret_detail_title": {
+      "parameters": {
+        "content": {
+          "richTextContent": [
+            {
+              "attributes": {
+                "color": "#FFFFFF",
+                "size": "24px",
+                "bold": true
+              },
+              "insert": "Retention Cohort Dashboard"
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            },
+            {
+              "attributes": {
+                "color": "#CBD5E1",
+                "size": "12px",
+                "bold": false
+              },
+              "insert": "Explore acquisition cohorts over time with segment-level lifetime value context."
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            },
+            {
+              "attributes": {
+                "color": "#94A3B8",
+                "size": "12px",
+                "bold": false
+              },
+              "insert": "Illustrative 2025 portfolio snapshot"
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            }
+          ]
+        },
+        "interactions": [],
+        "showActionMenu": false
+      },
+      "type": "text"
+    },
+    "ret_detail_title_mobile": {
+      "parameters": {
+        "content": {
+          "richTextContent": [
+            {
+              "attributes": {
+                "color": "#FFFFFF",
+                "size": "20px",
+                "bold": true
+              },
+              "insert": "Retention Cohort Dashboard"
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            },
+            {
+              "attributes": {
+                "color": "#94A3B8",
+                "size": "10px",
+                "bold": false
+              },
+              "insert": "Illustrative 2025 portfolio snapshot"
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            }
+          ]
+        },
+        "interactions": [],
+        "showActionMenu": false
+      },
+      "type": "text"
+    },
+    "ret_detail_reset": {
+      "parameters": {
+        "destinationLink": {
+          "name": "Retention_Cohort_Dashboard",
+          "namespace": ""
+        },
+        "destinationType": "dashboard",
+        "fontSize": 12,
+        "includeState": false,
+        "text": "Reset filters",
+        "textAlignment": "center",
+        "textColor": "#0F172A"
+      },
+      "type": "link"
+    },
+    "ret_detail_back": {
+      "parameters": {
+        "destinationLink": {
+          "name": "Landing_Page",
+          "namespace": ""
+        },
+        "destinationType": "dashboard",
+        "fontSize": 12,
+        "includeState": false,
+        "text": "Command Center",
+        "textAlignment": "center",
+        "textColor": "#FFFFFF"
+      },
+      "type": "link"
+    },
+    "ret_detail_selector": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "ret_detail_filter",
+        "title": "Customer Cohort"
+      },
+      "type": "listselector"
+    },
+    "ret_detail_number_rate": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "avg_Retention_Rate__c",
+        "numberColor": "#16A34A",
+        "numberSize": 32,
+        "showActionMenu": false,
+        "step": "ret_detail_rate",
+        "textAlignment": "left",
+        "title": "Average Retention Rate",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "ret_detail_number_size": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "max_Cohort_Size__c",
+        "numberColor": "#0F172A",
+        "numberSize": 32,
+        "showActionMenu": false,
+        "step": "ret_detail_size",
+        "textAlignment": "left",
+        "title": "Largest Starting Cohort",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "ret_detail_number_ltv": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "avg_Estimated_LTV__c",
+        "numberColor": "#0D9488",
+        "numberSize": 32,
+        "showActionMenu": false,
+        "step": "ret_detail_ltv_avg",
+        "textAlignment": "left",
+        "title": "Average Estimated LTV",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "ret_detail_chart_trend": {
+      "parameters": {
+        "autoFitMode": "fit",
+        "totalValue": "computeTotal",
+        "legend": {
+          "descOrder": false,
+          "showHeader": false,
+          "show": false,
+          "customSize": "auto",
+          "position": "bottom-center",
+          "inside": false
+        },
+        "axisMode": "multi",
+        "tooltip": {
+          "content": {
+            "legend": {
+              "showBinLabel": true,
+              "measures": [],
+              "showNullValues": true,
+              "customizeLegend": false,
+              "showPercentage": true,
+              "showDimensions": true,
+              "showMeasures": true,
+              "dimensions": []
+            }
+          }
+        },
+        "visualizationType": "line",
+        "exploreLink": false,
+        "title": {
+          "align": "left",
+          "fontSize": 15,
+          "label": "Average Retention Curve",
+          "subtitleFontSize": 11,
+          "subtitleLabel": "Typical retained share as customer tenure progresses."
+        },
+        "trellis": {
+          "flipLabels": false,
+          "showGridLines": true,
+          "size": [
+            100,
+            100
+          ],
+          "enable": false,
+          "type": "x",
+          "chartsPerLine": 4
+        },
+        "totalLabel": "",
+        "columnMap": {
+          "split": [],
+          "trellis": [],
+          "dimension": [
+            "Month_Since_Acquisition__c"
+          ],
+          "dimensionAxis": [
+            "Month_Since_Acquisition__c"
+          ],
+          "plots": [
+            "avg_Retention_Rate__c"
+          ]
+        },
+        "showActionMenu": false,
+        "measureAxis2": {
+          "sqrtScale": false,
+          "showTitle": false,
+          "showAxis": false,
+          "title": "",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "valueType": "percent",
+        "measureAxis1": {
+          "sqrtScale": false,
+          "showTitle": true,
+          "showAxis": true,
+          "title": "Retention Rate",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "step": "ret_detail_trend",
+        "theme": "wave",
+        "applyConditionalFormatting": false,
+        "dimensionAxis": {
+          "showTitle": true,
+          "customSize": "auto",
+          "showAxis": true,
+          "title": "Month Since Acquisition"
+        }
+      },
+      "type": "chart"
+    },
+    "ret_detail_chart_heatmap": {
+      "parameters": {
+        "autoFitMode": "fit",
+        "totalValue": "computeTotal",
+        "legend": {
+          "descOrder": false,
+          "showHeader": false,
+          "show": false,
+          "customSize": "auto",
+          "position": "right-top",
+          "inside": false
+        },
+        "highColor": "#0D9488",
+        "tooltip": {
+          "content": {
+            "legend": {
+              "showBinLabel": true,
+              "measures": [],
+              "showNullValues": true,
+              "customizeLegend": false,
+              "showPercentage": true,
+              "showDimensions": true,
+              "showMeasures": true,
+              "dimensions": []
+            }
+          }
+        },
+        "lowColor": "#E6FFFB",
+        "visualizationType": "matrix",
+        "exploreLink": false,
+        "title": {
+          "align": "left",
+          "fontSize": 15,
+          "label": "Cohort Retention Heatmap",
+          "subtitleFontSize": 11,
+          "subtitleLabel": "Rows are acquisition cohorts; columns are months since acquisition."
+        },
+        "totalLabel": "",
+        "columnMap": {
+          "r": [
+            "avg_Retention_Rate__c"
+          ],
+          "split": [],
+          "color": [
+            "avg_Retention_Rate__c"
+          ],
+          "x": [
+            "Month_Since_Acquisition__c"
+          ],
+          "y": [
+            "Cohort_Quarter__c"
+          ],
+          "trellis": [],
+          "dimensionAxis": [],
+          "plots": [
+            "avg_Retention_Rate__c"
+          ]
+        },
+        "showActionMenu": false,
+        "valueType": "percent",
+        "x": {
+          "showTitle": true,
+          "showAxis": true,
+          "title": "Month Since Acquisition"
+        },
+        "y": {
+          "showTitle": true,
+          "showAxis": true,
+          "title": "Customer Cohort"
+        },
+        "step": "ret_detail_heatmap",
+        "theme": "wave",
+        "applyConditionalFormatting": false
+      },
+      "type": "chart"
+    },
+    "ret_detail_chart_ltv": {
+      "parameters": {
+        "autoFitMode": "fit",
+        "totalValue": "computeTotal",
+        "legend": {
+          "descOrder": false,
+          "showHeader": false,
+          "show": false,
+          "customSize": "auto",
+          "position": "bottom-center",
+          "inside": false
+        },
+        "axisMode": "multi",
+        "tooltip": {
+          "content": {
+            "legend": {
+              "showBinLabel": true,
+              "measures": [],
+              "showNullValues": true,
+              "customizeLegend": false,
+              "showPercentage": true,
+              "showDimensions": true,
+              "showMeasures": true,
+              "dimensions": []
+            }
+          }
+        },
+        "visualizationType": "hbar",
+        "exploreLink": false,
+        "title": {
+          "align": "left",
+          "fontSize": 15,
+          "label": "Estimated LTV by Customer Segment",
+          "subtitleFontSize": 11,
+          "subtitleLabel": "Illustrative LTV using average MRR, margin, and churn assumptions."
+        },
+        "trellis": {
+          "flipLabels": false,
+          "showGridLines": true,
+          "size": [
+            100,
+            100
+          ],
+          "enable": false,
+          "type": "x",
+          "chartsPerLine": 4
+        },
+        "totalLabel": "",
+        "columnMap": {
+          "split": [],
+          "trellis": [],
+          "dimension": [
+            "Segment__c"
+          ],
+          "dimensionAxis": [
+            "Segment__c"
+          ],
+          "plots": [
+            "avg_Estimated_LTV__c"
+          ]
+        },
+        "showActionMenu": false,
+        "measureAxis2": {
+          "sqrtScale": false,
+          "showTitle": false,
+          "showAxis": false,
+          "title": "",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "valueType": "compactNumber",
+        "measureAxis1": {
+          "sqrtScale": false,
+          "showTitle": true,
+          "showAxis": true,
+          "title": "Estimated Lifetime Value",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "step": "ret_detail_ltv",
+        "theme": "wave",
+        "applyConditionalFormatting": false,
+        "dimensionAxis": {
+          "showTitle": true,
+          "customSize": "auto",
+          "showAxis": true,
+          "title": "Customer Segment"
+        }
+      },
+      "type": "chart"
+    },
+    "ret_detail_table_widget": {
+      "parameters": {
+        "borderColor": "#E2E8F0",
+        "borderWidth": 1,
+        "cell": {
+          "backgroundColor": "#FFFFFF",
+          "fontColor": "#0F172A",
+          "fontSize": 11
+        },
+        "columnProperties": {
+          "Cohort_Quarter__c": {
+            "type": "text",
+            "parameters": {
+              "width": 290
+            }
+          },
+          "Month_Since_Acquisition__c": {
+            "type": "text",
+            "parameters": {
+              "width": 310
+            }
+          },
+          "Cohort_Size__c": {
+            "type": "text",
+            "parameters": {
+              "width": 280
+            }
+          },
+          "Retained_Customers__c": {
+            "type": "text",
+            "parameters": {
+              "width": 300
+            }
+          },
+          "Retention_Rate__c": {
+            "type": "text",
+            "parameters": {
+              "width": 330
+            }
+          }
+        },
+        "columns": [
+          "Cohort_Quarter__c",
+          "Month_Since_Acquisition__c",
+          "Cohort_Size__c",
+          "Retained_Customers__c",
+          "Retention_Rate__c"
+        ],
+        "customBulkActions": [],
+        "exploreLink": false,
+        "header": {
+          "backgroundColor": "#F1F5F9",
+          "fontColor": "#0F172A",
+          "fontSize": 10
+        },
+        "headerProperties": {},
+        "innerMajorBorderColor": "#E2E8F0",
+        "innerMinorBorderColor": "#F1F5F9",
+        "interactions": [],
+        "maxColumnWidth": 330,
+        "minColumnWidth": 64,
+        "mode": "variable",
+        "numberOfLines": 1,
+        "pivoted": false,
+        "showActionMenu": false,
+        "showRowIndexColumn": false,
+        "step": "ret_detail_table",
+        "totals": false,
+        "verticalPadding": 6
+      },
+      "type": "table"
+    }
+  }
+}

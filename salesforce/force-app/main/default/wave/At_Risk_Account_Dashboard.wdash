@@ -1,1 +1,1340 @@
-{"dataSourceLinksInfo":{"enableAutomaticLinking":true,"excludeRelationships":[],"links":[]},"filters":[],"gridLayouts":[{"maxWidth":1440,"name":"Default","numColumns":49,"pages":[{"label":"At-Risk Accounts","name":"at-risk-action-queue","navigationHidden":false,"widgets":[{"colspan":31,"column":1,"name":"risk_detail_title","row":1,"rowspan":3,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":38,"column":1,"name":"risk_detail_subtitle","row":4,"rowspan":3,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":6,"column":41,"name":"risk_detail_reset","row":2,"rowspan":3,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#B7C5D5","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":1,"name":"risk_detail_back","row":8,"rowspan":4,"widgetStyle":{"backgroundColor":"#EEF4FF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":1,"name":"risk_detail_selector_csm","row":13,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":13,"name":"risk_detail_selector_segment","row":13,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":25,"name":"risk_detail_selector_region","row":13,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":37,"name":"risk_detail_selector_plan","row":13,"rowspan":4,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":11,"column":1,"name":"risk_detail_number_arr","row":19,"rowspan":8,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#BA0517","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":11,"column":13,"name":"risk_detail_number_count","row":19,"rowspan":8,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#B85C00","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":11,"column":25,"name":"risk_detail_number_health","row":19,"rowspan":8,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#2E844A","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":11,"column":37,"name":"risk_detail_chart_driver","row":19,"rowspan":20,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":47,"column":1,"name":"risk_detail_table","row":41,"rowspan":31,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}}]}],"rowHeight":"fine","selectors":[],"style":{"alignmentX":"left","alignmentY":"top","backgroundColor":"#14274E","cellSpacingX":5,"cellSpacingY":5,"fit":"original","gutterColor":"#F6F4EF"},"version":1.0},{"maxWidth":375,"name":"Mobile","numColumns":12,"pages":[{"label":"At-Risk Accounts","name":"at-risk-action-queue","navigationHidden":false,"widgets":[{"colspan":12,"column":0,"name":"risk_detail_title","row":0,"rowspan":4,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":12,"column":0,"name":"risk_detail_subtitle","row":4,"rowspan":4,"widgetStyle":{"backgroundColor":"#14274E","borderColor":"#D9DEE7","borderEdges":[],"borderRadius":8,"borderWidth":1}},{"colspan":6,"column":3,"name":"risk_detail_reset","row":8,"rowspan":3,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":10,"column":1,"name":"risk_detail_back","row":12,"rowspan":4,"widgetStyle":{"backgroundColor":"#EEF4FF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":10,"column":1,"name":"risk_detail_number_arr","row":18,"rowspan":7,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#BA0517","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":10,"column":1,"name":"risk_detail_number_count","row":26,"rowspan":7,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#B85C00","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":10,"column":1,"name":"risk_detail_number_health","row":34,"rowspan":7,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#2E844A","borderEdges":["top"],"borderRadius":8,"borderWidth":3}},{"colspan":12,"column":0,"name":"risk_detail_chart_driver","row":42,"rowspan":22,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}},{"colspan":12,"column":0,"name":"risk_detail_table","row":65,"rowspan":34,"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1}}]}],"rowHeight":"fine","selectors":["maxWidth(599)"],"style":{"alignmentX":"left","alignmentY":"top","backgroundColor":"#14274E","cellSpacingX":3,"cellSpacingY":3,"fit":"original","gutterColor":"#F6F4EF"},"version":1.0}],"layouts":[],"steps":{"risk_detail_filter_csm":{"broadcastFacet":true,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Customer_Success_Manager__c\"],\"order\":[[\"Customer_Success_Manager__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"risk_detail_count":{"broadcastFacet":false,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"risk_detail_health":{"broadcastFacet":false,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"avg\",\"Health_Score__c\"]],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"risk_detail_arr":{"broadcastFacet":false,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"sum\",\"MRR__c\",\"A\"]],\"columns\":[{\"query\":{\"measures\":[[\"sum\",\"MRR__c\"]]}},{\"query\":{\"measures\":[[\"sum\",\"MRR__c\"]],\"formula\":\"A * 12\"},\"header\":\"At-Risk ARR\"}],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\"],\"in\"]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"risk_detail_driver":{"broadcastFacet":false,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"sum\",\"MRR__c\"]],\"groups\":[\"Main_Risk_Driver__c\"],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]],\"order\":[[\"sum_MRR__c\",{\"ascending\":false}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"risk_detail_filter_segment":{"broadcastFacet":true,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Segment__c\"],\"order\":[[\"Segment__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"risk_detail_queue":{"broadcastFacet":false,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"sum\",\"MRR__c\"],[\"avg\",\"Health_Score__c\"]],\"limit\":100,\"groups\":[\"Account_Name__c\",\"Risk_Band__c\",\"Main_Risk_Driver__c\",\"Customer_Success_Manager__c\",\"Recommended_Action__c\",\"Segment__c\",\"Region__c\",\"Plan_Tier__c\"],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]],\"order\":[[\"sum_MRR__c\",{\"ascending\":false}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"parameters":{"columnProperties":{},"columns":[],"customBulkActions":[],"headerProperties":{},"interactions":[],"maxColumnWidth":300,"minColumnWidth":60,"mode":"variable","totals":false},"type":"table"}},"risk_detail_filter_plan":{"broadcastFacet":true,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Plan_Tier__c\"],\"order\":[[\"Plan_Tier__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}},"risk_detail_filter_region":{"broadcastFacet":true,"datasets":[{"name":"Customer_360"}],"isGlobal":false,"query":{"query":"{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Region__c\"],\"order\":[[\"Region__c\",{\"ascending\":true}]]}","version":-1.0},"receiveFacetSource":{"mode":"all","steps":[]},"selectMode":"multi","type":"aggregateflex","useExternalFilters":true,"useGlobal":true,"visualizationParameters":{"options":{},"visualizationType":"hbar"}}},"widgetStyle":{"backgroundColor":"#FFFFFF","borderColor":"#D9DEE7","borderEdges":["all"],"borderRadius":8,"borderWidth":1,"tooltipStyle":{"backgroundColor":"#0A1733","labelColor":"#C9D4E5","valueColor":"#FFFFFF"}},"widgets":{"risk_detail_number_health":{"parameters":{"compact":true,"exploreLink":true,"interactions":[],"measureField":"avg_Health_Score__c","numberColor":"#0A1733","numberSize":28,"showActionMenu":true,"step":"risk_detail_health","textAlignment":"left","title":"Average Health Score","titleColor":"#5E6C84","titleSize":12,"tooltip":{"customizeTooltip":false}},"type":"number"},"risk_detail_number_count":{"parameters":{"compact":true,"exploreLink":true,"interactions":[],"measureField":"count","numberColor":"#0A1733","numberSize":28,"showActionMenu":true,"step":"risk_detail_count","textAlignment":"left","title":"Accounts Requiring Attention","titleColor":"#5E6C84","titleSize":12,"tooltip":{"customizeTooltip":false}},"type":"number"},"risk_detail_title":{"parameters":{"content":{"richTextContent":[{"attributes":{"color":"#FFFFFF","size":"22px","bold":true},"insert":"At-Risk Account Dashboard"},{"attributes":{"align":"left"},"insert":"\n"}]},"interactions":[],"showActionMenu":false},"type":"text"},"risk_detail_chart_driver":{"parameters":{"autoFitMode":"fit","totalValue":"computeTotal","legend":{"descOrder":false,"showHeader":false,"show":false,"customSize":"auto","position":"right-top","inside":false},"axisMode":"multi","tooltip":{"content":{"legend":{"showBinLabel":true,"measures":[],"showNullValues":true,"customizeLegend":false,"showPercentage":true,"showDimensions":true,"showMeasures":true,"dimensions":[]}}},"visualizationType":"hbar","exploreLink":true,"title":{"fontSize":15,"subtitleFontSize":11,"label":"Recurring Revenue by Primary Risk Driver","align":"left","subtitleLabel":"Prioritizes the issues associated with the greatest recurring revenue exposure."},"trellis":{"flipLabels":false,"showGridLines":true,"size":[100,100],"enable":false,"type":"x","chartsPerLine":4},"totalLabel":"","columnMap":{"split":[],"trellis":[],"dimension":["Main_Risk_Driver__c"],"dimensionAxis":["Main_Risk_Driver__c"],"plots":["sum_MRR__c"]},"showActionMenu":true,"measureAxis2":{"sqrtScale":false,"showTitle":false,"showAxis":false,"title":"","customDomain":{"showDomain":false}},"valueType":"compactNumber","measureAxis1":{"sqrtScale":false,"showTitle":true,"showAxis":true,"title":"Monthly Recurring Revenue","customDomain":{"showDomain":false}},"step":"risk_detail_driver","theme":"wave","applyConditionalFormatting":false,"dimensionAxis":{"showTitle":true,"customSize":"auto","showAxis":true,"title":"Primary Risk Driver"}},"type":"chart"},"risk_detail_subtitle":{"parameters":{"content":{"richTextContent":[{"attributes":{"color":"#DCE6F5","size":"13px","bold":false},"insert":"A prioritized action queue for customer-success intervention, ownership, and recurring revenue exposure"},{"attributes":{"align":"left"},"insert":"\n"}]},"interactions":[],"showActionMenu":false},"type":"text"},"risk_detail_selector_plan":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"risk_detail_filter_plan","title":"Plan Tier"},"type":"listselector"},"risk_detail_table":{"parameters":{"borderColor":"#D9DEE7","borderWidth":1,"cell":{"backgroundColor":"#FFFFFF","fontColor":"#172B4D","fontSize":12},"columnProperties":{},"columns":[],"customBulkActions":[],"exploreLink":true,"header":{"backgroundColor":"#EEF1F6","fontColor":"#0A1733","fontSize":12},"headerProperties":{},"innerMajorBorderColor":"#D9DEE7","innerMinorBorderColor":"#EEF1F6","interactions":[],"maxColumnWidth":280,"minColumnWidth":70,"mode":"variable","numberOfLines":2,"pivoted":false,"showActionMenu":true,"showRowIndexColumn":false,"step":"risk_detail_queue","totals":false,"verticalPadding":9},"type":"table"},"risk_detail_reset":{"parameters":{"destinationLink":{"name":"At_Risk_Account_Dashboard","namespace":""},"destinationType":"dashboard","fontSize":12,"includeState":false,"text":"Reset filters","textAlignment":"center","textColor":"#14274E"},"type":"link"},"risk_detail_back":{"parameters":{"destinationLink":{"name":"Landing_Page","namespace":""},"destinationType":"dashboard","fontSize":13,"includeState":false,"text":"Back to Command Center","textAlignment":"left","textColor":"#2E5BFF"},"type":"link"},"risk_detail_number_arr":{"parameters":{"compact":true,"exploreLink":true,"interactions":[],"measureField":"B","numberColor":"#BA0517","numberSize":28,"showActionMenu":true,"step":"risk_detail_arr","textAlignment":"left","title":"At-Risk ARR","titleColor":"#5E6C84","titleSize":12,"tooltip":{"customizeTooltip":false}},"type":"number"},"risk_detail_selector_csm":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"risk_detail_filter_csm","title":"Customer Success Manager"},"type":"listselector"},"risk_detail_selector_segment":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"risk_detail_filter_segment","title":"Customer Segment"},"type":"listselector"},"risk_detail_selector_region":{"parameters":{"compact":true,"displayMode":"combo","exploreLink":false,"filterStyle":{"titleColor":"#5E6C84","valueColor":"#172B4D"},"instant":true,"interactions":[],"measureField":"count","showActionMenu":false,"step":"risk_detail_filter_region","title":"Region"},"type":"listselector"}}}
+{
+  "dataSourceLinksInfo": {
+    "enableAutomaticLinking": true,
+    "excludeRelationships": [],
+    "links": []
+  },
+  "filters": [],
+  "gridLayouts": [
+    {
+      "maxWidth": 1600,
+      "name": "Default",
+      "numColumns": 48,
+      "pages": [
+        {
+          "label": "At-Risk Accounts",
+          "name": "at-risk-action-queue",
+          "navigationHidden": false,
+          "widgets": [
+            {
+              "colspan": 48,
+              "column": 0,
+              "name": "risk_detail_header_container",
+              "row": 0,
+              "rowspan": 8,
+              "widgetStyle": {
+                "backgroundColor": "#0F172A",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 32,
+              "column": 1,
+              "name": "risk_detail_title",
+              "row": 1,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 8,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 6,
+              "column": 41,
+              "name": "risk_detail_reset",
+              "row": 2,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#F8FAFC",
+                "borderColor": "#CBD5E1",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 7,
+              "column": 33,
+              "name": "risk_detail_back",
+              "row": 2,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#F8FAFC",
+                "borderColor": "#CBD5E1",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_selector_csm",
+              "row": 9,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 12,
+              "name": "risk_detail_selector_segment",
+              "row": 9,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 24,
+              "name": "risk_detail_selector_region",
+              "row": 9,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 36,
+              "name": "risk_detail_selector_plan",
+              "row": 9,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_number_arr",
+              "row": 16,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#DC2626",
+                "borderEdges": [
+                  "top"
+                ],
+                "borderRadius": 8,
+                "borderWidth": 3
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 12,
+              "name": "risk_detail_number_count",
+              "row": 16,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#2563EB",
+                "borderEdges": [
+                  "top"
+                ],
+                "borderRadius": 8,
+                "borderWidth": 3
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 24,
+              "name": "risk_detail_number_critical",
+              "row": 16,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#DC2626",
+                "borderEdges": [
+                  "top"
+                ],
+                "borderRadius": 8,
+                "borderWidth": 3
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 36,
+              "name": "risk_detail_number_health",
+              "row": 16,
+              "rowspan": 7,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#F59E0B",
+                "borderEdges": [
+                  "top"
+                ],
+                "borderRadius": 8,
+                "borderWidth": 3
+              }
+            },
+            {
+              "colspan": 24,
+              "column": 0,
+              "name": "risk_detail_chart_band",
+              "row": 24,
+              "rowspan": 20,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 24,
+              "column": 24,
+              "name": "risk_detail_chart_driver",
+              "row": 24,
+              "rowspan": 20,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 48,
+              "column": 0,
+              "name": "risk_detail_table",
+              "row": 45,
+              "rowspan": 28,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            }
+          ]
+        }
+      ],
+      "rowHeight": "fine",
+      "selectors": [
+        "minWidth(600)"
+      ],
+      "style": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "backgroundColor": "#F7F8FA",
+        "cellSpacingX": 4,
+        "cellSpacingY": 4,
+        "fit": "original",
+        "gutterColor": "#F7F8FA"
+      },
+      "version": 1
+    },
+    {
+      "maxWidth": 375,
+      "name": "Mobile",
+      "numColumns": 12,
+      "pages": [
+        {
+          "label": "At-Risk Accounts",
+          "name": "at-risk-action-queue",
+          "navigationHidden": false,
+          "widgets": [
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_header_container",
+              "row": 0,
+              "rowspan": 10,
+              "widgetStyle": {
+                "backgroundColor": "#0F172A",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 10,
+              "column": 1,
+              "name": "risk_detail_title",
+              "row": 1,
+              "rowspan": 5,
+              "widgetStyle": {
+                "backgroundColor": "rgba(255, 255, 255, 0)",
+                "borderColor": "#0F172A",
+                "borderEdges": [],
+                "borderRadius": 8,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 5,
+              "column": 6,
+              "name": "risk_detail_reset",
+              "row": 6,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#F8FAFC",
+                "borderColor": "#CBD5E1",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 5,
+              "column": 1,
+              "name": "risk_detail_back",
+              "row": 6,
+              "rowspan": 3,
+              "widgetStyle": {
+                "backgroundColor": "#F8FAFC",
+                "borderColor": "#CBD5E1",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 9,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_selector_csm",
+              "row": 11,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_selector_segment",
+              "row": 18,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_selector_region",
+              "row": 25,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_selector_plan",
+              "row": 32,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 10,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_number_arr",
+              "row": 39,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_number_count",
+              "row": 46,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_number_critical",
+              "row": 53,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_number_health",
+              "row": 60,
+              "rowspan": 6,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_chart_band",
+              "row": 67,
+              "rowspan": 22,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_chart_driver",
+              "row": 90,
+              "rowspan": 22,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            },
+            {
+              "colspan": 12,
+              "column": 0,
+              "name": "risk_detail_table",
+              "row": 113,
+              "rowspan": 34,
+              "widgetStyle": {
+                "backgroundColor": "#FFFFFF",
+                "borderColor": "#D8E1EC",
+                "borderEdges": [
+                  "all"
+                ],
+                "borderRadius": 12,
+                "borderWidth": 1
+              }
+            }
+          ]
+        }
+      ],
+      "rowHeight": "fine",
+      "selectors": [
+        "maxWidth(599)"
+      ],
+      "style": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "backgroundColor": "#F7F8FA",
+        "cellSpacingX": 3,
+        "cellSpacingY": 3,
+        "fit": "original",
+        "gutterColor": "#F7F8FA"
+      },
+      "version": 1
+    }
+  ],
+  "layouts": [],
+  "steps": {
+    "risk_detail_filter_csm": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Customer_Success_Manager__c\"],\"order\":[[\"Customer_Success_Manager__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_filter_segment": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Segment__c\"],\"order\":[[\"Segment__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_filter_region": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Region__c\"],\"order\":[[\"Region__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_filter_plan": {
+      "broadcastFacet": true,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"groups\":[\"Plan_Tier__c\"],\"order\":[[\"Plan_Tier__c\",{\"ascending\":true}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_count": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_critical": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"count\",\"*\"]],\"filters\":[[\"Risk_Band__c\",[\"Critical\"],\"in\"]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_health": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"avg\",\"Health_Score__c\"]],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_arr": {
+      "broadcastFacet": false,
+      "groups": [],
+      "numbers": [
+        "At_Risk_ARR"
+      ],
+      "query": "q = load \"Churn_Risk_Accounts\"; q = filter q by 'Risk_Band__c' in [\"Critical\", \"At Risk\"]; q = group q by all; q = foreach q generate sum(q.'MRR__c') * 12 as 'At_Risk_ARR';",
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "single",
+      "strings": [],
+      "type": "saql",
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_band": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"sum\",\"MRR__c\"]],\"groups\":[\"Risk_Band__c\"],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]],\"order\":[[\"sum_MRR__c\",{\"ascending\":false}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_driver": {
+      "broadcastFacet": false,
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isGlobal": false,
+      "query": {
+        "query": "{\"measures\":[[\"sum\",\"MRR__c\"]],\"groups\":[\"Main_Risk_Driver__c\"],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]],\"order\":[[\"sum_MRR__c\",{\"ascending\":false}]]}",
+        "version": -1
+      },
+      "receiveFacetSource": {
+        "mode": "all",
+        "steps": []
+      },
+      "selectMode": "multi",
+      "type": "aggregateflex",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "hbar"
+      }
+    },
+    "risk_detail_queue": {
+      "datasets": [
+        {
+          "name": "Churn_Risk_Accounts"
+        }
+      ],
+      "isFacet": false,
+      "isGlobal": false,
+      "label": "portfolio_table",
+      "query": {
+        "query": "{\"measures\":[],\"values\":[\"Priority_Rank__c\",\"Account_Name__c\",\"Risk_Band__c\",\"MRR__c\",\"Health_Score__c\",\"Main_Risk_Driver__c\",\"Customer_Success_Manager__c\",\"Recommended_Action__c\"],\"groups\":[],\"filters\":[[\"Risk_Band__c\",[\"Critical\",\"At Risk\",\"Watch\"],\"in\"]],\"order\":[[\"Priority_Rank__c\",{\"ascending\":true}]],\"limit\":50}",
+        "version": -1
+      },
+      "selectMode": "none",
+      "type": "grain",
+      "useExternalFilters": true,
+      "useGlobal": true,
+      "visualizationParameters": {
+        "options": {},
+        "visualizationType": "valuestable"
+      }
+    }
+  },
+  "widgetStyle": {
+    "backgroundColor": "#FFFFFF",
+    "borderColor": "#E2E8F0",
+    "borderEdges": [
+      "all"
+    ],
+    "borderRadius": 8,
+    "borderWidth": 1,
+    "tooltipStyle": {
+      "backgroundColor": "#0F172A",
+      "labelColor": "#CBD5E1",
+      "valueColor": "#FFFFFF"
+    }
+  },
+  "widgets": {
+    "risk_detail_header_container": {
+      "parameters": {
+        "alignmentX": "left",
+        "alignmentY": "top",
+        "fit": "original",
+        "interactions": []
+      },
+      "type": "container"
+    },
+    "risk_detail_title": {
+      "parameters": {
+        "content": {
+          "richTextContent": [
+            {
+              "attributes": {
+                "color": "#FFFFFF",
+                "size": "24px",
+                "bold": true
+              },
+              "insert": "At-Risk Account Dashboard"
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            },
+            {
+              "attributes": {
+                "color": "#CBD5E1",
+                "size": "12px",
+                "bold": false
+              },
+              "insert": "A prioritized intervention queue ordered by modeled severity, current value, and ownership."
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            },
+            {
+              "attributes": {
+                "color": "#94A3B8",
+                "size": "12px",
+                "bold": false
+              },
+              "insert": "Illustrative 2025 portfolio snapshot"
+            },
+            {
+              "attributes": {
+                "align": "left"
+              },
+              "insert": "\n"
+            }
+          ]
+        },
+        "interactions": [],
+        "showActionMenu": false
+      },
+      "type": "text"
+    },
+    "risk_detail_reset": {
+      "parameters": {
+        "destinationLink": {
+          "name": "At_Risk_Account_Dashboard",
+          "namespace": ""
+        },
+        "destinationType": "dashboard",
+        "fontSize": 12,
+        "includeState": false,
+        "text": "Reset filters",
+        "textAlignment": "center",
+        "textColor": "#0F172A"
+      },
+      "type": "link"
+    },
+    "risk_detail_back": {
+      "parameters": {
+        "destinationLink": {
+          "name": "Landing_Page",
+          "namespace": ""
+        },
+        "destinationType": "dashboard",
+        "fontSize": 12,
+        "includeState": false,
+        "text": "Back to command center",
+        "textAlignment": "center",
+        "textColor": "#0F172A"
+      },
+      "type": "link"
+    },
+    "risk_detail_selector_csm": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "risk_detail_filter_csm",
+        "title": "Customer Success Manager"
+      },
+      "type": "listselector"
+    },
+    "risk_detail_selector_segment": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "risk_detail_filter_segment",
+        "title": "Customer Segment"
+      },
+      "type": "listselector"
+    },
+    "risk_detail_selector_region": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "risk_detail_filter_region",
+        "title": "Region"
+      },
+      "type": "listselector"
+    },
+    "risk_detail_selector_plan": {
+      "parameters": {
+        "compact": false,
+        "displayMode": "combo",
+        "exploreLink": false,
+        "filterStyle": {
+          "titleColor": "#475569",
+          "valueColor": "#0F172A"
+        },
+        "instant": true,
+        "interactions": [],
+        "measureField": "count",
+        "showActionMenu": false,
+        "step": "risk_detail_filter_plan",
+        "title": "Plan Tier"
+      },
+      "type": "listselector"
+    },
+    "risk_detail_number_arr": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "At_Risk_ARR",
+        "numberColor": "#DC2626",
+        "numberSize": 30,
+        "showActionMenu": false,
+        "step": "risk_detail_arr",
+        "textAlignment": "left",
+        "title": "At-Risk ARR",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "risk_detail_number_count": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "count",
+        "numberColor": "#2563EB",
+        "numberSize": 30,
+        "showActionMenu": false,
+        "step": "risk_detail_count",
+        "textAlignment": "left",
+        "title": "Accounts Requiring Attention",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "risk_detail_number_critical": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "count",
+        "numberColor": "#DC2626",
+        "numberSize": 30,
+        "showActionMenu": false,
+        "step": "risk_detail_critical",
+        "textAlignment": "left",
+        "title": "Critical Accounts",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "risk_detail_number_health": {
+      "parameters": {
+        "compact": true,
+        "exploreLink": false,
+        "interactions": [],
+        "measureField": "avg_Health_Score__c",
+        "numberColor": "#F59E0B",
+        "numberSize": 30,
+        "showActionMenu": false,
+        "step": "risk_detail_health",
+        "textAlignment": "left",
+        "title": "Average Queue Health",
+        "titleColor": "#64748B",
+        "titleSize": 12,
+        "tooltip": {
+          "customizeTooltip": false
+        }
+      },
+      "type": "number"
+    },
+    "risk_detail_chart_band": {
+      "parameters": {
+        "autoFitMode": "fit",
+        "totalValue": "computeTotal",
+        "legend": {
+          "descOrder": false,
+          "showHeader": false,
+          "show": false,
+          "customSize": "auto",
+          "position": "bottom-center",
+          "inside": false
+        },
+        "axisMode": "multi",
+        "tooltip": {
+          "content": {
+            "legend": {
+              "showBinLabel": true,
+              "measures": [],
+              "showNullValues": true,
+              "customizeLegend": false,
+              "showPercentage": true,
+              "showDimensions": true,
+              "showMeasures": true,
+              "dimensions": []
+            }
+          }
+        },
+        "visualizationType": "hbar",
+        "exploreLink": false,
+        "title": {
+          "align": "left",
+          "fontSize": 15,
+          "label": "Current MRR by Risk Band",
+          "subtitleFontSize": 11,
+          "subtitleLabel": "Current recurring revenue among accounts requiring attention."
+        },
+        "trellis": {
+          "flipLabels": false,
+          "showGridLines": true,
+          "size": [
+            100,
+            100
+          ],
+          "enable": false,
+          "type": "x",
+          "chartsPerLine": 4
+        },
+        "totalLabel": "",
+        "columnMap": {
+          "split": [],
+          "trellis": [],
+          "dimension": [
+            "Risk_Band__c"
+          ],
+          "dimensionAxis": [
+            "Risk_Band__c"
+          ],
+          "plots": [
+            "sum_MRR__c"
+          ]
+        },
+        "showActionMenu": false,
+        "measureAxis2": {
+          "sqrtScale": false,
+          "showTitle": false,
+          "showAxis": false,
+          "title": "",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "valueType": "compactNumber",
+        "measureAxis1": {
+          "sqrtScale": false,
+          "showTitle": true,
+          "showAxis": true,
+          "title": "Current Monthly Recurring Revenue",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "step": "risk_detail_band",
+        "theme": "wave",
+        "applyConditionalFormatting": false,
+        "dimensionAxis": {
+          "showTitle": true,
+          "customSize": "auto",
+          "showAxis": true,
+          "title": "Risk Band"
+        }
+      },
+      "type": "chart"
+    },
+    "risk_detail_chart_driver": {
+      "parameters": {
+        "autoFitMode": "fit",
+        "totalValue": "computeTotal",
+        "legend": {
+          "descOrder": false,
+          "showHeader": false,
+          "show": false,
+          "customSize": "auto",
+          "position": "bottom-center",
+          "inside": false
+        },
+        "axisMode": "multi",
+        "tooltip": {
+          "content": {
+            "legend": {
+              "showBinLabel": true,
+              "measures": [],
+              "showNullValues": true,
+              "customizeLegend": false,
+              "showPercentage": true,
+              "showDimensions": true,
+              "showMeasures": true,
+              "dimensions": []
+            }
+          }
+        },
+        "visualizationType": "hbar",
+        "exploreLink": false,
+        "title": {
+          "align": "left",
+          "fontSize": 15,
+          "label": "Revenue Exposure by Primary Risk Driver",
+          "subtitleFontSize": 11,
+          "subtitleLabel": "Issues associated with the greatest current recurring revenue exposure."
+        },
+        "trellis": {
+          "flipLabels": false,
+          "showGridLines": true,
+          "size": [
+            100,
+            100
+          ],
+          "enable": false,
+          "type": "x",
+          "chartsPerLine": 4
+        },
+        "totalLabel": "",
+        "columnMap": {
+          "split": [],
+          "trellis": [],
+          "dimension": [
+            "Main_Risk_Driver__c"
+          ],
+          "dimensionAxis": [
+            "Main_Risk_Driver__c"
+          ],
+          "plots": [
+            "sum_MRR__c"
+          ]
+        },
+        "showActionMenu": false,
+        "measureAxis2": {
+          "sqrtScale": false,
+          "showTitle": false,
+          "showAxis": false,
+          "title": "",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "valueType": "compactNumber",
+        "measureAxis1": {
+          "sqrtScale": false,
+          "showTitle": true,
+          "showAxis": true,
+          "title": "Current Monthly Recurring Revenue",
+          "customDomain": {
+            "showDomain": false
+          }
+        },
+        "step": "risk_detail_driver",
+        "theme": "wave",
+        "applyConditionalFormatting": false,
+        "dimensionAxis": {
+          "showTitle": true,
+          "customSize": "auto",
+          "showAxis": true,
+          "title": "Primary Risk Driver"
+        }
+      },
+      "type": "chart"
+    },
+    "risk_detail_table": {
+      "parameters": {
+        "borderColor": "#E2E8F0",
+        "borderWidth": 1,
+        "cell": {
+          "backgroundColor": "#FFFFFF",
+          "fontColor": "#0F172A",
+          "fontSize": 11
+        },
+        "columnProperties": {
+          "Account_Name__c": {
+            "type": "text",
+            "parameters": {
+              "width": 210
+            }
+          },
+          "Risk_Band__c": {
+            "type": "text",
+            "parameters": {
+              "width": 120
+            }
+          },
+          "MRR__c": {
+            "type": "text",
+            "parameters": {
+              "width": 160
+            }
+          },
+          "Health_Score__c": {
+            "type": "text",
+            "parameters": {
+              "width": 130
+            }
+          },
+          "Main_Risk_Driver__c": {
+            "type": "text",
+            "parameters": {
+              "width": 230
+            }
+          },
+          "Customer_Success_Manager__c": {
+            "type": "text",
+            "parameters": {
+              "width": 230
+            }
+          },
+          "Recommended_Action__c": {
+            "type": "text",
+            "parameters": {
+              "width": 460
+            }
+          }
+        },
+        "columns": [
+          "Account_Name__c",
+          "Risk_Band__c",
+          "MRR__c",
+          "Health_Score__c",
+          "Main_Risk_Driver__c",
+          "Customer_Success_Manager__c",
+          "Recommended_Action__c"
+        ],
+        "customBulkActions": [],
+        "exploreLink": false,
+        "header": {
+          "backgroundColor": "#F1F5F9",
+          "fontColor": "#0F172A",
+          "fontSize": 10
+        },
+        "headerProperties": {},
+        "innerMajorBorderColor": "#E2E8F0",
+        "innerMinorBorderColor": "#F1F5F9",
+        "interactions": [],
+        "maxColumnWidth": 460,
+        "minColumnWidth": 64,
+        "mode": "variable",
+        "numberOfLines": 2,
+        "pivoted": false,
+        "showActionMenu": false,
+        "showRowIndexColumn": false,
+        "step": "risk_detail_queue",
+        "totals": false,
+        "verticalPadding": 6
+      },
+      "type": "table"
+    }
+  }
+}

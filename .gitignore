@@ -1,5 +1,6 @@
-# Python environments & caches
+# Python environments and caches
 /.venv/
+/.venv-1/
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -10,19 +11,33 @@ __pycache__/
 frontend/.env.local
 backend/.env
 
-# Node/Next.js build artifacts
+# Node and Next.js build artifacts
 frontend/node_modules/
 frontend/.next/
+figma-export/**/node_modules/
+figma-export/**/.next/
+
+# Local tooling and auth state
+.playwright-cli/
+.serena/
+.vscode/
+.sf/
+.sfdx/
+salesforce/.sf/
+salesforce/.sfdx/
+output/
+backend/.uvicorn.log
+backend/.uvicorn.err.log
+
+# Generated CRM Analytics QA artifacts
+salesforce/output/
+salesforce/playwright-report/
+salesforce/test-results/
+
+# Historical local dashboard tooling path; source-of-truth files now live in
+# salesforce/design/
+tools/crma_style/
 
 # OS/editor cruft
 .DS_Store
 Thumbs.db
-/backend/app/__pycache__
-/backend/app/__pycache__
-/backend/app/__pycache__
-/backend/app/__pycache__
-/backend/app/__pycache__
-/backend/app/__pycache__
-*.pyc
-backend/.uvicorn.log
-backend/.uvicorn.err.log
