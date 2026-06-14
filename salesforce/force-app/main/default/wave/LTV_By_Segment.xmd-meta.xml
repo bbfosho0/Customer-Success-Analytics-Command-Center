@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>LTV_By_Segment</dataset>
+    <dimensions>
+        <field>Segment__c</field>
+        <isDerived>false</isDerived>
+        <label>Customer Segment</label>
+        <members>
+            <color>#2E5BFF</color>
+            <label>Customer Segment</label>
+            <member>Customer Segment</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Plan_Tier__c</field>
+        <isDerived>false</isDerived>
+        <label>Plan Tier</label>
+        <members>
+            <color>#008C8C</color>
+            <label>Plan Tier</label>
+            <member>Plan Tier</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <measures>
+        <field>Average_MRR__c</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Average Monthly Recurring Revenue</label>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>Estimated_LTV__c</field>
+        <formatCustomFormat>[&quot;$#,###&quot;,1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Estimated Lifetime Value</label>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>Assumed_Monthly_Churn_Rate__c</field>
+        <formatCustomFormat>[&quot;0.0%&quot;,100]</formatCustomFormat>
+        <formatDecimalDigits>2</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Assumed Monthly Churn Rate</label>
+        <sortIndex>2</sortIndex>
+    </measures>
+    <measures>
+        <field>Customers__c</field>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Customers</label>
+        <sortIndex>3</sortIndex>
+    </measures>
+</WaveXmd>

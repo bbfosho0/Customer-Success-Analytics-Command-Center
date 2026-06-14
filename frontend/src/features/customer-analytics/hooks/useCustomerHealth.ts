@@ -1,16 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { apiFetch } from "../../../lib/api/client";
-import type { ApiValidationError, CustomerHealthScore } from "../../../lib/api/types";
+import type { CustomerHealthScore } from "../../../lib/api/types";
 import { queryKeys } from "../../../lib/constants/queryKeys";
-import { isStaticDemoMode } from "../../../lib/utils/env";
+import { buildCustomerAnalyticsQuery } from "../query";
+import { staticCustomerHealth } from "../static-data";
 
 export function useCustomerHealth() {
-  const staticMode = isStaticDemoMode();
+  const query = buildCustomerAnalyticsQuery<CustomerHealthScore[]>(
+    "/api/customer-analytics/health",
+    staticCustomerHealth,
+  );
+
   return useQuery<CustomerHealthScore[]>({
     queryKey: queryKeys.customerAnalytics.health(),
-    queryFn: ({ signal }) =>
-      staticMode ? Promise.resolve([]) : apiFetch<CustomerHealthScore[], ApiValidationError>("/api/customer-analytics/health", { signal }),
-    staleTime: staticMode ? Infinity : 60_000,
+    queryFn: query.queryFn,
+    staleTime: query.staleTime,
   });
 }

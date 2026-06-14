@@ -24,6 +24,7 @@ def test_churn_risk_accounts_are_sorted_by_priority() -> None:
     rows = response.json()
     assert rows
     assert [row["priority_rank"] for row in rows] == sorted(row["priority_rank"] for row in rows)
+    assert all(row["customer_success_manager"] for row in rows)
 
 
 def test_retention_and_ltv_endpoints_return_rows() -> None:
@@ -46,3 +47,12 @@ def test_bi_exports_and_account_detail() -> None:
     assert detail.status_code == 200
     assert detail.json()["account_id"] == "acct_001"
     assert missing.status_code == 404
+
+
+def test_expansion_opportunities_include_customer_success_manager() -> None:
+    response = client.get("/api/customer-analytics/expansion-opportunities")
+
+    assert response.status_code == 200
+    rows = response.json()
+    assert rows
+    assert all(row["customer_success_manager"] for row in rows)

@@ -9,6 +9,8 @@ SELECT
   weighted_pipeline_amount,
   open_pipeline_amount,
   next_close_date,
+  date_trunc('month', next_close_date)::DATE AS close_month,
+  customer_success_manager,
   CASE
     WHEN health_score >= 80 AND weighted_pipeline_amount > 10000 THEN 'Expansion Ready'
     WHEN health_score >= 70 AND current_mrr > 3000 THEN 'Nurture'

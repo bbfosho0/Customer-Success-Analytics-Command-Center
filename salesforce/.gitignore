@@ -1,0 +1,8 @@
+.sf/
+.sfdx/
+.local/
+deploy-results/
+output/
+node_modules/
+playwright-report/
+test-results/

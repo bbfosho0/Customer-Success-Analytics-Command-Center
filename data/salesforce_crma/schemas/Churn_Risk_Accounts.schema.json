@@ -63,6 +63,12 @@
       "original_source_column": "recommended_action"
     },
     {
+      "field_name": "Customer_Success_Manager__c",
+      "inferred_data_type": "Text",
+      "suggested_crm_analytics_role": "dimension",
+      "original_source_column": "customer_success_manager"
+    },
+    {
       "field_name": "Priority_Rank__c",
       "inferred_data_type": "Numeric",
       "suggested_crm_analytics_role": "measure",

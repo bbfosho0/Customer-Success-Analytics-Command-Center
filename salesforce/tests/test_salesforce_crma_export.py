@@ -23,6 +23,7 @@ def _write_source_marts(marts_dir: Path) -> None:
             "health_score": [82.5],
             "risk_level": ["Healthy"],
             "current_mrr": [2500.0],
+            "customer_success_manager": ["Jordan Ellis"],
             "recommended_action": ["Continue regular success cadence"],
         }
     )
@@ -74,6 +75,10 @@ def test_export_creates_csvs_salesforce_columns_and_schema_files(tmp_path: Path)
         "Recommended_Action__c",
     }
     assert required_fields <= set(customer_360.columns)
+
+    for dataset_name in ("Churn_Risk_Accounts", "Expansion_Opportunities"):
+        exported = pl.read_csv(output_dir / f"{dataset_name}.csv")
+        assert "Customer_Success_Manager__c" in exported.columns
 
 
 def test_export_uses_curated_customer_360_fallback(tmp_path: Path) -> None:

@@ -101,7 +101,7 @@ The finished expansion should include:
 - Real ETL that validates raw files and generates curated Parquet outputs.
 - DuckDB SQL marts for churn risk, retention cohorts, LTV, customer health, support impact, expansion opportunities, and segment performance.
 - BI-ready CSV exports under `data/bi_exports/`.
-- Salesforce CRM Analytics-style documentation under `bi/salesforce_crma/`.
+- Salesforce CRM Analytics-style documentation under `salesforce/docs/bi/`.
 - Tableau documentation and optional Tableau Public dashboard references under `bi/tableau/`.
 - FastAPI endpoints that serve the generated customer analytics marts.
 - Next.js customer analytics pages powered by API hooks or deterministic static-demo fallback.
@@ -813,7 +813,7 @@ If Tableau is not created yet, use local dashboard screenshots and label them ho
 Add:
 
 ```text
-bi/salesforce_crma/
+salesforce/docs/bi/
   dataset_mapping.md
   recipe_plan.md
   dashboard_wireframe.md
@@ -1105,7 +1105,7 @@ Phase 6 is complete when:
 - BI-ready CSV exports exist under `data/bi_exports/`.
 - Backend customer analytics endpoints return data from generated marts.
 - Frontend pages display customer analytics from API-backed hooks or static-demo fallback.
-- Salesforce CRM Analytics documentation exists under `bi/salesforce_crma/`.
+- Salesforce CRM Analytics documentation exists under `salesforce/docs/bi/`.
 - Tableau documentation exists under `bi/tableau/`.
 - Tests verify the customer analytics data path.
 - README explains the Customer Success Analytics Command Center positioning.
@@ -1302,7 +1302,7 @@ AWS storage work belongs in Phase 8 as an optional adapter after the local-first
 | P0 | Generate Parquet marts | `data/marts/*.parquet` |
 | P0 | Generate BI exports | `data/bi_exports/*.csv` |
 | P1 | Add Tableau docs | `bi/tableau/README.md` |
-| P1 | Add Salesforce CRM Analytics docs | `bi/salesforce_crma/*.md` |
+| P1 | Add Salesforce CRM Analytics docs | `salesforce/docs/bi/*.md` |
 
 ### Backend
 

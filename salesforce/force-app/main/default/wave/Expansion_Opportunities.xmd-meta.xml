@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<WaveXmd xmlns="http://soap.sforce.com/2006/04/metadata">
+    <dataset>Expansion_Opportunities</dataset>
+    <dimensions>
+        <field>Account_Id__c</field>
+        <isDerived>false</isDerived>
+        <label>Account ID</label>
+        <members>
+            <color>#2E5BFF</color>
+            <label>Account ID</label>
+            <member>Account ID</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>0</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Account_Name__c</field>
+        <isDerived>false</isDerived>
+        <label>Account</label>
+        <members>
+            <color>#008C8C</color>
+            <label>Account</label>
+            <member>Account</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>1</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Expansion_Readiness__c</field>
+        <isDerived>false</isDerived>
+        <label>Expansion Readiness</label>
+        <members>
+            <color>#B85C00</color>
+            <label>Expansion Readiness</label>
+            <member>Expansion Readiness</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>2</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Next_Close_Date__c</field>
+        <isDerived>false</isDerived>
+        <label>Expected Close Date</label>
+        <members>
+            <color>#2E844A</color>
+            <label>Expected Close Date</label>
+            <member>Expected Close Date</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>3</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Segment__c</field>
+        <isDerived>false</isDerived>
+        <label>Customer Segment</label>
+        <members>
+            <color>#14274E</color>
+            <label>Customer Segment</label>
+            <member>Customer Segment</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>4</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Region__c</field>
+        <isDerived>false</isDerived>
+        <label>Region</label>
+        <members>
+            <color>#BA0517</color>
+            <label>Region</label>
+            <member>Region</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>5</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Plan_Tier__c</field>
+        <isDerived>false</isDerived>
+        <label>Plan Tier</label>
+        <members>
+            <color>#2E5BFF</color>
+            <label>Plan Tier</label>
+            <member>Plan Tier</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>6</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Customer_Success_Manager__c</field>
+        <isDerived>false</isDerived>
+        <label>Customer Success Manager</label>
+        <members>
+            <color>#2563EB</color>
+            <label>Customer Success Manager</label>
+            <member>Customer Success Manager</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>7</sortIndex>
+    </dimensions>
+    <dimensions>
+        <field>Close_Month__c</field>
+        <isDerived>false</isDerived>
+        <label>Expected Close Month</label>
+        <members>
+            <color>#0D9488</color>
+            <label>Expected Close Month</label>
+            <member>Expected Close Month</member>
+            <sortIndex>0</sortIndex>
+        </members>
+        <sortIndex>8</sortIndex>
+    </dimensions>
+    <measures>
+        <field>MRR__c</field>
+        <formatCustomFormat>["$#,###",1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Monthly Recurring Revenue (MRR)</label>
+        <sortIndex>0</sortIndex>
+    </measures>
+    <measures>
+        <field>Health_Score__c</field>
+        <formatDecimalDigits>1</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Health Score</label>
+        <sortIndex>1</sortIndex>
+    </measures>
+    <measures>
+        <field>Open_Pipeline_Amount__c</field>
+        <formatCustomFormat>["$#,###",1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Open Expansion Pipeline</label>
+        <sortIndex>2</sortIndex>
+    </measures>
+    <measures>
+        <field>Weighted_Pipeline_Amount__c</field>
+        <formatCustomFormat>["$#,###",1]</formatCustomFormat>
+        <formatDecimalDigits>0</formatDecimalDigits>
+        <isDerived>false</isDerived>
+        <label>Weighted Expansion Pipeline</label>
+        <sortIndex>3</sortIndex>
+    </measures>
+</WaveXmd>

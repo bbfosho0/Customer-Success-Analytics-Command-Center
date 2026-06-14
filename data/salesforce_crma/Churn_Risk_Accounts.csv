@@ -1,13 +1,74 @@
-Account_Id__c,Account_Name__c,Segment__c,Region__c,Plan_Tier__c,MRR__c,Health_Score__c,Risk_Band__c,Main_Risk_Driver__c,Recommended_Action__c,Priority_Rank__c
-acct_007,Olive Branch Cafe,SMB,Europe,Starter,0.0,28.5,Critical,Low product adoption,Schedule CSM risk review and adoption plan,1
-acct_004,Copper Kettle BBQ,Mid-Market,North America,Pro,0.0,30.1,Critical,Low product adoption,Schedule CSM risk review and adoption plan,2
-acct_006,Metro Noodle House,Mid-Market,Asia Pacific,Pro,3900.0,35.9,Critical,Payment failure,Schedule CSM risk review and adoption plan,3
-acct_003,Green Fork Kitchen,SMB,Europe,Starter,1200.0,40.6,At Risk,Payment failure,Schedule CSM risk review and adoption plan,4
-acct_010,Luna Bakery Collective,SMB,Europe,Starter,1000.0,40.8,At Risk,Payment failure,Schedule CSM risk review and adoption plan,5
-acct_005,Sunrise Taqueria,SMB,Latin America,Starter,900.0,69.4,Watch,Healthy usage and engagement,Continue regular success cadence,6
-acct_012,Pacific Poke Labs,Mid-Market,Asia Pacific,Pro,3600.0,73.7,Watch,Healthy usage and engagement,Continue regular success cadence,7
-acct_009,Beacon Burger Co,Mid-Market,North America,Pro,4700.0,77.0,Watch,Healthy usage and engagement,Advance expansion opportunity,8
-acct_001,Northstar Bistro,Mid-Market,North America,Pro,4200.0,78.2,Watch,Healthy usage and engagement,Continue regular success cadence,9
-acct_011,Cedar Table Group,Enterprise,North America,Enterprise,16200.0,81.1,Healthy,CSM risk note,Advance expansion opportunity,10
-acct_008,Prime Plate Hospitality,Enterprise,North America,Enterprise,18500.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,11
-acct_002,Harbor Sushi Group,Enterprise,North America,Enterprise,14200.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,12
+Account_Id__c,Account_Name__c,Segment__c,Region__c,Plan_Tier__c,MRR__c,Health_Score__c,Risk_Band__c,Main_Risk_Driver__c,Recommended_Action__c,Customer_Success_Manager__c,Priority_Rank__c
+acct_036,Atlas Bistro,Mid-Market,North America,Pro,4696.0,31.8,Critical,Payment failure,Schedule CSM risk review and adoption plan,Casey Nguyen,1
+acct_096,Foundry Food Hall,Mid-Market,North America,Pro,5056.0,32.1,Critical,Payment failure,Schedule CSM risk review and adoption plan,Jordan Ellis,2
+acct_086,Golden Restaurant Co,Mid-Market,Asia Pacific,Pro,3646.0,32.2,Critical,Payment failure,Schedule CSM risk review and adoption plan,Drew Martinez,3
+acct_066,Maple Cafe Group,Mid-Market,Asia Pacific,Pro,3526.0,32.2,Critical,Payment failure,Schedule CSM risk review and adoption plan,Riley Patel,4
+acct_026,Bluebird Table,Mid-Market,Asia Pacific,Pro,5986.0,32.3,Critical,Payment failure,Schedule CSM risk review and adoption plan,Riley Patel,5
+acct_056,Orchard Hospitality,Mid-Market,North America,Pro,4816.0,32.3,Critical,Payment failure,Schedule CSM risk review and adoption plan,Jordan Ellis,6
+acct_076,Juniper Dining Collective,Mid-Market,North America,Pro,4936.0,32.7,Critical,Payment failure,Schedule CSM risk review and adoption plan,Casey Nguyen,7
+acct_046,Amber Hospitality,Mid-Market,Asia Pacific,Pro,3406.0,32.8,Critical,Payment failure,Schedule CSM risk review and adoption plan,Drew Martinez,8
+acct_016,Canyon Kitchen,Mid-Market,North America,Pro,4576.0,32.9,Critical,Payment failure,Schedule CSM risk review and adoption plan,Jordan Ellis,9
+acct_006,Metro Noodle House,Mid-Market,Asia Pacific,Pro,3900.0,35.9,Critical,Payment failure,Schedule CSM risk review and adoption plan,Taylor Kim,10
+acct_003,Green Fork Kitchen,SMB,Europe,Starter,1200.0,40.6,At Risk,Payment failure,Schedule CSM risk review and adoption plan,Riley Patel,11
+acct_010,Luna Bakery Collective,SMB,Europe,Starter,1000.0,40.8,At Risk,Payment failure,Schedule CSM risk review and adoption plan,Riley Patel,12
+acct_072,Clover Dining Collective,Mid-Market,North America,Pro,5992.0,58.3,At Risk,Low product adoption,Schedule CSM risk review and adoption plan,Jordan Ellis,13
+acct_042,Golden Bistro,Mid-Market,Asia Pacific,Pro,4462.0,58.4,At Risk,Low product adoption,Schedule CSM risk review and adoption plan,Riley Patel,14
+acct_099,Maple Food Hall,SMB,Europe,Starter,913.0,58.4,At Risk,Low product adoption,Schedule CSM risk review and adoption plan,Samira Khan,15
+acct_039,Clover Bistro,SMB,Europe,Starter,1693.0,58.5,At Risk,Low product adoption,Schedule CSM risk review and adoption plan,Taylor Kim,16
+acct_069,Atlas Dining Collective,SMB,Latin America,Starter,1303.0,58.5,At Risk,Low product adoption,Schedule CSM risk review and adoption plan,Avery Morgan,17
+acct_029,Ember Table,SMB,Latin America,Starter,1223.0,58.6,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Avery Morgan,18
+acct_092,Bluebird Food Hall,Mid-Market,North America,Pro,3412.0,58.7,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Casey Nguyen,19
+acct_062,Ember Cafe Group,Mid-Market,Asia Pacific,Pro,4582.0,58.8,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Drew Martinez,20
+acct_052,Foundry Hospitality,Mid-Market,North America,Pro,5872.0,58.9,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Casey Nguyen,21
+acct_032,Juniper Table,Mid-Market,North America,Pro,5752.0,58.9,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Jordan Ellis,22
+acct_089,Orchard Restaurant Co,SMB,Latin America,Starter,1343.0,58.9,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Morgan Lee,23
+acct_022,Maple Kitchen,Mid-Market,Asia Pacific,Pro,4342.0,59.0,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Drew Martinez,24
+acct_059,Bluebird Cafe Group,SMB,Europe,Starter,1733.0,59.0,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Samira Khan,25
+acct_079,Amber Restaurant Co,SMB,Europe,Starter,873.0,59.0,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Taylor Kim,26
+acct_019,Foundry Kitchen,SMB,Europe,Starter,1653.0,59.1,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Samira Khan,27
+acct_049,Canyon Hospitality,SMB,Latin America,Starter,1263.0,59.1,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Morgan Lee,28
+acct_082,Canyon Restaurant Co,Mid-Market,Asia Pacific,Pro,4702.0,59.3,At Risk,CSM risk note,Schedule CSM risk review and adoption plan,Riley Patel,29
+acct_005,Sunrise Taqueria,SMB,Latin America,Starter,900.0,69.4,Watch,Healthy usage and engagement,Continue regular success cadence,Casey Nguyen,30
+acct_012,Pacific Poke Labs,Mid-Market,Asia Pacific,Pro,3600.0,73.7,Watch,Healthy usage and engagement,Continue regular success cadence,Taylor Kim,31
+acct_075,Golden Dining Collective,Enterprise,Europe,Enterprise,17625.0,76.3,Watch,Healthy usage and engagement,Continue regular success cadence,Samira Khan,32
+acct_045,Orchard Bistro,Enterprise,Latin America,Enterprise,21915.0,76.4,Watch,Healthy usage and engagement,Continue regular success cadence,Avery Morgan,33
+acct_018,Ember Kitchen,SMB,Asia Pacific,Starter,1516.0,76.4,Watch,Healthy usage and engagement,Continue regular success cadence,Riley Patel,34
+acct_015,Bluebird Kitchen,Enterprise,Europe,Enterprise,16305.0,76.5,Watch,Healthy usage and engagement,Continue regular success cadence,Taylor Kim,35
+acct_081,Bluebird Restaurant Co,Mid-Market,Latin America,Pro,4291.0,76.5,Watch,Healthy usage and engagement,Continue regular success cadence,Morgan Lee,36
+acct_051,Ember Hospitality,Mid-Market,Europe,Pro,5461.0,76.6,Watch,Healthy usage and engagement,Continue regular success cadence,Samira Khan,37
+acct_078,Orchard Dining Collective,SMB,Asia Pacific,Starter,1636.0,76.6,Watch,Healthy usage and engagement,Continue regular success cadence,Drew Martinez,38
+acct_021,Juniper Kitchen,Mid-Market,Latin America,Pro,3931.0,76.7,Watch,Healthy usage and engagement,Continue regular success cadence,Avery Morgan,39
+acct_068,Amber Dining Collective,SMB,North America,Starter,1166.0,76.7,Watch,Healthy usage and engagement,Continue regular success cadence,Casey Nguyen,40
+acct_048,Bluebird Hospitality,SMB,North America,Starter,1126.0,76.7,Watch,Healthy usage and engagement,Continue regular success cadence,Jordan Ellis,41
+acct_095,Ember Food Hall,Enterprise,Europe,Enterprise,18065.0,76.8,Watch,Healthy usage and engagement,Continue regular success cadence,Taylor Kim,42
+acct_038,Canyon Bistro,SMB,Asia Pacific,Starter,1556.0,76.8,Watch,Healthy usage and engagement,Continue regular success cadence,Drew Martinez,43
+acct_065,Juniper Cafe Group,Enterprise,Latin America,Enterprise,22355.0,76.9,Watch,Healthy usage and engagement,Continue regular success cadence,Morgan Lee,44
+acct_035,Amber Bistro,Enterprise,Europe,Enterprise,16745.0,76.9,Watch,Healthy usage and engagement,Continue regular success cadence,Samira Khan,45
+acct_025,Atlas Table,Enterprise,Latin America,Enterprise,21475.0,77.0,Watch,Healthy usage and engagement,Continue regular success cadence,Morgan Lee,46
+acct_071,Canyon Dining Collective,Mid-Market,Europe,Pro,5581.0,77.0,Watch,Healthy usage and engagement,Continue regular success cadence,Taylor Kim,47
+acct_009,Beacon Burger Co,Mid-Market,North America,Pro,4700.0,77.0,Watch,Healthy usage and engagement,Advance expansion opportunity,Jordan Ellis,48
+acct_061,Clover Cafe Group,Mid-Market,Latin America,Pro,4171.0,77.1,Watch,Healthy usage and engagement,Continue regular success cadence,Avery Morgan,49
+acct_041,Foundry Bistro,Mid-Market,Latin America,Pro,4051.0,77.1,Watch,Healthy usage and engagement,Continue regular success cadence,Morgan Lee,50
+acct_098,Juniper Food Hall,SMB,Asia Pacific,Starter,1676.0,77.1,Watch,Healthy usage and engagement,Continue regular success cadence,Riley Patel,51
+acct_031,Golden Table,Mid-Market,Europe,Pro,5341.0,77.2,Watch,Healthy usage and engagement,Continue regular success cadence,Taylor Kim,52
+acct_058,Atlas Cafe Group,SMB,Asia Pacific,Starter,1596.0,77.2,Watch,Healthy usage and engagement,Continue regular success cadence,Riley Patel,53
+acct_088,Maple Restaurant Co,SMB,North America,Starter,1206.0,77.2,Watch,Healthy usage and engagement,Continue regular success cadence,Jordan Ellis,54
+acct_085,Foundry Restaurant Co,Enterprise,Latin America,Enterprise,22795.0,77.3,Watch,Healthy usage and engagement,Continue regular success cadence,Avery Morgan,55
+acct_028,Clover Table,SMB,North America,Starter,1086.0,77.3,Watch,Healthy usage and engagement,Continue regular success cadence,Casey Nguyen,56
+acct_055,Maple Hospitality,Enterprise,Europe,Enterprise,17185.0,77.4,Watch,Healthy usage and engagement,Continue regular success cadence,Taylor Kim,57
+acct_091,Atlas Food Hall,Mid-Market,Europe,Pro,5701.0,77.4,Watch,Healthy usage and engagement,Continue regular success cadence,Samira Khan,58
+acct_001,Northstar Bistro,Mid-Market,North America,Pro,4200.0,78.2,Watch,Healthy usage and engagement,Continue regular success cadence,Jordan Ellis,59
+acct_011,Cedar Table Group,Enterprise,North America,Enterprise,16200.0,81.1,Healthy,CSM risk note,Advance expansion opportunity,Avery Morgan,60
+acct_008,Prime Plate Hospitality,Enterprise,North America,Enterprise,18500.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,Avery Morgan,61
+acct_002,Harbor Sushi Group,Enterprise,North America,Enterprise,14200.0,86.8,Healthy,Healthy usage and engagement,Advance expansion opportunity,Avery Morgan,62
+acct_090,Amber Food Hall,Enterprise,Asia Pacific,Enterprise,20430.0,87.9,Healthy,Healthy usage and engagement,Advance expansion opportunity,Riley Patel,63
+acct_060,Canyon Cafe Group,Enterprise,North America,Enterprise,14820.0,88.0,Healthy,Healthy usage and engagement,Advance expansion opportunity,Casey Nguyen,64
+acct_050,Clover Hospitality,Enterprise,Asia Pacific,Enterprise,19550.0,88.1,Healthy,Healthy usage and engagement,Advance expansion opportunity,Riley Patel,65
+acct_030,Foundry Table,Enterprise,Asia Pacific,Enterprise,19110.0,88.1,Healthy,Healthy usage and engagement,Advance expansion opportunity,Drew Martinez,66
+acct_020,Golden Kitchen,Enterprise,North America,Enterprise,13940.0,88.2,Healthy,Healthy usage and engagement,Advance expansion opportunity,Casey Nguyen,67
+acct_070,Bluebird Dining Collective,Enterprise,Asia Pacific,Enterprise,19990.0,88.5,Healthy,Healthy usage and engagement,Advance expansion opportunity,Drew Martinez,68
+acct_100,Orchard Food Hall,Enterprise,North America,Enterprise,15700.0,88.5,Healthy,Healthy usage and engagement,Advance expansion opportunity,Casey Nguyen,69
+acct_080,Atlas Restaurant Co,Enterprise,North America,Enterprise,15260.0,88.5,Healthy,Healthy usage and engagement,Advance expansion opportunity,Jordan Ellis,70
+acct_040,Ember Bistro,Enterprise,North America,Enterprise,14380.0,88.6,Healthy,Healthy usage and engagement,Advance expansion opportunity,Jordan Ellis,71
+acct_007,Olive Branch Cafe,SMB,Europe,Starter,0.0,28.5,Critical,Low product adoption,Schedule CSM risk review and adoption plan,Riley Patel,72
+acct_004,Copper Kettle BBQ,Mid-Market,North America,Pro,0.0,30.1,Critical,Low product adoption,Schedule CSM risk review and adoption plan,Jordan Ellis,73

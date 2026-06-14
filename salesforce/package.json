@@ -1,0 +1,12 @@
+{
+  "name": "customer-success-command-center-salesforce",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Salesforce CRM Analytics tooling and live dashboard QA helpers.",
+  "scripts": {
+    "playwright:version": "npx playwright --version"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}

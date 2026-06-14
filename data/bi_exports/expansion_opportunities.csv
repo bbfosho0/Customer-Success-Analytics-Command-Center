@@ -1,11 +1,99 @@
-account_id,account_name,segment,region,plan_tier,mrr,health_score,weighted_pipeline_amount,open_pipeline_amount,next_close_date,expansion_readiness
-acct_011,Cedar Table Group,Enterprise,North America,Enterprise,16200.0,81.1,129200.00000000001,190000,2025-08-01,Expansion Ready
-acct_002,Harbor Sushi Group,Enterprise,North America,Enterprise,14200.0,86.8,118800.0,165000,2025-09-15,Expansion Ready
-acct_008,Prime Plate Hospitality,Enterprise,North America,Enterprise,18500.0,86.8,70520.0,86000,2025-06-15,Expansion Ready
-acct_009,Beacon Burger Co,Mid-Market,North America,Pro,4700.0,77.0,13420.0,22000,2025-07-12,Nurture
-acct_001,Northstar Bistro,Mid-Market,North America,Pro,4200.0,78.2,9900.0,18000,2025-06-30,Nurture
-acct_012,Pacific Poke Labs,Mid-Market,Asia Pacific,Pro,3600.0,73.7,7200.0,15000,2025-08-18,Nurture
-acct_003,Green Fork Kitchen,SMB,Europe,Starter,1200.0,40.6,4200.0,12000,2025-07-31,Not Ready
-acct_005,Sunrise Taqueria,SMB,Latin America,Starter,900.0,69.4,2688.0,6400,2025-08-20,Not Ready
-acct_010,Luna Bakery Collective,SMB,Europe,Starter,1000.0,40.8,0.0,0,,Not Ready
-acct_006,Metro Noodle House,Mid-Market,Asia Pacific,Pro,3900.0,35.9,0.0,0,,Not Ready
+account_id,account_name,segment,region,plan_tier,mrr,health_score,weighted_pipeline_amount,open_pipeline_amount,next_close_date,close_month,customer_success_manager,expansion_readiness
+acct_090,Amber Food Hall,Enterprise,Asia Pacific,Enterprise,20430.0,87.9,152660.0,224500,2025-10-13,2025-10-01,Riley Patel,Expansion Ready
+acct_070,Bluebird Dining Collective,Enterprise,Asia Pacific,Enterprise,19990.0,88.5,149600.0,220000,2025-06-25,2025-06-01,Drew Martinez,Expansion Ready
+acct_050,Clover Hospitality,Enterprise,Asia Pacific,Enterprise,19550.0,88.1,146200.0,215000,2025-08-04,2025-08-01,Riley Patel,Expansion Ready
+acct_030,Foundry Table,Enterprise,Asia Pacific,Enterprise,19110.0,88.1,142800.0,210000,2025-09-13,2025-09-01,Drew Martinez,Expansion Ready
+acct_011,Cedar Table Group,Enterprise,North America,Enterprise,16200.0,81.1,129200.00000000001,190000,2025-08-01,2025-08-01,Avery Morgan,Expansion Ready
+acct_002,Harbor Sushi Group,Enterprise,North America,Enterprise,14200.0,86.8,118800.0,165000,2025-09-15,2025-09-01,Avery Morgan,Expansion Ready
+acct_100,Orchard Food Hall,Enterprise,North America,Enterprise,15700.0,88.5,117300.00000000001,172500,2025-09-23,2025-09-01,Casey Nguyen,Expansion Ready
+acct_080,Atlas Restaurant Co,Enterprise,North America,Enterprise,15260.0,88.5,114240.00000000001,168000,2025-11-02,2025-11-01,Jordan Ellis,Expansion Ready
+acct_060,Canyon Cafe Group,Enterprise,North America,Enterprise,14820.0,88.0,110840.00000000001,163000,2025-07-15,2025-07-01,Casey Nguyen,Expansion Ready
+acct_040,Ember Bistro,Enterprise,North America,Enterprise,14380.0,88.6,107440.00000000001,158000,2025-08-24,2025-08-01,Jordan Ellis,Expansion Ready
+acct_020,Golden Kitchen,Enterprise,North America,Enterprise,13940.0,88.2,104380.00000000001,153500,2025-10-03,2025-10-01,Casey Nguyen,Expansion Ready
+acct_008,Prime Plate Hospitality,Enterprise,North America,Enterprise,18500.0,86.8,70520.0,86000,2025-06-15,2025-06-01,Avery Morgan,Expansion Ready
+acct_097,Golden Food Hall,Mid-Market,Latin America,Pro,5467.0,88.6,29580.000000000004,43500,2025-08-15,2025-08-01,Morgan Lee,Expansion Ready
+acct_077,Maple Dining Collective,Mid-Market,Latin America,Pro,5347.0,88.2,29240.000000000004,43000,2025-09-24,2025-09-01,Avery Morgan,Expansion Ready
+acct_057,Amber Cafe Group,Mid-Market,Latin America,Pro,5227.0,88.2,28560.000000000004,42000,2025-11-03,2025-11-01,Morgan Lee,Expansion Ready
+acct_037,Bluebird Bistro,Mid-Market,Latin America,Pro,5107.0,88.8,27880.000000000004,41000,2025-07-16,2025-07-01,Avery Morgan,Expansion Ready
+acct_017,Clover Kitchen,Mid-Market,Latin America,Pro,4987.0,88.3,27200.000000000004,40000,2025-08-25,2025-08-01,Morgan Lee,Expansion Ready
+acct_087,Juniper Restaurant Co,Mid-Market,Europe,Pro,4057.0,88.1,22100.0,32500,2025-09-04,2025-09-01,Taylor Kim,Expansion Ready
+acct_067,Orchard Cafe Group,Mid-Market,Europe,Pro,3937.0,88.7,21420.0,31500,2025-10-14,2025-10-01,Samira Khan,Expansion Ready
+acct_047,Atlas Hospitality,Mid-Market,Europe,Pro,3817.0,88.3,20740.0,30500,2025-06-26,2025-06-01,Taylor Kim,Expansion Ready
+acct_027,Canyon Table,Mid-Market,Europe,Pro,3697.0,87.8,20060.0,29500,2025-08-05,2025-08-01,Samira Khan,Expansion Ready
+acct_009,Beacon Burger Co,Mid-Market,North America,Pro,4700.0,77.0,13420.0,22000,2025-07-12,2025-07-01,Jordan Ellis,Nurture
+acct_001,Northstar Bistro,Mid-Market,North America,Pro,4200.0,78.2,9900.0,18000,2025-06-30,2025-06-01,Jordan Ellis,Nurture
+acct_012,Pacific Poke Labs,Mid-Market,Asia Pacific,Pro,3600.0,73.7,7200.0,15000,2025-08-18,2025-08-01,Taylor Kim,Nurture
+acct_013,Amber Kitchen,SMB,Latin America,Starter,1731.0,88.6,5780.0,8500,2025-07-04,2025-07-01,Avery Morgan,Not Ready
+acct_084,Ember Restaurant Co,SMB,North America,Starter,1558.0,88.2,5440.0,8000,2025-07-27,2025-07-01,Casey Nguyen,Not Ready
+acct_064,Golden Cafe Group,SMB,North America,Starter,1518.0,88.8,5100.0,7500,2025-09-05,2025-09-01,Jordan Ellis,Not Ready
+acct_044,Maple Bistro,SMB,North America,Starter,1478.0,88.4,5100.0,7500,2025-10-15,2025-10-01,Casey Nguyen,Not Ready
+acct_083,Clover Restaurant Co,SMB,Europe,Starter,1421.0,88.3,4760.0,7000,2025-07-14,2025-07-01,Samira Khan,Not Ready
+acct_024,Amber Table,SMB,North America,Starter,1438.0,88.0,4760.0,7000,2025-06-27,2025-06-01,Jordan Ellis,Not Ready
+acct_063,Foundry Cafe Group,SMB,Europe,Starter,1381.0,87.9,4760.0,7000,2025-08-23,2025-08-01,Taylor Kim,Not Ready
+acct_023,Orchard Kitchen,SMB,Europe,Starter,1301.0,88.5,4420.0,6500,2025-11-11,2025-11-01,Taylor Kim,Not Ready
+acct_043,Juniper Bistro,SMB,Europe,Starter,1341.0,88.5,4420.0,6500,2025-10-02,2025-10-01,Samira Khan,Not Ready
+acct_003,Green Fork Kitchen,SMB,Europe,Starter,1200.0,40.6,4200.0,12000,2025-07-31,2025-07-01,Riley Patel,Not Ready
+acct_094,Clover Food Hall,SMB,Asia Pacific,Starter,1128.0,88.7,3740.0000000000005,5500,2025-07-07,2025-07-01,Drew Martinez,Not Ready
+acct_074,Foundry Dining Collective,SMB,Asia Pacific,Starter,1088.0,88.3,3740.0000000000005,5500,2025-08-16,2025-08-01,Riley Patel,Not Ready
+acct_098,Juniper Food Hall,SMB,Asia Pacific,Starter,1676.0,77.1,3570.0,8500,2025-08-28,2025-08-01,Riley Patel,Not Ready
+acct_034,Orchard Table,SMB,Asia Pacific,Starter,1008.0,88.9,3400.0000000000005,5000,2025-11-04,2025-11-01,Riley Patel,Not Ready
+acct_073,Ember Dining Collective,SMB,Latin America,Starter,951.0,88.8,3400.0000000000005,5000,2025-08-03,2025-08-01,Morgan Lee,Not Ready
+acct_014,Atlas Kitchen,SMB,Asia Pacific,Starter,968.0,88.5,3400.0000000000005,5000,2025-07-17,2025-07-01,Drew Martinez,Not Ready
+acct_054,Juniper Hospitality,SMB,Asia Pacific,Starter,1048.0,87.9,3400.0000000000005,5000,2025-09-25,2025-09-01,Drew Martinez,Not Ready
+acct_093,Canyon Food Hall,SMB,Latin America,Starter,991.0,87.8,3400.0000000000005,5000,2025-06-24,2025-06-01,Avery Morgan,Not Ready
+acct_058,Atlas Cafe Group,SMB,Asia Pacific,Starter,1596.0,77.2,3360.0,8000,2025-06-19,2025-06-01,Riley Patel,Not Ready
+acct_038,Canyon Bistro,SMB,Asia Pacific,Starter,1556.0,76.8,3360.0,8000,2025-07-29,2025-07-01,Drew Martinez,Not Ready
+acct_078,Orchard Dining Collective,SMB,Asia Pacific,Starter,1636.0,76.6,3360.0,8000,2025-10-07,2025-10-01,Drew Martinez,Not Ready
+acct_018,Ember Kitchen,SMB,Asia Pacific,Starter,1516.0,76.4,3150.0,7500,2025-09-07,2025-09-01,Riley Patel,Not Ready
+acct_053,Golden Hospitality,SMB,Latin America,Starter,911.0,88.4,3060.0,4500,2025-09-12,2025-09-01,Avery Morgan,Not Ready
+acct_033,Maple Table,SMB,Latin America,Starter,871.0,88.0,3060.0,4500,2025-10-22,2025-10-01,Morgan Lee,Not Ready
+acct_005,Sunrise Taqueria,SMB,Latin America,Starter,900.0,69.4,2688.0,6400,2025-08-20,2025-08-01,Casey Nguyen,Not Ready
+acct_088,Maple Restaurant Co,SMB,North America,Starter,1206.0,77.2,2520.0,6000,2025-09-17,2025-09-01,Jordan Ellis,Not Ready
+acct_068,Amber Dining Collective,SMB,North America,Starter,1166.0,76.7,2520.0,6000,2025-10-27,2025-10-01,Casey Nguyen,Not Ready
+acct_028,Clover Table,SMB,North America,Starter,1086.0,77.3,2310.0,5500,2025-08-18,2025-08-01,Casey Nguyen,Not Ready
+acct_048,Bluebird Hospitality,SMB,North America,Starter,1126.0,76.7,2310.0,5500,2025-07-09,2025-07-01,Jordan Ellis,Not Ready
+acct_055,Maple Hospitality,Enterprise,Europe,Enterprise,17185.0,77.4,0.0,0,,,Taylor Kim,Nurture
+acct_091,Atlas Food Hall,Mid-Market,Europe,Pro,5701.0,77.4,0.0,0,,,Samira Khan,Nurture
+acct_085,Foundry Restaurant Co,Enterprise,Latin America,Enterprise,22795.0,77.3,0.0,0,,,Avery Morgan,Nurture
+acct_031,Golden Table,Mid-Market,Europe,Pro,5341.0,77.2,0.0,0,,,Taylor Kim,Nurture
+acct_041,Foundry Bistro,Mid-Market,Latin America,Pro,4051.0,77.1,0.0,0,,,Morgan Lee,Nurture
+acct_061,Clover Cafe Group,Mid-Market,Latin America,Pro,4171.0,77.1,0.0,0,,,Avery Morgan,Nurture
+acct_025,Atlas Table,Enterprise,Latin America,Enterprise,21475.0,77.0,0.0,0,,,Morgan Lee,Nurture
+acct_071,Canyon Dining Collective,Mid-Market,Europe,Pro,5581.0,77.0,0.0,0,,,Taylor Kim,Nurture
+acct_035,Amber Bistro,Enterprise,Europe,Enterprise,16745.0,76.9,0.0,0,,,Samira Khan,Nurture
+acct_065,Juniper Cafe Group,Enterprise,Latin America,Enterprise,22355.0,76.9,0.0,0,,,Morgan Lee,Nurture
+acct_095,Ember Food Hall,Enterprise,Europe,Enterprise,18065.0,76.8,0.0,0,,,Taylor Kim,Nurture
+acct_021,Juniper Kitchen,Mid-Market,Latin America,Pro,3931.0,76.7,0.0,0,,,Avery Morgan,Nurture
+acct_051,Ember Hospitality,Mid-Market,Europe,Pro,5461.0,76.6,0.0,0,,,Samira Khan,Nurture
+acct_081,Bluebird Restaurant Co,Mid-Market,Latin America,Pro,4291.0,76.5,0.0,0,,,Morgan Lee,Nurture
+acct_015,Bluebird Kitchen,Enterprise,Europe,Enterprise,16305.0,76.5,0.0,0,,,Taylor Kim,Nurture
+acct_045,Orchard Bistro,Enterprise,Latin America,Enterprise,21915.0,76.4,0.0,0,,,Avery Morgan,Nurture
+acct_075,Golden Dining Collective,Enterprise,Europe,Enterprise,17625.0,76.3,0.0,0,,,Samira Khan,Nurture
+acct_082,Canyon Restaurant Co,Mid-Market,Asia Pacific,Pro,4702.0,59.3,0.0,0,,,Riley Patel,Not Ready
+acct_019,Foundry Kitchen,SMB,Europe,Starter,1653.0,59.1,0.0,0,,,Samira Khan,Not Ready
+acct_049,Canyon Hospitality,SMB,Latin America,Starter,1263.0,59.1,0.0,0,,,Morgan Lee,Not Ready
+acct_022,Maple Kitchen,Mid-Market,Asia Pacific,Pro,4342.0,59.0,0.0,0,,,Drew Martinez,Not Ready
+acct_079,Amber Restaurant Co,SMB,Europe,Starter,873.0,59.0,0.0,0,,,Taylor Kim,Not Ready
+acct_059,Bluebird Cafe Group,SMB,Europe,Starter,1733.0,59.0,0.0,0,,,Samira Khan,Not Ready
+acct_089,Orchard Restaurant Co,SMB,Latin America,Starter,1343.0,58.9,0.0,0,,,Morgan Lee,Not Ready
+acct_032,Juniper Table,Mid-Market,North America,Pro,5752.0,58.9,0.0,0,,,Jordan Ellis,Not Ready
+acct_052,Foundry Hospitality,Mid-Market,North America,Pro,5872.0,58.9,0.0,0,,,Casey Nguyen,Not Ready
+acct_062,Ember Cafe Group,Mid-Market,Asia Pacific,Pro,4582.0,58.8,0.0,0,,,Drew Martinez,Not Ready
+acct_092,Bluebird Food Hall,Mid-Market,North America,Pro,3412.0,58.7,0.0,0,,,Casey Nguyen,Not Ready
+acct_029,Ember Table,SMB,Latin America,Starter,1223.0,58.6,0.0,0,,,Avery Morgan,Not Ready
+acct_069,Atlas Dining Collective,SMB,Latin America,Starter,1303.0,58.5,0.0,0,,,Avery Morgan,Not Ready
+acct_039,Clover Bistro,SMB,Europe,Starter,1693.0,58.5,0.0,0,,,Taylor Kim,Not Ready
+acct_099,Maple Food Hall,SMB,Europe,Starter,913.0,58.4,0.0,0,,,Samira Khan,Not Ready
+acct_042,Golden Bistro,Mid-Market,Asia Pacific,Pro,4462.0,58.4,0.0,0,,,Riley Patel,Not Ready
+acct_072,Clover Dining Collective,Mid-Market,North America,Pro,5992.0,58.3,0.0,0,,,Jordan Ellis,Not Ready
+acct_010,Luna Bakery Collective,SMB,Europe,Starter,1000.0,40.8,0.0,0,,,Riley Patel,Not Ready
+acct_006,Metro Noodle House,Mid-Market,Asia Pacific,Pro,3900.0,35.9,0.0,0,,,Taylor Kim,Not Ready
+acct_016,Canyon Kitchen,Mid-Market,North America,Pro,4576.0,32.9,0.0,0,,,Jordan Ellis,Not Ready
+acct_046,Amber Hospitality,Mid-Market,Asia Pacific,Pro,3406.0,32.8,0.0,0,,,Drew Martinez,Not Ready
+acct_076,Juniper Dining Collective,Mid-Market,North America,Pro,4936.0,32.7,0.0,0,,,Casey Nguyen,Not Ready
+acct_056,Orchard Hospitality,Mid-Market,North America,Pro,4816.0,32.3,0.0,0,,,Jordan Ellis,Not Ready
+acct_026,Bluebird Table,Mid-Market,Asia Pacific,Pro,5986.0,32.3,0.0,0,,,Riley Patel,Not Ready
+acct_066,Maple Cafe Group,Mid-Market,Asia Pacific,Pro,3526.0,32.2,0.0,0,,,Riley Patel,Not Ready
+acct_086,Golden Restaurant Co,Mid-Market,Asia Pacific,Pro,3646.0,32.2,0.0,0,,,Drew Martinez,Not Ready
+acct_096,Foundry Food Hall,Mid-Market,North America,Pro,5056.0,32.1,0.0,0,,,Jordan Ellis,Not Ready
+acct_036,Atlas Bistro,Mid-Market,North America,Pro,4696.0,31.8,0.0,0,,,Casey Nguyen,Not Ready

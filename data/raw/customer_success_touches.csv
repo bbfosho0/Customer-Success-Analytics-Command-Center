@@ -11,3 +11,153 @@ touch_009,acct_009,onboarding,2025-04-19,Launch complete,positive
 touch_010,acct_010,check_in,2025-04-20,Trial needs sponsor,neutral
 touch_011,acct_011,qbr,2025-04-22,Retention blockers identified,risk
 touch_012,acct_012,training,2025-04-24,Usage growing,positive
+touch_013,acct_013,qbr,2025-04-16,Expansion roadmap aligned,positive
+touch_014,acct_013,check_in,2025-04-17,Adoption remains strong,positive
+touch_015,acct_014,qbr,2025-04-25,Expansion roadmap aligned,positive
+touch_016,acct_014,check_in,2025-04-26,Adoption remains strong,positive
+touch_017,acct_015,check_in,2025-03-07,Adoption plan reviewed,neutral
+touch_018,acct_015,training,2025-03-08,Workflow coaching scheduled,positive
+touch_019,acct_016,risk_review,2025-03-16,Payment and adoption recovery plan,risk
+touch_020,acct_017,qbr,2025-03-24,Expansion roadmap aligned,positive
+touch_021,acct_017,check_in,2025-03-25,Adoption remains strong,positive
+touch_022,acct_018,check_in,2025-04-02,Adoption plan reviewed,neutral
+touch_023,acct_018,training,2025-04-03,Workflow coaching scheduled,positive
+touch_024,acct_019,risk_review,2025-04-11,Adoption risk requires intervention,risk
+touch_025,acct_020,qbr,2025-04-19,Expansion roadmap aligned,positive
+touch_026,acct_020,check_in,2025-04-20,Adoption remains strong,positive
+touch_027,acct_021,check_in,2025-03-01,Adoption plan reviewed,neutral
+touch_028,acct_021,training,2025-03-02,Workflow coaching scheduled,positive
+touch_029,acct_022,risk_review,2025-03-10,Adoption risk requires intervention,risk
+touch_030,acct_023,qbr,2025-03-18,Expansion roadmap aligned,positive
+touch_031,acct_023,check_in,2025-03-19,Adoption remains strong,positive
+touch_032,acct_024,qbr,2025-03-27,Expansion roadmap aligned,positive
+touch_033,acct_024,check_in,2025-03-28,Adoption remains strong,positive
+touch_034,acct_025,check_in,2025-04-05,Adoption plan reviewed,neutral
+touch_035,acct_025,training,2025-04-06,Workflow coaching scheduled,positive
+touch_036,acct_026,risk_review,2025-04-14,Payment and adoption recovery plan,risk
+touch_037,acct_027,qbr,2025-04-22,Expansion roadmap aligned,positive
+touch_038,acct_027,check_in,2025-04-23,Adoption remains strong,positive
+touch_039,acct_028,check_in,2025-03-04,Adoption plan reviewed,neutral
+touch_040,acct_028,training,2025-03-05,Workflow coaching scheduled,positive
+touch_041,acct_029,risk_review,2025-03-13,Adoption risk requires intervention,risk
+touch_042,acct_030,qbr,2025-03-21,Expansion roadmap aligned,positive
+touch_043,acct_030,check_in,2025-03-22,Adoption remains strong,positive
+touch_044,acct_031,check_in,2025-03-30,Adoption plan reviewed,neutral
+touch_045,acct_031,training,2025-03-31,Workflow coaching scheduled,positive
+touch_046,acct_032,risk_review,2025-04-08,Adoption risk requires intervention,risk
+touch_047,acct_033,qbr,2025-04-16,Expansion roadmap aligned,positive
+touch_048,acct_033,check_in,2025-04-17,Adoption remains strong,positive
+touch_049,acct_034,qbr,2025-04-25,Expansion roadmap aligned,positive
+touch_050,acct_034,check_in,2025-04-26,Adoption remains strong,positive
+touch_051,acct_035,check_in,2025-03-07,Adoption plan reviewed,neutral
+touch_052,acct_035,training,2025-03-08,Workflow coaching scheduled,positive
+touch_053,acct_036,risk_review,2025-03-16,Payment and adoption recovery plan,risk
+touch_054,acct_037,qbr,2025-03-24,Expansion roadmap aligned,positive
+touch_055,acct_037,check_in,2025-03-25,Adoption remains strong,positive
+touch_056,acct_038,check_in,2025-04-02,Adoption plan reviewed,neutral
+touch_057,acct_038,training,2025-04-03,Workflow coaching scheduled,positive
+touch_058,acct_039,risk_review,2025-04-11,Adoption risk requires intervention,risk
+touch_059,acct_040,qbr,2025-04-19,Expansion roadmap aligned,positive
+touch_060,acct_040,check_in,2025-04-20,Adoption remains strong,positive
+touch_061,acct_041,check_in,2025-03-01,Adoption plan reviewed,neutral
+touch_062,acct_041,training,2025-03-02,Workflow coaching scheduled,positive
+touch_063,acct_042,risk_review,2025-03-10,Adoption risk requires intervention,risk
+touch_064,acct_043,qbr,2025-03-18,Expansion roadmap aligned,positive
+touch_065,acct_043,check_in,2025-03-19,Adoption remains strong,positive
+touch_066,acct_044,qbr,2025-03-27,Expansion roadmap aligned,positive
+touch_067,acct_044,check_in,2025-03-28,Adoption remains strong,positive
+touch_068,acct_045,check_in,2025-04-05,Adoption plan reviewed,neutral
+touch_069,acct_045,training,2025-04-06,Workflow coaching scheduled,positive
+touch_070,acct_046,risk_review,2025-04-14,Payment and adoption recovery plan,risk
+touch_071,acct_047,qbr,2025-04-22,Expansion roadmap aligned,positive
+touch_072,acct_047,check_in,2025-04-23,Adoption remains strong,positive
+touch_073,acct_048,check_in,2025-03-04,Adoption plan reviewed,neutral
+touch_074,acct_048,training,2025-03-05,Workflow coaching scheduled,positive
+touch_075,acct_049,risk_review,2025-03-13,Adoption risk requires intervention,risk
+touch_076,acct_050,qbr,2025-03-21,Expansion roadmap aligned,positive
+touch_077,acct_050,check_in,2025-03-22,Adoption remains strong,positive
+touch_078,acct_051,check_in,2025-03-30,Adoption plan reviewed,neutral
+touch_079,acct_051,training,2025-03-31,Workflow coaching scheduled,positive
+touch_080,acct_052,risk_review,2025-04-08,Adoption risk requires intervention,risk
+touch_081,acct_053,qbr,2025-04-16,Expansion roadmap aligned,positive
+touch_082,acct_053,check_in,2025-04-17,Adoption remains strong,positive
+touch_083,acct_054,qbr,2025-04-25,Expansion roadmap aligned,positive
+touch_084,acct_054,check_in,2025-04-26,Adoption remains strong,positive
+touch_085,acct_055,check_in,2025-03-07,Adoption plan reviewed,neutral
+touch_086,acct_055,training,2025-03-08,Workflow coaching scheduled,positive
+touch_087,acct_056,risk_review,2025-03-16,Payment and adoption recovery plan,risk
+touch_088,acct_057,qbr,2025-03-24,Expansion roadmap aligned,positive
+touch_089,acct_057,check_in,2025-03-25,Adoption remains strong,positive
+touch_090,acct_058,check_in,2025-04-02,Adoption plan reviewed,neutral
+touch_091,acct_058,training,2025-04-03,Workflow coaching scheduled,positive
+touch_092,acct_059,risk_review,2025-04-11,Adoption risk requires intervention,risk
+touch_093,acct_060,qbr,2025-04-19,Expansion roadmap aligned,positive
+touch_094,acct_060,check_in,2025-04-20,Adoption remains strong,positive
+touch_095,acct_061,check_in,2025-03-01,Adoption plan reviewed,neutral
+touch_096,acct_061,training,2025-03-02,Workflow coaching scheduled,positive
+touch_097,acct_062,risk_review,2025-03-10,Adoption risk requires intervention,risk
+touch_098,acct_063,qbr,2025-03-18,Expansion roadmap aligned,positive
+touch_099,acct_063,check_in,2025-03-19,Adoption remains strong,positive
+touch_100,acct_064,qbr,2025-03-27,Expansion roadmap aligned,positive
+touch_101,acct_064,check_in,2025-03-28,Adoption remains strong,positive
+touch_102,acct_065,check_in,2025-04-05,Adoption plan reviewed,neutral
+touch_103,acct_065,training,2025-04-06,Workflow coaching scheduled,positive
+touch_104,acct_066,risk_review,2025-04-14,Payment and adoption recovery plan,risk
+touch_105,acct_067,qbr,2025-04-22,Expansion roadmap aligned,positive
+touch_106,acct_067,check_in,2025-04-23,Adoption remains strong,positive
+touch_107,acct_068,check_in,2025-03-04,Adoption plan reviewed,neutral
+touch_108,acct_068,training,2025-03-05,Workflow coaching scheduled,positive
+touch_109,acct_069,risk_review,2025-03-13,Adoption risk requires intervention,risk
+touch_110,acct_070,qbr,2025-03-21,Expansion roadmap aligned,positive
+touch_111,acct_070,check_in,2025-03-22,Adoption remains strong,positive
+touch_112,acct_071,check_in,2025-03-30,Adoption plan reviewed,neutral
+touch_113,acct_071,training,2025-03-31,Workflow coaching scheduled,positive
+touch_114,acct_072,risk_review,2025-04-08,Adoption risk requires intervention,risk
+touch_115,acct_073,qbr,2025-04-16,Expansion roadmap aligned,positive
+touch_116,acct_073,check_in,2025-04-17,Adoption remains strong,positive
+touch_117,acct_074,qbr,2025-04-25,Expansion roadmap aligned,positive
+touch_118,acct_074,check_in,2025-04-26,Adoption remains strong,positive
+touch_119,acct_075,check_in,2025-03-07,Adoption plan reviewed,neutral
+touch_120,acct_075,training,2025-03-08,Workflow coaching scheduled,positive
+touch_121,acct_076,risk_review,2025-03-16,Payment and adoption recovery plan,risk
+touch_122,acct_077,qbr,2025-03-24,Expansion roadmap aligned,positive
+touch_123,acct_077,check_in,2025-03-25,Adoption remains strong,positive
+touch_124,acct_078,check_in,2025-04-02,Adoption plan reviewed,neutral
+touch_125,acct_078,training,2025-04-03,Workflow coaching scheduled,positive
+touch_126,acct_079,risk_review,2025-04-11,Adoption risk requires intervention,risk
+touch_127,acct_080,qbr,2025-04-19,Expansion roadmap aligned,positive
+touch_128,acct_080,check_in,2025-04-20,Adoption remains strong,positive
+touch_129,acct_081,check_in,2025-03-01,Adoption plan reviewed,neutral
+touch_130,acct_081,training,2025-03-02,Workflow coaching scheduled,positive
+touch_131,acct_082,risk_review,2025-03-10,Adoption risk requires intervention,risk
+touch_132,acct_083,qbr,2025-03-18,Expansion roadmap aligned,positive
+touch_133,acct_083,check_in,2025-03-19,Adoption remains strong,positive
+touch_134,acct_084,qbr,2025-03-27,Expansion roadmap aligned,positive
+touch_135,acct_084,check_in,2025-03-28,Adoption remains strong,positive
+touch_136,acct_085,check_in,2025-04-05,Adoption plan reviewed,neutral
+touch_137,acct_085,training,2025-04-06,Workflow coaching scheduled,positive
+touch_138,acct_086,risk_review,2025-04-14,Payment and adoption recovery plan,risk
+touch_139,acct_087,qbr,2025-04-22,Expansion roadmap aligned,positive
+touch_140,acct_087,check_in,2025-04-23,Adoption remains strong,positive
+touch_141,acct_088,check_in,2025-03-04,Adoption plan reviewed,neutral
+touch_142,acct_088,training,2025-03-05,Workflow coaching scheduled,positive
+touch_143,acct_089,risk_review,2025-03-13,Adoption risk requires intervention,risk
+touch_144,acct_090,qbr,2025-03-21,Expansion roadmap aligned,positive
+touch_145,acct_090,check_in,2025-03-22,Adoption remains strong,positive
+touch_146,acct_091,check_in,2025-03-30,Adoption plan reviewed,neutral
+touch_147,acct_091,training,2025-03-31,Workflow coaching scheduled,positive
+touch_148,acct_092,risk_review,2025-04-08,Adoption risk requires intervention,risk
+touch_149,acct_093,qbr,2025-04-16,Expansion roadmap aligned,positive
+touch_150,acct_093,check_in,2025-04-17,Adoption remains strong,positive
+touch_151,acct_094,qbr,2025-04-25,Expansion roadmap aligned,positive
+touch_152,acct_094,check_in,2025-04-26,Adoption remains strong,positive
+touch_153,acct_095,check_in,2025-03-07,Adoption plan reviewed,neutral
+touch_154,acct_095,training,2025-03-08,Workflow coaching scheduled,positive
+touch_155,acct_096,risk_review,2025-03-16,Payment and adoption recovery plan,risk
+touch_156,acct_097,qbr,2025-03-24,Expansion roadmap aligned,positive
+touch_157,acct_097,check_in,2025-03-25,Adoption remains strong,positive
+touch_158,acct_098,check_in,2025-04-02,Adoption plan reviewed,neutral
+touch_159,acct_098,training,2025-04-03,Workflow coaching scheduled,positive
+touch_160,acct_099,risk_review,2025-04-11,Adoption risk requires intervention,risk
+touch_161,acct_100,qbr,2025-04-19,Expansion roadmap aligned,positive
+touch_162,acct_100,check_in,2025-04-20,Adoption remains strong,positive

@@ -25,13 +25,23 @@ def test_customer_analytics_pipeline_outputs_expected_artifacts() -> None:
         assert path.exists(), f"Expected generated artifact at {path}"
 
     customer_360 = pl.read_parquet(customer_360_path)
+    assert customer_360.height == 100
     assert customer_360["account_id"].n_unique() == customer_360.height
     assert customer_360["health_score"].min() >= 0
     assert customer_360["health_score"].max() <= 100
     assert set(customer_360["risk_level"].unique()).issubset({"Healthy", "Watch", "At Risk", "Critical"})
+    assert (
+        customer_360.group_by("risk_level")
+        .len()
+        .select(pl.col("len").min())
+        .item()
+        >= 10
+    )
 
     assert pl.read_parquet(retention_path).height > 0
     assert pl.read_parquet(ltv_path)["estimated_ltv"].min() >= 0
+    churn_queue = pl.read_parquet(churn_path).sort("priority_rank")
+    assert churn_queue.head(8)["mrr"].min() > 0
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert "data/curated/customer_360.parquet" in manifest["curated_outputs"]

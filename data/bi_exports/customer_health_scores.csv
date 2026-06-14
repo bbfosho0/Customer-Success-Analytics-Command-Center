@@ -1,13 +1,101 @@
 account_id,account_name,segment,region,plan_tier,mrr,product_usage_score,payment_health_score,support_experience_score,customer_success_engagement_score,health_score,risk_level,main_risk_driver
 acct_007,Olive Branch Cafe,SMB,Europe,Starter,0.0,3.2059523809523807,0.0,100.0,12,28.5,Critical,Low product adoption
 acct_004,Copper Kettle BBQ,Mid-Market,North America,Pro,0.0,7.594047619047617,0.0,100.0,12,30.1,Critical,Low product adoption
+acct_036,Atlas Bistro,Mid-Market,North America,Pro,4696.0,12.633333333333333,0.0,100.0,12,31.8,Critical,Payment failure
+acct_096,Foundry Food Hall,Mid-Market,North America,Pro,5056.0,13.383333333333333,0.0,100.0,12,32.1,Critical,Payment failure
+acct_086,Golden Restaurant Co,Mid-Market,Asia Pacific,Pro,3646.0,13.61547619047619,0.0,100.0,12,32.2,Critical,Payment failure
+acct_066,Maple Cafe Group,Mid-Market,Asia Pacific,Pro,3526.0,13.633333333333333,0.0,100.0,12,32.2,Critical,Payment failure
+acct_026,Bluebird Table,Mid-Market,Asia Pacific,Pro,5986.0,14.11547619047619,0.0,100.0,12,32.3,Critical,Payment failure
+acct_056,Orchard Hospitality,Mid-Market,North America,Pro,4816.0,13.86547619047619,0.0,100.0,12,32.3,Critical,Payment failure
+acct_076,Juniper Dining Collective,Mid-Market,North America,Pro,4936.0,15.097619047619048,0.0,100.0,12,32.7,Critical,Payment failure
+acct_046,Amber Hospitality,Mid-Market,Asia Pacific,Pro,3406.0,15.347619047619048,0.0,100.0,12,32.8,Critical,Payment failure
+acct_016,Canyon Kitchen,Mid-Market,North America,Pro,4576.0,15.597619047619048,0.0,100.0,12,32.9,Critical,Payment failure
 acct_006,Metro Noodle House,Mid-Market,Asia Pacific,Pro,3900.0,18.444047619047616,0.0,100.0,22,35.9,Critical,Payment failure
 acct_003,Green Fork Kitchen,SMB,Europe,Starter,1200.0,37.67857142857143,0.0,100.0,12,40.6,At Risk,Payment failure
 acct_010,Luna Bakery Collective,SMB,Europe,Starter,1000.0,32.69047619047619,0.0,100.0,22,40.8,At Risk,Payment failure
+acct_072,Clover Dining Collective,Mid-Market,North America,Pro,5992.0,31.185714285714283,100.0,100.0,12,58.3,At Risk,Low product adoption
+acct_042,Golden Bistro,Mid-Market,Asia Pacific,Pro,4462.0,31.435714285714283,100.0,100.0,12,58.4,At Risk,Low product adoption
+acct_099,Maple Food Hall,SMB,Europe,Starter,913.0,31.335714285714285,100.0,100.0,12,58.4,At Risk,Low product adoption
+acct_039,Clover Bistro,SMB,Europe,Starter,1693.0,31.835714285714285,100.0,100.0,12,58.5,At Risk,Low product adoption
+acct_069,Atlas Dining Collective,SMB,Latin America,Starter,1303.0,31.585714285714285,100.0,100.0,12,58.5,At Risk,Low product adoption
+acct_029,Ember Table,SMB,Latin America,Starter,1223.0,32.067857142857136,100.0,100.0,12,58.6,At Risk,CSM risk note
+acct_092,Bluebird Food Hall,Mid-Market,North America,Pro,3412.0,32.41785714285714,100.0,100.0,12,58.7,At Risk,CSM risk note
+acct_062,Ember Cafe Group,Mid-Market,Asia Pacific,Pro,4582.0,32.66785714285714,100.0,100.0,12,58.8,At Risk,CSM risk note
+acct_052,Foundry Hospitality,Mid-Market,North America,Pro,5872.0,32.9,100.0,100.0,12,58.9,At Risk,CSM risk note
+acct_032,Juniper Table,Mid-Market,North America,Pro,5752.0,32.91785714285714,100.0,100.0,12,58.9,At Risk,CSM risk note
+acct_089,Orchard Restaurant Co,SMB,Latin America,Starter,1343.0,32.817857142857136,100.0,100.0,12,58.9,At Risk,CSM risk note
+acct_022,Maple Kitchen,Mid-Market,Asia Pacific,Pro,4342.0,33.15,100.0,100.0,12,59.0,At Risk,CSM risk note
+acct_059,Bluebird Cafe Group,SMB,Europe,Starter,1733.0,33.067857142857136,100.0,100.0,12,59.0,At Risk,CSM risk note
+acct_079,Amber Restaurant Co,SMB,Europe,Starter,873.0,33.05,100.0,100.0,12,59.0,At Risk,CSM risk note
+acct_019,Foundry Kitchen,SMB,Europe,Starter,1653.0,33.55,100.0,100.0,12,59.1,At Risk,CSM risk note
+acct_049,Canyon Hospitality,SMB,Latin America,Starter,1263.0,33.3,100.0,100.0,12,59.1,At Risk,CSM risk note
+acct_082,Canyon Restaurant Co,Mid-Market,Asia Pacific,Pro,4702.0,33.9,100.0,100.0,12,59.3,At Risk,CSM risk note
 acct_005,Sunrise Taqueria,SMB,Latin America,Starter,900.0,50.30119047619047,100.0,100.0,34,69.4,Watch,Healthy usage and engagement
 acct_012,Pacific Poke Labs,Mid-Market,Asia Pacific,Pro,3600.0,62.47857142857143,100.0,100.0,34,73.7,Watch,Healthy usage and engagement
+acct_075,Golden Dining Collective,Enterprise,Europe,Enterprise,17625.0,57.55,100.0,100.0,56,76.3,Watch,Healthy usage and engagement
+acct_045,Orchard Bistro,Enterprise,Latin America,Enterprise,21915.0,57.8,100.0,100.0,56,76.4,Watch,Healthy usage and engagement
+acct_018,Ember Kitchen,SMB,Asia Pacific,Starter,1516.0,57.65,100.0,100.0,56,76.4,Watch,Healthy usage and engagement
+acct_015,Bluebird Kitchen,Enterprise,Europe,Enterprise,16305.0,58.05,100.0,100.0,56,76.5,Watch,Healthy usage and engagement
+acct_081,Bluebird Restaurant Co,Mid-Market,Latin America,Pro,4291.0,58.0,100.0,100.0,56,76.5,Watch,Healthy usage and engagement
+acct_051,Ember Hospitality,Mid-Market,Europe,Pro,5461.0,58.25,100.0,100.0,56,76.6,Watch,Healthy usage and engagement
+acct_078,Orchard Dining Collective,SMB,Asia Pacific,Starter,1636.0,58.4,100.0,100.0,56,76.6,Watch,Healthy usage and engagement
+acct_021,Juniper Kitchen,Mid-Market,Latin America,Pro,3931.0,58.5,100.0,100.0,56,76.7,Watch,Healthy usage and engagement
+acct_068,Amber Dining Collective,SMB,North America,Starter,1166.0,58.63214285714285,100.0,100.0,56,76.7,Watch,Healthy usage and engagement
+acct_048,Bluebird Hospitality,SMB,North America,Starter,1126.0,58.65,100.0,100.0,56,76.7,Watch,Healthy usage and engagement
+acct_095,Ember Food Hall,Enterprise,Europe,Enterprise,18065.0,58.78214285714286,100.0,100.0,56,76.8,Watch,Healthy usage and engagement
+acct_038,Canyon Bistro,SMB,Asia Pacific,Starter,1556.0,58.88214285714285,100.0,100.0,56,76.8,Watch,Healthy usage and engagement
+acct_065,Juniper Cafe Group,Enterprise,Latin America,Enterprise,22355.0,59.03214285714286,100.0,100.0,56,76.9,Watch,Healthy usage and engagement
+acct_035,Amber Bistro,Enterprise,Europe,Enterprise,16745.0,59.28214285714286,100.0,100.0,56,76.9,Watch,Healthy usage and engagement
+acct_025,Atlas Table,Enterprise,Latin America,Enterprise,21475.0,59.51428571428571,100.0,100.0,56,77.0,Watch,Healthy usage and engagement
+acct_071,Canyon Dining Collective,Mid-Market,Europe,Pro,5581.0,59.482142857142854,100.0,100.0,56,77.0,Watch,Healthy usage and engagement
 acct_009,Beacon Burger Co,Mid-Market,North America,Pro,4700.0,72.02261904761906,100.0,100.0,34,77.0,Watch,Healthy usage and engagement
+acct_061,Clover Cafe Group,Mid-Market,Latin America,Pro,4171.0,59.714285714285715,100.0,100.0,56,77.1,Watch,Healthy usage and engagement
+acct_041,Foundry Bistro,Mid-Market,Latin America,Pro,4051.0,59.732142857142854,100.0,100.0,56,77.1,Watch,Healthy usage and engagement
+acct_098,Juniper Food Hall,SMB,Asia Pacific,Starter,1676.0,59.63214285714285,100.0,100.0,56,77.1,Watch,Healthy usage and engagement
+acct_031,Golden Table,Mid-Market,Europe,Pro,5341.0,59.964285714285715,100.0,100.0,56,77.2,Watch,Healthy usage and engagement
+acct_058,Atlas Cafe Group,SMB,Asia Pacific,Starter,1596.0,60.114285714285714,100.0,100.0,56,77.2,Watch,Healthy usage and engagement
+acct_088,Maple Restaurant Co,SMB,North America,Starter,1206.0,59.864285714285714,100.0,100.0,56,77.2,Watch,Healthy usage and engagement
+acct_085,Foundry Restaurant Co,Enterprise,Latin America,Enterprise,22795.0,60.26428571428572,100.0,100.0,56,77.3,Watch,Healthy usage and engagement
+acct_028,Clover Table,SMB,North America,Starter,1086.0,60.364285714285714,100.0,100.0,56,77.3,Watch,Healthy usage and engagement
+acct_055,Maple Hospitality,Enterprise,Europe,Enterprise,17185.0,60.51428571428572,100.0,100.0,56,77.4,Watch,Healthy usage and engagement
+acct_091,Atlas Food Hall,Mid-Market,Europe,Pro,5701.0,60.714285714285715,100.0,100.0,56,77.4,Watch,Healthy usage and engagement
 acct_001,Northstar Bistro,Mid-Market,North America,Pro,4200.0,75.38690476190476,100.0,100.0,34,78.2,Watch,Healthy usage and engagement
 acct_011,Cedar Table Group,Enterprise,North America,Enterprise,16200.0,96.35595238095237,100.0,100.0,12,81.1,Healthy,CSM risk note
 acct_008,Prime Plate Hospitality,Enterprise,North America,Enterprise,18500.0,100.0,100.0,100.0,34,86.8,Healthy,Healthy usage and engagement
 acct_002,Harbor Sushi Group,Enterprise,North America,Enterprise,14200.0,100.0,100.0,100.0,34,86.8,Healthy,Healthy usage and engagement
+acct_027,Canyon Table,Mid-Market,Europe,Pro,3697.0,83.5,100.0,100.0,68,87.8,Healthy,Healthy usage and engagement
+acct_093,Canyon Food Hall,SMB,Latin America,Starter,991.0,83.45,100.0,100.0,68,87.8,Healthy,Healthy usage and engagement
+acct_090,Amber Food Hall,Enterprise,Asia Pacific,Enterprise,20430.0,83.85,100.0,100.0,68,87.9,Healthy,Healthy usage and engagement
+acct_063,Foundry Cafe Group,SMB,Europe,Starter,1381.0,83.7,100.0,100.0,68,87.9,Healthy,Healthy usage and engagement
+acct_054,Juniper Hospitality,SMB,Asia Pacific,Starter,1048.0,83.65,100.0,100.0,68,87.9,Healthy,Healthy usage and engagement
+acct_060,Canyon Cafe Group,Enterprise,North America,Enterprise,14820.0,84.1,100.0,100.0,68,88.0,Healthy,Healthy usage and engagement
+acct_024,Amber Table,SMB,North America,Starter,1438.0,83.9,100.0,100.0,68,88.0,Healthy,Healthy usage and engagement
+acct_033,Maple Table,SMB,Latin America,Starter,871.0,83.95,100.0,100.0,68,88.0,Healthy,Healthy usage and engagement
+acct_050,Clover Hospitality,Enterprise,Asia Pacific,Enterprise,19550.0,84.33214285714286,100.0,100.0,68,88.1,Healthy,Healthy usage and engagement
+acct_030,Foundry Table,Enterprise,Asia Pacific,Enterprise,19110.0,84.35,100.0,100.0,68,88.1,Healthy,Healthy usage and engagement
+acct_087,Juniper Restaurant Co,Mid-Market,Europe,Pro,4057.0,84.25,100.0,100.0,68,88.1,Healthy,Healthy usage and engagement
+acct_020,Golden Kitchen,Enterprise,North America,Enterprise,13940.0,84.58214285714286,100.0,100.0,68,88.2,Healthy,Healthy usage and engagement
+acct_077,Maple Dining Collective,Mid-Market,Latin America,Pro,5347.0,84.48214285714286,100.0,100.0,68,88.2,Healthy,Healthy usage and engagement
+acct_057,Amber Cafe Group,Mid-Market,Latin America,Pro,5227.0,84.5,100.0,100.0,68,88.2,Healthy,Healthy usage and engagement
+acct_084,Ember Restaurant Co,SMB,North America,Starter,1558.0,84.65,100.0,100.0,68,88.2,Healthy,Healthy usage and engagement
+acct_017,Clover Kitchen,Mid-Market,Latin America,Pro,4987.0,84.98214285714286,100.0,100.0,68,88.3,Healthy,Healthy usage and engagement
+acct_047,Atlas Hospitality,Mid-Market,Europe,Pro,3817.0,84.73214285714286,100.0,100.0,68,88.3,Healthy,Healthy usage and engagement
+acct_083,Clover Restaurant Co,SMB,Europe,Starter,1421.0,84.93214285714286,100.0,100.0,68,88.3,Healthy,Healthy usage and engagement
+acct_074,Foundry Dining Collective,SMB,Asia Pacific,Starter,1088.0,84.88214285714287,100.0,100.0,68,88.3,Healthy,Healthy usage and engagement
+acct_044,Maple Bistro,SMB,North America,Starter,1478.0,85.13214285714287,100.0,100.0,68,88.4,Healthy,Healthy usage and engagement
+acct_053,Golden Hospitality,SMB,Latin America,Starter,911.0,85.18214285714286,100.0,100.0,68,88.4,Healthy,Healthy usage and engagement
+acct_070,Bluebird Dining Collective,Enterprise,Asia Pacific,Enterprise,19990.0,85.56428571428572,100.0,100.0,68,88.5,Healthy,Healthy usage and engagement
+acct_100,Orchard Food Hall,Enterprise,North America,Enterprise,15700.0,85.31428571428572,100.0,100.0,68,88.5,Healthy,Healthy usage and engagement
+acct_080,Atlas Restaurant Co,Enterprise,North America,Enterprise,15260.0,85.33214285714286,100.0,100.0,68,88.5,Healthy,Healthy usage and engagement
+acct_043,Juniper Bistro,SMB,Europe,Starter,1341.0,85.41428571428573,100.0,100.0,68,88.5,Healthy,Healthy usage and engagement
+acct_023,Orchard Kitchen,SMB,Europe,Starter,1301.0,85.43214285714286,100.0,100.0,68,88.5,Healthy,Healthy usage and engagement
+acct_014,Atlas Kitchen,SMB,Asia Pacific,Starter,968.0,85.38214285714287,100.0,100.0,68,88.5,Healthy,Healthy usage and engagement
+acct_040,Ember Bistro,Enterprise,North America,Enterprise,14380.0,85.81428571428572,100.0,100.0,68,88.6,Healthy,Healthy usage and engagement
+acct_097,Golden Food Hall,Mid-Market,Latin America,Pro,5467.0,85.71428571428572,100.0,100.0,68,88.6,Healthy,Healthy usage and engagement
+acct_013,Amber Kitchen,SMB,Latin America,Starter,1731.0,85.66428571428573,100.0,100.0,68,88.6,Healthy,Healthy usage and engagement
+acct_067,Orchard Cafe Group,Mid-Market,Europe,Pro,3937.0,85.96428571428572,100.0,100.0,68,88.7,Healthy,Healthy usage and engagement
+acct_094,Clover Food Hall,SMB,Asia Pacific,Starter,1128.0,86.11428571428573,100.0,100.0,68,88.7,Healthy,Healthy usage and engagement
+acct_037,Bluebird Bistro,Mid-Market,Latin America,Pro,5107.0,86.21428571428572,100.0,100.0,68,88.8,Healthy,Healthy usage and engagement
+acct_064,Golden Cafe Group,SMB,North America,Starter,1518.0,86.36428571428573,100.0,100.0,68,88.8,Healthy,Healthy usage and engagement
+acct_073,Ember Dining Collective,SMB,Latin America,Starter,951.0,86.41428571428573,100.0,100.0,68,88.8,Healthy,Healthy usage and engagement
+acct_034,Orchard Table,SMB,Asia Pacific,Starter,1008.0,86.61428571428573,100.0,100.0,68,88.9,Healthy,Healthy usage and engagement

@@ -293,6 +293,10 @@
             "title": "Account Name",
             "type": "string"
           },
+          "customer_success_manager": {
+            "title": "Customer Success Manager",
+            "type": "string"
+          },
           "health_score": {
             "title": "Health Score",
             "type": "number"
@@ -341,6 +345,7 @@
           "risk_level",
           "main_risk_driver",
           "recommended_action",
+          "customer_success_manager",
           "priority_rank"
         ],
         "title": "ChurnRiskAccount",
@@ -606,6 +611,21 @@
             "title": "Account Name",
             "type": "string"
           },
+          "close_month": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Close Month"
+          },
+          "customer_success_manager": {
+            "title": "Customer Success Manager",
+            "type": "string"
+          },
           "expansion_readiness": {
             "title": "Expansion Readiness",
             "type": "string"
@@ -661,6 +681,7 @@
           "weighted_pipeline_amount",
           "open_pipeline_amount",
           "next_close_date",
+          "customer_success_manager",
           "expansion_readiness"
         ],
         "title": "ExpansionOpportunity",
@@ -901,6 +922,17 @@
             "title": "Cohort Month",
             "type": "string"
           },
+          "cohort_quarter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cohort Quarter"
+          },
           "cohort_size": {
             "title": "Cohort Size",
             "type": "integer"
@@ -908,6 +940,17 @@
           "month_number": {
             "title": "Month Number",
             "type": "integer"
+          },
+          "month_since_acquisition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Month Since Acquisition"
           },
           "retained_customers": {
             "title": "Retained Customers",

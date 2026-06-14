@@ -1,4 +1,4 @@
 Segment__c,Plan_Tier__c,Customers__c,Avg_Support_Calls__c,Avg_Escalated_Calls__c,Avg_Resolution_Rate__c,Avg_Health_Score__c,Churn_Rate__c
-SMB,Starter,4,0.0,0.0,100.0,44.83,0.25
-Mid-Market,Pro,5,0.0,0.0,100.0,58.98,0.2
-Enterprise,Enterprise,3,0.0,0.0,100.0,84.9,0.0
+Mid-Market,Pro,39,0.0,0.0,100.0,63.26,0.0256
+SMB,Starter,40,0.0,0.0,100.0,74.77,0.025
+Enterprise,Enterprise,21,0.0,0.0,100.0,82.89,0.0

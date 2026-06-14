@@ -11,3 +11,91 @@ acct_009,Beacon Burger Co,Quick Service,North America,Mid-Market,2024-04-10,Noah
 acct_010,Luna Bakery Collective,Cafe,Europe,SMB,2023-12-05,Ethan Park,Riley Patel
 acct_011,Cedar Table Group,Casual Dining,North America,Enterprise,2023-07-17,Maya Chen,Avery Morgan
 acct_012,Pacific Poke Labs,Fast Casual,Asia Pacific,Mid-Market,2024-06-03,Sofia Reed,Taylor Kim
+acct_013,Amber Kitchen,Quick Service,Latin America,SMB,2023-12-16,Elena Torres,Avery Morgan
+acct_014,Atlas Kitchen,Cafe,Asia Pacific,SMB,2024-01-26,Noah Singh,Drew Martinez
+acct_015,Bluebird Kitchen,Fast Casual,Europe,Enterprise,2024-03-07,Priya Shah,Taylor Kim
+acct_016,Canyon Kitchen,Fine Dining,North America,Mid-Market,2024-04-17,Maya Chen,Jordan Ellis
+acct_017,Clover Kitchen,Casual Dining,Latin America,Mid-Market,2024-05-28,Sofia Reed,Morgan Lee
+acct_018,Ember Kitchen,Quick Service,Asia Pacific,SMB,2024-07-08,Marcus Lee,Riley Patel
+acct_019,Foundry Kitchen,Cafe,Europe,SMB,2024-08-18,Liam Brooks,Samira Khan
+acct_020,Golden Kitchen,Fast Casual,North America,Enterprise,2024-09-28,Ethan Park,Casey Nguyen
+acct_021,Juniper Kitchen,Fine Dining,Latin America,Mid-Market,2022-07-12,Elena Torres,Avery Morgan
+acct_022,Maple Kitchen,Casual Dining,Asia Pacific,Mid-Market,2022-08-22,Noah Singh,Drew Martinez
+acct_023,Orchard Kitchen,Quick Service,Europe,SMB,2022-10-02,Priya Shah,Taylor Kim
+acct_024,Amber Table,Cafe,North America,SMB,2022-11-12,Maya Chen,Jordan Ellis
+acct_025,Atlas Table,Fast Casual,Latin America,Enterprise,2022-12-23,Sofia Reed,Morgan Lee
+acct_026,Bluebird Table,Fine Dining,Asia Pacific,Mid-Market,2023-02-02,Marcus Lee,Riley Patel
+acct_027,Canyon Table,Casual Dining,Europe,Mid-Market,2023-03-15,Liam Brooks,Samira Khan
+acct_028,Clover Table,Quick Service,North America,SMB,2023-04-25,Ethan Park,Casey Nguyen
+acct_029,Ember Table,Cafe,Latin America,SMB,2023-06-05,Elena Torres,Avery Morgan
+acct_030,Foundry Table,Fast Casual,Asia Pacific,Enterprise,2023-07-16,Noah Singh,Drew Martinez
+acct_031,Golden Table,Fine Dining,Europe,Mid-Market,2023-08-26,Priya Shah,Taylor Kim
+acct_032,Juniper Table,Casual Dining,North America,Mid-Market,2023-10-06,Maya Chen,Jordan Ellis
+acct_033,Maple Table,Quick Service,Latin America,SMB,2023-11-16,Sofia Reed,Morgan Lee
+acct_034,Orchard Table,Cafe,Asia Pacific,SMB,2023-12-27,Marcus Lee,Riley Patel
+acct_035,Amber Bistro,Fast Casual,Europe,Enterprise,2024-02-06,Liam Brooks,Samira Khan
+acct_036,Atlas Bistro,Fine Dining,North America,Mid-Market,2024-03-18,Ethan Park,Casey Nguyen
+acct_037,Bluebird Bistro,Casual Dining,Latin America,Mid-Market,2024-04-28,Elena Torres,Avery Morgan
+acct_038,Canyon Bistro,Quick Service,Asia Pacific,SMB,2024-06-08,Noah Singh,Drew Martinez
+acct_039,Clover Bistro,Cafe,Europe,SMB,2024-07-19,Priya Shah,Taylor Kim
+acct_040,Ember Bistro,Fast Casual,North America,Enterprise,2024-08-29,Maya Chen,Jordan Ellis
+acct_041,Foundry Bistro,Fine Dining,Latin America,Mid-Market,2024-10-09,Sofia Reed,Morgan Lee
+acct_042,Golden Bistro,Casual Dining,Asia Pacific,Mid-Market,2022-07-23,Marcus Lee,Riley Patel
+acct_043,Juniper Bistro,Quick Service,Europe,SMB,2022-09-02,Liam Brooks,Samira Khan
+acct_044,Maple Bistro,Cafe,North America,SMB,2022-10-13,Ethan Park,Casey Nguyen
+acct_045,Orchard Bistro,Fast Casual,Latin America,Enterprise,2022-11-23,Elena Torres,Avery Morgan
+acct_046,Amber Hospitality,Fine Dining,Asia Pacific,Mid-Market,2023-01-03,Noah Singh,Drew Martinez
+acct_047,Atlas Hospitality,Casual Dining,Europe,Mid-Market,2023-02-13,Priya Shah,Taylor Kim
+acct_048,Bluebird Hospitality,Quick Service,North America,SMB,2023-03-26,Maya Chen,Jordan Ellis
+acct_049,Canyon Hospitality,Cafe,Latin America,SMB,2023-05-06,Sofia Reed,Morgan Lee
+acct_050,Clover Hospitality,Fast Casual,Asia Pacific,Enterprise,2023-06-16,Marcus Lee,Riley Patel
+acct_051,Ember Hospitality,Fine Dining,Europe,Mid-Market,2023-07-27,Liam Brooks,Samira Khan
+acct_052,Foundry Hospitality,Casual Dining,North America,Mid-Market,2023-09-06,Ethan Park,Casey Nguyen
+acct_053,Golden Hospitality,Quick Service,Latin America,SMB,2023-10-17,Elena Torres,Avery Morgan
+acct_054,Juniper Hospitality,Cafe,Asia Pacific,SMB,2023-11-27,Noah Singh,Drew Martinez
+acct_055,Maple Hospitality,Fast Casual,Europe,Enterprise,2024-01-07,Priya Shah,Taylor Kim
+acct_056,Orchard Hospitality,Fine Dining,North America,Mid-Market,2024-02-17,Maya Chen,Jordan Ellis
+acct_057,Amber Cafe Group,Casual Dining,Latin America,Mid-Market,2024-03-29,Sofia Reed,Morgan Lee
+acct_058,Atlas Cafe Group,Quick Service,Asia Pacific,SMB,2024-05-09,Marcus Lee,Riley Patel
+acct_059,Bluebird Cafe Group,Cafe,Europe,SMB,2024-06-19,Liam Brooks,Samira Khan
+acct_060,Canyon Cafe Group,Fast Casual,North America,Enterprise,2024-07-30,Ethan Park,Casey Nguyen
+acct_061,Clover Cafe Group,Fine Dining,Latin America,Mid-Market,2024-09-09,Elena Torres,Avery Morgan
+acct_062,Ember Cafe Group,Casual Dining,Asia Pacific,Mid-Market,2024-10-20,Noah Singh,Drew Martinez
+acct_063,Foundry Cafe Group,Quick Service,Europe,SMB,2022-08-03,Priya Shah,Taylor Kim
+acct_064,Golden Cafe Group,Cafe,North America,SMB,2022-09-13,Maya Chen,Jordan Ellis
+acct_065,Juniper Cafe Group,Fast Casual,Latin America,Enterprise,2022-10-24,Sofia Reed,Morgan Lee
+acct_066,Maple Cafe Group,Fine Dining,Asia Pacific,Mid-Market,2022-12-04,Marcus Lee,Riley Patel
+acct_067,Orchard Cafe Group,Casual Dining,Europe,Mid-Market,2023-01-14,Liam Brooks,Samira Khan
+acct_068,Amber Dining Collective,Quick Service,North America,SMB,2023-02-24,Ethan Park,Casey Nguyen
+acct_069,Atlas Dining Collective,Cafe,Latin America,SMB,2023-04-06,Elena Torres,Avery Morgan
+acct_070,Bluebird Dining Collective,Fast Casual,Asia Pacific,Enterprise,2023-05-17,Noah Singh,Drew Martinez
+acct_071,Canyon Dining Collective,Fine Dining,Europe,Mid-Market,2023-06-27,Priya Shah,Taylor Kim
+acct_072,Clover Dining Collective,Casual Dining,North America,Mid-Market,2023-08-07,Maya Chen,Jordan Ellis
+acct_073,Ember Dining Collective,Quick Service,Latin America,SMB,2023-09-17,Sofia Reed,Morgan Lee
+acct_074,Foundry Dining Collective,Cafe,Asia Pacific,SMB,2023-10-28,Marcus Lee,Riley Patel
+acct_075,Golden Dining Collective,Fast Casual,Europe,Enterprise,2023-12-08,Liam Brooks,Samira Khan
+acct_076,Juniper Dining Collective,Fine Dining,North America,Mid-Market,2024-01-18,Ethan Park,Casey Nguyen
+acct_077,Maple Dining Collective,Casual Dining,Latin America,Mid-Market,2024-02-28,Elena Torres,Avery Morgan
+acct_078,Orchard Dining Collective,Quick Service,Asia Pacific,SMB,2024-04-09,Noah Singh,Drew Martinez
+acct_079,Amber Restaurant Co,Cafe,Europe,SMB,2024-05-20,Priya Shah,Taylor Kim
+acct_080,Atlas Restaurant Co,Fast Casual,North America,Enterprise,2024-06-30,Maya Chen,Jordan Ellis
+acct_081,Bluebird Restaurant Co,Fine Dining,Latin America,Mid-Market,2024-08-10,Sofia Reed,Morgan Lee
+acct_082,Canyon Restaurant Co,Casual Dining,Asia Pacific,Mid-Market,2024-09-20,Marcus Lee,Riley Patel
+acct_083,Clover Restaurant Co,Quick Service,Europe,SMB,2022-07-04,Liam Brooks,Samira Khan
+acct_084,Ember Restaurant Co,Cafe,North America,SMB,2022-08-14,Ethan Park,Casey Nguyen
+acct_085,Foundry Restaurant Co,Fast Casual,Latin America,Enterprise,2022-09-24,Elena Torres,Avery Morgan
+acct_086,Golden Restaurant Co,Fine Dining,Asia Pacific,Mid-Market,2022-11-04,Noah Singh,Drew Martinez
+acct_087,Juniper Restaurant Co,Casual Dining,Europe,Mid-Market,2022-12-15,Priya Shah,Taylor Kim
+acct_088,Maple Restaurant Co,Quick Service,North America,SMB,2023-01-25,Maya Chen,Jordan Ellis
+acct_089,Orchard Restaurant Co,Cafe,Latin America,SMB,2023-03-07,Sofia Reed,Morgan Lee
+acct_090,Amber Food Hall,Fast Casual,Asia Pacific,Enterprise,2023-04-17,Marcus Lee,Riley Patel
+acct_091,Atlas Food Hall,Fine Dining,Europe,Mid-Market,2023-05-28,Liam Brooks,Samira Khan
+acct_092,Bluebird Food Hall,Casual Dining,North America,Mid-Market,2023-07-08,Ethan Park,Casey Nguyen
+acct_093,Canyon Food Hall,Quick Service,Latin America,SMB,2023-08-18,Elena Torres,Avery Morgan
+acct_094,Clover Food Hall,Cafe,Asia Pacific,SMB,2023-09-28,Noah Singh,Drew Martinez
+acct_095,Ember Food Hall,Fast Casual,Europe,Enterprise,2023-11-08,Priya Shah,Taylor Kim
+acct_096,Foundry Food Hall,Fine Dining,North America,Mid-Market,2023-12-19,Maya Chen,Jordan Ellis
+acct_097,Golden Food Hall,Casual Dining,Latin America,Mid-Market,2024-01-29,Sofia Reed,Morgan Lee
+acct_098,Juniper Food Hall,Quick Service,Asia Pacific,SMB,2024-03-10,Marcus Lee,Riley Patel
+acct_099,Maple Food Hall,Cafe,Europe,SMB,2024-04-20,Liam Brooks,Samira Khan
+acct_100,Orchard Food Hall,Fast Casual,North America,Enterprise,2024-05-31,Ethan Park,Casey Nguyen

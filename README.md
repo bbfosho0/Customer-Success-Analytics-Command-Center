@@ -7,28 +7,29 @@
 ![Next.js](https://img.shields.io/badge/Next.js-Dashboard-000000)
 ![Parquet](https://img.shields.io/badge/Parquet-Analytics%20Artifacts-4A90E2)
 
-## About This Project
+Customer Success Analytics Command Center is a local-first analytics engineering portfolio project. It turns raw support, customer, subscription, usage, billing, opportunity, and customer-success data into curated Parquet datasets, DuckDB marts, typed FastAPI APIs, a routed Next.js dashboard, and BI-ready exports for CRM Analytics and Tableau-style delivery.
 
-Customer Success Analytics Command Center is a full-stack analytics engineering portfolio product that converts raw customer, subscription, usage, billing, opportunity, and support data into decision-ready customer success intelligence.
+The project is intentionally interview-friendly: it demonstrates customer lifecycle analytics, SQL mart design, typed API/frontend integration, and dashboard packaging without claiming a live Salesforce, Tableau, or AWS production integration.
 
-The project builds a reproducible analytics workflow from ingestion to delivery: Polars validation and transformation, DuckDB SQL marts, Parquet and CSV outputs, typed FastAPI contracts, and a routed Next.js dashboard. Its business surface focuses on Customer 360 health scoring, churn risk prioritization, retention cohorts, lifetime value analysis, support impact, and expansion opportunities.
+Live demo: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/`
 
-This repository is intentionally credible for technical review. It demonstrates AWS-style lakehouse patterns and BI / Salesforce CRM Analytics readiness through working artifacts and mapping documentation, without claiming a live enterprise integration.
+## Project Purpose and Product Surface
 
-Live site: https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/
+The product surface is split between support operations analytics and customer-success analytics:
 
-## Highlights
+- `/dashboard`, `/metrics`, `/calls`, `/calls/[callId]`, and `/agents` cover support volume, SLA-style performance, interaction drilldowns, and agent performance.
+- `/customer-analytics`, `/customer-analytics/churn-risk`, `/customer-analytics/retention`, and `/customer-analytics/ltv` cover Customer 360 health, churn prioritization, retention cohorts, LTV, segment performance, support impact, and BI exports.
+- `/settings` exposes manifest and refresh diagnostics for local development and static-demo mode.
 
-- Builds curated Customer 360 data from operational source files and support interaction data.
-- Computes account health scores, risk bands, primary risk drivers, and recommended customer-success actions.
-- Materializes marts for churn risk, retention cohorts, LTV, customer health, support impact, expansion opportunities, and segment performance.
-- Serves typed analytics contracts with FastAPI and generated TypeScript API types.
-- Presents routed Next.js views for support operations, account health, churn risk, retention, LTV, and exports.
-- Produces BI-ready CSV exports and Salesforce CRM Analytics / Tableau-oriented implementation documentation.
+The frontend currently uses a Figma-backed presentation layer under `frontend/src/figma/`, while routed pages stay thin and delegate data access to typed hooks and adapters under `frontend/src/features/` and `frontend/src/lib/`.
 
-## Architecture
+These captures come from the portfolio demo and show the main routed experience:
 
-### Data Pipeline
+<img src="docs/screenshots/readme-gallery.png" alt="Customer Success Analytics Command Center screenshot montage" width="100%" />
+
+## Architecture and Generated Data Flow
+
+### End-to-end workflow
 
 ```mermaid
 flowchart LR
@@ -36,133 +37,130 @@ flowchart LR
     B --> C[data/agents.csv and data/sample_calls.json]
     C --> D[scripts/generate_parquet.py]
     D --> E[data/cleaned_calls.parquet]
-    A --> F[scripts/generate_customer_analytics.py]
-    E --> F
-    F --> G[data/curated/*.parquet]
-    F --> H[data/marts/*.parquet]
-    F --> I[data/bi_exports/*.csv]
-    F --> J[data/customer_analytics_manifest.json]
-    H --> L[scripts/export_salesforce_crma.py]
-    L --> M[data/salesforce_crma/*.csv and schemas/*.json]
-    D --> K[data/manifest.json]
+    A --> F[scripts/generate_customer_portfolio_sample.py]
+    F --> G[scripts/generate_customer_analytics.py]
+    E --> G
+    G --> H[support_analytics/customer_analytics/ pipeline]
+    H --> I[data/curated/*.parquet]
+    H --> J[data/marts/*.parquet]
+    H --> K[data/bi_exports/*.csv]
+    H --> L[data/customer_analytics_manifest.json]
+    J --> M[scripts/export_salesforce_crma.py]
+    M --> N[data/salesforce_crma/*.csv and schemas/*.json]
 ```
 
-### API and Frontend Flow
+### API and frontend flow
 
 ```mermaid
 flowchart LR
-    A[Parquet and mart artifacts] --> B[FastAPI routers and services]
+    A[data artifacts] --> B[backend/app/services and routers]
     B --> C[openapi.json]
-    C --> D[openapi-typescript]
-    D --> E[frontend/src/lib/api/generated/schema.ts]
-    E --> F[Typed API hooks]
-    F --> G[Next.js App Router pages]
-    G --> H[Operational dashboards and customer analytics views]
+    C --> D[frontend/src/lib/api/generated/schema.ts]
+    D --> E[frontend query adapters and hooks]
+    E --> F[Figma-backed route pages]
 ```
 
-### BI Export Workflow
+### Current internal structure
 
-```mermaid
-flowchart LR
-    A[DuckDB marts] --> B[data/bi_exports/*.csv]
-    A --> C[scripts/export_salesforce_crma.py]
-    C --> D[data/salesforce_crma CSVs and schema JSON]
-    B --> E[Tableau / Power BI / Looker Studio]
-    D --> F[CRM Analytics dataset upload]
-    F --> G[Customer 360, churn, retention, LTV, support, and expansion dashboards]
-```
+- `scripts/generate_customer_analytics.py` is the stable ETL entrypoint.
+- `support_analytics/customer_analytics/` contains the actual customer analytics ETL implementation:
+  - `sources.py` for raw loading and validation
+  - `scoring.py` for Customer 360 enrichment
+  - `marts.py` for DuckDB mart/export generation
+  - `artifacts.py` for manifest and artifact helpers
+  - `pipeline.py` for orchestration
+- `backend/app/http/` contains HTTP-layer middleware and shared error handling.
+- `backend/app/services/customer_analytics_core/` contains mart caching, overview assembly, list/detail readers, and normalization helpers behind the public service facade.
+- `salesforce/design/` contains the CRM Analytics dashboard styling and validation utilities. The Python scripts, design system, and hand-authored guidance are source; generated reports and intermediate dashboard outputs belong under `salesforce/output/`.
+- Historical notes or scratch output should not return to `tools/crma_style/`; that older path is intentionally out of the source-of-truth workflow.
 
-## Product Surface
+## Repo Map and Ownership Boundaries
 
-Current routed pages:
+### Source of truth
 
-- `/dashboard`: support operations overview with KPI cards, call volume, issue mix, region performance, insights, and latest calls.
-- `/metrics`: filtered performance drilldown with KPI comparisons, channel quality, SLA context, and regional breakdowns.
-- `/calls`: searchable call explorer with focus cards and a paginated interaction table.
-- `/calls/[callId]`: interaction detail with timeline, signals, region context, and linked agent data.
-- `/agents`: leaderboard and spotlight views for support agent performance.
-- `/customer-analytics`: Customer 360 overview across health, churn exposure, actions, and exports.
-- `/customer-analytics/churn-risk`: prioritized churn queue.
-- `/customer-analytics/retention`: cohort retention and segment summaries.
-- `/customer-analytics/ltv`: lifetime-value analysis by segment and plan.
-- `/settings`: manifest, refresh controls, and environment diagnostics.
+- `backend/app/`: FastAPI app, routers, schemas, services, and tests
+- `frontend/src/app/`: Next.js routes
+- `frontend/src/figma/`: current routed UI compositions and shell
+- `frontend/src/features/`: feature hooks, adapters, static demo data, and feature-local types
+- `frontend/src/lib/`: shared API client, generated schema consumption, transformers, and utilities
+- `support_analytics/`: Python ETL support packages
+- `scripts/`: public generation/export entrypoints and compatibility shims
+- `sql/`: DuckDB mart definitions
+- `salesforce/`: the full CRM Analytics workspace, including metadata, design tooling, tests, manifests, and subsystem docs
+- `bi/`: non-Salesforce BI documentation such as Tableau-oriented notes
+- `docs/`: architecture notes, screenshots, QA notes, demo support, and interview collateral
 
-The index route redirects to `/dashboard`.
+### Checked-in generated artifacts
 
-## Screenshots
+These are intentionally committed because they are part of the portfolio/demo contract:
 
-These captures come from the GitHub Pages demo and show the support ops and Customer 360 views recruiters can scan quickly.
+- `openapi.json`
+- `frontend/src/lib/api/generated/schema.ts`
+- `data/cleaned_calls.parquet`
+- `data/curated/*.parquet`
+- `data/marts/*.parquet`
+- `data/bi_exports/*.csv`
+- `data/customer_analytics_manifest.json`
+- `data/manifest.json`
+- `data/salesforce_crma/*.csv`
+- `data/salesforce_crma/schemas/*.json`
 
-<img src="docs/screenshots/readme-gallery.png" alt="Customer Success Analytics Command Center screenshot montage" width="100%" />
+### Local-only or ephemeral artifacts
 
-## Data Products and Contracts
+These should remain untracked:
 
-Key generated artifacts:
+- editor and local IDE state
+- virtual environments and caches
+- Playwright scratch data and ad hoc screenshot output
+- Salesforce CLI auth state
+- generated CRM Analytics QA reports and intermediate `.wdash` files under `salesforce/output/`
 
-- `data/cleaned_calls.parquet`: curated support-call dataset produced from deterministic sample data.
-- `data/curated/*.parquet`: curated Customer 360 dimension-style outputs.
-- `data/marts/*.parquet`: analytical marts for churn risk, retention, LTV, health, support impact, expansion, and segments.
-- `data/bi_exports/*.csv`: flat exports designed for BI tools.
-- `data/manifest.json` and `data/customer_analytics_manifest.json`: refresh metadata and lineage artifacts.
-- `openapi.json`: checked-in backend contract source for deterministic frontend type generation.
+### Documentation boundaries
 
-Key marts:
+- `docs/architecture/`: technical architecture blueprints and system notes
+- `docs/demo/`: demo scripts, expansion planning, and recruiter walkthrough support
+- `docs/qa/`: temporary but worth-keeping QA or design verification notes
+- `docs/screenshots/`: curated screenshots used by the README and demo material
 
-- `customer_360`
-- `churn_risk_accounts`
-- `retention_cohorts`
-- `ltv_by_segment`
-- `customer_health_scores`
-- `support_impact_on_churn`
-- `expansion_opportunities`
-- `segment_performance`
+## Local Setup, Validation, and Publish Workflow
 
-The frontend consumes generated schema types in `frontend/src/lib/api/generated/schema.ts` through centralized hooks. Static demo mode is handled in the data layer rather than page-local mocks.
-
-## Local Workflow
-
-### 1. Install dependencies
+### Install dependencies
 
 ```bash
 pip install -r requirements.txt -r backend/requirements.txt
 npm --prefix frontend install
 ```
 
-### 2. Generate sample and analytics data
+### Generate local data
 
 ```bash
 python scripts/generate_support_sample.py
 python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
+python scripts/generate_customer_portfolio_sample.py --accounts 100
 python scripts/generate_customer_analytics.py
+python scripts/export_salesforce_crma.py
 ```
 
-The generated data uses deterministic identifiers and remains compatible with backend contracts and frontend hooks.
-
-### 3. Run the backend
+### Run the backend
 
 ```bash
 uvicorn backend.app.main:app --reload
 ```
 
-Optional health check:
+Health check:
 
 ```bash
 curl http://localhost:8000/api/healthz
 ```
 
-### 4. Generate frontend API types
+### Generate the frontend API contract
 
 ```bash
+python scripts/export_openapi.py --output openapi.json
 npm --prefix frontend run api:generate:local
 ```
 
-To regenerate types from a running FastAPI service instead:
-
-```bash
-npm --prefix frontend run api:generate
-```
-
-### 5. Run the frontend
+### Run the frontend
 
 ```bash
 npm --prefix frontend run dev
@@ -170,82 +168,66 @@ npm --prefix frontend run dev
 
 Open `http://localhost:3000/dashboard`.
 
-## Publishing and Static Demo
-
-For local production verification:
+### Full validation subset
 
 ```bash
+python -m pytest tests backend/app/tests
+python scripts/generate_customer_analytics.py
+python scripts/export_openapi.py --output openapi.json
+npm --prefix frontend run api:generate:local
+npm --prefix frontend run test
 npm --prefix frontend run build
 ```
 
-For GitHub Pages export:
+### Static demo and publishing
 
 ```bash
 GITHUB_PAGES=true npm --prefix frontend run build
 ```
 
-`main` is the source branch. `gh-pages` is reserved for published static output. Static demo mode is activated by GitHub Pages detection or by setting `NEXT_PUBLIC_STATIC_DEMO=true`, which allows deterministic fixture-backed responses without requiring FastAPI.
+Static demo mode is enabled by GitHub Pages detection or `NEXT_PUBLIC_STATIC_DEMO=true`. This keeps the portfolio demo deterministic without requiring a live FastAPI service.
 
-## Validation Commands
+## Artifact Policy and CRM Analytics/Tableau Notes
 
-Recommended full validation pass:
+### Artifact policy
 
-```bash
-python scripts/generate_support_sample.py
-python scripts/generate_parquet.py --input data/sample_calls.json --agents data/agents.csv --output data/cleaned_calls.parquet
-python scripts/generate_customer_analytics.py
-python scripts/export_salesforce_crma.py
-python -m pytest tests backend/app/tests
-python scripts/export_openapi.py --output openapi.json
-npm --prefix frontend run api:generate:local
-npm --prefix frontend run lint
-npm --prefix frontend run test
-npm --prefix frontend run build
-```
+- Source code lives under `backend/`, `frontend/`, `support_analytics/`, `scripts/`, `sql/`, `salesforce/`, and selected `docs/`.
+- Generated artifacts that are part of the demo contract remain checked in.
+- Local-only QA output, caches, auth state, and scratch screenshots are not source and should stay ignored.
+- README commands should point at stable public entrypoints, not internal helper modules.
+- Root wrappers under `scripts/` may delegate into `salesforce/scripts/` or `support_analytics/`, but they remain part of the public local workflow.
 
-## Salesforce CRM Analytics Export
+### CRM Analytics readiness
 
-After generating the customer analytics marts, the repository can produce a dedicated CRM Analytics-ready delivery layer:
+This repository demonstrates CRM Analytics readiness, not live production synchronization.
 
-```bash
-python scripts/generate_customer_analytics.py
-python scripts/export_salesforce_crma.py
-```
+- `scripts/export_salesforce_crma.py` writes six CRM Analytics-ready datasets to `data/salesforce_crma/`.
+- `salesforce/` contains the portable Salesforce DX project, Wave application, dashboards, XMD metadata, style tooling, tests, and deployment manifests.
+- `salesforce/scripts/build_salesforce_crma_metadata.py` is the primary Salesforce metadata builder; the root `scripts/build_salesforce_crma_metadata.py` path remains a compatibility shim.
+- `salesforce/scripts/upload_salesforce_crma.py` is the primary dataset upload helper; the root `scripts/upload_salesforce_crma.py` path remains a compatibility shim.
 
-The exporter writes six domain datasets to `data/salesforce_crma/`: Customer 360, churn risk accounts, retention cohorts, LTV by segment, expansion opportunities, and support impact on churn. It converts modeled columns to readable Salesforce-style custom field names and creates field-level schema JSON under `data/salesforce_crma/schemas/` with inferred types and suggested CRM Analytics roles. See `data/salesforce_crma/README.md` for dataset definitions and a Developer Edition upload walkthrough.
+See:
 
-This export demonstrates **Salesforce CRM Analytics readiness** for portfolio review. It does not claim a live Salesforce production integration, automated org deployment, or ongoing synchronization.
+- [salesforce/README.md](C:/Users/Yoshi/Documents/GitHub/aws-serverless-support-analytics/salesforce/README.md)
+- [data/salesforce_crma/README.md](C:/Users/Yoshi/Documents/GitHub/aws-serverless-support-analytics/data/salesforce_crma/README.md)
+- [salesforce/design/README.md](C:/Users/Yoshi/Documents/GitHub/aws-serverless-support-analytics/salesforce/design/README.md)
 
-## BI and CRM Analytics Readiness
+### BI documentation
 
-This project does not claim a live Salesforce, Tableau, or AWS integration. It demonstrates implementation readiness through analytics artifacts and documentation:
+The project includes implementation-readiness material for CRM Analytics and Tableau-style delivery:
 
-- Tableau notes: `bi/tableau/README.md`
-- Salesforce CRM Analytics mapping: `bi/salesforce_crma/dataset_mapping.md`
-- Recipe planning: `bi/salesforce_crma/recipe_plan.md`
-- Dashboard wireframe: `bi/salesforce_crma/dashboard_wireframe.md`
-- SAQL examples: `bi/salesforce_crma/saql_examples.md`
+- `salesforce/docs/bi/dataset_mapping.md`
+- `salesforce/docs/bi/recipe_plan.md`
+- `salesforce/docs/bi/dashboard_wireframe.md`
+- `salesforce/docs/bi/saql_examples.md`
+- `bi/tableau/README.md`
 
-## Repository Map
+### Portfolio positioning
 
-```text
-backend/app/                  FastAPI routers, services, schemas, and tests
-data/raw/                     Source customer and account datasets
-data/curated/                 Curated Customer 360 Parquet outputs
-data/marts/                   DuckDB mart Parquet outputs
-data/bi_exports/              BI-ready CSV exports
-data/salesforce_crma/          CRM Analytics-ready CSVs, schemas, and upload guidance
-frontend/src/app/             Next.js App Router routes
-frontend/src/figma/           Routed redesign compositions and UI primitives
-frontend/src/lib/api/         API client, generated schema, hooks, and static demo fixtures
-frontend/src/lib/viz/         DTO-to-UI transformers
-sql/                          DuckDB mart definitions
-scripts/                      Data generation, analytics processing, and OpenAPI export
-bi/                           Tableau and CRM Analytics documentation
-docs/                         Architecture, demo, screenshot, resume, and interview support
-openapi.json                  Checked-in backend contract for deterministic type generation
-```
+This project is intended to show:
 
-## Portfolio Relevance
-
-This project demonstrates end-to-end ownership across analytics engineering, SQL modeling, API design, typed frontend integration, BI export readiness, and clear technical documentation. It is designed to be run, inspected, and discussed in a software development, analytics engineering, business intelligence, or customer analytics interview.
+- customer lifecycle analytics and Customer 360 modeling
+- ETL implementation and SQL mart design
+- typed backend/frontend contract ownership
+- BI export readiness and metadata packaging
+- pragmatic product delivery with a local-first demo path
