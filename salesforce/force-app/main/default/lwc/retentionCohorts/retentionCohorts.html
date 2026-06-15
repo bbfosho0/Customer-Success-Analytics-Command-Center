@@ -1,0 +1,194 @@
+<template>
+    <section class="dashboard-page">
+        <template if:true={showStatus}>
+            <div class="status-banner">{statusMessage}</div>
+        </template>
+        <template if:true={errorMessage}>
+            <div class="status-banner status-banner_error">Unable to load retention data: {errorMessage}</div>
+        </template>
+        <div class="hero-card">
+            <div class="hero-copy">
+                <p class="eyebrow">Command Center Drilldown</p>
+                <div class="hero-title-row">
+                    <h1>Retention Cohorts</h1>
+                    <span class="hero-badge">{summaryBadge}</span>
+                </div>
+                <p class="hero-description">
+                    Read retention health, cohort durability, and segment-level LTV context from a purpose-built LWC page instead of CRMA embeds.
+                </p>
+                <div class="hero-stat-row">
+                    <template for:each={heroStats} for:item="stat">
+                        <div key={stat.key} class="hero-stat">
+                            <span class="hero-stat-label">{stat.label}</span>
+                            <span class="hero-stat-value">{stat.value}</span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <section class="filters-card">
+            <div class="filters-intro">
+                <div>
+                    <p class="filters-eyebrow">Control surface</p>
+                    <h2>Retention scope</h2>
+                </div>
+                <p>{filterSummary}</p>
+            </div>
+            <div class="filters-grid">
+                <label class="filter-field">
+                    <span>Segment</span>
+                    <select name="segment" value={filters.segment} onchange={handleFilterChange}>
+                        <template for:each={segmentOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+                <label class="filter-field">
+                    <span>Cohort window</span>
+                    <select name="window" value={filters.window} onchange={handleFilterChange}>
+                        <template for:each={windowOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+                <label class="filter-field">
+                    <span>Region</span>
+                    <select name="region" value={filters.region} onchange={handleFilterChange}>
+                        <template for:each={regionOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+            </div>
+        </section>
+
+        <section class="kpi-grid">
+            <template for:each={kpis} for:item="card">
+                <article key={card.key} class={card.accentClass}>
+                    <div class="kpi-card">
+                        <p class="kpi-label">{card.label}</p>
+                        <p class="kpi-value">{card.value}</p>
+                        <p class="kpi-hint">{card.hint}</p>
+                    </div>
+                </article>
+            </template>
+        </section>
+
+        <section class="main-grid">
+            <article class="surface-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Cohort Retention Curve</h2>
+                        <p>Retention by month index across the selected cohort window.</p>
+                    </div>
+                </div>
+                <div class="bar-list">
+                    <template for:each={retentionRows} for:item="row">
+                        <div key={row.key} class="bar-row">
+                            <div class="bar-meta">
+                                <span class="bar-label">
+                                    <span class="bar-dot" style={row.dotStyle}></span>
+                                    {row.label}
+                                </span>
+                                <span class="bar-value">{row.valueLabel}</span>
+                            </div>
+                            <div class="bar-rail">
+                                <div class="bar-fill" style={row.barStyle}></div>
+                            </div>
+                            <div class="bar-percent">{row.percentLabel}</div>
+                        </div>
+                    </template>
+                </div>
+            </article>
+
+            <article class="surface-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Segment LTV Context</h2>
+                        <p>How value and retention durability compare by cohort segment.</p>
+                    </div>
+                </div>
+                <div class="driver-list">
+                    <template for:each={segmentRows} for:item="row">
+                        <div key={row.key} class="driver-row">
+                            <div>
+                                <p class="driver-label">{row.label}</p>
+                                <p class="driver-subtext">{row.retentionLabel}</p>
+                            </div>
+                            <div class="driver-metric">
+                                <span class="driver-value">{row.ltvLabel}</span>
+                                <span class="driver-share">{row.arrLabel}</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </article>
+        </section>
+
+        <section class="secondary-grid">
+            <article class="surface-card table-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Retention Table</h2>
+                        <p>Compact cohort view with retention and expansion context.</p>
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cohort</th>
+                                <th>Segment</th>
+                                <th>Customers</th>
+                                <th>Month 3</th>
+                                <th>Month 6</th>
+                                <th>LTV</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={tableRows} for:item="row">
+                                <tr key={row.id}>
+                                    <td>
+                                        <div class="table-primary">{row.cohortLabel}</div>
+                                        <div class="table-secondary">{row.regionLabel} · {row.windowLabel}</div>
+                                    </td>
+                                    <td>{row.segmentLabel}</td>
+                                    <td>{row.customers}</td>
+                                    <td>{row.month3Label}</td>
+                                    <td>{row.month6Label}</td>
+                                    <td>{row.ltvLabel}</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="surface-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Regional Resilience</h2>
+                        <p>Retention strength and cohort concentration by region.</p>
+                    </div>
+                </div>
+                <div class="owner-list">
+                    <template for:each={regionRows} for:item="row">
+                        <div key={row.key} class="owner-row">
+                            <div class="owner-meta">
+                                <div>
+                                    <p class="owner-name">{row.regionLabel}</p>
+                                    <p class="owner-subtext">{row.cohorts} cohorts · {row.retentionLabel}</p>
+                                </div>
+                                <p class="owner-value">{row.arrLabel}</p>
+                            </div>
+                            <div class="owner-meter">
+                                <div class="owner-meter-fill" style={row.meterStyle}></div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </article>
+        </section>
+    </section>
+</template>

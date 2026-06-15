@@ -1,0 +1,197 @@
+<template>
+    <section class="dashboard-page">
+        <template if:true={showStatus}>
+            <div class="status-banner">{statusMessage}</div>
+        </template>
+        <template if:true={errorMessage}>
+            <div class="status-banner status-banner_error">Unable to load at-risk data: {errorMessage}</div>
+        </template>
+        <div class="hero-card">
+            <div class="hero-copy">
+                <p class="eyebrow">Command Center Drilldown</p>
+                <div class="hero-title-row">
+                    <h1>At-Risk Drilldown</h1>
+                    <span class="hero-badge">{summaryBadge}</span>
+                </div>
+                <p class="hero-description">
+                    Focus the risk queue on revenue exposure, primary driver concentration, and the accounts most likely to need intervention.
+                </p>
+                <div class="hero-stat-row">
+                    <template for:each={heroStats} for:item="stat">
+                        <div key={stat.key} class="hero-stat">
+                            <span class="hero-stat-label">{stat.label}</span>
+                            <span class="hero-stat-value">{stat.value}</span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <section class="filters-card">
+            <div class="filters-intro">
+                <div>
+                    <p class="filters-eyebrow">Control surface</p>
+                    <h2>Risk scope</h2>
+                </div>
+                <p>{filterSummary}</p>
+            </div>
+            <div class="filters-grid">
+                <label class="filter-field">
+                    <span>Region</span>
+                    <select name="region" value={filters.region} onchange={handleFilterChange}>
+                        <template for:each={regionOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+                <label class="filter-field">
+                    <span>Severity</span>
+                    <select name="severity" value={filters.severity} onchange={handleFilterChange}>
+                        <template for:each={severityOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+                <label class="filter-field">
+                    <span>Owner</span>
+                    <select name="owner" value={filters.owner} onchange={handleFilterChange}>
+                        <template for:each={ownerOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+            </div>
+        </section>
+
+        <section class="kpi-grid">
+            <template for:each={kpis} for:item="card">
+                <article key={card.key} class={card.accentClass}>
+                    <div class="kpi-card">
+                        <p class="kpi-label">{card.label}</p>
+                        <p class="kpi-value">{card.value}</p>
+                        <p class="kpi-hint">{card.hint}</p>
+                    </div>
+                </article>
+            </template>
+        </section>
+
+        <section class="main-grid">
+            <article class="surface-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Risk-Band Exposure</h2>
+                        <p>Current ARR concentration by risk severity.</p>
+                    </div>
+                </div>
+                <div class="bar-list">
+                    <template for:each={riskBandRows} for:item="row">
+                        <div key={row.key} class="bar-row">
+                            <div class="bar-meta">
+                                <span class="bar-label">
+                                    <span class="bar-dot" style={row.dotStyle}></span>
+                                    {row.label}
+                                </span>
+                                <span class="bar-value">{row.valueLabel}</span>
+                            </div>
+                            <div class="bar-rail">
+                                <div class="bar-fill" style={row.barStyle}></div>
+                            </div>
+                            <div class="bar-percent">{row.percentLabel}</div>
+                        </div>
+                    </template>
+                </div>
+            </article>
+
+            <article class="surface-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Primary Risk Drivers</h2>
+                        <p>Most frequent blockers across the current queue.</p>
+                    </div>
+                </div>
+                <div class="driver-list">
+                    <template for:each={driverRows} for:item="row">
+                        <div key={row.key} class="driver-row">
+                            <div>
+                                <p class="driver-label">{row.label}</p>
+                                <p class="driver-subtext">{row.accounts} accounts</p>
+                            </div>
+                            <div class="driver-metric">
+                                <span class="driver-value">{row.arrLabel}</span>
+                                <span class="driver-share">{row.shareLabel}</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </article>
+        </section>
+
+        <section class="secondary-grid">
+            <article class="surface-card table-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Priority Account Queue</h2>
+                        <p>Accounts ranked by severity, exposure, and recency of intervention need.</p>
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account</th>
+                                <th>Owner</th>
+                                <th>Risk</th>
+                                <th>ARR</th>
+                                <th>Driver</th>
+                                <th>Renewal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={queueRows} for:item="row">
+                                <tr key={row.id}>
+                                    <td>
+                                        <div class="table-primary">{row.accountName}</div>
+                                        <div class="table-secondary">{row.regionLabel} · {row.lastTouchLabel}</div>
+                                    </td>
+                                    <td>{row.owner}</td>
+                                    <td><span class="pill" style={row.pillStyle}>{row.riskLabel}</span></td>
+                                    <td>{row.arrLabel}</td>
+                                    <td>{row.primaryRisk}</td>
+                                    <td>
+                                        <div class="table-primary">{row.renewalMonth}</div>
+                                        <div class="table-secondary">{row.nextAction}</div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="surface-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Owner Coverage</h2>
+                        <p>Where revenue concentration and critical-account load sit today.</p>
+                    </div>
+                </div>
+                <div class="owner-list">
+                    <template for:each={ownerRows} for:item="row">
+                        <div key={row.key} class="owner-row">
+                            <div class="owner-meta">
+                                <div>
+                                    <p class="owner-name">{row.owner}</p>
+                                    <p class="owner-subtext">{row.accounts} accounts · {row.criticalLabel}</p>
+                                </div>
+                                <p class="owner-value">{row.arrLabel}</p>
+                            </div>
+                            <div class="owner-meter">
+                                <div class="owner-meter-fill" style={row.meterStyle}></div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </article>
+        </section>
+    </section>
+</template>

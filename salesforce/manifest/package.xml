@@ -5,6 +5,42 @@
         <name>WaveApplication</name>
     </types>
     <types>
+        <members>CustomerSuccessCommandCenter_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>AtRiskDrilldown_Page</members>
+        <members>ExpansionPipeline_Page</members>
+        <members>RetentionCohorts_Page</members>
+        <members>CustomerSuccessCommandCenter_Page</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>CustomerSuccessCommandCenter</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>atRiskDrilldown</members>
+        <members>customerSuccessCommandCenter</members>
+        <members>dashboardUtils</members>
+        <members>expansionPipeline</members>
+        <members>retentionCohorts</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>CustomerSuccessDashboardController</members>
+        <members>CustomerSuccessDashboardControllerTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>CustomerSuccessDashboardSampleData</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>CustomerSuccessCommandCenterAccess</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
         <members>Landing_Page</members>
         <members>At_Risk_Account_Dashboard</members>
         <members>Expansion_Pipeline_Dashboard</members>
@@ -22,4 +58,3 @@
     </types>
     <version>66.0</version>
 </Package>
-

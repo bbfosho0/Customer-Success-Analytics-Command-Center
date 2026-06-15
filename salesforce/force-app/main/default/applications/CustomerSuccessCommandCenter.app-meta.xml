@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <defaultLandingTab>CustomerSuccessCommandCenter_Page</defaultLandingTab>
+    <description>Dedicated Lightning app for the Customer Success Command Center and related CRM Analytics drilldowns.</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>Customer Success Command Center</label>
+    <tabs>CustomerSuccessCommandCenter_Page</tabs>
+    <tabs>AtRiskDrilldown_Page</tabs>
+    <tabs>ExpansionPipeline_Page</tabs>
+    <tabs>RetentionCohorts_Page</tabs>
+</CustomApplication>

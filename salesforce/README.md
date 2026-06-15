@@ -1,18 +1,32 @@
-# CRM Analytics Workspace
+# Salesforce Analytics Workspace
 
-This folder is the single Salesforce CRM Analytics workspace for the project. It versions the portfolio-safe CRM Analytics app and the tooling used to inspect, style, validate, and deploy that metadata. The CSV exports under `data/salesforce_crma/` remain the generated dataset boundary consumed by this workspace.
+This folder is the single Salesforce workspace for the project. It versions both the CRM Analytics metadata layer and the Salesforce-native LWC app layer. The CSV exports under `data/salesforce_crma/` remain the generated sample-data boundary consumed by this workspace.
 
 The metadata uses API version 66.0 and is designed for a CRM Analytics-enabled Developer Edition org. It demonstrates deployable dashboard and extended metadata assets; it is not a production connector, scheduled synchronization process, or managed package.
 
 ## Workspace map
 
 - `force-app/main/default/wave/`: deployable Wave dashboards, app metadata, and XMD
+- `force-app/main/default/lwc/`: surfaced Salesforce dashboard app pages
+- `force-app/main/default/classes/`: Apex controllers and server-side sample-data parsing
+- `force-app/main/default/staticresources/`: packaged sample-data payloads for the LWC app
 - `manifest/`: scoped deploy manifests
-- `scripts/`: Salesforce-specific metadata builders and upload helpers
+- `scripts/`: Salesforce-specific metadata builders, sample-data packaging, and upload helpers
 - `design/`: style system, dashboard inventory tools, validators, and layout plans
 - `docs/`: subsystem documentation, QA notes, and BI mapping material
 - `tests/`: Salesforce-specific pytest coverage
 - `output/`: local generated audit reports and temporary styled `.wdash` variants
+
+## Current surfaced app
+
+The current user-facing Salesforce experience is a custom Lightning app, `Customer Success Command Center`, with four LWC pages:
+
+- `Command Center`
+- `At-Risk Drilldown`
+- `Expansion Pipeline`
+- `Retention Cohorts`
+
+Those pages are powered by `CustomerSuccessDashboardController`, which reads packaged sample data from the static resource `CustomerSuccessDashboardSampleData`. The payload is generated from the checked-in CSV exports under `data/salesforce_crma/`.
 
 ## Versioned metadata
 
@@ -57,6 +71,7 @@ because it writes the shared `data/salesforce_crma/` artifacts.
 python scripts/generate_customer_portfolio_sample.py --accounts 100
 python scripts/generate_customer_analytics.py
 python scripts/export_salesforce_crma.py
+python salesforce/scripts/build_dashboard_sample_resources.py
 python salesforce/scripts/build_salesforce_crma_metadata.py
 python -m pytest salesforce/tests
 ```
@@ -96,6 +111,16 @@ sf project deploy start --target-org <org-alias> --manifest manifest/landing-pag
 ```
 
 Use `sf project retrieve start --target-org <org-alias> --manifest manifest/package.xml` only when intentionally refreshing the Git baseline from an org. A retrieve can replace local dashboard JSON.
+
+## Presentation guidance
+
+To present the Salesforce part of the project:
+
+1. Open the Lightning app `Customer Success Command Center`.
+2. Start on `Command Center` to show the executive overview and filter surface.
+3. Move across the top nav into `At-Risk Drilldown`, `Expansion Pipeline`, and `Retention Cohorts`.
+4. Explain that the app is Apex-backed, but intentionally uses packaged CSV-derived sample data so the experience is stable and portable for demo use.
+5. Position the CRMA assets as the retained analytics metadata layer, not the primary UI.
 
 ## Design workflow
 
