@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>CustomerSuccessDashboardController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <applicationVisibilities>
+        <application>CustomerSuccessCommandCenter</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <description>Access to the Customer Success Command Center app and dashboard tab.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Customer Success Command Center Access</label>
+    <tabSettings>
+        <tab>AtRiskDrilldown_Page</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>ExpansionPipeline_Page</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>CustomerSuccessCommandCenter_Page</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>RetentionCohorts_Page</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

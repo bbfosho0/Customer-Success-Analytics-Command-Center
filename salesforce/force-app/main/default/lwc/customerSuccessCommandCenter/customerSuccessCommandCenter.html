@@ -1,0 +1,276 @@
+<template>
+    <section class="command-center">
+        <template if:true={showStatus}>
+            <div class="status-banner">{statusMessage}</div>
+        </template>
+        <template if:true={errorMessage}>
+            <div class="status-banner status-banner_error">Unable to load dashboard data: {errorMessage}</div>
+        </template>
+        <div class="header-card">
+            <div class="header-copy">
+                <p class="eyebrow">Customer Success Command Center</p>
+                <div class="header-title-row">
+                    <h1>Executive Overview</h1>
+                    <span class="summary-badge">{summaryBadge}</span>
+                </div>
+                <p class="header-subtitle">
+                    Polished Salesforce frontend for customer health, renewal risk, and expansion readiness.
+                </p>
+                <p class="header-meta">{pageSubtitle}</p>
+                <div class="header-stat-row">
+                    <template for:each={headerStats} for:item="stat">
+                        <div key={stat.key} class="header-stat-chip">
+                            <span class="header-stat-label">{stat.label}</span>
+                            <span class="header-stat-value">{stat.value}</span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="header-actions-copy">
+                    <p class="header-actions-title">App drilldowns</p>
+                    <p class="header-actions-body">Stay inside the LWC app shell while drilling from the overview into focused risk, pipeline, and retention pages.</p>
+                </div>
+                <template for:each={headerActions} for:item="action">
+                    <button
+                        key={action.key}
+                        class="header-action"
+                        data-key={action.key}
+                        onclick={handleDrilldown}
+                        type="button"
+                    >
+                        <span>{action.label}</span>
+                        <span class="header-action-state">{action.stateLabel}</span>
+                    </button>
+                </template>
+            </div>
+        </div>
+
+        <section class="filters-card">
+            <div class="filters-intro">
+                <div>
+                    <p class="filters-eyebrow">Control surface</p>
+                    <h2>Portfolio filters</h2>
+                </div>
+                <p>{activeFilterSummary}</p>
+            </div>
+            <div class="filters-grid">
+                <label class="filter-field">
+                    <span>Portfolio</span>
+                    <select name="portfolio" value={filters.portfolio} onchange={handleFilterChange}>
+                        <template for:each={portfolioOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+                <label class="filter-field">
+                    <span>Segment</span>
+                    <select name="segment" value={filters.segment} onchange={handleFilterChange}>
+                        <template for:each={segmentOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+                <label class="filter-field">
+                    <span>Risk band</span>
+                    <select name="riskBand" value={filters.riskBand} onchange={handleFilterChange}>
+                        <template for:each={riskBandOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+                <label class="filter-field">
+                    <span>Region</span>
+                    <select name="region" value={filters.region} onchange={handleFilterChange}>
+                        <template for:each={regionOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+                <label class="filter-field">
+                    <span>Time window</span>
+                    <select name="timeWindow" value={filters.timeWindow} onchange={handleFilterChange}>
+                        <template for:each={timeWindowOptions} for:item="option">
+                            <option key={option.value} value={option.value}>{option.label}</option>
+                        </template>
+                    </select>
+                </label>
+            </div>
+            <div class="filters-footer">
+                <div class="filter-pills">
+                    <template for:each={activeFilterPills} for:item="pill">
+                        <button
+                            key={pill.key}
+                            class="filter-pill"
+                            data-filter={pill.key}
+                            onclick={handleRemoveFilter}
+                            type="button"
+                        >
+                            {pill.label}
+                        </button>
+                    </template>
+                </div>
+                <button class="reset-button" onclick={handleResetFilters} type="button">Reset filters</button>
+            </div>
+        </section>
+
+        <section class="kpi-grid">
+            <template for:each={kpiCards} for:item="card">
+                <article key={card.key} class={card.accentClass}>
+                    <div class="kpi-card">
+                        <p class="kpi-label">{card.label}</p>
+                        <p class="kpi-value">{card.value}</p>
+                        <p class="kpi-hint">{card.hint}</p>
+                    </div>
+                </article>
+            </template>
+        </section>
+
+        <section class="main-grid">
+            <article class="surface-card chart-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Current MRR Exposure by Risk Band</h2>
+                        <p>Revenue concentration across the filtered portfolio snapshot.</p>
+                    </div>
+                </div>
+                <div class="exposure-list">
+                    <template for:each={riskExposureSegments} for:item="segment">
+                        <div key={segment.key} class="exposure-row">
+                            <div class="exposure-meta">
+                                <span class="exposure-label">
+                                    <span class="marker" style={segment.markerStyle}></span>
+                                    {segment.label}
+                                </span>
+                                <span class="exposure-value">{segment.displayValue}</span>
+                            </div>
+                            <div class="exposure-rail" style={segment.railStyle}>
+                                <div class="exposure-bar" style={segment.barStyle}></div>
+                            </div>
+                            <div class="exposure-percent">{segment.percentLabel}</div>
+                        </div>
+                    </template>
+                </div>
+            </article>
+
+            <article class="surface-card chart-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Portfolio Health Mix</h2>
+                        <p>Account distribution by health state within the current filter set.</p>
+                    </div>
+                </div>
+                <div class="health-mix-layout">
+                    <div class="health-ring-shell">
+                        <div class="health-ring" style={healthMixRingStyle}>
+                            <div class="health-ring-center">
+                                <span class="health-ring-value">{healthMixCenterLabel}</span>
+                                <span class="health-ring-label">Avg health</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="health-legend">
+                        <template for:each={healthMixSegments} for:item="segment">
+                            <div key={segment.key} class="legend-row">
+                                <span class="legend-label">
+                                    <span class="legend-swatch" style={segment.swatchStyle}></span>
+                                    {segment.label}
+                                </span>
+                                <span class="legend-stat">{segment.count} · {segment.percentLabel}</span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="health-grid">
+            <template for:each={healthRiskCards} for:item="card">
+                <article key={card.key} class="surface-card summary-card">
+                    <div class="summary-card-copy">
+                        <p class="summary-card-label">{card.label}</p>
+                        <p class={card.toneClass}>{card.value}</p>
+                        <p class="summary-card-detail">{card.detail}</p>
+                    </div>
+                </article>
+            </template>
+        </section>
+
+        <section class="secondary-grid">
+            <article class="surface-card table-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Priority Risk Queue</h2>
+                        <p>Top accounts ranked by risk severity, revenue exposure, and health score.</p>
+                    </div>
+                </div>
+                <template if:true={noData}>
+                    <div class="empty-state">No accounts match the current filters.</div>
+                </template>
+                <template if:false={noData}>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Account</th>
+                                    <th>CSM</th>
+                                    <th>Risk</th>
+                                    <th>ARR</th>
+                                    <th>Pipeline</th>
+                                    <th>Primary driver</th>
+                                    <th>Renewal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={priorityQueueRows} for:item="row">
+                                    <tr key={row.id}>
+                                        <td>
+                                            <div class="table-primary">{row.accountName}</div>
+                                            <div class="table-secondary">{row.id} · {row.freshnessLabel}</div>
+                                        </td>
+                                        <td>{row.csm}</td>
+                                        <td>
+                                            <span class="risk-pill" style={row.riskPillStyle}>{row.riskLabel}</span>
+                                        </td>
+                                        <td>{row.arrLabel}</td>
+                                        <td>{row.pipelineLabel}</td>
+                                        <td>{row.primaryRisk}</td>
+                                        <td>
+                                            <div class="table-primary">{row.renewalMonth}</div>
+                                            <div class="table-secondary">{row.nextStep}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </article>
+
+            <article class="surface-card owner-card">
+                <div class="card-heading">
+                    <div>
+                        <h2>Revenue Requiring Attention by Owner</h2>
+                        <p>Compact owner queue for risk coverage and executive follow-up.</p>
+                    </div>
+                </div>
+                <div class="owner-list">
+                    <template for:each={ownerAttentionRows} for:item="row">
+                        <div key={row.key} class="owner-row">
+                            <div class="owner-meta">
+                                <div>
+                                    <p class="owner-name">{row.owner}</p>
+                                    <p class="owner-subtext">{row.accounts} accounts · {row.criticalLabel}</p>
+                                </div>
+                                <p class="owner-value">{row.arrLabel}</p>
+                            </div>
+                            <div class="owner-meter">
+                                <div class="owner-meter-fill" style={row.meterStyle}></div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </article>
+        </section>
+    </section>
+</template>
