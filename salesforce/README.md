@@ -28,9 +28,9 @@ The current user-facing Salesforce experience is a custom Lightning app, `Custom
 
 Those pages are powered by `CustomerSuccessDashboardController`, which reads packaged sample data from the static resource `CustomerSuccessDashboardSampleData`. The payload is generated from the checked-in CSV exports under `data/salesforce_crma/`.
 
-## Experience Cloud portfolio site
+## Experience Cloud site
 
-The repo now includes a working Experience Cloud portfolio surface as well:
+The repo now includes a working public Experience Cloud surface:
 
 - all four dashboard LWCs expose `lightningCommunity__Page`
 - `force-app/main/default/settings/Communities.settings-meta.xml` enables Digital Experiences metadata through source control
@@ -56,7 +56,7 @@ Current runtime status:
   - `...?page=retention-cohorts`
 - the Experience nav and command-center CTAs use that same URL model so public sharing stays consistent
 
-GitHub Pages remains the zero-friction public demo. The Experience site is now a real Salesforce-hosted companion surface rather than a theoretical next step.
+GitHub Pages remains the main public web demo. The Experience site is the Salesforce-hosted companion surface.
 
 ## Versioned metadata
 
@@ -143,17 +143,9 @@ sf project deploy start --target-org <org-alias> --manifest manifest/landing-pag
 
 Use `sf project retrieve start --target-org <org-alias> --manifest manifest/package.xml` only when intentionally refreshing the Git baseline from an org. A retrieve can replace local dashboard JSON.
 
-## Presentation guidance
+## Public Experience routes
 
-To present the Salesforce part of the project:
-
-1. Open the Lightning app `Customer Success Command Center`.
-2. Start on `Command Center` to show the executive overview and filter surface.
-3. Move across the top nav into `At-Risk Drilldown`, `Expansion Pipeline`, and `Retention Cohorts`.
-4. Explain that the app is Apex-backed, but intentionally uses packaged CSV-derived sample data so the experience is stable and portable for demo use.
-5. Position the CRMA assets as the retained analytics metadata layer, not the primary UI.
-
-For the public Salesforce-branded portfolio surface, open the Experience site and present the four query-param page states:
+The public Experience site exposes these query-param routes:
 
 1. `...?page=command-center`
 2. `...?page=at-risk-drilldown`

@@ -8,9 +8,9 @@
 ![Parquet](https://img.shields.io/badge/Parquet-Analytics%20Artifacts-4A90E2)
 ![Salesforce](https://img.shields.io/badge/Salesforce-LWC%20Dashboard-00A1E0)
 
-Customer Success Analytics Command Center is a local-first analytics engineering portfolio project. It turns raw support, customer, subscription, usage, billing, opportunity, and customer-success data into curated Parquet datasets, DuckDB marts, typed FastAPI APIs, a routed Next.js dashboard, CRM Analytics-ready exports, and a deployed Salesforce LWC command-center app backed by packaged sample data.
+Customer Success Analytics Command Center is a local-first analytics engineering project. It turns raw support, customer, subscription, usage, billing, opportunity, and customer-success data into curated Parquet datasets, DuckDB marts, typed FastAPI APIs, a routed Next.js dashboard, CRM Analytics-ready exports, and a deployed Salesforce LWC command-center app backed by packaged sample data.
 
-The project is intentionally interview-friendly: it demonstrates customer lifecycle analytics, SQL mart design, typed API/frontend integration, dashboard packaging, and Salesforce presentation delivery without claiming a live production synchronization layer.
+The repository demonstrates customer lifecycle analytics, SQL mart design, typed API/frontend integration, dashboard packaging, and Salesforce-native delivery without claiming a live production synchronization layer.
 
 Live demo: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/`
 
@@ -37,19 +37,17 @@ The Salesforce surface is now a separate polished LWC application under `salesfo
 
 Those pages are powered by Apex plus a packaged static-resource sample payload generated from the checked-in CSV analytics exports.
 
-These captures come from the portfolio demo and show the main routed experience:
+These captures show the main routed web experience:
 
 <img src="docs/screenshots/readme-gallery.png" alt="Customer Success Analytics Command Center screenshot montage" width="100%" />
 
-## Portfolio Demo
+## Public Surfaces
 
-This project is ready to present as a full analytics-to-Salesforce delivery story.
-
-Public-facing surfaces:
+This project ships with three concrete delivery surfaces:
 
 - GitHub Pages product demo: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/`
 - Salesforce-native app: `Customer Success Command Center` Lightning app in the demo org
-- Salesforce Experience Cloud portfolio site: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=command-center`
+- Salesforce Experience Cloud site: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=command-center`
 
 Public Experience pages:
 
@@ -58,57 +56,23 @@ Public Experience pages:
 - Expansion Pipeline: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=expansion-pipeline`
 - Retention Cohorts: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=retention-cohorts`
 
-Recommended presentation framing:
+The Salesforce runtime path uses:
 
-1. Start with the public web surface to show the product direction and dashboard UX.
-2. Explain the analytics pipeline: raw/sample data becomes curated marts and CRM Analytics-ready CSV exports.
-3. Show the Salesforce app as the native delivery layer:
-   - `Command Center`
-   - `At-Risk Drilldown`
-   - `Expansion Pipeline`
-   - `Retention Cohorts`
-4. Explain the Salesforce runtime path:
-   - Apex controller
-   - packaged static-resource sample payload
-   - sample payload generated from `data/salesforce_crma/*.csv`
-5. Position CRM Analytics metadata as the retained analytics layer, while the surfaced UX is custom LWC.
+- `CustomerSuccessDashboardController`
+- the packaged static resource `CustomerSuccessDashboardSampleData`
+- JSON payloads generated from `data/salesforce_crma/*.csv`
 
-Public portfolio screenshots captured with Playwright:
+Public web screenshots captured with Playwright:
 
 <img src="docs/screenshots/dashboard-overview-playwright.png" alt="Public dashboard overview captured with Playwright" width="100%" />
 
 <img src="docs/screenshots/customer-analytics-playwright.png" alt="Public customer analytics page captured with Playwright" width="100%" />
 
-Salesforce Experience public command center:
+Salesforce Experience command center:
 
 <img src="docs/screenshots/salesforce-experience-command-center.png" alt="Public Salesforce Experience command center" width="100%" />
 
-### Demo Script
-
-Use this 2-3 minute walkthrough:
-
-1. “This project starts with analytics engineering.”
-   Show the repo structure or architecture section below.
-2. “I generate customer-success sample data, model it into marts, and export CRM Analytics-ready datasets.”
-   Point to `data/salesforce_crma/`.
-3. “This is the public product surface.”
-   Open the GitHub Pages demo.
-4. “This is the Salesforce-native delivery layer.”
-   Open the `Customer Success Command Center` Lightning app and walk the four tabs.
-5. “The Salesforce app is stable for demo use because Apex reads a packaged sample payload generated from the repo CSVs.”
-6. “CRM Analytics metadata still exists in the repo, but the polished user experience is custom LWC.”
-
-### Employer Access
-
-For self-serve employer review, the best experience is:
-
-- public GitHub Pages link for instant access,
-- README architecture and screenshot narrative,
-- optional recorded Salesforce walkthrough for the Lightning app.
-
-The Salesforce app itself is portfolio-ready, and the repo now also includes a Salesforce-hosted anonymous Experience Cloud companion demo.
-
-This repo includes the Experience-ready source changes for that path:
+The repository includes the Experience-ready source changes for that path:
 
 - dashboard LWCs are exposed to `lightningCommunity__Page`
 - Digital Experiences can be enabled from source with `salesforce/force-app/main/default/settings/Communities.settings-meta.xml`
@@ -181,7 +145,7 @@ flowchart LR
 - `sql/`: DuckDB mart definitions
 - `salesforce/`: the full CRM Analytics workspace, including metadata, design tooling, tests, manifests, and subsystem docs
 - `bi/`: non-Salesforce BI documentation such as Tableau-oriented notes
-- `docs/`: architecture notes, screenshots, QA notes, demo support, and interview collateral
+- `docs/`: architecture notes, screenshots, QA notes, and supporting project docs
 
 ### Checked-in generated artifacts
 
@@ -211,7 +175,7 @@ These should remain untracked:
 ### Documentation boundaries
 
 - `docs/architecture/`: technical architecture blueprints and system notes
-- `docs/demo/`: demo scripts, expansion planning, and recruiter walkthrough support
+- `docs/demo/`: demo notes and expansion planning
 - `docs/qa/`: temporary but worth-keeping QA or design verification notes
 - `docs/screenshots/`: curated screenshots used by the README and demo material
 
@@ -278,7 +242,7 @@ npm --prefix frontend run build
 GITHUB_PAGES=true npm --prefix frontend run build
 ```
 
-Static demo mode is enabled by GitHub Pages detection or `NEXT_PUBLIC_STATIC_DEMO=true`. This keeps the portfolio demo deterministic without requiring a live FastAPI service.
+Static demo mode is enabled by GitHub Pages detection or `NEXT_PUBLIC_STATIC_DEMO=true`. This keeps the public web build deterministic without requiring a live FastAPI service.
 
 ## Artifact Policy and CRM Analytics/Tableau Notes
 
@@ -300,15 +264,6 @@ This repository demonstrates both CRM Analytics readiness and a Salesforce-nativ
 - `salesforce/scripts/upload_salesforce_crma.py` is the primary dataset upload helper; the root `scripts/upload_salesforce_crma.py` path remains a compatibility shim.
 - `salesforce/scripts/build_dashboard_sample_resources.py` generates the packaged Salesforce sample payload consumed by the LWC app.
 
-### How to present the Salesforce app
-
-For a portfolio walkthrough, use this story:
-
-1. Show the local GitHub Pages or Next.js dashboard to establish the product/design direction.
-2. Show `data/salesforce_crma/*.csv` and explain that the analytics exports are the canonical sample boundary.
-3. Open the Salesforce app `Customer Success Command Center` and present the four-tab LWC experience as the Salesforce-native frontend.
-4. Explain that CRMA metadata remains in the repo as the analytics layer, but the surfaced dashboard experience is now custom LWC driven.
-
 See:
 
 - [salesforce/README.md](C:/Users/Yoshi/Documents/GitHub/aws-serverless-support-analytics/salesforce/README.md)
@@ -325,9 +280,9 @@ The project includes implementation-readiness material for CRM Analytics and Tab
 - `salesforce/docs/bi/saql_examples.md`
 - `bi/tableau/README.md`
 
-### Portfolio positioning
+### Project Characteristics
 
-This project is intended to show:
+This project includes:
 
 - customer lifecycle analytics and Customer 360 modeling
 - ETL implementation and SQL mart design
