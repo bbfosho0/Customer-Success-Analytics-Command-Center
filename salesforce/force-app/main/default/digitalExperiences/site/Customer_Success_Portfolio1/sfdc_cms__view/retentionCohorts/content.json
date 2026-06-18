@@ -1,0 +1,67 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Retention Cohorts",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"d1470a64-f188-49e8-b0ac-d725fc93cf28\",\"columns\":[{\"UUID\":\"f0658c6d-b790-4d5d-8360-45e7eb572267\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : { },
+              "definition" : "c:retentionCohorts",
+              "id" : "06f5fefa-d74f-4bcc-bcfb-00aa583de39a",
+              "type" : "component"
+            } ],
+            "id" : "f0658c6d-b790-4d5d-8360-45e7eb572267",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "d1470a64-f188-49e8-b0ac-d725fc93cf28",
+          "type" : "component"
+        } ],
+        "id" : "6165ac8c-9ddf-49d1-a749-c03c0da84d67",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "Public sample-data retention cohorts dashboard for the Customer Success Analytics portfolio.",
+            "pageTitle" : "Retention Cohorts",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "20ee3c31-6fac-468b-b0d5-bf1b8f788f99",
+          "type" : "component"
+        } ],
+        "id" : "8c8982d6-7b5f-487f-ad80-da968f36dc13",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "cb8949d7-6f53-4ef2-aa07-2d8b36cdd8b1",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-retention-cohorts"
+  },
+  "urlName" : "retention-cohorts"
+}

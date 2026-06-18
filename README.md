@@ -16,6 +16,8 @@ Live demo: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center
 
 Salesforce demo surface: custom Lightning app `Customer Success Command Center`
 
+Salesforce public surface: Experience Cloud LWR portfolio site reusing the same four Apex-backed dashboard LWCs with packaged sample data.
+
 ## Project Purpose and Product Surface
 
 The product surface is split between support operations analytics and customer-success analytics:
@@ -47,6 +49,14 @@ Public-facing surfaces:
 
 - GitHub Pages product demo: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/`
 - Salesforce-native app: `Customer Success Command Center` Lightning app in the demo org
+- Salesforce Experience Cloud portfolio site: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=command-center`
+
+Public Experience pages:
+
+- Command Center: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=command-center`
+- At-Risk Drilldown: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=at-risk-drilldown`
+- Expansion Pipeline: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=expansion-pipeline`
+- Retention Cohorts: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=retention-cohorts`
 
 Recommended presentation framing:
 
@@ -68,6 +78,10 @@ Public portfolio screenshots captured with Playwright:
 <img src="docs/screenshots/dashboard-overview-playwright.png" alt="Public dashboard overview captured with Playwright" width="100%" />
 
 <img src="docs/screenshots/customer-analytics-playwright.png" alt="Public customer analytics page captured with Playwright" width="100%" />
+
+Salesforce Experience public command center:
+
+<img src="docs/screenshots/salesforce-experience-command-center.png" alt="Public Salesforce Experience command center" width="100%" />
 
 ### Demo Script
 
@@ -92,7 +106,19 @@ For self-serve employer review, the best experience is:
 - README architecture and screenshot narrative,
 - optional recorded Salesforce walkthrough for the Lightning app.
 
-The Salesforce app itself is portfolio-ready, but it is not the ideal anonymous public surface unless you intentionally build a guest-access Experience Cloud deployment around it.
+The Salesforce app itself is portfolio-ready, and the repo now also includes a Salesforce-hosted anonymous Experience Cloud companion demo.
+
+This repo includes the Experience-ready source changes for that path:
+
+- dashboard LWCs are exposed to `lightningCommunity__Page`
+- Digital Experiences can be enabled from source with `salesforce/force-app/main/default/settings/Communities.settings-meta.xml`
+- the public site stays sample-data-only by continuing to use `CustomerSuccessDashboardController` plus the packaged static resource payload
+
+Current Experience status:
+
+- the Experience site renders all four public LWC dashboards anonymously through one verified route model
+- the site shell and metadata are repo-managed under `salesforce/force-app/main/default/digitalExperiences/`
+- the public URL model is `...?page=command-center|at-risk-drilldown|expansion-pipeline|retention-cohorts`
 
 ## Architecture and Generated Data Flow
 

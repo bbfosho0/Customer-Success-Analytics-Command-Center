@@ -1,0 +1,111 @@
+html,
+body {
+    height: 100%;
+}
+
+html {
+    background: #f3f7fb;
+}
+
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at top left, rgba(191, 228, 255, 0.55), transparent 30%),
+        linear-gradient(180deg, #f8fbff 0%, #edf4fb 100%);
+    color: #0e233f;
+    font-family: "Salesforce Sans", Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+}
+
+.portfolio-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d5e3f2;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 16px 40px rgba(28, 61, 110, 0.08);
+}
+
+.portfolio-shell__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.portfolio-shell__eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #5f7895;
+    font-weight: 700;
+}
+
+.portfolio-shell__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0e233f;
+}
+
+.portfolio-shell__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.portfolio-shell__link {
+    text-decoration: none;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid #c7d9ec;
+    border-radius: 999px;
+    background: #f7fbff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #183153;
+}
+
+.portfolio-shell__link:hover,
+.portfolio-shell__link:focus {
+    background: #0f4c81;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.portfolio-shell__badge {
+    white-space: nowrap;
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    background: #e8f1ff;
+    border: 1px solid #c5d7f1;
+    color: #21446d;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.portfolio-shell__footer {
+    text-align: center;
+    font-size: 0.82rem;
+    color: #5f7895;
+    padding: 0.4rem 0;
+}
+
+@media (max-width: 900px) {
+    .portfolio-shell {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .portfolio-shell__nav {
+        width: 100%;
+    }
+
+    .portfolio-shell__badge {
+        align-self: stretch;
+        text-align: center;
+    }
+}

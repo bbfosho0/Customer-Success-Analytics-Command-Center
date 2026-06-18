@@ -52,9 +52,9 @@ const HEALTH_CONFIG = {
 };
 
 const DRILLDOWNS = [
-    { key: 'atRisk', label: 'At-Risk Drilldown', targetTab: 'AtRiskDrilldown_Page' },
-    { key: 'expansion', label: 'Expansion Pipeline', targetTab: 'ExpansionPipeline_Page' },
-    { key: 'retention', label: 'Retention Cohorts', targetTab: 'RetentionCohorts_Page' }
+    { key: 'atRisk', label: 'At-Risk Drilldown', targetTab: 'AtRiskDrilldown_Page', publicPage: 'at-risk-drilldown' },
+    { key: 'expansion', label: 'Expansion Pipeline', targetTab: 'ExpansionPipeline_Page', publicPage: 'expansion-pipeline' },
+    { key: 'retention', label: 'Retention Cohorts', targetTab: 'RetentionCohorts_Page', publicPage: 'retention-cohorts' }
 ];
 
 const WINDOW_LIMITS = {
@@ -110,7 +110,7 @@ export default class CustomerSuccessCommandCenter extends NavigationMixin(Lightn
     get headerActions() {
         return DRILLDOWNS.map((item) => ({
             ...item,
-            stateLabel: 'Open tab'
+            stateLabel: this.isExperienceSite ? 'Open page' : 'Open tab'
         }));
     }
 
@@ -350,12 +350,25 @@ export default class CustomerSuccessCommandCenter extends NavigationMixin(Lightn
         if (!target) {
             return;
         }
+        if (this.isExperienceSite) {
+            const nextUrl = new URL(window.location.href);
+            nextUrl.searchParams.set('page', target.publicPage);
+            window.location.assign(nextUrl.toString());
+            return;
+        }
         this[NavigationMixin.Navigate]({
             type: 'standard__navItemPage',
             attributes: {
                 apiName: target.targetTab
             }
         });
+    }
+
+    get isExperienceSite() {
+        if (typeof window === 'undefined') {
+            return false;
+        }
+        return window.location.hostname.includes('.my.site.com');
     }
 
     queueWeight(account) {

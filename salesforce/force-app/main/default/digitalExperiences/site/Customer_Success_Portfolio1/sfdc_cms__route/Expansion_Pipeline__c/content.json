@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Expansion Pipeline",
+  "contentBody" : {
+    "activeViewId" : "expansionPipeline",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-expansion-pipeline",
+    "urlPrefix" : "expansion-pipeline"
+  },
+  "urlName" : "expansion-pipeline"
+}

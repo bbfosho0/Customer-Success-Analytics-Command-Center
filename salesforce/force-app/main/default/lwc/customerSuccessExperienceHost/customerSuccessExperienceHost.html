@@ -1,0 +1,14 @@
+<template>
+    <template lwc:if={isCommandCenter}>
+        <c-customer-success-command-center></c-customer-success-command-center>
+    </template>
+    <template lwc:elseif={isAtRisk}>
+        <c-at-risk-drilldown></c-at-risk-drilldown>
+    </template>
+    <template lwc:elseif={isExpansionPipeline}>
+        <c-expansion-pipeline></c-expansion-pipeline>
+    </template>
+    <template lwc:elseif={isRetentionCohorts}>
+        <c-retention-cohorts></c-retention-cohorts>
+    </template>
+</template>

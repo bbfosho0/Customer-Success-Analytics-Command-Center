@@ -1,0 +1,67 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Command Center",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"26f678cc-1c0d-4aa0-ad37-e3191add9564\",\"columns\":[{\"UUID\":\"c337be7a-fa54-4bb2-b448-1f8b525b25c2\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : { },
+              "definition" : "c:customerSuccessExperienceHost",
+              "id" : "0c16ecab-8d0c-4458-8ff8-9f1aa0266e01",
+              "type" : "component"
+            } ],
+            "id" : "c337be7a-fa54-4bb2-b448-1f8b525b25c2",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "26f678cc-1c0d-4aa0-ad37-e3191add9564",
+          "type" : "component"
+        } ],
+        "id" : "5eb5f09c-7c00-4f50-b85e-020a4f85af4e",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "<link rel=\"icon\" type=\"image/svg+xml\" href=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b2545'/%3E%3Cpath d='M14 42h36v6H14zM14 29h27v6H14zM14 16h36v6H14z' fill='%2352b7d6'/%3E%3C/svg%3E\">",
+            "description" : "Public Salesforce Experience portfolio site for the Customer Success Analytics dashboards.",
+            "pageTitle" : "Customer Success Portfolio",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "6846dceb-ccba-4f8a-983c-431b9d300ebf",
+          "type" : "component"
+        } ],
+        "id" : "391f6f5b-e8ac-49e3-bca3-2b983f895114",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "f935d70b-8338-411d-8269-62445d9a34d9",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "home"
+  },
+  "urlName" : "home"
+}

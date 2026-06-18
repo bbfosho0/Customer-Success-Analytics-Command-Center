@@ -1,0 +1,67 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Expansion Pipeline",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"c579f618-3512-425c-938a-48dfe3567238\",\"columns\":[{\"UUID\":\"dab65889-3806-457a-8be8-4c3fa7f3d652\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : { },
+              "definition" : "c:expansionPipeline",
+              "id" : "81834e41-ab41-4c43-8f11-99244571412a",
+              "type" : "component"
+            } ],
+            "id" : "dab65889-3806-457a-8be8-4c3fa7f3d652",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "c579f618-3512-425c-938a-48dfe3567238",
+          "type" : "component"
+        } ],
+        "id" : "318c8174-c8c4-4fa5-ba1f-aa6f9325afcb",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "Public sample-data expansion pipeline dashboard for the Customer Success Analytics portfolio.",
+            "pageTitle" : "Expansion Pipeline",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "d095f7f0-bd0b-435d-93a7-539998021f84",
+          "type" : "component"
+        } ],
+        "id" : "8e83673d-48b4-4745-bdb3-7d345c897502",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "9e10c85f-a0e4-456e-bbe3-cbb79d8356e5",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "custom-expansion-pipeline"
+  },
+  "urlName" : "expansion-pipeline"
+}

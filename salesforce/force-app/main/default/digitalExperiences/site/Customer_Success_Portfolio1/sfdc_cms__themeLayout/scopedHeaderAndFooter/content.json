@@ -1,0 +1,94 @@
+{
+  "type" : "sfdc_cms__themeLayout",
+  "title" : "Portfolio Shell",
+  "contentBody" : {
+    "component" : {
+      "attributes" : {
+        "hideThemeFooter" : false,
+        "showThemeFooterAtBottom" : true,
+        "stickyThemeHeader" : true
+      },
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"595e148a-66a3-4688-b034-86d114c1fa85\",\"columns\":[{\"UUID\":\"56ca87a1-8bbc-49e6-a7e6-7c9ef5bcdfea\",\"columnName\":\"Column 1\",\"columnKey\":\"headerSection\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "imageInfos" : "",
+                "richTextValue" : "<div class=\"portfolio-shell\"><div class=\"portfolio-shell__brand\"><span class=\"portfolio-shell__eyebrow\">Salesforce Experience Demo</span><span class=\"portfolio-shell__title\">Customer Success Portfolio</span></div><nav class=\"portfolio-shell__nav\"><a href=\"?page=command-center\" class=\"portfolio-shell__link\">Command Center</a><a href=\"?page=at-risk-drilldown\" class=\"portfolio-shell__link\">At-Risk Drilldown</a><a href=\"?page=expansion-pipeline\" class=\"portfolio-shell__link\">Expansion Pipeline</a><a href=\"?page=retention-cohorts\" class=\"portfolio-shell__link\">Retention Cohorts</a></nav><div class=\"portfolio-shell__badge\">Apex + packaged sample data</div></div>"
+              },
+              "definition" : "community_builder:htmlEditor",
+              "id" : "c4ce69bd-6720-4f78-8b2b-1d5d3198fc01",
+              "type" : "component"
+            } ],
+            "id" : "56ca87a1-8bbc-49e6-a7e6-7c9ef5bcdfea",
+            "name" : "headerSection",
+            "title" : "Theme Header",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "595e148a-66a3-4688-b034-86d114c1fa85",
+          "type" : "component"
+        } ],
+        "id" : "05eac34e-c6e2-4d3c-94c9-9f0cb9ce504d",
+        "name" : "header",
+        "title" : "Theme Header",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"c45fd5f8-830f-4f41-a5a3-d1bdf20f17b2\",\"columns\":[{\"UUID\":\"a0bddc1f-686d-4d0c-b644-d92cd2495c1e\",\"columnName\":\"Column 1\",\"columnKey\":\"footerSection\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "imageInfos" : "",
+                "richTextValue" : "<div class=\"portfolio-shell__footer\">Public Experience Cloud portfolio site powered by Apex plus CSV-derived packaged sample data.</div>"
+              },
+              "definition" : "community_builder:htmlEditor",
+              "id" : "8cf08706-7f63-418a-b2ab-fa9873169f90",
+              "type" : "component"
+            } ],
+            "id" : "a0bddc1f-686d-4d0c-b644-d92cd2495c1e",
+            "name" : "footerSection",
+            "title" : "Theme Footer",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "c45fd5f8-830f-4f41-a5a3-d1bdf20f17b2",
+          "type" : "component"
+        } ],
+        "id" : "cff0ff82-5116-41fb-9f4e-7f46403175a3",
+        "name" : "footer",
+        "title" : "Theme Footer",
+        "type" : "region"
+      } ],
+      "definition" : "community_byo:scopedHeaderAndFooter",
+      "id" : "f22a29e5-0bb8-48a6-9987-5c47e5d5022f",
+      "type" : "component"
+    }
+  },
+  "urlName" : "scoped-header-and-footer"
+}

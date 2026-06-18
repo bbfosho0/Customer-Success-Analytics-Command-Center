@@ -13,6 +13,10 @@ This folder holds employer-facing UI captures for the current routed product. Sc
 - `churn-risk.png` for `/customer-analytics/churn-risk`
 - `retention.png` for `/customer-analytics/retention`
 - `ltv.png` for `/customer-analytics/ltv`
+- `salesforce-experience-command-center.png` for the public Salesforce Experience command center
+- `salesforce-experience-at-risk.png` for the public Salesforce Experience at-risk drilldown
+- `salesforce-experience-expansion-pipeline.png` for the public Salesforce Experience expansion pipeline
+- `salesforce-experience-retention-cohorts.png` for the public Salesforce Experience retention cohorts
 
 ## Current checked-in assets
 
@@ -27,6 +31,10 @@ This folder holds employer-facing UI captures for the current routed product. Sc
 - `ltv.png`
 - `readme-gallery.png`
 - `retention-ltv.png` (legacy)
+- `salesforce-experience-command-center.png`
+- `salesforce-experience-at-risk.png`
+- `salesforce-experience-expansion-pipeline.png`
+- `salesforce-experience-retention-cohorts.png`
 
 ## Refresh rules
 

@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Retention Cohorts",
+  "contentBody" : {
+    "activeViewId" : "retentionCohorts",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-retention-cohorts",
+    "urlPrefix" : "retention-cohorts"
+  },
+  "urlName" : "retention-cohorts"
+}

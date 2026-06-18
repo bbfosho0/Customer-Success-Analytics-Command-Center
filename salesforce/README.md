@@ -28,6 +28,36 @@ The current user-facing Salesforce experience is a custom Lightning app, `Custom
 
 Those pages are powered by `CustomerSuccessDashboardController`, which reads packaged sample data from the static resource `CustomerSuccessDashboardSampleData`. The payload is generated from the checked-in CSV exports under `data/salesforce_crma/`.
 
+## Experience Cloud portfolio site
+
+The repo now includes a working Experience Cloud portfolio surface as well:
+
+- all four dashboard LWCs expose `lightningCommunity__Page`
+- `force-app/main/default/settings/Communities.settings-meta.xml` enables Digital Experiences metadata through source control
+- the intended public site shape is a public LWR site that reuses the existing four LWCs and the same Apex plus packaged sample-data runtime
+- the seeded site metadata is versioned under:
+  - `force-app/main/default/digitalExperiences/site/Customer_Success_Portfolio1/`
+  - `force-app/main/default/digitalExperienceConfigs/`
+  - `force-app/main/default/sites/`
+  - `force-app/main/default/profiles/Customer Success Portfolio Profile.profile-meta.xml`
+
+The target org now has a seeded Experience site at:
+
+`https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=command-center`
+
+Current runtime status:
+
+- the anonymous public route renders all four custom LWC dashboards
+- the Experience shell, styling, Apex access, and packaged sample-data runtime are deployed
+- the verified public route format is:
+  - `...?page=command-center`
+  - `...?page=at-risk-drilldown`
+  - `...?page=expansion-pipeline`
+  - `...?page=retention-cohorts`
+- the Experience nav and command-center CTAs use that same URL model so public sharing stays consistent
+
+GitHub Pages remains the zero-friction public demo. The Experience site is now a real Salesforce-hosted companion surface rather than a theoretical next step.
+
 ## Versioned metadata
 
 - `Customer_Success_Command_Center` Wave application
@@ -101,6 +131,7 @@ Then `cd salesforce` and validate or deploy the metadata in place:
 ```powershell
 sf project deploy start --target-org <org-alias> --manifest manifest/package.xml --dry-run --wait 30
 sf project deploy start --target-org <org-alias> --manifest manifest/package.xml --wait 30
+sf community publish --name "Customer Success Portfolio" --target-org <org-alias>
 ```
 
 To validate or deploy only the command center:
@@ -121,6 +152,21 @@ To present the Salesforce part of the project:
 3. Move across the top nav into `At-Risk Drilldown`, `Expansion Pipeline`, and `Retention Cohorts`.
 4. Explain that the app is Apex-backed, but intentionally uses packaged CSV-derived sample data so the experience is stable and portable for demo use.
 5. Position the CRMA assets as the retained analytics metadata layer, not the primary UI.
+
+For the public Salesforce-branded portfolio surface, open the Experience site and present the four query-param page states:
+
+1. `...?page=command-center`
+2. `...?page=at-risk-drilldown`
+3. `...?page=expansion-pipeline`
+4. `...?page=retention-cohorts`
+
+One-time org-side prerequisites that are not fully source-managed:
+
+- Digital Experiences must be enabled in the org.
+- The Experience domain must already be set.
+- The Experience Network sender address must be configured in the site's Administration settings because Salesforce requires it to match the target org.
+- The site must be published after deploy.
+- The Experience guest profile must retain Apex access to `CustomerSuccessDashboardController`.
 
 ## Design workflow
 

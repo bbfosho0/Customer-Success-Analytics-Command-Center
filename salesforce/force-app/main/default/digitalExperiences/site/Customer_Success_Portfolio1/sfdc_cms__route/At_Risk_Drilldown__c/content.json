@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "At-Risk Drilldown",
+  "contentBody" : {
+    "activeViewId" : "atRiskDrilldown",
+    "configurationTags" : [ ],
+    "pageAccess" : "Public",
+    "routeType" : "custom-at-risk-drilldown",
+    "urlPrefix" : "at-risk-drilldown"
+  },
+  "urlName" : "at-risk-drilldown"
+}

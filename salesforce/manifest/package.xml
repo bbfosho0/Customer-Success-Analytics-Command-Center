@@ -22,6 +22,7 @@
     <types>
         <members>atRiskDrilldown</members>
         <members>customerSuccessCommandCenter</members>
+        <members>customerSuccessExperienceHost</members>
         <members>dashboardUtils</members>
         <members>expansionPipeline</members>
         <members>retentionCohorts</members>
@@ -37,8 +38,28 @@
         <name>StaticResource</name>
     </types>
     <types>
+        <members>Customer_Success_Portfolio</members>
+        <name>CustomSite</name>
+    </types>
+    <types>
+        <members>site/Customer_Success_Portfolio1</members>
+        <name>DigitalExperienceBundle</name>
+    </types>
+    <types>
+        <members>Customer_Success_Portfolio1</members>
+        <name>DigitalExperienceConfig</name>
+    </types>
+    <types>
         <members>CustomerSuccessCommandCenterAccess</members>
         <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Customer Success Portfolio Profile</members>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>Communities</members>
+        <name>Settings</name>
     </types>
     <types>
         <members>Landing_Page</members>
