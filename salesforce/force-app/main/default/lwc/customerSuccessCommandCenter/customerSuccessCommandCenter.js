@@ -1,6 +1,22 @@
 import { LightningElement } from 'lwc';
 import getCommandCenterData from '@salesforce/apex/CustomerSuccessDashboardController.getCommandCenterData';
-import { formatCurrencyShort, formatPercent, reduceError, titleCaseLabel } from 'c/dashboardUtils';
+import {
+    applyFieldFilters,
+    asNumber,
+    averageBy,
+    barStyle,
+    countWhere,
+    formatCurrencyShort,
+    formatPercent,
+    groupRows,
+    meterStyle,
+    percentLabel,
+    percentOf,
+    reduceError,
+    sumBy,
+    titleCaseLabel,
+    uniqueCount
+} from 'c/dashboardUtils';
 
 const FILTER_OPTIONS = {
     portfolio: [
@@ -102,21 +118,15 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
 
     get filteredAccounts() {
         const limit = WINDOW_LIMITS[this.filters.timeWindow] || 90;
-        return this.accounts.filter((account) => {
-            if (this.filters.portfolio !== 'all' && account.portfolio !== this.filters.portfolio) {
-                return false;
-            }
-            if (this.filters.segment !== 'all' && account.segment !== this.filters.segment) {
-                return false;
-            }
-            if (this.filters.riskBand !== 'all' && account.riskBand !== this.filters.riskBand) {
-                return false;
-            }
-            if (this.filters.region !== 'all' && account.region !== this.filters.region) {
-                return false;
-            }
-            return (account.snapshotAgeDays || 0) <= limit;
-        });
+        return this.accounts.filter(
+            (account) =>
+                applyFieldFilters(account, this.filters, {
+                    portfolio: 'portfolio',
+                    segment: 'segment',
+                    riskBand: 'riskBand',
+                    region: 'region'
+                }) && asNumber(account.snapshotAgeDays) <= limit
+        );
     }
 
     get activeFilterPills() {
@@ -133,16 +143,19 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
     }
 
     get activeRiskCount() {
-        return this.filteredAccounts.filter((account) => ['watch', 'at-risk', 'critical'].includes(account.riskBand)).length;
+        return countWhere(this.filteredAccounts, (account) => ['watch', 'at-risk', 'critical'].includes(account.riskBand));
     }
 
     get topRegionLabel() {
-        const counts = new Map();
-        this.filteredAccounts.forEach((account) => {
-            counts.set(account.region, (counts.get(account.region) || 0) + 1);
-        });
-        const top = Array.from(counts.entries()).sort((left, right) => right[1] - left[1])[0];
-        return top ? `${titleCaseLabel(top[0])} lead region` : 'No region selected';
+        const top = groupRows(
+            this.filteredAccounts,
+            'region',
+            (region) => ({ key: region, region, count: 0 }),
+            (current) => {
+                current.count += 1;
+            }
+        ).sort((left, right) => right.count - left.count)[0];
+        return top ? `${titleCaseLabel(top.region)} lead region` : 'No region selected';
     }
 
     get activeFilterSummary() {
@@ -153,7 +166,7 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
     }
 
     get distinctRegions() {
-        return new Set(this.filteredAccounts.map((account) => account.region)).size;
+        return uniqueCount(this.filteredAccounts, 'region');
     }
 
     get summaryBadge() {
@@ -166,7 +179,7 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
     }
 
     get headerStats() {
-        const revenue = this.filteredAccounts.reduce((sum, account) => sum + Number(account.arr || 0), 0);
+        const revenue = sumBy(this.filteredAccounts, 'arr');
         return [
             { key: 'active-risk', label: 'Active risk queue', value: `${this.activeRiskCount} accounts` },
             { key: 'top-region', label: 'Coverage pulse', value: this.topRegionLabel },
@@ -176,13 +189,13 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
 
     get kpiCards() {
         const accounts = this.filteredAccounts;
-        const totalArr = accounts.reduce((sum, account) => sum + Number(account.arr || 0), 0);
+        const totalArr = sumBy(accounts, 'arr');
         const totalCustomers = accounts.length;
-        const avgHealth = totalCustomers ? accounts.reduce((sum, account) => sum + Number(account.healthScore || 0), 0) / totalCustomers : 0;
+        const avgHealth = averageBy(accounts, 'healthScore');
         const atRiskArr = accounts
             .filter((account) => ['at-risk', 'critical'].includes(account.riskBand))
-            .reduce((sum, account) => sum + Number(account.arr || 0), 0);
-        const expansionPipeline = accounts.reduce((sum, account) => sum + Number(account.expansionPipeline || 0), 0);
+            .reduce((sum, account) => sum + asNumber(account.arr), 0);
+        const expansionPipeline = sumBy(accounts, 'expansionPipeline');
 
         return [
             { key: 'arr', label: 'Current ARR', value: formatCurrencyShort(totalArr), hint: 'Portfolio revenue in view', accentClass: 'accent-structural' },
@@ -196,12 +209,10 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
     get healthRiskCards() {
         const attention = this.filteredAccounts.filter((account) => ['watch', 'at-risk', 'critical'].includes(account.riskBand));
         const critical = this.filteredAccounts.filter((account) => account.riskBand === 'critical');
-        const avgQueueHealth = attention.length
-            ? attention.reduce((sum, account) => sum + Number(account.healthScore || 0), 0) / attention.length
-            : 0;
+        const avgQueueHealth = averageBy(attention, 'healthScore');
         const renewalExposure = attention
             .filter((account) => ['Jul 2026', 'Aug 2026', 'Sep 2026'].includes(account.renewalMonth))
-            .reduce((sum, account) => sum + Number(account.arr || 0), 0);
+            .reduce((sum, account) => sum + asNumber(account.arr), 0);
 
         return [
             { key: 'attention', label: 'Needs Attention', value: `${attention.length}`, detail: 'Watch, at-risk, and critical accounts', toneClass: 'tone-warning' },
@@ -212,19 +223,19 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
     }
 
     get riskExposureSegments() {
-        const total = this.filteredAccounts.reduce((sum, account) => sum + Number(account.arr || 0), 0) || 1;
+        const total = sumBy(this.filteredAccounts, 'arr') || 1;
         return ['healthy', 'watch', 'at-risk', 'critical'].map((key) => {
             const value = this.filteredAccounts
                 .filter((account) => account.riskBand === key)
-                .reduce((sum, account) => sum + Number(account.arr || 0), 0);
-            const percent = (value / total) * 100;
+                .reduce((sum, account) => sum + asNumber(account.arr), 0);
+            const percent = percentOf(value, total);
             const config = RISK_CONFIG[key];
             return {
                 key,
                 label: config.label,
                 displayValue: formatCurrencyShort(value),
-                percentLabel: `${percent.toFixed(0)}%`,
-                barStyle: `width:${Math.max(percent, value > 0 ? 8 : 0)}%; background:${config.color};`,
+                percentLabel: percentLabel(value, total),
+                barStyle: barStyle(percent, config.color, 8, value > 0),
                 markerStyle: `background:${config.color};`,
                 railStyle: `background:${config.accent};`
             };
@@ -235,8 +246,8 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
         const total = this.filteredAccounts.length || 1;
         let cursor = 0;
         return ['healthy', 'watch', 'at-risk'].map((key) => {
-            const count = this.filteredAccounts.filter((account) => account.healthBucket === key).length;
-            const percent = (count / total) * 100;
+            const count = countWhere(this.filteredAccounts, (account) => account.healthBucket === key);
+            const percent = percentOf(count, total);
             const start = cursor;
             cursor += percent;
             const end = cursor;
@@ -257,35 +268,32 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
     }
 
     get healthMixCenterLabel() {
-        const avgHealth = this.filteredAccounts.length
-            ? this.filteredAccounts.reduce((sum, account) => sum + Number(account.healthScore || 0), 0) / this.filteredAccounts.length
-            : 0;
+        const avgHealth = averageBy(this.filteredAccounts, 'healthScore');
         return avgHealth ? formatPercent(avgHealth) : '0%';
     }
 
     get ownerAttentionRows() {
-        const grouped = new Map();
         const queue = this.filteredAccounts.filter((account) => ['watch', 'at-risk', 'critical'].includes(account.riskBand));
-        const maxArr = queue.reduce((max, account) => Math.max(max, Number(account.arr || 0)), 0) || 1;
-
-        queue.forEach((account) => {
-            const current = grouped.get(account.csm) || { key: account.csm, owner: account.csm, arr: 0, critical: 0, accounts: 0 };
-            current.arr += Number(account.arr || 0);
-            current.accounts += 1;
-            if (account.riskBand === 'critical') {
-                current.critical += 1;
+        const rows = groupRows(
+            queue,
+            'csm',
+            (owner) => ({ key: owner, owner, arr: 0, critical: 0, accounts: 0 }),
+            (current, account) => {
+                current.arr += asNumber(account.arr);
+                current.accounts += 1;
+                if (account.riskBand === 'critical') {
+                    current.critical += 1;
+                }
             }
-            grouped.set(account.csm, current);
-        });
+        ).sort((left, right) => right.arr - left.arr);
+        const maxArr = rows.reduce((max, row) => Math.max(max, row.arr), 0) || 1;
 
-        return Array.from(grouped.values())
-            .sort((left, right) => right.arr - left.arr)
-            .map((row) => ({
-                ...row,
-                arrLabel: formatCurrencyShort(row.arr),
-                criticalLabel: row.critical ? `${row.critical} critical` : 'No criticals',
-                meterStyle: `width:${Math.max((row.arr / maxArr) * 100, 12)}%;`
-            }));
+        return rows.map((row) => ({
+            ...row,
+            arrLabel: formatCurrencyShort(row.arr),
+            criticalLabel: row.critical ? `${row.critical} critical` : 'No criticals',
+            meterStyle: meterStyle(row.arr, maxArr)
+        }));
     }
 
     get priorityQueueRows() {
@@ -333,7 +341,7 @@ export default class CustomerSuccessCommandCenter extends LightningElement {
 
     queueWeight(account) {
         const riskWeight = { critical: 4, 'at-risk': 3, watch: 2, healthy: 1 };
-        return riskWeight[account.riskBand] * 1000000 + Number(account.arr || 0) - Number(account.healthScore || 0) * 1000;
+        return riskWeight[account.riskBand] * 1000000 + asNumber(account.arr) - asNumber(account.healthScore) * 1000;
     }
 
     filterLabel(key) {

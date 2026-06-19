@@ -1,6 +1,19 @@
 import { LightningElement } from 'lwc';
 import getExpansionPipelineData from '@salesforce/apex/CustomerSuccessDashboardController.getExpansionPipelineData';
-import { formatCurrencyShort, reduceError, titleCaseLabel } from 'c/dashboardUtils';
+import {
+    asNumber,
+    barStyle,
+    countWhere,
+    formatCurrencyShort,
+    groupRows,
+    matchesFilter,
+    meterStyle,
+    percentOf,
+    reduceError,
+    sortByNumber,
+    sumBy,
+    titleCaseLabel
+} from 'c/dashboardUtils';
 
 const REGION_OPTIONS = [
     { label: 'All regions', value: 'all' },
@@ -78,15 +91,12 @@ export default class ExpansionPipeline extends LightningElement {
     }
 
     get filteredOpportunities() {
-        return this.opportunities.filter((opportunity) => {
-            if (this.filters.region !== 'all' && opportunity.region !== this.filters.region) {
-                return false;
-            }
-            if (this.filters.stage !== 'all' && opportunity.stage !== this.filters.stage) {
-                return false;
-            }
-            return !(this.filters.owner !== 'all' && opportunity.owner !== this.filters.owner);
-        });
+        return this.opportunities.filter(
+            (opportunity) =>
+                matchesFilter(opportunity.region, this.filters.region) &&
+                matchesFilter(opportunity.stage, this.filters.stage) &&
+                matchesFilter(opportunity.owner, this.filters.owner)
+        );
     }
 
     get summaryBadge() {
@@ -98,9 +108,9 @@ export default class ExpansionPipeline extends LightningElement {
     }
 
     get heroStats() {
-        const weighted = this.filteredOpportunities.reduce((sum, opportunity) => sum + Number(opportunity.weighted || 0), 0);
-        const ready = this.filteredOpportunities.filter((opportunity) => opportunity.readiness === 'Ready').length;
-        const commit = this.filteredOpportunities.filter((opportunity) => opportunity.stage === 'Commit').length;
+        const weighted = sumBy(this.filteredOpportunities, 'weighted');
+        const ready = countWhere(this.filteredOpportunities, (opportunity) => opportunity.readiness === 'Ready');
+        const commit = countWhere(this.filteredOpportunities, (opportunity) => opportunity.stage === 'Commit');
         return [
             { key: 'weighted', label: 'Weighted pipeline', value: formatCurrencyShort(weighted) },
             { key: 'ready', label: 'Ready accounts', value: `${ready}` },
@@ -109,10 +119,10 @@ export default class ExpansionPipeline extends LightningElement {
     }
 
     get kpis() {
-        const weighted = this.filteredOpportunities.reduce((sum, opportunity) => sum + Number(opportunity.weighted || 0), 0);
+        const weighted = sumBy(this.filteredOpportunities, 'weighted');
         const averageDeal = this.filteredOpportunities.length ? weighted / this.filteredOpportunities.length : 0;
-        const blocked = this.filteredOpportunities.filter((opportunity) => opportunity.readiness === 'Blocked').length;
-        const lateQuarter = this.filteredOpportunities.filter((opportunity) => ['Jul 2026', 'Aug 2026', 'Sep 2026'].includes(opportunity.closeWindow)).length;
+        const blocked = countWhere(this.filteredOpportunities, (opportunity) => opportunity.readiness === 'Blocked');
+        const lateQuarter = countWhere(this.filteredOpportunities, (opportunity) => ['Jul 2026', 'Aug 2026', 'Sep 2026'].includes(opportunity.closeWindow));
         return [
             { key: 'weighted', label: 'Weighted Pipeline', value: formatCurrencyShort(weighted), hint: 'In-scope revenue opportunity', accentClass: 'accent-structural' },
             { key: 'average', label: 'Avg Weighted Deal', value: formatCurrencyShort(averageDeal), hint: 'Average opportunity size', accentClass: 'accent-chart' },
@@ -122,30 +132,30 @@ export default class ExpansionPipeline extends LightningElement {
     }
 
     get readinessRows() {
-        const total = this.filteredOpportunities.reduce((sum, opportunity) => sum + Number(opportunity.weighted || 0), 0) || 1;
+        const total = sumBy(this.filteredOpportunities, 'weighted') || 1;
         return ['Ready', 'Priming', 'Blocked'].map((label) => {
             const value = this.filteredOpportunities
                 .filter((opportunity) => opportunity.readiness === label)
-                .reduce((sum, opportunity) => sum + Number(opportunity.weighted || 0), 0);
-            const percent = (value / total) * 100;
+                .reduce((sum, opportunity) => sum + asNumber(opportunity.weighted), 0);
+            const percent = percentOf(value, total);
             return {
                 key: label,
                 label,
                 valueLabel: formatCurrencyShort(value),
                 percentLabel: `${percent.toFixed(0)}%`,
                 dotStyle: `background:${READINESS_COLORS[label].color};`,
-                barStyle: `width:${Math.max(percent, value ? 10 : 0)}%; background:${READINESS_COLORS[label].color};`
+                barStyle: barStyle(percent, READINESS_COLORS[label].color, 10, !!value)
             };
         });
     }
 
     get stageRows() {
-        const total = this.filteredOpportunities.reduce((sum, opportunity) => sum + Number(opportunity.weighted || 0), 0) || 1;
+        const total = sumBy(this.filteredOpportunities, 'weighted') || 1;
         return Object.keys(STAGE_COLORS).map((stage) => {
             const value = this.filteredOpportunities
                 .filter((opportunity) => opportunity.stage === stage)
-                .reduce((sum, opportunity) => sum + Number(opportunity.weighted || 0), 0);
-            const count = this.filteredOpportunities.filter((opportunity) => opportunity.stage === stage).length;
+                .reduce((sum, opportunity) => sum + asNumber(opportunity.weighted), 0);
+            const count = countWhere(this.filteredOpportunities, (opportunity) => opportunity.stage === stage);
             return {
                 key: stage,
                 label: stage,
@@ -157,8 +167,7 @@ export default class ExpansionPipeline extends LightningElement {
     }
 
     get queueRows() {
-        return [...this.filteredOpportunities]
-            .sort((left, right) => Number(right.weighted || 0) - Number(left.weighted || 0))
+        return sortByNumber(this.filteredOpportunities, 'weighted')
             .map((opportunity) => ({
                 ...opportunity,
                 regionLabel: titleCaseLabel(opportunity.region),
@@ -169,25 +178,25 @@ export default class ExpansionPipeline extends LightningElement {
     }
 
     get ownerRows() {
-        const grouped = new Map();
-        const maxWeighted = this.filteredOpportunities.reduce((max, opportunity) => Math.max(max, Number(opportunity.weighted || 0)), 0) || 1;
-        this.filteredOpportunities.forEach((opportunity) => {
-            const current = grouped.get(opportunity.owner) || { key: opportunity.owner, owner: opportunity.owner, count: 0, weighted: 0, ready: 0 };
-            current.count += 1;
-            current.weighted += Number(opportunity.weighted || 0);
-            if (opportunity.readiness === 'Ready') {
-                current.ready += 1;
+        const rows = groupRows(
+            this.filteredOpportunities,
+            'owner',
+            (owner) => ({ key: owner, owner, count: 0, weighted: 0, ready: 0 }),
+            (current, opportunity) => {
+                current.count += 1;
+                current.weighted += asNumber(opportunity.weighted);
+                if (opportunity.readiness === 'Ready') {
+                    current.ready += 1;
+                }
             }
-            grouped.set(opportunity.owner, current);
-        });
-        return Array.from(grouped.values())
-            .sort((left, right) => right.weighted - left.weighted)
-            .map((row) => ({
-                ...row,
-                weightedLabel: formatCurrencyShort(row.weighted),
-                readinessLabel: row.ready ? `${row.ready} ready` : 'No ready deals',
-                meterStyle: `width:${Math.max((row.weighted / maxWeighted) * 100, 12)}%;`
-            }));
+        ).sort((left, right) => right.weighted - left.weighted);
+        const maxWeighted = rows.reduce((max, row) => Math.max(max, row.weighted), 0) || 1;
+        return rows.map((row) => ({
+            ...row,
+            weightedLabel: formatCurrencyShort(row.weighted),
+            readinessLabel: row.ready ? `${row.ready} ready` : 'No ready deals',
+            meterStyle: meterStyle(row.weighted, maxWeighted)
+        }));
     }
 
     get showStatus() {

@@ -12,11 +12,11 @@ Customer Success Analytics Command Center is a local-first analytics engineering
 
 The repository demonstrates customer lifecycle analytics, SQL mart design, typed API/frontend integration, dashboard packaging, and Salesforce-native delivery without claiming a live production synchronization layer.
 
-Live demo: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/`
+Public web app: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/`
 
-Salesforce demo surface: custom Lightning app `Customer Success Command Center`
+Salesforce Lightning surface: custom Lightning app `Customer Success Command Center`
 
-Salesforce public surface: Experience Cloud LWR portfolio site with a host-managed four-page LWC dashboard shell backed by packaged sample data.
+Salesforce public surface: Experience Cloud LWR site with a host-managed four-page LWC dashboard shell backed by packaged sample data.
 
 ## Project Purpose and Product Surface
 
@@ -45,7 +45,7 @@ These captures show the main routed web experience:
 
 This project ships with three concrete delivery surfaces:
 
-- GitHub Pages product demo: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/`
+- GitHub Pages web app: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center/`
 - Salesforce-native app: `Customer Success Command Center` Lightning app in the demo org
 - Salesforce Experience Cloud site: `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=command-center`
 
@@ -150,7 +150,7 @@ flowchart LR
 
 ### Checked-in generated artifacts
 
-These are intentionally committed because they are part of the portfolio/demo contract:
+These are intentionally committed because they are part of the reproducible product contract:
 
 - `openapi.json`
 - `frontend/src/lib/api/generated/schema.ts`
@@ -176,9 +176,9 @@ These should remain untracked:
 ### Documentation boundaries
 
 - `docs/architecture/`: technical architecture blueprints and system notes
-- `docs/demo/`: demo notes and expansion planning
+- `docs/demo/`: maintained product walkthroughs
 - `docs/qa/`: temporary but worth-keeping QA or design verification notes
-- `docs/screenshots/`: curated screenshots used by the README and demo material
+- `docs/screenshots/`: curated product screenshots used by the README and supporting docs
 
 ## Local Setup, Validation, and Publish Workflow
 
@@ -187,6 +187,7 @@ These should remain untracked:
 ```bash
 pip install -r requirements.txt -r backend/requirements.txt
 npm --prefix frontend install
+npm --prefix salesforce install
 ```
 
 ### Generate local data
@@ -229,28 +230,29 @@ Open `http://localhost:3000/dashboard`.
 ### Full validation subset
 
 ```bash
-python -m pytest tests backend/app/tests
+python -m pytest tests backend/app/tests salesforce/tests
 python scripts/generate_customer_analytics.py
 python scripts/export_openapi.py --output openapi.json
 npm --prefix frontend run api:generate:local
 npm --prefix frontend run test
 npm --prefix frontend run build
+npm --prefix salesforce run verify:experience
 ```
 
-### Static demo and publishing
+### Static web build and publishing
 
 ```bash
 GITHUB_PAGES=true npm --prefix frontend run build
 ```
 
-Static demo mode is enabled by GitHub Pages detection or `NEXT_PUBLIC_STATIC_DEMO=true`. This keeps the public web build deterministic without requiring a live FastAPI service.
+Static data mode is enabled by GitHub Pages detection or `NEXT_PUBLIC_STATIC_DEMO=true`. This keeps the public web build deterministic without requiring a live FastAPI service.
 
 ## Artifact Policy and CRM Analytics/Tableau Notes
 
 ### Artifact policy
 
 - Source code lives under `backend/`, `frontend/`, `support_analytics/`, `scripts/`, `sql/`, `salesforce/`, and selected `docs/`.
-- Generated artifacts that are part of the demo contract remain checked in.
+- Generated artifacts that are part of the reproducible product contract remain checked in.
 - Local-only QA output, caches, auth state, and scratch screenshots are not source and should stay ignored.
 - README commands should point at stable public entrypoints, not internal helper modules.
 - Root wrappers under `scripts/` may delegate into `salesforce/scripts/` or `support_analytics/`, but they remain part of the public local workflow.
@@ -267,9 +269,9 @@ This repository demonstrates both CRM Analytics readiness and a Salesforce-nativ
 
 See:
 
-- [salesforce/README.md](C:/Users/Yoshi/Documents/GitHub/aws-serverless-support-analytics/salesforce/README.md)
-- [data/salesforce_crma/README.md](C:/Users/Yoshi/Documents/GitHub/aws-serverless-support-analytics/data/salesforce_crma/README.md)
-- [salesforce/design/README.md](C:/Users/Yoshi/Documents/GitHub/aws-serverless-support-analytics/salesforce/design/README.md)
+- [salesforce/README.md](salesforce/README.md)
+- [data/salesforce_crma/README.md](data/salesforce_crma/README.md)
+- [salesforce/design/README.md](salesforce/design/README.md)
 
 ### BI documentation
 
@@ -289,4 +291,4 @@ This project includes:
 - ETL implementation and SQL mart design
 - typed backend/frontend contract ownership
 - BI export readiness and metadata packaging
-- pragmatic product delivery with a local-first demo path
+- pragmatic product delivery with a local-first delivery path

@@ -1,6 +1,21 @@
 import { LightningElement } from 'lwc';
 import getAtRiskData from '@salesforce/apex/CustomerSuccessDashboardController.getAtRiskData';
-import { formatCurrencyShort, reduceError, titleCaseLabel } from 'c/dashboardUtils';
+import {
+    asNumber,
+    averageBy,
+    barStyle,
+    countWhere,
+    formatCurrencyShort,
+    groupRows,
+    matchesFilter,
+    meterStyle,
+    percentLabel,
+    percentOf,
+    reduceError,
+    sumBy,
+    titleCaseLabel,
+    uniqueCount
+} from 'c/dashboardUtils';
 
 const REGION_OPTIONS = [
     { label: 'All regions', value: 'all' },
@@ -74,10 +89,10 @@ export default class AtRiskDrilldown extends LightningElement {
             if (!['critical', 'at-risk', 'watch'].includes(account.riskBand)) {
                 return false;
             }
-            if (this.filters.region !== 'all' && account.region !== this.filters.region) {
+            if (!matchesFilter(account.region, this.filters.region)) {
                 return false;
             }
-            if (this.filters.owner !== 'all' && account.csm !== this.filters.owner) {
+            if (!matchesFilter(account.csm, this.filters.owner)) {
                 return false;
             }
             if (this.filters.severity === 'critical' && account.riskBand !== 'critical') {
@@ -99,9 +114,9 @@ export default class AtRiskDrilldown extends LightningElement {
     }
 
     get heroStats() {
-        const totalArr = this.filteredAccounts.reduce((sum, account) => sum + Number(account.arr || 0), 0);
-        const critical = this.filteredAccounts.filter((account) => account.riskBand === 'critical').length;
-        const owners = new Set(this.filteredAccounts.map((account) => account.csm)).size;
+        const totalArr = sumBy(this.filteredAccounts, 'arr');
+        const critical = countWhere(this.filteredAccounts, (account) => account.riskBand === 'critical');
+        const owners = uniqueCount(this.filteredAccounts, 'csm');
         return [
             { key: 'arr', label: 'At-risk ARR', value: formatCurrencyShort(totalArr) },
             { key: 'critical', label: 'Critical accounts', value: `${critical}` },
@@ -110,13 +125,11 @@ export default class AtRiskDrilldown extends LightningElement {
     }
 
     get kpis() {
-        const totalArr = this.filteredAccounts.reduce((sum, account) => sum + Number(account.arr || 0), 0);
+        const totalArr = sumBy(this.filteredAccounts, 'arr');
         const criticalArr = this.filteredAccounts
             .filter((account) => account.riskBand === 'critical')
-            .reduce((sum, account) => sum + Number(account.arr || 0), 0);
-        const avgDays = this.filteredAccounts.length
-            ? Math.round(this.filteredAccounts.reduce((sum, account) => sum + Number(account.lastTouchDays || 0), 0) / this.filteredAccounts.length)
-            : 0;
+            .reduce((sum, account) => sum + asNumber(account.arr), 0);
+        const avgDays = Math.round(averageBy(this.filteredAccounts, 'lastTouchDays'));
 
         return [
             { key: 'exposure', label: 'Total Exposure', value: formatCurrencyShort(totalArr), hint: 'Revenue represented in the queue', accentClass: 'accent-negative' },
@@ -133,33 +146,34 @@ export default class AtRiskDrilldown extends LightningElement {
     }
 
     get riskBandRows() {
-        const totalArr = this.filteredAccounts.reduce((sum, account) => sum + Number(account.arr || 0), 0) || 1;
+        const totalArr = sumBy(this.filteredAccounts, 'arr') || 1;
         return ['critical', 'at-risk', 'watch'].map((key) => {
             const value = this.filteredAccounts
                 .filter((account) => account.riskBand === key)
-                .reduce((sum, account) => sum + Number(account.arr || 0), 0);
-            const percent = (value / totalArr) * 100;
+                .reduce((sum, account) => sum + asNumber(account.arr), 0);
+            const percent = percentOf(value, totalArr);
             return {
                 key,
                 label: RISK_STYLES[key].label,
                 valueLabel: formatCurrencyShort(value),
-                percentLabel: `${percent.toFixed(0)}%`,
+                percentLabel: percentLabel(value, totalArr),
                 dotStyle: `background:${RISK_STYLES[key].color};`,
-                barStyle: `width:${Math.max(percent, value ? 10 : 0)}%; background:${RISK_STYLES[key].color};`
+                barStyle: barStyle(percent, RISK_STYLES[key].color, 10, !!value)
             };
         });
     }
 
     get driverRows() {
-        const grouped = new Map();
-        const totalArr = this.filteredAccounts.reduce((sum, account) => sum + Number(account.arr || 0), 0) || 1;
-        this.filteredAccounts.forEach((account) => {
-            const current = grouped.get(account.primaryRisk) || { key: account.primaryRisk, label: account.primaryRisk, accounts: 0, arr: 0 };
-            current.accounts += 1;
-            current.arr += Number(account.arr || 0);
-            grouped.set(account.primaryRisk, current);
-        });
-        return Array.from(grouped.values())
+        const totalArr = sumBy(this.filteredAccounts, 'arr') || 1;
+        return groupRows(
+            this.filteredAccounts,
+            'primaryRisk',
+            (driver) => ({ key: driver, label: driver, accounts: 0, arr: 0 }),
+            (current, account) => {
+                current.accounts += 1;
+                current.arr += asNumber(account.arr);
+            }
+        )
             .sort((left, right) => right.arr - left.arr)
             .slice(0, 5)
             .map((row) => ({
@@ -185,25 +199,25 @@ export default class AtRiskDrilldown extends LightningElement {
     }
 
     get ownerRows() {
-        const grouped = new Map();
-        const maxArr = this.filteredAccounts.reduce((max, account) => Math.max(max, Number(account.arr || 0)), 0) || 1;
-        this.filteredAccounts.forEach((account) => {
-            const current = grouped.get(account.csm) || { key: account.csm, owner: account.csm, accounts: 0, arr: 0, critical: 0 };
-            current.accounts += 1;
-            current.arr += Number(account.arr || 0);
-            if (account.riskBand === 'critical') {
-                current.critical += 1;
+        const rows = groupRows(
+            this.filteredAccounts,
+            'csm',
+            (owner) => ({ key: owner, owner, accounts: 0, arr: 0, critical: 0 }),
+            (current, account) => {
+                current.accounts += 1;
+                current.arr += asNumber(account.arr);
+                if (account.riskBand === 'critical') {
+                    current.critical += 1;
+                }
             }
-            grouped.set(account.csm, current);
-        });
-        return Array.from(grouped.values())
-            .sort((left, right) => right.arr - left.arr)
-            .map((row) => ({
-                ...row,
-                arrLabel: formatCurrencyShort(row.arr),
-                criticalLabel: row.critical ? `${row.critical} critical` : 'No criticals',
-                meterStyle: `width:${Math.max((row.arr / maxArr) * 100, 12)}%;`
-            }));
+        ).sort((left, right) => right.arr - left.arr);
+        const maxArr = rows.reduce((max, row) => Math.max(max, row.arr), 0) || 1;
+        return rows.map((row) => ({
+            ...row,
+            arrLabel: formatCurrencyShort(row.arr),
+            criticalLabel: row.critical ? `${row.critical} critical` : 'No criticals',
+            meterStyle: meterStyle(row.arr, maxArr)
+        }));
     }
 
     get showStatus() {
@@ -217,6 +231,6 @@ export default class AtRiskDrilldown extends LightningElement {
 
     queueWeight(account) {
         const riskWeight = { critical: 3, 'at-risk': 2, watch: 1 };
-        return riskWeight[account.riskBand] * 1000000 + Number(account.arr || 0);
+        return riskWeight[account.riskBand] * 1000000 + asNumber(account.arr);
     }
 }

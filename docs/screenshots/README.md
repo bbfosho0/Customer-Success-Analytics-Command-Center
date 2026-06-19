@@ -1,6 +1,6 @@
 # Screenshot Inventory
 
-This folder holds employer-facing UI captures for the current routed product. Screenshots are refreshed manually to avoid publishing low-quality or inconsistent exports.
+This folder holds curated UI captures for the current routed product. Screenshots are refreshed only after validation passes so published evidence stays consistent with the live surfaces.
 
 ## Required filenames
 
@@ -38,7 +38,7 @@ This folder holds employer-facing UI captures for the current routed product. Sc
 
 ## Refresh rules
 
-- Capture from the current `BETTER` or `main` branch after validation passes.
+- Capture from the current `main` branch after validation passes.
 - Use desktop viewport sizing consistently across the full set.
 - Prefer static-demo mode or a stable local dataset so counts and labels remain deterministic.
 - Prefer full-page screenshots from the deployed GitHub Pages demo when the route is public and stable.

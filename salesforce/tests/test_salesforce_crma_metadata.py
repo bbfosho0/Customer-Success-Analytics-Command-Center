@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -37,6 +38,17 @@ def _dashboard(name: str) -> dict:
 
 def _xmd(name: str) -> ET.Element:
     return ET.parse(WAVE_DIR / f"{name}.xmd-meta.xml").getroot()
+
+
+def _tracked_salesforce_files() -> list[Path]:
+    result = subprocess.run(
+        ["git", "ls-files", "salesforce"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return [ROOT / line for line in result.stdout.splitlines() if line]
 
 
 def test_required_salesforce_assets_and_api_version_exist() -> None:
@@ -197,7 +209,7 @@ def test_xmd_labels_and_percentage_formats_are_readable() -> None:
 def test_metadata_contains_no_org_specific_identity_or_sharing_data() -> None:
     contents = "\n".join(
         path.read_text(encoding="utf-8")
-        for path in SALESFORCE_DIR.rglob("*")
+        for path in _tracked_salesforce_files()
         if path.is_file()
         and "__pycache__" not in path.parts
         and "tests" not in path.parts

@@ -33,6 +33,8 @@ backend/.uvicorn.err.log
 salesforce/output/
 salesforce/playwright-report/
 salesforce/test-results/
+salesforce/verify-*/
+salesforce/force-app/main/default/networks/
 
 # Historical local dashboard tooling path; source-of-truth files now live in
 # salesforce/design/

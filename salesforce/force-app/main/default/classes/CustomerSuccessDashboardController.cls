@@ -3,6 +3,8 @@ public with sharing class CustomerSuccessDashboardController {
     private static final String SAMPLE_MESSAGE = 'Packaged sample data derived from the repo CSV datasets is powering this dashboard app.';
 
     @TestVisible private static SamplePayload payloadCache;
+    @TestVisible private static String payloadBodyOverride;
+    @TestVisible private static String lastPayloadError;
 
     @AuraEnabled(cacheable=true)
     public static CommandCenterResponse getCommandCenterData() {
@@ -52,6 +54,35 @@ public with sharing class CustomerSuccessDashboardController {
         if (payloadCache != null) {
             return payloadCache;
         }
+        lastPayloadError = null;
+
+        try {
+            Map<String, Object> root = (Map<String, Object>) JSON.deserializeUntyped(getPayloadBody());
+            Map<String, Object> datasets = (Map<String, Object>) root.get('datasets');
+            if (datasets == null) {
+                throw new SampleDataException('Dashboard sample payload is missing the datasets collection.');
+            }
+
+            SamplePayload payload = new SamplePayload();
+            payload.commandCenterAccounts = mapAccountRows(requireDataset(datasets, 'customer360'), 'customer360');
+            payload.atRiskAccounts = mapAccountRows(requireDataset(datasets, 'churnRiskAccounts'), 'churnRiskAccounts');
+            payload.expansionOpportunities = mapOpportunityRows(requireDataset(datasets, 'expansionOpportunities'), 'expansionOpportunities');
+            payload.retentionCohorts = mapCohortRows(requireDataset(datasets, 'retentionCohorts'), 'retentionCohorts');
+            payloadCache = payload;
+            return payload;
+        } catch (SampleDataException error) {
+            lastPayloadError = error.getMessage();
+            throw new AuraHandledException(lastPayloadError);
+        } catch (Exception error) {
+            lastPayloadError = 'Unable to parse packaged dashboard sample data: ' + error.getMessage();
+            throw new AuraHandledException(lastPayloadError);
+        }
+    }
+
+    private static String getPayloadBody() {
+        if (Test.isRunningTest() && payloadBodyOverride != null) {
+            return payloadBodyOverride;
+        }
 
         List<StaticResource> resources = [
             SELECT Body
@@ -62,34 +93,41 @@ public with sharing class CustomerSuccessDashboardController {
         if (resources.isEmpty()) {
             throw new AuraHandledException('Dashboard sample data static resource is missing: ' + STATIC_RESOURCE_NAME);
         }
+        return resources[0].Body.toString();
+    }
 
+    private static List<Object> requireDataset(Map<String, Object> datasets, String datasetName) {
+        Object rawRows = datasets.get(datasetName);
+        if (rawRows == null) {
+            throw new SampleDataException('Dashboard sample payload is missing dataset: ' + datasetName + '.');
+        }
+
+        List<Object> rows;
         try {
-            Map<String, Object> root = (Map<String, Object>) JSON.deserializeUntyped(resources[0].Body.toString());
-            Map<String, Object> datasets = (Map<String, Object>) root.get('datasets');
-            if (datasets == null) {
-                throw new AuraHandledException('Dashboard sample payload is missing the datasets collection.');
-            }
-
-            SamplePayload payload = new SamplePayload();
-            payload.commandCenterAccounts = mapAccountRows((List<Object>) datasets.get('customer360'));
-            payload.atRiskAccounts = mapAccountRows((List<Object>) datasets.get('churnRiskAccounts'));
-            payload.expansionOpportunities = mapOpportunityRows((List<Object>) datasets.get('expansionOpportunities'));
-            payload.retentionCohorts = mapCohortRows((List<Object>) datasets.get('retentionCohorts'));
-            payloadCache = payload;
-            return payload;
+            rows = (List<Object>) rawRows;
         } catch (Exception error) {
-            throw new AuraHandledException('Unable to parse packaged dashboard sample data: ' + error.getMessage());
+            throw new SampleDataException('Dashboard sample dataset must be an array: ' + datasetName + '.');
+        }
+
+        if (rows.isEmpty()) {
+            throw new SampleDataException('Dashboard sample dataset has no rows: ' + datasetName + '.');
+        }
+        return rows;
+    }
+
+    private static Map<String, Object> requireRowMap(Object rawRow, String datasetName) {
+        try {
+            return (Map<String, Object>) rawRow;
+        } catch (Exception error) {
+            throw new SampleDataException('Dashboard sample row must be an object in dataset: ' + datasetName + '.');
         }
     }
 
-    private static List<AccountRow> mapAccountRows(List<Object> rawRows) {
+    private static List<AccountRow> mapAccountRows(List<Object> rawRows, String datasetName) {
         List<AccountRow> rows = new List<AccountRow>();
-        if (rawRows == null) {
-            return rows;
-        }
 
         for (Object rawRow : rawRows) {
-            Map<String, Object> row = (Map<String, Object>) rawRow;
+            Map<String, Object> row = requireRowMap(rawRow, datasetName);
             AccountRow mapped = new AccountRow();
             mapped.id = stringValue(row.get('id'));
             mapped.accountName = stringValue(row.get('accountName'));
@@ -115,14 +153,11 @@ public with sharing class CustomerSuccessDashboardController {
         return rows;
     }
 
-    private static List<OpportunityRow> mapOpportunityRows(List<Object> rawRows) {
+    private static List<OpportunityRow> mapOpportunityRows(List<Object> rawRows, String datasetName) {
         List<OpportunityRow> rows = new List<OpportunityRow>();
-        if (rawRows == null) {
-            return rows;
-        }
 
         for (Object rawRow : rawRows) {
-            Map<String, Object> row = (Map<String, Object>) rawRow;
+            Map<String, Object> row = requireRowMap(rawRow, datasetName);
             OpportunityRow mapped = new OpportunityRow();
             mapped.id = stringValue(row.get('id'));
             mapped.accountId = stringValue(row.get('accountId'));
@@ -141,14 +176,11 @@ public with sharing class CustomerSuccessDashboardController {
         return rows;
     }
 
-    private static List<CohortRow> mapCohortRows(List<Object> rawRows) {
+    private static List<CohortRow> mapCohortRows(List<Object> rawRows, String datasetName) {
         List<CohortRow> rows = new List<CohortRow>();
-        if (rawRows == null) {
-            return rows;
-        }
 
         for (Object rawRow : rawRows) {
-            Map<String, Object> row = (Map<String, Object>) rawRow;
+            Map<String, Object> row = requireRowMap(rawRow, datasetName);
             CohortRow mapped = new CohortRow();
             mapped.id = stringValue(row.get('id'));
             mapped.cohortLabel = stringValue(row.get('cohortLabel'));
@@ -188,6 +220,8 @@ public with sharing class CustomerSuccessDashboardController {
         List<OpportunityRow> expansionOpportunities;
         List<CohortRow> retentionCohorts;
     }
+
+    private class SampleDataException extends Exception {}
 
     public class CommandCenterResponse {
         @AuraEnabled public Boolean isFallback;

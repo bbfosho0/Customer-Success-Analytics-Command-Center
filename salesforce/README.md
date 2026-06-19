@@ -42,7 +42,7 @@ The repo now includes a working public Experience Cloud surface:
   - `force-app/main/default/sites/`
   - `force-app/main/default/profiles/Customer Success Portfolio Profile.profile-meta.xml`
 
-The target org now has a seeded Experience site at:
+The target org has a seeded Experience site at:
 
 `https://notapplicable-22b-dev-ed.develop.my.site.com/csccportfolio/?page=command-center`
 
@@ -58,7 +58,7 @@ Current runtime status:
   - `...?page=retention-cohorts`
 - the Experience nav and command-center CTAs use that same URL model so public sharing stays consistent
 
-GitHub Pages remains the main public web demo. The Experience site is the Salesforce-hosted companion surface.
+GitHub Pages remains the public web app. The Experience site is the Salesforce-hosted companion surface.
 
 ## Versioned metadata
 
@@ -106,6 +106,7 @@ python scripts/export_salesforce_crma.py
 python salesforce/scripts/build_dashboard_sample_resources.py
 python salesforce/scripts/build_salesforce_crma_metadata.py
 python -m pytest salesforce/tests
+npm --prefix salesforce run verify:experience
 ```
 
 Stable compatibility wrappers also exist at:
@@ -161,6 +162,19 @@ One-time org-side prerequisites that are not fully source-managed:
 - The Experience Network sender address must be configured in the site's Administration settings because Salesforce requires it to match the target org.
 - The site must be published after deploy.
 - The Experience guest profile must retain Apex access to `CustomerSuccessDashboardController`.
+
+Verify the published public site with:
+
+```powershell
+npm --prefix salesforce run verify:experience
+```
+
+Use `EXPERIENCE_BASE_URL` to point the verifier at another published site:
+
+```powershell
+$env:EXPERIENCE_BASE_URL = "https://example.my.site.com/csccportfolio/"
+npm --prefix salesforce run verify:experience
+```
 
 ## Design workflow
 
