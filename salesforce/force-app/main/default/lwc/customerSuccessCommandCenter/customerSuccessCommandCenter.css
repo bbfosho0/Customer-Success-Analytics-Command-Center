@@ -72,7 +72,7 @@
         linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
     display: grid;
     gap: 14px;
-    grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
+    grid-template-columns: 1fr;
     padding: 16px 18px;
     position: relative;
     overflow: hidden;
@@ -132,20 +132,6 @@
     margin: 6px 0 0;
 }
 
-.header-actions {
-    align-content: start;
-    display: grid;
-    gap: 8px;
-}
-
-.header-actions-copy {
-    background: rgba(255, 255, 255, 0.72);
-    border: 1px solid rgba(217, 226, 236, 0.9);
-    border-radius: 12px;
-    padding: 12px;
-}
-
-.header-actions-title,
 .filters-eyebrow {
     color: var(--primary-accent);
     font-size: 11px;
@@ -153,13 +139,6 @@
     letter-spacing: 0.06em;
     margin: 0;
     text-transform: uppercase;
-}
-
-.header-actions-body {
-    color: var(--muted-text);
-    font-size: 11px;
-    line-height: 1.5;
-    margin: 6px 0 0;
 }
 
 .header-stat-row {
@@ -194,7 +173,6 @@
     line-height: 1.25;
 }
 
-.header-action,
 .filter-pill,
 .reset-button {
     appearance: none;
@@ -206,27 +184,9 @@
     font: inherit;
 }
 
-.header-action {
-    align-items: center;
-    display: flex;
-    font-size: 12px;
-    font-weight: 600;
-    justify-content: space-between;
-    padding: 11px 13px;
-    text-align: left;
-    transition: border-color 120ms ease, transform 120ms ease;
-}
-
-.header-action:hover,
 .filter-pill:hover,
 .reset-button:hover {
     border-color: #94a3b8;
-}
-
-.header-action-state {
-    color: var(--muted-text);
-    font-size: 11px;
-    font-weight: 500;
 }
 
 .filters-card {
@@ -578,6 +538,67 @@
     overflow-x: auto;
 }
 
+.mobile-record-list {
+    display: none;
+    gap: 10px;
+}
+
+.mobile-record-card {
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    border: 1px solid var(--gridline-color);
+    border-radius: 12px;
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+}
+
+.mobile-record-header {
+    align-items: start;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.mobile-record-title,
+.mobile-record-value {
+    color: var(--primary-text);
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.mobile-record-meta,
+.mobile-record-context,
+.mobile-record-footer {
+    color: var(--muted-text);
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 4px 0 0;
+}
+
+.mobile-record-metrics {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mobile-record-metric {
+    background: var(--subtle-panel-background);
+    border: 1px solid var(--gridline-color);
+    border-radius: 10px;
+    display: grid;
+    gap: 4px;
+    padding: 9px 10px;
+}
+
+.mobile-record-label {
+    color: var(--muted-text);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
 table {
     border-collapse: collapse;
     min-width: 760px;
@@ -699,21 +720,26 @@ tbody tr:last-child td {
     }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
+    .filters-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .secondary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
     .command-center {
         gap: var(--section-gap-mobile);
-        padding: var(--outer-padding-mobile);
+        padding: 8px 6px 12px;
     }
 
     .filters-grid,
     .kpi-grid,
     .health-grid,
     .health-mix-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .header-stat-row,
-    .header-actions {
         grid-template-columns: 1fr;
     }
 
@@ -738,6 +764,7 @@ tbody tr:last-child td {
     .filters-card,
     .header-card {
         padding: 12px;
+        border-radius: 10px;
     }
 
     .tone-warning,
@@ -751,14 +778,36 @@ tbody tr:last-child td {
         min-width: 0;
         width: 100%;
     }
-}
 
-@media (max-width: 900px) {
-    .filters-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .header-title-row h1 {
+        font-size: 18px;
     }
 
-    .secondary-grid {
+    .summary-badge {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .header-stat-row,
+    .mobile-record-list {
+        display: grid;
+    }
+
+    .header-stat-chip {
+        width: 100%;
+    }
+
+    .owner-meta,
+    .mobile-record-header {
+        align-items: start;
+        flex-direction: column;
+    }
+
+    .mobile-record-metrics {
         grid-template-columns: 1fr;
+    }
+
+    .table-scroll {
+        display: none;
     }
 }

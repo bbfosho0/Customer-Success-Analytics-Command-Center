@@ -134,6 +134,31 @@
                         <p>Ranked opportunities by weighted value, readiness, and close window.</p>
                     </div>
                 </div>
+                <div class="mobile-record-list">
+                    <template for:each={queueRows} for:item="row">
+                        <article key={row.id} class="mobile-record-card">
+                            <div class="mobile-record-header">
+                                <div>
+                                    <p class="mobile-record-title">{row.accountName}</p>
+                                    <p class="mobile-record-meta">{row.owner} · {row.regionLabel}</p>
+                                </div>
+                                <span class="pill" style={row.pillStyle}>{row.stage}</span>
+                            </div>
+                            <div class="mobile-record-metrics">
+                                <div class="mobile-record-metric">
+                                    <span class="mobile-record-label">Weighted</span>
+                                    <span class="mobile-record-value">{row.weightedLabel}</span>
+                                </div>
+                                <div class="mobile-record-metric">
+                                    <span class="mobile-record-label">Close</span>
+                                    <span class="mobile-record-value">{row.closeWindow}</span>
+                                </div>
+                            </div>
+                            <p class="mobile-record-context">{row.useCase}</p>
+                            <p class="mobile-record-footer">{row.readinessLabel} · {row.nextAction}</p>
+                        </article>
+                    </template>
+                </div>
                 <div class="table-scroll">
                     <table>
                         <thead>

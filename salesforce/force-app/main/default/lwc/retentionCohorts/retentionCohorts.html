@@ -134,6 +134,34 @@
                         <p>Compact cohort view with retention and expansion context.</p>
                     </div>
                 </div>
+                <div class="mobile-record-list">
+                    <template for:each={tableRows} for:item="row">
+                        <article key={row.id} class="mobile-record-card">
+                            <div class="mobile-record-header">
+                                <div>
+                                    <p class="mobile-record-title">{row.cohortLabel}</p>
+                                    <p class="mobile-record-meta">{row.segmentLabel} · {row.regionLabel}</p>
+                                </div>
+                                <span class="mobile-record-badge">{row.windowLabel}</span>
+                            </div>
+                            <div class="mobile-record-metrics mobile-record-metrics_compact">
+                                <div class="mobile-record-metric">
+                                    <span class="mobile-record-label">Month 3</span>
+                                    <span class="mobile-record-value">{row.month3Label}</span>
+                                </div>
+                                <div class="mobile-record-metric">
+                                    <span class="mobile-record-label">Month 6</span>
+                                    <span class="mobile-record-value">{row.month6Label}</span>
+                                </div>
+                                <div class="mobile-record-metric">
+                                    <span class="mobile-record-label">LTV</span>
+                                    <span class="mobile-record-value">{row.ltvLabel}</span>
+                                </div>
+                            </div>
+                            <p class="mobile-record-footer">{row.customers} customers</p>
+                        </article>
+                    </template>
+                </div>
                 <div class="table-scroll">
                     <table>
                         <thead>

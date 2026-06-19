@@ -27,7 +27,7 @@
             "children" : [ {
               "attributes" : {
                 "imageInfos" : "",
-                "richTextValue" : "<div class=\"portfolio-shell\"><div class=\"portfolio-shell__brand\"><span class=\"portfolio-shell__eyebrow\">Salesforce Experience Demo</span><span class=\"portfolio-shell__title\">Customer Success Portfolio</span></div><nav class=\"portfolio-shell__nav\"><a href=\"?page=command-center\" class=\"portfolio-shell__link\">Command Center</a><a href=\"?page=at-risk-drilldown\" class=\"portfolio-shell__link\">At-Risk Drilldown</a><a href=\"?page=expansion-pipeline\" class=\"portfolio-shell__link\">Expansion Pipeline</a><a href=\"?page=retention-cohorts\" class=\"portfolio-shell__link\">Retention Cohorts</a></nav><div class=\"portfolio-shell__badge\">Apex + packaged sample data</div></div>"
+                "richTextValue" : ""
               },
               "definition" : "community_builder:htmlEditor",
               "id" : "c4ce69bd-6720-4f78-8b2b-1d5d3198fc01",

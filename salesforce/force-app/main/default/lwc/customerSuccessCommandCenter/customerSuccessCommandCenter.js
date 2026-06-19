@@ -1,5 +1,4 @@
 import { LightningElement } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
 import getCommandCenterData from '@salesforce/apex/CustomerSuccessDashboardController.getCommandCenterData';
 import { formatCurrencyShort, formatPercent, reduceError, titleCaseLabel } from 'c/dashboardUtils';
 
@@ -51,12 +50,6 @@ const HEALTH_CONFIG = {
     'at-risk': { label: 'At Risk', color: '#DC2626' }
 };
 
-const DRILLDOWNS = [
-    { key: 'atRisk', label: 'At-Risk Drilldown', targetTab: 'AtRiskDrilldown_Page', publicPage: 'at-risk-drilldown' },
-    { key: 'expansion', label: 'Expansion Pipeline', targetTab: 'ExpansionPipeline_Page', publicPage: 'expansion-pipeline' },
-    { key: 'retention', label: 'Retention Cohorts', targetTab: 'RetentionCohorts_Page', publicPage: 'retention-cohorts' }
-];
-
 const WINDOW_LIMITS = {
     '30d': 30,
     '60d': 60,
@@ -64,7 +57,7 @@ const WINDOW_LIMITS = {
     ytd: 365
 };
 
-export default class CustomerSuccessCommandCenter extends NavigationMixin(LightningElement) {
+export default class CustomerSuccessCommandCenter extends LightningElement {
     filters = {
         portfolio: 'all',
         segment: 'all',
@@ -105,13 +98,6 @@ export default class CustomerSuccessCommandCenter extends NavigationMixin(Lightn
         } finally {
             this.isLoading = false;
         }
-    }
-
-    get headerActions() {
-        return DRILLDOWNS.map((item) => ({
-            ...item,
-            stateLabel: this.isExperienceSite ? 'Open page' : 'Open tab'
-        }));
     }
 
     get filteredAccounts() {
@@ -343,32 +329,6 @@ export default class CustomerSuccessCommandCenter extends NavigationMixin(Lightn
     handleRemoveFilter(event) {
         const filterName = event.currentTarget.dataset.filter;
         this.filters = { ...this.filters, [filterName]: 'all' };
-    }
-
-    handleDrilldown(event) {
-        const target = DRILLDOWNS.find((item) => item.key === event.currentTarget.dataset.key);
-        if (!target) {
-            return;
-        }
-        if (this.isExperienceSite) {
-            const nextUrl = new URL(window.location.href);
-            nextUrl.searchParams.set('page', target.publicPage);
-            window.location.assign(nextUrl.toString());
-            return;
-        }
-        this[NavigationMixin.Navigate]({
-            type: 'standard__navItemPage',
-            attributes: {
-                apiName: target.targetTab
-            }
-        });
-    }
-
-    get isExperienceSite() {
-        if (typeof window === 'undefined') {
-            return false;
-        }
-        return window.location.hostname.includes('.my.site.com');
     }
 
     queueWeight(account) {

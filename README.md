@@ -16,7 +16,7 @@ Live demo: `https://bbfosho0.github.io/Customer-Success-Analytics-Command-Center
 
 Salesforce demo surface: custom Lightning app `Customer Success Command Center`
 
-Salesforce public surface: Experience Cloud LWR portfolio site reusing the same four Apex-backed dashboard LWCs with packaged sample data.
+Salesforce public surface: Experience Cloud LWR portfolio site with a host-managed four-page LWC dashboard shell backed by packaged sample data.
 
 ## Project Purpose and Product Surface
 
@@ -81,6 +81,7 @@ The repository includes the Experience-ready source changes for that path:
 Current Experience status:
 
 - the Experience site renders all four public LWC dashboards anonymously through one verified route model
+- `customerSuccessExperienceHost` owns the public app shell, active top navigation, and query-param routing
 - the site shell and metadata are repo-managed under `salesforce/force-app/main/default/digitalExperiences/`
 - the public URL model is `...?page=command-center|at-risk-drilldown|expansion-pipeline|retention-cohorts`
 

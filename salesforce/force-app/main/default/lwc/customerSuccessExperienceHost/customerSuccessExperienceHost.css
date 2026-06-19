@@ -1,3 +1,140 @@
 :host {
     display: block;
 }
+
+.experience-shell {
+    background: #f6f8fb;
+    display: grid;
+    gap: 14px;
+    min-height: 100vh;
+}
+
+.portfolio-shell {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #d5e3f2;
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(28, 61, 110, 0.08);
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: minmax(210px, 0.6fr) minmax(420px, 1.8fr) auto;
+    margin: 10px auto 0;
+    max-width: 1480px;
+    padding: 0.75rem 0.9rem;
+    width: calc(100% - 20px);
+}
+
+.portfolio-shell__brand {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.portfolio-shell__eyebrow {
+    color: #5f7895;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.portfolio-shell__title {
+    color: #0e233f;
+    font-size: 1.03rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.portfolio-shell__nav {
+    display: grid;
+    gap: 0.55rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    min-width: 0;
+}
+
+.portfolio-shell__link {
+    background: #f7fbff;
+    border: 1px solid #c7d9ec;
+    border-radius: 999px;
+    color: #183153;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.25;
+    padding: 0.55rem 0.75rem;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    white-space: nowrap;
+}
+
+.portfolio-shell__link:hover,
+.portfolio-shell__link:focus {
+    background: #eaf4ff;
+    border-color: #8fbce9;
+    color: #0f4c81;
+    outline: none;
+    text-decoration: none;
+}
+
+.portfolio-shell__link:focus-visible {
+    box-shadow: 0 0 0 3px rgba(79, 182, 211, 0.3);
+}
+
+.portfolio-shell__link_active,
+.portfolio-shell__link_active:hover,
+.portfolio-shell__link_active:focus {
+    background: #0b1f3a;
+    border-color: #0b1f3a;
+    color: #ffffff;
+}
+
+.portfolio-shell__badge {
+    background: #e8f1ff;
+    border: 1px solid #c5d7f1;
+    border-radius: 999px;
+    color: #21446d;
+    font-size: 0.69rem;
+    font-weight: 700;
+    justify-self: end;
+    padding: 0.38rem 0.7rem;
+    white-space: nowrap;
+}
+
+.experience-content {
+    display: block;
+}
+
+@media (max-width: 1100px) {
+    .portfolio-shell {
+        align-items: start;
+        grid-template-columns: 1fr;
+    }
+
+    .portfolio-shell__badge {
+        justify-self: start;
+    }
+}
+
+@media (max-width: 640px) {
+    .experience-shell {
+        gap: 10px;
+    }
+
+    .portfolio-shell {
+        border-radius: 12px;
+        margin-top: 8px;
+        padding: 0.65rem 0.75rem;
+        width: calc(100% - 16px);
+    }
+
+    .portfolio-shell__nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .portfolio-shell__link {
+        font-size: 0.78rem;
+        padding: 0.52rem 0.65rem;
+        white-space: normal;
+    }
+}

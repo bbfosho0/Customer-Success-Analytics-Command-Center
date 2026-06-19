@@ -34,7 +34,8 @@ The repo now includes a working public Experience Cloud surface:
 
 - all four dashboard LWCs expose `lightningCommunity__Page`
 - `force-app/main/default/settings/Communities.settings-meta.xml` enables Digital Experiences metadata through source control
-- the intended public site shape is a public LWR site that reuses the existing four LWCs and the same Apex plus packaged sample-data runtime
+- `customerSuccessExperienceHost` is the public LWC app shell for brand, active top navigation, and `?page=` routing
+- the public LWR site reuses the existing four dashboard LWCs and the same Apex plus packaged sample-data runtime
 - the seeded site metadata is versioned under:
   - `force-app/main/default/digitalExperiences/site/Customer_Success_Portfolio1/`
   - `force-app/main/default/digitalExperienceConfigs/`
@@ -49,6 +50,7 @@ Current runtime status:
 
 - the anonymous public route renders all four custom LWC dashboards
 - the Experience shell, styling, Apex access, and packaged sample-data runtime are deployed
+- top-nav clicks update the active LWC page immediately without requiring a manual browser refresh
 - the verified public route format is:
   - `...?page=command-center`
   - `...?page=at-risk-drilldown`

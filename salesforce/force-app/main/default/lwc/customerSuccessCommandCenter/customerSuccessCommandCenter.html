@@ -26,24 +26,6 @@
                     </template>
                 </div>
             </div>
-            <div class="header-actions">
-                <div class="header-actions-copy">
-                    <p class="header-actions-title">App drilldowns</p>
-                    <p class="header-actions-body">Stay inside the LWC app shell while drilling from the overview into focused risk, pipeline, and retention pages.</p>
-                </div>
-                <template for:each={headerActions} for:item="action">
-                    <button
-                        key={action.key}
-                        class="header-action"
-                        data-key={action.key}
-                        onclick={handleDrilldown}
-                        type="button"
-                    >
-                        <span>{action.label}</span>
-                        <span class="header-action-state">{action.stateLabel}</span>
-                    </button>
-                </template>
-            </div>
         </div>
 
         <section class="filters-card">
@@ -208,6 +190,31 @@
                     <div class="empty-state">No accounts match the current filters.</div>
                 </template>
                 <template if:false={noData}>
+                    <div class="mobile-record-list">
+                        <template for:each={priorityQueueRows} for:item="row">
+                            <article key={row.id} class="mobile-record-card">
+                                <div class="mobile-record-header">
+                                    <div>
+                                        <p class="mobile-record-title">{row.accountName}</p>
+                                        <p class="mobile-record-meta">{row.csm} · {row.id}</p>
+                                    </div>
+                                    <span class="risk-pill" style={row.riskPillStyle}>{row.riskLabel}</span>
+                                </div>
+                                <div class="mobile-record-metrics">
+                                    <div class="mobile-record-metric">
+                                        <span class="mobile-record-label">ARR</span>
+                                        <span class="mobile-record-value">{row.arrLabel}</span>
+                                    </div>
+                                    <div class="mobile-record-metric">
+                                        <span class="mobile-record-label">Pipeline</span>
+                                        <span class="mobile-record-value">{row.pipelineLabel}</span>
+                                    </div>
+                                </div>
+                                <p class="mobile-record-context">{row.primaryRisk}</p>
+                                <p class="mobile-record-footer">{row.renewalMonth} · {row.freshnessLabel} · {row.nextStep}</p>
+                            </article>
+                        </template>
+                    </div>
                     <div class="table-scroll">
                         <table>
                             <thead>

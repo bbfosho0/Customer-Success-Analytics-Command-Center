@@ -1,14 +1,40 @@
 <template>
-    <template lwc:if={isCommandCenter}>
-        <c-customer-success-command-center></c-customer-success-command-center>
-    </template>
-    <template lwc:elseif={isAtRisk}>
-        <c-at-risk-drilldown></c-at-risk-drilldown>
-    </template>
-    <template lwc:elseif={isExpansionPipeline}>
-        <c-expansion-pipeline></c-expansion-pipeline>
-    </template>
-    <template lwc:elseif={isRetentionCohorts}>
-        <c-retention-cohorts></c-retention-cohorts>
-    </template>
+    <section class="experience-shell">
+        <header class="portfolio-shell">
+            <div class="portfolio-shell__brand">
+                <span class="portfolio-shell__eyebrow">Salesforce Experience</span>
+                <span class="portfolio-shell__title">Customer Success Portfolio</span>
+            </div>
+            <nav class="portfolio-shell__nav" aria-label="Customer Success dashboard pages">
+                <template for:each={navItems} for:item="item">
+                    <a
+                        key={item.page}
+                        class={item.className}
+                        href={item.href}
+                        data-page={item.page}
+                        aria-current={item.ariaCurrent}
+                        onclick={handleNavClick}
+                    >
+                        {item.label}
+                    </a>
+                </template>
+            </nav>
+            <div class="portfolio-shell__badge">Apex + packaged sample data</div>
+        </header>
+
+        <main class="experience-content">
+            <template lwc:if={isCommandCenter}>
+                <c-customer-success-command-center></c-customer-success-command-center>
+            </template>
+            <template lwc:elseif={isAtRisk}>
+                <c-at-risk-drilldown></c-at-risk-drilldown>
+            </template>
+            <template lwc:elseif={isExpansionPipeline}>
+                <c-expansion-pipeline></c-expansion-pipeline>
+            </template>
+            <template lwc:elseif={isRetentionCohorts}>
+                <c-retention-cohorts></c-retention-cohorts>
+            </template>
+        </main>
+    </section>
 </template>
