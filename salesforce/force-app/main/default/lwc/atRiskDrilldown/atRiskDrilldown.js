@@ -4,6 +4,7 @@ import {
     asNumber,
     averageBy,
     barStyle,
+    buildSelectOptions,
     countWhere,
     formatCurrencyShort,
     groupRows,
@@ -32,14 +33,6 @@ const SEVERITY_OPTIONS = [
     { label: 'Watch and above', value: 'watch-plus' }
 ];
 
-const OWNER_OPTIONS = [
-    { label: 'All owners', value: 'all' },
-    { label: 'Jules Lau', value: 'Jules Lau' },
-    { label: 'Mina Patel', value: 'Mina Patel' },
-    { label: 'Amara Singh', value: 'Amara Singh' },
-    { label: 'Avery Gomez', value: 'Avery Gomez' }
-];
-
 const RISK_STYLES = {
     critical: { label: 'Critical', color: '#DC2626', accent: '#FEE2E2' },
     'at-risk': { label: 'At Risk', color: '#F97316', accent: '#FED7AA' },
@@ -61,7 +54,7 @@ export default class AtRiskDrilldown extends LightningElement {
 
     regionOptions = REGION_OPTIONS;
     severityOptions = SEVERITY_OPTIONS;
-    ownerOptions = OWNER_OPTIONS;
+    ownerOptions = [{ label: 'All owners', value: 'all' }];
 
     connectedCallback() {
         this.loadData();
@@ -73,10 +66,14 @@ export default class AtRiskDrilldown extends LightningElement {
         try {
             const response = await getAtRiskData();
             this.accounts = response?.accounts || [];
+            this.ownerOptions = buildSelectOptions(this.accounts, 'csm', 'All owners');
+            this.syncOwnerFilter();
             this.dataMode = response?.dataMode || 'demo';
             this.statusMessage = response?.message || '';
         } catch (error) {
             this.accounts = [];
+            this.ownerOptions = [{ label: 'All owners', value: 'all' }];
+            this.syncOwnerFilter();
             this.dataMode = 'error';
             this.errorMessage = reduceError(error);
         } finally {
@@ -227,6 +224,13 @@ export default class AtRiskDrilldown extends LightningElement {
     handleFilterChange(event) {
         const { name, value } = event.target;
         this.filters = { ...this.filters, [name]: value };
+    }
+
+    syncOwnerFilter() {
+        const ownerIsAvailable = this.ownerOptions.some((option) => option.value === this.filters.owner);
+        if (!ownerIsAvailable) {
+            this.filters = { ...this.filters, owner: 'all' };
+        }
     }
 
     queueWeight(account) {

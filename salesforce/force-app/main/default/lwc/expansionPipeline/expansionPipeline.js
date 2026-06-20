@@ -3,6 +3,7 @@ import getExpansionPipelineData from '@salesforce/apex/CustomerSuccessDashboardC
 import {
     asNumber,
     barStyle,
+    buildSelectOptions,
     countWhere,
     formatCurrencyShort,
     groupRows,
@@ -29,14 +30,6 @@ const STAGE_OPTIONS = [
     { label: 'Solution Review', value: 'Solution Review' },
     { label: 'Proposal', value: 'Proposal' },
     { label: 'Commit', value: 'Commit' }
-];
-
-const OWNER_OPTIONS = [
-    { label: 'All owners', value: 'all' },
-    { label: 'Avery Gomez', value: 'Avery Gomez' },
-    { label: 'Mina Patel', value: 'Mina Patel' },
-    { label: 'Jules Lau', value: 'Jules Lau' },
-    { label: 'Amara Singh', value: 'Amara Singh' }
 ];
 
 const STAGE_COLORS = {
@@ -67,7 +60,7 @@ export default class ExpansionPipeline extends LightningElement {
 
     regionOptions = REGION_OPTIONS;
     stageOptions = STAGE_OPTIONS;
-    ownerOptions = OWNER_OPTIONS;
+    ownerOptions = [{ label: 'All owners', value: 'all' }];
 
     connectedCallback() {
         this.loadData();
@@ -79,10 +72,14 @@ export default class ExpansionPipeline extends LightningElement {
         try {
             const response = await getExpansionPipelineData();
             this.opportunities = response?.opportunities || [];
+            this.ownerOptions = buildSelectOptions(this.opportunities, 'owner', 'All owners');
+            this.syncOwnerFilter();
             this.dataMode = response?.dataMode || 'demo';
             this.statusMessage = response?.message || '';
         } catch (error) {
             this.opportunities = [];
+            this.ownerOptions = [{ label: 'All owners', value: 'all' }];
+            this.syncOwnerFilter();
             this.dataMode = 'error';
             this.errorMessage = reduceError(error);
         } finally {
@@ -206,5 +203,12 @@ export default class ExpansionPipeline extends LightningElement {
     handleFilterChange(event) {
         const { name, value } = event.target;
         this.filters = { ...this.filters, [name]: value };
+    }
+
+    syncOwnerFilter() {
+        const ownerIsAvailable = this.ownerOptions.some((option) => option.value === this.filters.owner);
+        if (!ownerIsAvailable) {
+            this.filters = { ...this.filters, owner: 'all' };
+        }
     }
 }

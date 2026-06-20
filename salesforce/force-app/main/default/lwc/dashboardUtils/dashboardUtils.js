@@ -91,6 +91,14 @@ export function applyFieldFilters(row, filters, fieldMap) {
     return Object.entries(fieldMap).every(([filterName, fieldName]) => matchesFilter(row[fieldName], filters[filterName]));
 }
 
+export function buildSelectOptions(rows, selector, allLabel) {
+    const values = [...new Set((rows || []).map((row) => resolveValue(row, selector)).filter((value) => typeof value === 'string' && value.trim()))].sort((left, right) =>
+        left.localeCompare(right)
+    );
+
+    return [{ label: allLabel, value: ALL_VALUE }, ...values.map((value) => ({ label: value, value }))];
+}
+
 export function reduceError(error) {
     if (!error) {
         return 'Unknown error';
