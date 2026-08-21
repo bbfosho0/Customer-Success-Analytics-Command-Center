@@ -9,29 +9,66 @@ import {
 import { getStaticAgents, getStaticCalls, getStaticMetrics, staticManifest } from "../../lib/api/static-fixtures";
 
 const rawRedesignCalls = getStaticCalls({ page: 1, per_page: 200 }).data;
+const rawRedesignMetrics = getStaticMetrics();
 
 export const redesignCalls = rawRedesignCalls.map((call) => ({
   ...call,
+  id: call.id ?? "UNKNOWN_CALL",
+  agent_id: call.agent_id ?? "unknown-agent",
   agent_name: call.agent_name ?? "Unassigned agent",
   customer_region: call.customer_region ?? "Unknown region",
   issue_type: call.issue_type ?? "Unclassified issue",
+  duration_seconds: call.duration_seconds ?? 0,
   resolution_status: call.resolution_status ?? "unknown",
   started_at: call.started_at ?? "",
+  skill_rating: call.skill_rating ?? 0,
 }));
 
 export const redesignAgents = getStaticAgents().map((agent) => ({
   ...agent,
+  agent_id: agent.agent_id ?? "unknown-agent",
   name: agent.name ?? "Unassigned agent",
   region: agent.region ?? "Unknown region",
+  skill_rating: agent.skill_rating ?? 0,
   avg_rating: agent.avg_rating ?? 0,
   resolved_rate: agent.resolved_rate ?? 0,
   avg_resolution_seconds: agent.avg_resolution_seconds ?? 0,
   escalated_calls: agent.escalated_calls ?? 0,
   total_calls: agent.total_calls ?? 0,
 }));
-export const redesignMetrics = getStaticMetrics();
+
+export const redesignMetrics = {
+  ...rawRedesignMetrics,
+  kpis: rawRedesignMetrics.kpis.map((kpi) => ({
+    ...kpi,
+    label: kpi.label ?? "Metric",
+    value: kpi.value ?? "0",
+    delta: kpi.delta ?? 0,
+  })),
+  issue_breakdown: rawRedesignMetrics.issue_breakdown.map((row) => ({
+    ...row,
+    label: row.label ?? "Unclassified issue",
+    value: row.value ?? 0,
+  })),
+  region_breakdown: rawRedesignMetrics.region_breakdown.map((row) => ({
+    ...row,
+    label: row.label ?? "Unknown region",
+    value: row.value ?? 0,
+  })),
+};
+
 export const redesignCallDetail = redesignCalls.find((call) => call.id === "CALL_0001") ?? redesignCalls[0];
-export const redesignManifest = staticManifest;
+export const redesignManifest = {
+  ...staticManifest,
+  dataset: staticManifest.dataset ?? "support-analytics",
+  path: staticManifest.path ?? "",
+  source: staticManifest.source ?? "deterministic frontend fixture",
+  hash: staticManifest.hash ?? "unknown",
+  row_count: staticManifest.row_count ?? 0,
+  generated_at: staticManifest.generated_at ?? "2026-06-03T08:00:00.000Z",
+  notes: staticManifest.notes ?? "",
+  size_bytes: staticManifest.size_bytes ?? 0,
+};
 
 export const redesignCustomer = {
   overview: {
