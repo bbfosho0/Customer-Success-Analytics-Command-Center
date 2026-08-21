@@ -2,13 +2,13 @@ import { expect, test } from "@playwright/test";
 
 import { openStory } from "../helpers/storybook";
 
-const STORY_ID = "redesign-workbench-patterns--all-patterns";
+const STORY_ID = "canonical-reference-pre-redesign-workbench--all-patterns";
 
 async function renderedBackground(page: Parameters<typeof openStory>[0]) {
   return page.locator("[data-storybook-root]").evaluate((element) => getComputedStyle(element).backgroundColor);
 }
 
-test.describe("redesign workbench", () => {
+test.describe("pre-redesign workbench", () => {
   test("renders the full pattern catalog in dark theme", async ({ page }) => {
     await openStory(page, STORY_ID, { theme: "dark", viewport: { width: 1280, height: 900 } });
     await expect(page.getByText("Redesign workbench")).toBeVisible();
@@ -28,7 +28,7 @@ test.describe("redesign workbench", () => {
   });
 
   test("keeps the mobile-density story renderable at the canonical mobile width", async ({ page }) => {
-    await openStory(page, "redesign-workbench-patterns--mobile-density", {
+    await openStory(page, "canonical-reference-pre-redesign-workbench--mobile-density", {
       theme: "dark",
       viewport: { width: 390, height: 844 },
     });
