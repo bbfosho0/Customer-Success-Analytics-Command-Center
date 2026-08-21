@@ -5,7 +5,7 @@ import { expect } from "storybook/test";
 import { DEFAULT_FILTERS, GlobalFilters, type FilterState } from "./filters";
 
 const meta = {
-  title: "Design System/Global Filters",
+  title: "Canonical/Design System/Global Filters",
   parameters: { layout: "padded" },
 } satisfies Meta;
 
