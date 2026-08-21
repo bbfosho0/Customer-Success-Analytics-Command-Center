@@ -4,7 +4,7 @@ import { visualStates } from "../../mocks/fixtures/visual-states";
 import { MetricsPage } from "./metrics";
 
 const meta = {
-  title: "Pages/Metrics",
+  title: "Canonical/Pages/Metrics",
   component: MetricsPage,
   parameters: { layout: "fullscreen" },
 } satisfies Meta<typeof MetricsPage>;
