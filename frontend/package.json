@@ -8,17 +8,17 @@
     "start": "next start",
     "lint": "next lint",
     "api:generate": "openapi-typescript http://localhost:8000/openapi.json --output src/lib/api/generated/schema.ts",
-    "test": "vitest run",
+    "test": "vitest run --project=unit",
     "api:generate:local": "openapi-typescript ../openapi.json --output src/lib/api/generated/schema.ts",
     "api:check": "npm run api:generate:local && git diff --exit-code src/lib/api/generated/schema.ts",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "storybook:test": "vitest --project=storybook --run",
+    "storybook:test": "vitest run --project=storybook",
     "playwright:version": "playwright --version",
     "playwright:cli:version": "playwright-cli --version",
-    "test:e2e": "playwright test tests/e2e",
-    "test:visual": "playwright test tests/visual",
-    "test:visual:update": "playwright test tests/visual --update-snapshots"
+    "test:e2e": "playwright test tests/e2e --project=app",
+    "test:visual": "playwright test tests/visual --project=storybook",
+    "test:visual:update": "playwright test tests/visual --project=storybook --update-snapshots"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.56.0",

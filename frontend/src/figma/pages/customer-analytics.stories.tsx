@@ -1,0 +1,39 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
+import { visualStates } from "../../mocks/fixtures/visual-states";
+import { CustomerAnalyticsPage } from "./customer-analytics";
+
+const meta = {
+  title: "Pages/Customer Analytics",
+  component: CustomerAnalyticsPage,
+  parameters: { layout: "fullscreen" },
+} satisfies Meta<typeof CustomerAnalyticsPage>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Overview: Story = { args: { initialTab: "overview" } };
+export const ChurnRisk: Story = { args: { initialTab: "churn-risk" } };
+export const Retention: Story = { args: { initialTab: "retention" } };
+export const Ltv: Story = { args: { initialTab: "ltv" } };
+export const Loading: Story = {
+  args: { initialTab: "overview" },
+  parameters: { msw: { handlers: visualStates.customerAnalytics.loading } },
+};
+export const Empty: Story = {
+  args: { initialTab: "overview" },
+  parameters: { msw: { handlers: visualStates.customerAnalytics.empty } },
+};
+export const Error: Story = {
+  args: { initialTab: "overview" },
+  parameters: { msw: { handlers: visualStates.customerAnalytics.error } },
+};
+export const HighRisk: Story = {
+  args: { initialTab: "overview" },
+  parameters: { msw: { handlers: visualStates.customerAnalytics.highRisk } },
+};
+export const Mobile: Story = {
+  args: { initialTab: "overview" },
+  parameters: { viewport: { defaultViewport: "mobile" } },
+};
+export const Light: Story = { args: { initialTab: "overview" }, globals: { theme: "light" } };

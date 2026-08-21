@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect } from "storybook/test";
 
 import { DEFAULT_FILTERS, GlobalFilters, type FilterState } from "./filters";
 
@@ -18,6 +19,11 @@ function FiltersHarness({ initial, count = 184, total = 240 }: { initial: Filter
 
 export const Default: Story = {
   render: () => <FiltersHarness initial={DEFAULT_FILTERS} />,
+  play: async ({ canvas, userEvent }) => {
+    const search = canvas.getByRole("textbox");
+    await userEvent.type(search, "billing");
+    await expect(search).toHaveValue("billing");
+  },
 };
 
 export const ActiveFilters: Story = {
