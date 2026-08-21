@@ -5,7 +5,7 @@ import { openStory } from "../helpers/storybook";
 const STORY_ID = "canonical-reference-pre-redesign-workbench--all-patterns";
 
 async function renderedBackground(page: Parameters<typeof openStory>[0]) {
-  return page.locator("[data-storybook-root]").evaluate((element) => getComputedStyle(element).backgroundColor);
+  return page.locator(".min-h-screen.bg-background").first().evaluate((element) => getComputedStyle(element).backgroundColor);
 }
 
 test.describe("pre-redesign workbench", () => {
