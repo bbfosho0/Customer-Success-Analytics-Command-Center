@@ -4,7 +4,7 @@ import { visualStates } from "../../mocks/fixtures/visual-states";
 import { CallsPage } from "./calls";
 
 const meta = {
-  title: "Pages/Calls",
+  title: "Canonical/Pages/Calls",
   component: CallsPage,
   args: { onOpen: () => undefined },
   parameters: { layout: "fullscreen" },
