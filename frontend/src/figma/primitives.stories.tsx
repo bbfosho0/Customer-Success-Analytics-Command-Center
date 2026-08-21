@@ -12,7 +12,7 @@ import {
 } from "./primitives";
 
 const meta = {
-  title: "Design System/Primitives",
+  title: "Canonical/Design System/Primitives",
   parameters: { layout: "padded" },
 } satisfies Meta;
 
