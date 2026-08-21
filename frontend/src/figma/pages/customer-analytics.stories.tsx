@@ -4,7 +4,7 @@ import { visualStates } from "../../mocks/fixtures/visual-states";
 import { CustomerAnalyticsPage } from "./customer-analytics";
 
 const meta = {
-  title: "Pages/Customer Analytics",
+  title: "Canonical/Pages/Customer 360",
   component: CustomerAnalyticsPage,
   parameters: { layout: "fullscreen" },
 } satisfies Meta<typeof CustomerAnalyticsPage>;
