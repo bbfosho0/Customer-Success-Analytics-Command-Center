@@ -142,10 +142,10 @@ test("customer 360 tabs update the rendered redesign state", async ({ page }) =>
     viewport: { width: 1280, height: 900 },
   });
 
-  await page.getByRole("button", { name: "Churn Risk" }).click();
+  await page.getByRole("tab", { name: "Churn Risk" }).click();
   await expect(page.getByText("Risk accounts", { exact: true }).first()).toBeVisible();
 
-  await page.getByRole("button", { name: "Retention" }).click();
+  await page.getByRole("tab", { name: "Retention" }).click();
   await expect(page.getByText("Retention cohorts", { exact: true })).toBeVisible();
 
   expect(errors.pageErrors).toEqual([]);
