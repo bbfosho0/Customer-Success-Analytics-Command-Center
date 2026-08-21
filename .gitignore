@@ -43,3 +43,8 @@ tools/crma_style/
 # OS/editor cruft
 .DS_Store
 Thumbs.db
+frontend/storybook-static/
+frontend/playwright-report/
+frontend/test-results/
+frontend/visual-evidence/
+frontend/.playwright-cli/
