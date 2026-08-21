@@ -1,0 +1,10 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { RedesignSettingsManifestPage } from "./settings-manifest-page";
+const meta = { title: "Redesign/Pages/Settings/Manifest", component: RedesignSettingsManifestPage, parameters: { layout: "fullscreen" } } satisfies Meta<typeof RedesignSettingsManifestPage>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const Demo: Story = { args: { mode: "demo" } };
+export const Live: Story = { args: { mode: "live" } };
+export const Loading: Story = { args: { state: "loading" } };
+export const Error: Story = { args: { state: "error" } };
+export const Mobile390: Story = { parameters: { viewport: { defaultViewport: "mobile" } } };
