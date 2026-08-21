@@ -14,7 +14,7 @@ import {
 import { PageHeader } from "./shell";
 
 const meta = {
-  title: "Redesign Workbench/Patterns",
+  title: "Canonical/Reference/Pre-redesign Workbench",
   parameters: { layout: "fullscreen" },
 } satisfies Meta;
 
