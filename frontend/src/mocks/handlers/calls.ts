@@ -9,6 +9,11 @@ function optional(search: URLSearchParams, key: string) {
   return search.get(key) || undefined;
 }
 
+function status(search: URLSearchParams): CallsQuery["status"] {
+  const value = search.get("status");
+  return value === "resolved" || value === "pending" || value === "escalated" ? value : undefined;
+}
+
 export const callHandlers = [
   http.get(`${API_BASE}/api/calls`, ({ request }) => {
     const search = new URL(request.url).searchParams;
@@ -17,7 +22,7 @@ export const callHandlers = [
       per_page: Number(search.get("per_page") ?? 50),
       region: optional(search, "region"),
       issue_type: optional(search, "issue_type"),
-      status: optional(search, "status"),
+      status: status(search),
       agent_id: optional(search, "agent_id"),
       q: optional(search, "q"),
     };
