@@ -21,7 +21,7 @@ const navItems: Array<{ route: RedesignRoute; label: string; icon: typeof Home }
 export function RedesignShell({
   route,
   children,
-  theme = "dark",
+  theme,
   onNavigate,
 }: {
   route: RedesignRoute;
