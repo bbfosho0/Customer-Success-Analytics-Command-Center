@@ -1,14 +1,16 @@
 # Responsive Breakpoint Specification
 
-Status: **Wireframe contract complete. The full 52-composition v3 responsive matrix was visually QA'd on 2026-08-21. Production UI changes have not yet been implemented.**
+Status: **Wireframe contract complete. The full 52-composition v3 responsive matrix completed a thorough visual QA and revision pass on 2026-08-21. Production UI changes have not yet been implemented.**
 
 This document defines the responsive layout contract for the Support Analytics redesign. It is a design specification only. Production UI changes have not yet been implemented.
 
 Whimsical wireframes v3: https://whimsical.com/7qfTKyGnvSoxzLe8hsUjvS
 
+Detailed QA record: `docs/design-audit/wireframe-visual-qa.md`
+
 ## Full-product wireframe matrix
 
-The v3 board now contains all 13 canonical screen/view rows across four representative responsive tiers, totaling 52 compositions:
+The v3 board contains all 13 canonical screen/view rows across four representative responsive tiers, totaling 52 compositions:
 
 1. Dashboard / Overview
 2. Calls / Operations
@@ -26,7 +28,24 @@ The v3 board now contains all 13 canonical screen/view rows across four represen
 
 Representative composition columns are Desktop >=1280, Compact Desktop 1024-1279, Tablet 768-1023, and Mobile 360-639. The `sm` 640-767 tier follows the mobile shell contract and is validated separately during implementation and visual regression.
 
-Wireframe phase status: **complete, pending user review before production redesign implementation.**
+Wireframe phase status: **complete after visual QA and revision, pending user review before production redesign implementation.**
+
+## Visual QA revision checkpoint
+
+The completed v3 matrix was reviewed row-by-row and tier-by-tier against the responsive contract, visual baseline, and current application surfaces. The revision pass corrected:
+
+- missing mobile Dashboard filter/context hierarchy
+- Metrics tab/navigation continuity across all responsive tiers
+- Metrics surfaces that did not match current application capabilities
+- unsupported cost analytics in Metrics Breakdown
+- Customer 360 overview KPI and recommended-action semantics
+- missing Churn Risk risk-level filtering
+- missing larger-tier LTV summary KPIs
+- unsupported Settings pipeline controls and missing mobile schema information
+- centered dense-data treatments that weakened scan behavior
+- hidden duplicate Whimsical objects and a Metrics header/KPI overlap
+
+The detailed finding matrix and implementation watchouts are recorded in `docs/design-audit/wireframe-visual-qa.md`.
 
 ## Core redesign decisions
 
@@ -88,7 +107,7 @@ Exactly four primary KPI cards are shown.
 
 | Tier | Geometry |
 | --- | --- |
-| Base / `sm` | **2 × 2** compact matrix |
+| Base / `sm` | **2 x 2** compact matrix |
 | `md` | **4 across** |
 | `lg+` | **4 across** |
 
@@ -137,7 +156,7 @@ The phone layout must use two explicit rows of two cards. It must never collapse
 
 1. Drawer navigation, no persistent rail.
 2. Compact filter/context row.
-3. **Four KPI cards across**, not 2×2 and not stacked.
+3. **Four KPI cards across**, not 2 x 2 and not stacked.
 4. Call Volume / Issue Mix at approximately 2:1.
 5. Region Performance / Priority Insights at approximately 2:1.
 6. Latest Calls full width with reduced columns.
@@ -146,7 +165,7 @@ The phone layout must use two explicit rows of two cards. It must never collapse
 
 1. Compact topbar and title/context.
 2. Date + Filters controls side by side.
-3. **2×2 KPI matrix**.
+3. **2 x 2 KPI matrix**.
 4. Call Volume full width.
 5. Issue Mix + Region Watch in a compact 2-up row.
 6. One Priority Insight surface.
@@ -158,7 +177,7 @@ The phone frame is intentionally dense enough to communicate dashboard hierarchy
 
 The Storybook redesign workbench mirrors the geometry rules that matter during visual iteration:
 
-- KPI matrix is 2×2 on phone and four across from tablet upward.
+- KPI matrix is 2 x 2 on phone and four across from tablet upward.
 - Call Volume / Issue Mix becomes a 2:1 analytical split from tablet upward.
 - Mobile-density stories include the chart hierarchy instead of testing only stacked cards/tables.
 - Global dark/light theme control continues to wrap the actual application theme provider.
@@ -182,6 +201,9 @@ The same shell tiers apply to Dashboard, Calls, Call Detail, Agents, Metrics, Cu
 - Call Detail: collapse multi-column metadata and analytics into a vertical reading flow below `lg`.
 - Customer Analytics: allow horizontal tab scrolling or a compact control instead of squeezing all tabs.
 - Settings: stack sections/actions without forcing page overflow.
+- Metrics: preserve Overview / Volume / Breakdown / Regions navigation and keep the views aligned to current product capabilities.
+- Customer 360 Churn Risk: preserve risk-level filtering at every tier.
+- Customer 360 LTV: preserve segment-level LTV summary context before the primary chart from tablet upward.
 
 ## Visual QA widths
 
@@ -204,14 +226,17 @@ At structural transitions, also test both sides when practical: 767/768, 1023/10
 2. Persistent navigation does not appear below 1024px.
 3. Full labeled sidebar is not the default below 1280px.
 4. Dashboard has four primary KPI cards with no orphan or vertical-stack composition.
-5. Phone KPI geometry is explicitly 2×2.
+5. Phone KPI geometry is explicitly 2 x 2.
 6. Tablet KPI geometry is four across.
 7. Call Volume remains dominant and forms a 2:1 analytics row from tablet upward.
 8. Region Performance + Priority Insights form an intentional 2:1 row from tablet upward.
 9. Latest Calls receives full-width lower-row priority on tablet/desktop.
 10. Both light and dark themes remain first-class throughout redesign work.
 11. Storybook states and Playwright regression coverage are updated together with each production redesign slice.
+12. Metrics retains its four-view navigation and does not introduce analytics unsupported by the current data/product model without an explicit scope change.
+13. Customer 360 preserves risk filtering, retention comparisons, LTV summary context, and expansion drill-down across responsive recompositions.
+14. Settings represents runtime, refresh, manifest, schema/columns, and audit capabilities without implying unsupported pipeline mutation controls.
 
 ## Implementation boundary
 
-These wireframes, the breakpoint contract, and the Storybook redesign workbench define the target and QA surface. They do not themselves modify the production dashboard.
+These wireframes, the breakpoint contract, the visual QA record, and the Storybook redesign workbench define the target and QA surface. They do not themselves modify the production dashboard.
