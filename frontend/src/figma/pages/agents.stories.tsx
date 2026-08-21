@@ -4,7 +4,7 @@ import { visualStates } from "../../mocks/fixtures/visual-states";
 import { AgentsPage } from "./agents";
 
 const meta = {
-  title: "Pages/Agents",
+  title: "Canonical/Pages/Agents",
   component: AgentsPage,
   parameters: { layout: "fullscreen" },
 } satisfies Meta<typeof AgentsPage>;
