@@ -12,6 +12,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Normal: Story = { args: { initialTab: "overview" } };
 export const Overview: Story = { args: { initialTab: "overview" } };
 export const ChurnRisk: Story = { args: { initialTab: "churn-risk" } };
 export const Retention: Story = { args: { initialTab: "retention" } };
@@ -19,6 +20,10 @@ export const Ltv: Story = { args: { initialTab: "ltv" } };
 export const Loading: Story = {
   args: { initialTab: "overview" },
   parameters: { msw: { handlers: visualStates.customerAnalytics.loading } },
+};
+export const Sparse: Story = {
+  args: { initialTab: "overview" },
+  parameters: { msw: { handlers: visualStates.customerAnalytics.sparse } },
 };
 export const Empty: Story = {
   args: { initialTab: "overview" },
@@ -31,6 +36,10 @@ export const Error: Story = {
 export const HighRisk: Story = {
   args: { initialTab: "overview" },
   parameters: { msw: { handlers: visualStates.customerAnalytics.highRisk } },
+};
+export const NoRisk: Story = {
+  args: { initialTab: "overview" },
+  parameters: { msw: { handlers: visualStates.customerAnalytics.noRisk } },
 };
 export const Mobile: Story = {
   args: { initialTab: "overview" },

@@ -13,6 +13,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Default: Story = {};
 export const Demo: Story = {};
 export const Live: Story = { args: { mode: "live" } };
 export const Loading: Story = { parameters: { msw: { handlers: visualStates.settings.loading } } };

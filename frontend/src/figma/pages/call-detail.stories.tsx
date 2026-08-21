@@ -19,5 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Normal: Story = {};
 export const Loading: Story = { parameters: { msw: { handlers: visualStates.callDetail.loading } } };
+export const LongContent: Story = { parameters: { msw: { handlers: visualStates.callDetail.longContent } } };
 export const NotFound: Story = { parameters: { msw: { handlers: visualStates.callDetail.notFound } } };
+export const Error: Story = { parameters: { msw: { handlers: visualStates.callDetail.error } } };
 export const Mobile: Story = { parameters: { viewport: { defaultViewport: "mobile" } } };

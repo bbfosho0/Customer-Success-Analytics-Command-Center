@@ -18,3 +18,10 @@ for (const route of routes) {
     await expect(page.getByText("Application error")).toHaveCount(0);
   });
 }
+
+test("dashboard navigation opens Calls", async ({ page }) => {
+  await page.goto("/dashboard");
+  await page.getByRole("button", { name: "Calls", exact: true }).click();
+  await expect(page).toHaveURL(/\/calls$/);
+  await expect(page.getByRole("heading", { name: "Calls", exact: true })).toBeVisible();
+});
