@@ -29,7 +29,11 @@ export default defineConfig({
           name: "storybook",
           browser: {
             enabled: true,
-            provider: playwright({}),
+            provider: playwright({
+              launchOptions: {
+                channel: "chrome",
+              },
+            }),
             headless: true,
             instances: [{ browser: "chromium" }],
           },
