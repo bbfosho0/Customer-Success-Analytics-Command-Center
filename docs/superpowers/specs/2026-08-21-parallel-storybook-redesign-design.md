@@ -19,7 +19,7 @@ Redesign/
 
 `Canonical` is the current production/reference system. `Redesign` is the new design system and page implementation built against the approved responsive wireframes.
 
-The redesign is promoted into production only after the full page family has passed visual review, deterministic Storybook state coverage, accessibility checks, and Playwright visual QA.
+The redesign is promoted into production only after all 13 approved page/view rows have passed visual review, deterministic Storybook state coverage, accessibility checks, and Playwright visual QA.
 
 ## Approved architectural decision
 
@@ -89,11 +89,13 @@ Canonical/
     Dashboard
     Calls
     Call Detail
-    Agent Intelligence
+    Agents
     Metrics
     Customer 360
     Settings
 ```
+
+Canonical story labels preserve current production terminology. The existing production page remains `Agents`. `Agent Intelligence` is the redesign page name and must not be used to imply that the canonical production route was already renamed.
 
 The existing `Redesign Workbench/Patterns` story is not the new redesign system. During the Storybook organization phase it becomes `Canonical/Reference/Pre-redesign Workbench`. It may be removed after equivalent `Redesign/Patterns/*` stories exist and no test depends on it.
 
@@ -515,15 +517,17 @@ https://21st.dev/@arhamkhnz/templates/next-shadcn-admin-dashboard
 
 The redesign implements the approved v3 wireframe geometry for all 13 screen rows.
 
-Canonical design review viewports remain:
+Canonical visual QA presets remain:
 
 ```text
 Desktop XL: 1440 x 1000
 Desktop:    1280 x 900
-Tablet:     1024 x 768
+Tablet QA:  1024 x 768
 Mobile:      390 x 844
 Small:       360 x 800
 ```
+
+The `Tablet QA` label is retained because the existing Playwright/Storybook baseline uses that name. It is a test-preset name, not the layout-mode boundary.
 
 Implementation behavior follows four layout modes:
 
@@ -533,6 +537,8 @@ Compact desktop: 1024 to 1279
 Tablet:           768 to 1023
 Mobile:           360 to 639
 ```
+
+Therefore a 1024px-wide screenshot uses compact-desktop layout behavior even though the existing QA preset is named `Tablet`. This distinction must be preserved in code comments/test naming so the breakpoint contract is unambiguous.
 
 The 640 to 767 range follows the phone-shell behavior and is included in responsive QA even though it is not a separate wireframe column.
 
@@ -596,6 +602,8 @@ Use:
 
 ### 4. Agent Intelligence
 
+This is the redesign name for the current Agents domain.
+
 Use:
 
 - performance ranking
@@ -652,6 +660,8 @@ Do not invent unsupported settings or pipeline operations.
 
 Preserve existing deterministic states and story names unless a test-safe Storybook hierarchy rename requires metadata changes.
 
+Existing canonical `Light` stories may remain while baseline tests depend on them. They are regression fixtures, not separate page implementations. They should not be multiplied further.
+
 Existing canonical visual baselines remain valid until intentionally updated.
 
 ### Redesign
@@ -670,9 +680,9 @@ Each redesigned page receives meaningful deterministic states selected from:
 - mixed statuses
 - responsive viewport stories where useful
 
-Do not create separate `Light` and `Dark` duplicate page implementations.
+Do not create separate `Light` and `Dark` duplicate page implementations or duplicate Storybook page trees.
 
-Theme is a Storybook global. Redesign light/dark screenshot coverage should be parameterized by Playwright or Storybook globals rather than doubling the page source or creating redundant story trees.
+Theme is a Storybook global. Redesign light/dark screenshot coverage should be parameterized by Playwright or Storybook globals rather than doubling the page source.
 
 ## Accessibility contract
 
@@ -751,18 +761,25 @@ Source inspection is not sufficient visual QA.
 
 Canonical and Redesign coexist intentionally.
 
-For every redesigned page, reviewers must be able to open:
+For every redesigned page, reviewers must be able to open the corresponding surfaces, for example:
 
 ```text
-Canonical/Pages/<Page>
-Redesign/Pages/<Page>
+Canonical/Pages/Dashboard
+Redesign/Pages/Dashboard
+```
+
+For the agents domain the comparison is intentionally named:
+
+```text
+Canonical/Pages/Agents
+Redesign/Pages/Agent Intelligence
 ```
 
 This provides a stable before/after comparison without preserving duplicate production implementations after final promotion.
 
 ## Promotion strategy
 
-The redesign stays Storybook-isolated until all 13 page rows are complete and reviewed.
+The redesign stays Storybook-isolated until all 13 page/view rows are complete and reviewed.
 
 Promotion is a separate phase.
 
@@ -795,7 +812,7 @@ No partial page-by-page production replacement occurs during initial redesign ex
 
 ## Acceptance criteria
 
-The design phase is considered implemented only when all of the following are true:
+The redesign implementation is considered complete only when all of the following are true:
 
 1. Storybook exposes exactly two top-level product design trees: `Canonical` and `Redesign`.
 2. Existing canonical production stories remain behaviorally intact.
@@ -805,7 +822,7 @@ The design phase is considered implemented only when all of the following are tr
 6. TanStack Table is the only new table behavior library.
 7. The custom `Command Graphite` redesign theme supports both light and dark through tokens, not duplicate pages.
 8. All 13 approved wireframe rows are represented in Redesign Storybook.
-9. Responsive behavior is verified at the canonical viewport set.
+9. Responsive behavior is verified at the canonical viewport set and the explicit breakpoint contract.
 10. Meaningful loading, empty, error, and stress states exist for each high-risk page family.
 11. Storybook tests and Playwright visual tests pass for approved redesign surfaces.
 12. Accessibility checks are blocking before production promotion.
