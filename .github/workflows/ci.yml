@@ -123,8 +123,6 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Run visual regression and app smoke tests
         run: npx playwright test tests/visual tests/e2e
-        env:
-          NEXT_PUBLIC_STATIC_DEMO: "true"
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4
