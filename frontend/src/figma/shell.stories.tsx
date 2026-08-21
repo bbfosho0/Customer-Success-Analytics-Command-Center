@@ -5,7 +5,7 @@ import { KpiCard, SectionCard } from "./primitives";
 import { AppShell, PageHeader, type Route } from "./shell";
 
 const meta = {
-  title: "Design System/Application Shell",
+  title: "Canonical/Design System/Application Shell",
   parameters: { layout: "fullscreen" },
 } satisfies Meta;
 
