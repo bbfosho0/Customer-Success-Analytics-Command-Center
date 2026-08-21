@@ -4,7 +4,7 @@ import { visualStates } from "../../mocks/fixtures/visual-states";
 import { DashboardPage } from "./dashboard";
 
 const meta = {
-  title: "Pages/Dashboard",
+  title: "Canonical/Pages/Dashboard",
   component: DashboardPage,
   args: {
     onOpenCall: () => undefined,
