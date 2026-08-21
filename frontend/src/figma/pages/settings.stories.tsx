@@ -4,7 +4,7 @@ import { visualStates } from "../../mocks/fixtures/visual-states";
 import { SettingsPage } from "./settings";
 
 const meta = {
-  title: "Pages/Settings",
+  title: "Canonical/Pages/Settings",
   component: SettingsPage,
   args: { mode: "demo", refreshDisabled: false },
   parameters: { layout: "fullscreen" },
