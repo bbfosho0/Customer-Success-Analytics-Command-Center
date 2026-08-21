@@ -1,10 +1,32 @@
 # Responsive Breakpoint Specification
 
-Status: **Corrected redesign target derived from the audited baseline and the rebuilt responsive wireframes.**
+Status: **Wireframe contract complete. The full 52-composition v3 responsive matrix was visually QA'd on 2026-08-21. Production UI changes have not yet been implemented.**
 
 This document defines the responsive layout contract for the Support Analytics redesign. It is a design specification only. Production UI changes have not yet been implemented.
 
-Whimsical wireframes: https://whimsical.com/QUqGyjEEkwewz3C39CZbKJ
+Whimsical wireframes v3: https://whimsical.com/7qfTKyGnvSoxzLe8hsUjvS
+
+## Full-product wireframe matrix
+
+The v3 board now contains all 13 canonical screen/view rows across four representative responsive tiers, totaling 52 compositions:
+
+1. Dashboard / Overview
+2. Calls / Operations
+3. Call Detail
+4. Agent Intelligence
+5. Metrics / Overview
+6. Metrics / Volume
+7. Metrics / Breakdown
+8. Metrics / Regions
+9. Customer 360 / Overview
+10. Customer 360 / Churn Risk
+11. Customer 360 / Retention
+12. Customer 360 / LTV
+13. Settings / Manifest
+
+Representative composition columns are Desktop >=1280, Compact Desktop 1024-1279, Tablet 768-1023, and Mobile 360-639. The `sm` 640-767 tier follows the mobile shell contract and is validated separately during implementation and visual regression.
+
+Wireframe phase status: **complete, pending user review before production redesign implementation.**
 
 ## Core redesign decisions
 
@@ -22,12 +44,12 @@ Whimsical wireframes: https://whimsical.com/QUqGyjEEkwewz3C39CZbKJ
 
 | Tier | Width | Navigation | Dashboard composition | Content padding |
 | --- | --- | --- | --- | --- |
-| Base | `< 640px` | Off-canvas drawer | Phone-native compact dashboard | 14–16px |
-| `sm` | `640–767px` | Off-canvas drawer | Large phone / narrow tablet | 16px |
-| `md` | `768–1023px` | Off-canvas drawer | Tablet analytical canvas | 18–24px |
-| `lg` | `1024–1279px` | Persistent compact rail, 56–64px | Compact desktop | 20–24px |
-| `xl` | `1280–1535px` | Persistent full sidebar, 200–220px | Full desktop | 24px |
-| `2xl` | `>= 1536px` | Persistent full sidebar | Wide desktop with useful content-width cap | 24–32px |
+| Base | `< 640px` | Off-canvas drawer | Phone-native compact dashboard | 14-16px |
+| `sm` | `640-767px` | Off-canvas drawer | Large phone / narrow tablet | 16px |
+| `md` | `768-1023px` | Off-canvas drawer | Tablet analytical canvas | 18-24px |
+| `lg` | `1024-1279px` | Persistent compact rail, 56-64px | Compact desktop | 20-24px |
+| `xl` | `1280-1535px` | Persistent full sidebar, 200-220px | Full desktop | 24px |
+| `2xl` | `>= 1536px` | Persistent full sidebar | Wide desktop with useful content-width cap | 24-32px |
 
 ## Application shell
 
@@ -41,13 +63,13 @@ Whimsical wireframes: https://whimsical.com/QUqGyjEEkwewz3C39CZbKJ
 
 ### `lg`
 
-- Persistent 56–64px icon rail.
+- Persistent 56-64px icon rail.
 - Compact global jump/search may return.
 - Navigation labels use tooltips rather than permanent width.
 
 ### `xl+`
 
-- Full labeled sidebar, approximately 200–220px.
+- Full labeled sidebar, approximately 200-220px.
 - Breadcrumb/page context, jump/search, runtime status, and theme control remain visible.
 - Cap content width when extra width no longer improves analytical readability.
 
@@ -102,7 +124,7 @@ The phone layout must use two explicit rows of two cards. It must never collapse
 5. Region Performance / Priority Insights at approximately 2:1.
 6. Latest Calls full width.
 
-### Compact Desktop 1024–1279
+### Compact Desktop 1024-1279
 
 1. Compact icon rail.
 2. Header/filter strip.
@@ -111,7 +133,7 @@ The phone layout must use two explicit rows of two cards. It must never collapse
 5. Region Performance / Priority Insights at approximately 2:1.
 6. Latest Calls full width.
 
-### Tablet 768–1023
+### Tablet 768-1023
 
 1. Drawer navigation, no persistent rail.
 2. Compact filter/context row.
@@ -120,7 +142,7 @@ The phone layout must use two explicit rows of two cards. It must never collapse
 5. Region Performance / Priority Insights at approximately 2:1.
 6. Latest Calls full width with reduced columns.
 
-### Mobile 360–639
+### Mobile 360-639
 
 1. Compact topbar and title/context.
 2. Date + Filters controls side by side.
@@ -149,7 +171,7 @@ At 360 and 390px:
 - Two-column KPI cards must retain readable values/labels.
 - Avoid full-width stacking when two compact modules can remain legible side by side.
 - Long labels may wrap, but badges and controls must not collapse to illegible widths.
-- Use compact 8–14px module gaps.
+- Use compact 8-14px module gaps.
 - Drawers and overlays must remain dismissible and independently scrollable.
 
 ## Other canonical pages
