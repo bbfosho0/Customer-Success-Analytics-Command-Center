@@ -54,7 +54,7 @@ function FilterWorkbench() {
 
 function KpiMatrix() {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
       {kpis.map((kpi) => <KpiCard key={kpi.label} {...kpi} />)}
     </div>
   );
@@ -62,8 +62,8 @@ function KpiMatrix() {
 
 function ChartPatterns() {
   return (
-    <div className="grid gap-3 lg:grid-cols-3">
-      <SectionCard title="Call volume" description="Dominant trend surface" className="lg:col-span-2">
+    <div className="grid gap-3 md:grid-cols-3">
+      <SectionCard title="Call volume" description="Dominant trend surface" className="md:col-span-2">
         <div className="flex h-[220px] items-end gap-2 rounded-md border border-dashed border-border p-4">
           {[38, 52, 46, 70, 61, 82, 66, 78, 58, 88, 72, 92].map((height, index) => (
             <div key={index} className="flex-1 rounded-sm bg-accent/70" style={{ height: `${height}%` }} />
@@ -167,6 +167,6 @@ export const MetricsAndCharts: Story = { render: () => <Frame><KpiMatrix /><Char
 export const TablesAndSignals: Story = { render: () => <Frame><Signals /><DenseTable /></Frame> };
 export const MobileDensity: Story = {
   parameters: { viewport: { defaultViewport: "mobile" } },
-  render: () => <Frame width="100%"><KpiMatrix /><Signals /><DenseTable /></Frame>,
+  render: () => <Frame width="100%"><KpiMatrix /><ChartPatterns /><Signals /><DenseTable /></Frame>,
 };
 export const AllPatternsLight: Story = { globals: { theme: "light" }, render: () => <AllPatternsView /> };
