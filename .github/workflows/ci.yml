@@ -68,6 +68,8 @@ jobs:
         run: npm --prefix frontend run build
         env:
           GITHUB_PAGES: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'true' || 'false' }}
+      - name: Build Storybook
+        run: npm --prefix frontend run storybook:build
       - name: Publish static export to gh-pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
