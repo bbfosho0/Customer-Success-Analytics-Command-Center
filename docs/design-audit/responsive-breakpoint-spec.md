@@ -1,208 +1,184 @@
 # Responsive Breakpoint Specification
 
-Status: **Target responsive behavior derived from the audited baseline.**
+Status: **Redesign target derived from the audited baseline and responsive wireframes v2.**
 
-This document defines the responsive layout contract for the Support Analytics interface. It is a design and implementation specification only. It does not implement production UI changes.
+This document defines the responsive layout contract for the Support Analytics redesign. It is a design specification only. Production UI changes have not yet been implemented.
 
-Whimsical wireframes: https://whimsical.com/KgTGe19twcLzdRDrgBwVgS
+Whimsical v2 wireframes: https://whimsical.com/QUqGyjEEkwewz3C39CZbKJ
 
-## Goals
+## Core redesign decisions
 
-- Preserve the dense operational dashboard character without compressing content beyond useful reading widths.
-- Make navigation consume progressively less permanent horizontal space as the viewport narrows.
-- Remove the current five-KPI `4 + 1` orphan layout around 1280 to 1440px.
-- Keep charts, filters, region summaries, insights, and call data usable at the existing Playwright mobile widths.
-- Define explicit transition widths so Storybook and Playwright can test behavior rather than relying on incidental wrapping.
-
-## Baseline observations
-
-The current shell switches from a 240px mobile drawer to a persistent sidebar at `md` (768px), with the expanded sidebar at 220px and collapsed state at 56px. The global search also becomes visible at `md`. The dashboard currently uses a two-column KPI grid by default, four columns at `md`, and seven columns at `2xl`, while rendering five KPI cards. At 1280 to 1440px this creates a visually unbalanced four-card first row plus one orphan card.
-
-The main dashboard already has useful responsive primitives that should be retained where appropriate:
-
-- Primary charts stack below `lg`, then become a 2:1 split at `lg` and above.
-- Region performance uses 1 column by default, 2 at `sm`, 3 at `lg`, and 6 at `xl`.
-- Insights and Latest Calls stack below `lg`, then become a 1:2 split at `lg` and above.
-- Latest Calls already preserves the full operational table with horizontal overflow instead of crushing every column.
+- Dashboard hierarchy uses **four primary KPIs**: Interactions, Avg Handle Time, Resolution Rate, and Escalations.
+- **Active Regions is contextual metadata**, not a fifth KPI card. It appears with filters and Region Performance.
+- Call Volume is the dominant analytical surface.
+- Issue Mix is secondary and visually subordinate to Call Volume.
+- Region Performance becomes a compact comparative module rather than six equally weighted dashboard tiles.
+- Latest Calls remains table-first on desktop. Mobile uses a compact recent-call list because forcing the full comparison table into the dashboard is not useful at phone widths.
+- Tablet keeps overlay navigation. Persistent navigation returns at 1024px as a compact rail. Full labeled navigation starts at 1280px.
+- Desktop filters are intentionally reduced to a date control plus a compact **Filters** action and active-filter/context summary. The full existing filter surface remains available as a Storybook redesign-workbench reference while the redesign interaction is finalized.
 
 ## Canonical breakpoint matrix
 
 Use the standard Tailwind breakpoint values as the implementation contract.
 
-| Tier | Width | Navigation | Main layout intent | Content padding |
+| Tier | Width | Navigation | Dashboard composition | Content padding |
 | --- | --- | --- | --- | --- |
-| Base | `< 640px` | Off-canvas drawer | Phone, single-column flow | 16px, may reduce to 14px at 360px |
+| Base | `< 640px` | Off-canvas drawer | Phone, single-column analytical flow | 14–16px |
 | `sm` | `640–767px` | Off-canvas drawer | Large phone / narrow tablet | 16px |
-| `md` | `768–1023px` | Off-canvas drawer | Tablet, two-column secondary grids | 20–24px |
-| `lg` | `1024–1279px` | Persistent compact rail, ~56–64px | Compact desktop | 24px |
-| `xl` | `1280–1535px` | Persistent full sidebar, ~200–220px | Full desktop | 24px |
-| `2xl` | `>= 1536px` | Persistent full sidebar | Wide desktop | 24–32px; cap useful content width if needed |
+| `md` | `768–1023px` | Off-canvas drawer | Tablet, two-column KPI grid; analytical modules stacked | 18–24px |
+| `lg` | `1024–1279px` | Persistent compact rail, 56–64px | Compact desktop, 2:1 charts, full operational density | 20–24px |
+| `xl` | `1280–1535px` | Persistent full sidebar, 200–220px | Full desktop | 24px |
+| `2xl` | `>= 1536px` | Persistent full sidebar | Wide desktop with useful content-width cap | 24–32px |
 
-### Why navigation changes at `lg`, not `md`
+## Application shell
 
-At 768 to 1023px, a persistent 220px sidebar consumes too much of the working area for charts and tables. Tablet should therefore continue using the overlay drawer. A compact icon rail becomes appropriate at 1024px, where persistent navigation can return without dominating the viewport. Full navigation labels return at 1280px.
-
-## Application shell behavior
-
-### Base and `sm`: phone
+### Base through `md`
 
 - No persistent sidebar.
-- Topbar contains menu trigger, product/title context, and essential utilities only.
-- Navigation opens as a left-side overlay drawer.
-- Drawer width: approximately 240–280px, never wider than 85vw.
-- Global jump/search control is hidden from the topbar; expose search through a command action or menu if required.
-- Live/Demo mode control may collapse to a compact single control when horizontal space is constrained.
-- Minimum interactive target on touch layouts: 40px, preferably 44px.
-
-### `md`: tablet
-
-- Continue using the overlay drawer rather than the current persistent sidebar.
-- Breadcrumbs may remain hidden or be replaced by a concise page title.
-- Global search remains hidden from the permanent topbar unless there is at least ~220px of uncontested space.
-- Preserve all content width for analytical modules.
+- Topbar contains menu trigger, product context, runtime state, and theme control.
+- Navigation opens as an overlay drawer no wider than 85vw.
+- Global jump/search is not permanently mounted in the topbar on phone/tablet.
+- Touch targets should be at least 40px, preferably 44px.
 
 ### `lg`: compact desktop
 
-- Show persistent 56–64px icon rail.
-- Show breadcrumbs.
-- Show a compact global search, approximately 180–220px.
-- Keep navigation labels in tooltips rather than consuming permanent width.
-- User can optionally expand the rail, but expanded state must not be the default for this tier.
+- Persistent 56–64px icon rail.
+- Compact global jump/search may return.
+- Navigation labels use tooltips rather than consuming permanent width.
+- Expanded navigation is optional, not default.
 
-### `xl` and above: full desktop
+### `xl+`: full desktop
 
-- Show full persistent navigation, approximately 200–220px.
-- Show breadcrumbs and 240–260px global search.
-- Keep utility controls and user avatar visible in the topbar.
-- At very wide widths, avoid allowing chart/table modules to become indefinitely wide. A centered content cap around 1600px is acceptable if visual inspection confirms better reading density.
+- Full labeled sidebar, approximately 200–220px.
+- Breadcrumb/page context, global jump/search, runtime status, and theme control remain visible.
+- Cap content width when additional width stops improving analytical readability.
 
 ## Dashboard module contract
 
-### Page header and filters
+### Header and filtering
 
-| Tier | Behavior |
-| --- | --- |
-| Base | Title/description full width. Filters wrap into two-up controls when possible, otherwise stack. Search/filter text must not truncate critical selected values. |
-| `sm` | Two-up filter rows are preferred. |
-| `md` | Two-by-two filter arrangement or fluid wrapping. |
-| `lg+` | Single horizontal filter row when available width permits. |
+- Phone: title/description, date range, and compact Filters action.
+- Tablet: same controls in a single compact row when width allows.
+- Compact/full desktop: date range, Filters action, active-region/filter summary, reset action when dirty.
+- Do not render four permanent select boxes simply because space exists. The redesign should reduce toolbar noise while preserving access to all filtering capability.
 
-Do not rely on accidental flex wrapping. Each control group must have an intentional minimum width.
+### Primary KPI grid
 
-### KPI cards
+Exactly four primary KPI cards are shown on the dashboard target.
 
-There are currently five dashboard KPI cards. The grid should be based on the actual item count rather than seven theoretical columns.
-
-| Tier | Target columns |
+| Tier | Columns |
 | --- | ---: |
 | Base | 2 |
 | `sm` | 2 |
-| `md` | 2 or 3 based on tested minimum card width; prefer balanced rows |
-| `lg` | 3, allowing `3 + 2` with the final two spanning or centering as a deliberate composition |
-| `xl` | 5 |
-| `2xl` | 5 |
+| `md` | 2 |
+| `lg+` | 4 |
 
-Preferred desktop implementation: five equal columns from `xl` upward. This directly removes the audited `4 + 1` orphan at 1280 and 1440px. If KPI count becomes dynamic, use an auto-fit/minmax strategy with a tested minimum card width rather than fixed seven-column assumptions.
+This removes the audited `4 + 1` orphan problem entirely instead of solving it with a five-column desktop grid.
 
-### Primary charts
+### Primary analytics
 
-- Below `lg`: Call Volume and Issue Breakdown stack vertically at full width.
-- `lg` and above: 3-column parent with Call Volume spanning 2 columns and Issue Breakdown spanning 1.
-- Preserve approximately 200–240px plot height.
-- Axis and tick labels must remain legible without shrinking below the current already-small chart typography.
-- Narrow layouts should reduce tick count before reducing font size.
+- Below `lg`: Call Volume and Issue Mix stack vertically.
+- `lg+`: Call Volume occupies two-thirds of the row and Issue Mix one-third.
+- Reduce tick density before reducing chart-label font size.
+- Chart text must remain readable in both themes.
 
 ### Region performance
 
-Retain the current responsive shape unless implementation testing reveals a conflict:
+The redesign target is comparative rather than tile-heavy.
 
-- Base: 1 column.
-- `sm`: 2 columns.
-- `lg`: 3 columns.
-- `xl+`: 6 columns.
+- Desktop/compact desktop: compact table or table-like comparison with Region, Volume, SLA, CSAT, and Escalations.
+- Tablet: shortened comparative table showing the highest-value columns plus a View All Regions action.
+- Mobile: **Region Watch** summary with a small set of high-signal regions and a route to the complete region view.
+- Active-region count belongs in this context, not in the KPI row.
 
-Each region tile must preserve metric hierarchy and must not depend on a fixed region name length.
+### Priority insights
 
-### Insights and Latest Calls
+- Desktop: compact priority panel next to Latest Calls.
+- Tablet: full-width panel below region comparison.
+- Mobile: emphasize the highest-priority insight first rather than stacking every insight at dashboard level.
 
-- Below `lg`: stack Insights first, Latest Calls second.
-- `lg+`: 1:2 width ratio.
-- Insight copy may wrap naturally.
-- Latest Calls must prioritize data legibility over fitting every column into the viewport.
+### Latest calls
 
-### Operational tables
-
-For Calls, Latest Calls, Agents, Metrics, and other dense tabular surfaces:
-
-- Preserve semantic tables where the information is inherently comparative.
-- Below desktop widths, use horizontal scrolling rather than aggressively wrapping every cell.
-- Give the table an explicit minimum content width appropriate to its columns.
-- IDs, statuses, durations, and compact numeric metrics should remain non-wrapping where possible.
-- Customer/issue descriptive text can wrap.
-- Provide a visible horizontal-scroll affordance on touch layouts, such as edge fade, short helper copy, or another discoverable indicator.
-- Do not convert a comparative table into cards unless the mobile UX is specifically redesigned and validated as a separate pattern.
+- `lg+`: semantic operational table.
+- Tablet: reduced-column table that preserves comparison.
+- Phone dashboard: compact recent-call list with ID/customer, issue, duration, and status.
+- The dedicated Calls page remains the full operational table on all relevant widths and can use intentional horizontal scrolling where necessary.
 
 ## Mobile density rules
 
 At 360 and 390px:
 
-- No horizontal page overflow outside intentionally scrollable modules.
-- Charts occupy the full content width.
-- Two-column KPI cards are allowed only if both cards retain readable labels and values; otherwise drop to one column.
-- Long region names, issue labels, and customer names may wrap, but controls and badges should not collapse to illegible widths.
-- Page-level vertical rhythm should stay compact, using roughly 10–16px module gaps rather than desktop-sized empty areas.
-- Fixed overlays and drawers must remain dismissible and independently scrollable on short-height screens.
+- No page-level horizontal overflow outside intentionally scrollable modules.
+- Two-column KPI cards are permitted only while labels and values remain readable.
+- Charts occupy full content width.
+- Region Watch, Priority Insight, and Recent Calls become phone-native summaries rather than squeezed desktop modules.
+- Long labels may wrap; badges and controls must not collapse to illegible widths.
+- Use compact 10–16px vertical module gaps.
+- Drawers and overlays must remain dismissible and independently scrollable.
 
-## Responsive behavior for other canonical pages
+## Other canonical pages
 
 The same shell tiers apply to Dashboard, Calls, Call Detail, Agents, Metrics, Customer Analytics, and Settings.
 
-- Calls/Agents/Metrics: retain table comparison and horizontal overflow at narrow widths.
-- Call Detail: move multi-column metadata/analytics groups into a single vertical reading flow below `lg`.
-- Customer Analytics: tab/navigation controls may scroll horizontally or wrap into a compact control rather than squeezing all tabs.
-- Settings: stack form sections and actions; no fixed-width panel may force horizontal page overflow.
+- Calls / Agents / Metrics: preserve comparative tables; use intentional horizontal overflow where needed.
+- Call Detail: collapse multi-column metadata and analytics into a vertical reading flow below `lg`.
+- Customer Analytics: allow horizontal tab scrolling or a compact control instead of squeezing all tabs.
+- Settings: stack sections and actions; no fixed-width panel may force page overflow.
 
-## Wireframes
+## Whimsical v2 frames
 
-The editable Whimsical board contains these target frames:
+The rebuilt board contains four responsive target frames:
 
-1. **Dashboard Desktop >=1280**: full sidebar, five-column KPI row, 2:1 charts, six region tiles, 1:2 Insights/Latest Calls.
-2. **Dashboard Tablet 768–1023**: drawer navigation, wrapped filters/KPIs, stacked charts, two-column region tiles, stacked lower modules.
-3. **Dashboard Mobile 360–639**: compact topbar and drawer, two-up compact controls/KPIs where viable, fully stacked analytical modules, mobile table overflow treatment.
-4. **Dashboard Compact Desktop 1024–1279**: icon navigation rail, compact global search, analytical desktop composition without the full sidebar penalty.
+1. **Desktop >=1280**: full sidebar, four-KPI row, dominant 2:1 chart hierarchy, compact Region Performance comparison, Priority Insights + Latest Calls.
+2. **Compact Desktop 1024–1279**: icon rail with the same analytical hierarchy and reduced chrome.
+3. **Tablet 768–1023**: drawer navigation, 2x2 KPIs, stacked analytical modules, reduced region comparison, reduced-column Latest Calls.
+4. **Mobile 360–639**: compact header, date + Filters action, 2x2 KPIs, stacked charts, Region Watch, one priority insight, compact Recent Calls list.
 
-Board: https://whimsical.com/KgTGe19twcLzdRDrgBwVgS
+Board: https://whimsical.com/QUqGyjEEkwewz3C39CZbKJ
 
-## Visual QA matrix
+## Storybook redesign workbench
 
-The existing baseline already covers 360, 390, 1024, 1280, and 1440px widths. Add transition-specific widths so regressions are caught at the actual breakpoint boundaries.
+Before production redesign begins, the Storybook catalog includes an explicit `Redesign Workbench/Patterns` section for:
 
-Recommended canonical widths:
+- filter toolbar and active-filter state
+- primary KPI matrix
+- chart hierarchy and density
+- region-comparison density
+- priority insight severity
+- loading / empty / error treatments
+- operational table density
+- mobile-density behavior
 
-- 360px
-- 390px
-- 640px
-- 768px
-- 1024px
-- 1280px
-- 1440px
-- 1536px or 1600px
+The global Storybook theme control applies the actual application theme provider to every story. Automated Playwright checks render the workbench in forced dark and forced light themes and verify that the theme surfaces are distinct.
 
-For breakpoint-specific tests, capture both sides of structural transitions when practical, for example 767/768, 1023/1024, and 1279/1280.
+## Visual QA widths
+
+Canonical widths:
+
+- 360
+- 390
+- 640
+- 768
+- 1024
+- 1280
+- 1440
+- 1536 or 1600
+
+At structural transitions, also test both sides when practical: 767/768, 1023/1024, and 1279/1280.
 
 ## Acceptance criteria for implementation
 
-1. No page-level horizontal overflow at 360, 390, 640, 768, 1024, 1280, 1440, or 1536px.
+1. No page-level horizontal overflow at canonical widths.
 2. Persistent navigation does not appear below 1024px.
-3. Full-width labeled sidebar does not become the default until 1280px.
-4. The five dashboard KPI cards do not render as an accidental `4 + 1` composition at 1280 or 1440px.
-5. Primary charts stack below 1024px and use the intended 2:1 composition at 1024px and above.
-6. Region tiles follow the 1 / 2 / 3 / 6 column progression.
-7. Dense tables remain readable and intentionally scrollable on narrow screens.
-8. Touch controls on mobile/tablet meet the minimum target size requirement.
-9. Drawer, modal, dropdown, and tooltip behavior remains usable at all canonical widths.
-10. Storybook states and Playwright visual regressions are updated together when the responsive implementation lands.
+3. Full labeled sidebar is not the default below 1280px.
+4. Dashboard has four primary KPI cards with no orphan composition.
+5. Call Volume remains the dominant chart and becomes a 2:1 composition at `lg+`.
+6. Region Performance changes density intentionally by tier instead of mechanically wrapping six equal tiles.
+7. Latest Calls changes from full table to reduced table/list only where the dashboard context benefits from it.
+8. Touch controls meet minimum target size.
+9. Both light and dark themes remain first-class throughout redesign work.
+10. Storybook states and Playwright regression coverage are updated together with each production redesign slice.
 
 ## Implementation boundary
 
-This specification and its Whimsical wireframes establish the target responsive contract only. Production component, shell, token, or layout changes should be implemented in the subsequent redesign phase and verified against the existing Storybook/MSW/Playwright foundation.
+These wireframes, the breakpoint contract, and the Storybook redesign workbench define the target and the QA surface. They do not themselves modify the production dashboard.
