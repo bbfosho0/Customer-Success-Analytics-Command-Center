@@ -5,7 +5,7 @@ import { openStory } from "../helpers/storybook";
 const STORY_ID = "canonical-reference-pre-redesign-workbench--all-patterns";
 
 async function renderedBackground(page: Parameters<typeof openStory>[0]) {
-  return page.locator(".min-h-screen.bg-background").first().evaluate((element) => getComputedStyle(element).backgroundColor);
+  return page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--background").trim());
 }
 
 test.describe("pre-redesign workbench", () => {
@@ -24,6 +24,8 @@ test.describe("pre-redesign workbench", () => {
     const lightBackground = await renderedBackground(page);
 
     await expect(page.getByText("Redesign workbench")).toBeVisible();
+    expect(darkBackground).not.toBe("");
+    expect(lightBackground).not.toBe("");
     expect(lightBackground).not.toBe(darkBackground);
   });
 
