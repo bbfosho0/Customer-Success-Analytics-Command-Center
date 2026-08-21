@@ -2,6 +2,7 @@ import type { Preview } from "@storybook/nextjs-vite";
 import { mswLoader } from "msw-storybook-addon/csf3";
 
 import "../src/styles/globals.css";
+import { handlers } from "../src/mocks/handlers";
 import { StoryProviders } from "../src/storybook/story-providers";
 import { canonicalViewports } from "../src/storybook/viewports";
 
@@ -44,6 +45,9 @@ const preview: Preview = {
     },
     a11y: {
       test: "todo",
+    },
+    msw: {
+      handlers,
     },
   },
 };
