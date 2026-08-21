@@ -1,6 +1,6 @@
 # Redesign Final Visual QA
 
-Status: **Verified green on the exact PR head. Ready for user review. PR remains draft and unmerged.**
+Status: **Implementation verified green. Final QA record committed as documentation-only follow-up. PR remains draft and unmerged.**
 
 Date: 2026-08-21
 
@@ -11,13 +11,14 @@ Whimsical reference: `Support Analytics — Full Product Responsive Wireframes v
 - Repository: `bbfosho0/Customer-Success-Analytics-Command-Center`
 - PR: `#13`
 - Branch: `storybook-playwright-redesign-foundation`
-- Verified head: `895cdde0c4be2f53b3affb52a869618e2bb4f740`
-- CI run: `#146`, run ID `32537523934`
+- Verified implementation head: `895cdde0c4be2f53b3affb52a869618e2bb4f740`
+- Verification CI run: `#146`, run ID `32537523934`
 - Result: **all jobs passed**
+- Follow-up commits after the verified implementation head are documentation-only QA-record updates and do not alter runtime, Storybook, test, or styling behavior.
 
 ## Final CI gates
 
-The exact verified head passed all permanent workflow gates:
+The verified implementation head passed all permanent workflow gates:
 
 - Backend tests and OpenAPI export: passed
 - Salesforce metadata and sample-data tests: passed
@@ -60,7 +61,7 @@ The browser evidence maintains the board's page-specific hierarchy, including Me
 
 During the final pass, a widespread canonical screenshot regression was traced to CSS import order rather than to the scoped redesign. The fix restored the frozen canonical baseline while leaving the redesign theme independently scoped.
 
-The verification run after that correction confirmed the canonical page and primitive screenshot suites returned to their established baselines. The remaining pre-redesign workbench failure was a stale test assertion about transparent body background color, not a UI regression; the assertion was replaced with verification of the actual `next-themes` class contract. Run #146 verifies that final test change on the exact current head.
+The verification run after that correction confirmed the canonical page and primitive screenshot suites returned to their established baselines. The remaining pre-redesign workbench failure was a stale test assertion about transparent body background color, not a UI regression; the assertion was replaced with verification of the actual `next-themes` class contract. Run #146 verifies that final implementation/test state.
 
 ## Final artifacts
 
@@ -73,6 +74,6 @@ Run `32537523934` produced:
 
 ## Disposition
 
-The implementation and its permanent visual QA pipeline are verified on the exact PR head. No remaining CI or visual-regression blocker was found in the final pass.
+The implementation and its permanent visual QA pipeline are verified. No remaining CI or visual-regression blocker was found in the final pass.
 
 PR #13 intentionally remains **open, draft, and unmerged** so the final promotion/merge decision remains explicit.
