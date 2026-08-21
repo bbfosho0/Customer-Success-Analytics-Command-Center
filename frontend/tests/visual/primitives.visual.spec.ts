@@ -14,6 +14,6 @@ const primitiveStories = [
 for (const [name, storyId] of primitiveStories) {
   test(`${name} baseline`, async ({ page }) => {
     await openStory(page, storyId, { theme: "dark", viewport: { width: 1280, height: 900 } });
-    await expect(page).toHaveScreenshot(`${name}.png`, { fullPage: true });
+    await expect(page).toHaveScreenshot(`${name}.png`);
   });
 }
