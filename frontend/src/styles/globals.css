@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import "./themes.css";
+@import "./redesign-theme-inherit.css";
 @import "./typography.css";
 
 :root {
