@@ -3,12 +3,12 @@ import { expect, test } from "@playwright/test";
 import { openStory } from "../helpers/storybook";
 
 const primitiveStories = [
-  ["kpi-cards", "design-system-primitives--kpi-cards"],
-  ["status-badges", "design-system-primitives--status-badges"],
-  ["chips", "design-system-primitives--chips"],
-  ["section-cards", "design-system-primitives--section-cards"],
-  ["feedback-states", "design-system-primitives--feedback-states"],
-  ["insight-severities", "design-system-primitives--insight-severities"],
+  ["kpi-cards", "canonical-design-system-primitives--kpi-cards"],
+  ["status-badges", "canonical-design-system-primitives--status-badges"],
+  ["chips", "canonical-design-system-primitives--chips"],
+  ["section-cards", "canonical-design-system-primitives--section-cards"],
+  ["feedback-states", "canonical-design-system-primitives--feedback-states"],
+  ["insight-severities", "canonical-design-system-primitives--insight-severities"],
 ] as const;
 
 for (const [name, storyId] of primitiveStories) {
