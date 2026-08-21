@@ -32,9 +32,10 @@
 **Files:**
 - Modify: `frontend/package.json`
 - Modify: `frontend/package-lock.json`
+- Modify: `frontend/vitest.config.ts`
 - Create: `frontend/src/redesign/test/render-with-providers.tsx`
 - Create: `frontend/src/redesign/test/setup.ts`
-- Modify: the repository Vitest unit-project configuration only if it does not already provide a DOM environment/setup file
+- Create: `frontend/src/redesign/test/render-with-providers.test.tsx`
 
 **Interfaces:**
 - Produces:
@@ -46,6 +47,8 @@ export function renderWithProviders(
 ): ReturnType<typeof render>;
 ```
 
+- Unit tests use the same default MSW `handlers` exported from `frontend/src/mocks/handlers` as Storybook.
+- Individual tests may call `server.use(...)` with existing `visualStates` handlers when testing sparse, error, high-risk, or other deterministic states.
 - All redesign unit test files that use React Testing Library import exactly:
 
 ```ts
@@ -65,27 +68,68 @@ Run from `frontend/`:
 npm install --save-dev @testing-library/react @testing-library/user-event @testing-library/jest-dom jsdom
 ```
 
-- [ ] **Step 2: Create the test setup file**
+- [ ] **Step 2: Change only the Vitest `unit` project to a DOM environment and add the redesign setup file**
+
+In `frontend/vitest.config.ts`, change the current unit project from:
+
+```ts
+{
+  test: {
+    name: "unit",
+    include: ["src/tests/**/*.test.{ts,tsx}"],
+    environment: "node",
+  },
+},
+```
+
+to:
+
+```ts
+{
+  test: {
+    name: "unit",
+    include: [
+      "src/tests/**/*.test.{ts,tsx}",
+      "src/redesign/**/*.test.{ts,tsx}",
+    ],
+    environment: "jsdom",
+    setupFiles: ["./src/redesign/test/setup.ts"],
+  },
+},
+```
+
+Do not change the Storybook browser project.
+
+- [ ] **Step 3: Create the unit setup file with jest-dom and MSW lifecycle**
 
 `frontend/src/redesign/test/setup.ts`:
 
 ```ts
 import "@testing-library/jest-dom/vitest";
+
+import { afterAll, afterEach, beforeAll } from "vitest";
+import { setupServer } from "msw/node";
+
+import { handlers } from "@/mocks/handlers";
+
+export const server = setupServer(...handlers);
+
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 ```
 
-Wire this file into the existing Vitest `unit` project setup. If the unit project already uses a shared setup file, import this setup from that existing file rather than defining a second competing setup chain.
+`onUnhandledRequest: "error"` is intentional. A redesign unit test must fail if a page starts making an unmocked network request.
 
-- [ ] **Step 3: Ensure the unit project uses a DOM environment**
+- [ ] **Step 4: Run the existing unit suite before adding redesign React tests**
 
-The redesign React unit tests require:
-
-```ts
-environment: "jsdom"
+```bash
+cd frontend && npm test
 ```
 
-If the existing unit project already uses `jsdom` or an equivalent browser DOM environment, make no config change.
+Expected: existing `src/tests/**/*.test.*` tests still pass under jsdom. If an existing test depends on pure Node globals in a way jsdom breaks, keep that test in a separate Node project instead of weakening the redesign DOM/MSW project.
 
-- [ ] **Step 4: Create the provider helper using the same query behavior as Storybook**
+- [ ] **Step 5: Create the provider helper immediately after the foundation plan creates `RedesignTheme`**
 
 `frontend/src/redesign/test/render-with-providers.tsx`:
 
@@ -120,18 +164,23 @@ export function renderWithProviders(
 }
 ```
 
-Because `RedesignTheme` is created in the foundation subplan, execute Task 0 Steps 1 through 3 before foundation Task 3, then add this helper immediately after `RedesignTheme` is implemented. Until then, theme-only tests may call Testing Library `render()` directly.
+- [ ] **Step 6: Add a helper smoke test**
 
-- [ ] **Step 5: Add a helper smoke test after `RedesignTheme` exists**
+`frontend/src/redesign/test/render-with-providers.test.tsx`:
 
 ```tsx
+import { screen } from "@testing-library/react";
+import { expect, it } from "vitest";
+
+import { renderWithProviders } from "./render-with-providers";
+
 it("renders redesign content inside query and theme providers", () => {
   renderWithProviders(<div>redesign test</div>);
   expect(screen.getByText("redesign test")).toBeVisible();
 });
 ```
 
-- [ ] **Step 6: Run the focused unit test**
+- [ ] **Step 7: Run the focused redesign test harness**
 
 ```bash
 cd frontend && npx vitest run --project=unit src/redesign/test
@@ -139,10 +188,10 @@ cd frontend && npx vitest run --project=unit src/redesign/test
 
 Expected: PASS.
 
-- [ ] **Step 7: Commit the shared harness with the foundation changes that first consume it**
+- [ ] **Step 8: Commit the shared harness with the foundation changes that first consume it**
 
 ```bash
-git add frontend/package.json frontend/package-lock.json frontend/src/redesign/test
+git add frontend/package.json frontend/package-lock.json frontend/vitest.config.ts frontend/src/redesign/test
 git commit -m "test: add redesign react test harness"
 ```
 
@@ -155,6 +204,8 @@ git commit -m "test: add redesign react test harness"
 Execute:
 
 `docs/superpowers/plans/2026-08-21-parallel-storybook-redesign-foundation.md`
+
+Execution detail: perform Task 0 Steps 1 through 4 from this roadmap before foundation Task 3. After foundation Task 3 creates `RedesignTheme`, perform Task 0 Steps 5 through 8 before foundation Task 4.
 
 Required result before continuing:
 
@@ -172,7 +223,7 @@ Execute:
 
 `docs/superpowers/plans/2026-08-21-parallel-storybook-redesign-core-pages.md`
 
-Every test snippet that calls `renderWithProviders` consumes the Task 0 helper from this roadmap.
+Every test snippet that calls `renderWithProviders` consumes the Task 0 helper and default MSW server from this roadmap.
 
 Required result before continuing:
 
@@ -191,7 +242,7 @@ Execute:
 
 `docs/superpowers/plans/2026-08-21-parallel-storybook-redesign-analytics-pages.md`
 
-Every test snippet that calls `renderWithProviders` consumes the Task 0 helper from this roadmap.
+Every test snippet that calls `renderWithProviders` consumes the Task 0 helper and default MSW server from this roadmap.
 
 Required result before continuing:
 
