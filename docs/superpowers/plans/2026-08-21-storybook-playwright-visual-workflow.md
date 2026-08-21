@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a free, deterministic, code-first visual design and QA foundation where Storybook exposes canonical UI states, MSW supplies controlled API data, Playwright captures regression and AI-review screenshots, and GitHub Actions publishes the evidence needed for visual analysis before any redesign begins.
+**Goal:** Build a free, deterministic, code-first visual design and QA foundation where Storybook exposes the current canonical UI, MSW supplies controlled API states, Playwright captures regression and AI-review screenshots, and GitHub Actions publishes those screenshots for visual analysis before any redesign begins.
 
-**Architecture:** The existing Next.js application remains the production source of truth. Storybook mirrors the app's Tailwind, theme, routing, and query-provider environment while isolating stories from shared React Query cache state; MSW intercepts the app's real HTTP requests at the network boundary. Playwright Test drives Storybook for exhaustive visual coverage and the real Next.js app for a smaller critical-flow suite, while `@playwright/cli` is available for agent-driven interactive inspection. GitHub Actions extends the existing frontend pipeline and uploads deterministic screenshots, reports, traces, and visual diffs as artifacts.
+**Architecture:** The existing Next.js application remains the source of truth. Storybook reproduces the app's global CSS, theme, routing assumptions, and React Query environment while isolating query state between stories. MSW intercepts the same HTTP requests the application already makes. Playwright Test drives Storybook for exhaustive visual coverage and the real Next.js app for a smaller integration suite; `@playwright/cli` is installed for agent-driven interactive inspection. GitHub Actions extends the existing frontend CI job and uploads Storybook, visual evidence, Playwright reports, diffs, and traces.
 
 **Tech Stack:** Next.js 14.2.7, React 18.3.1, TypeScript 5.6.3, Tailwind CSS 3.4.13, Recharts 3.8.1, TanStack React Query 5, next-themes 0.4.6, Vitest 4, Storybook 10.x with `@storybook/nextjs-vite`, MSW 2.x with `msw-storybook-addon`, Storybook a11y/Vitest/MCP addons, `@playwright/test`, `@playwright/cli`, GitHub Actions.
 
@@ -12,107 +12,64 @@
 
 ## Global Constraints
 
-- Work only on branch `storybook-playwright-redesign-foundation` until this foundation is complete.
-- Baseline `main` SHA is `f955a6e5598300a702d0517ab9a7eba3a569c209`.
-- Do not redesign the UI while implementing this plan.
-- Preserve existing behavior and business logic.
-- Do not migrate Next.js, React, Tailwind, Recharts, or the application routing model.
+- Work only on branch `storybook-playwright-redesign-foundation` for this foundation.
+- Baseline `main` SHA: `f955a6e5598300a702d0517ab9a7eba3a569c209`.
+- Do not redesign the UI in this plan.
+- Preserve application behavior, routes, API contracts, and business logic.
+- Do not migrate Next.js, React, Tailwind, Recharts, or the App Router.
 - Do not delete or broadly refactor `frontend/src/figma` during foundation work.
-- Do not introduce Figma, Penpot, Chromatic, or another paid visual-regression dependency.
-- Use the existing `frontend/src/styles/globals.css` as Storybook's global stylesheet so Tailwind, themes, and typography remain identical to the app.
-- Reuse the existing `ThemeProvider`; do not duplicate its theme semantics.
-- Do not reuse the app's singleton `queryClient` inside Storybook stories because it can leak cached state between stories. Storybook must create an isolated `QueryClient` per story render.
-- MSW handlers must intercept the application's actual HTTP contracts. Do not replace network-dependent components with fake presentation-only variants merely to make stories render.
-- Storybook is the exhaustive visual-state target. The real Next.js app gets a smaller set of critical integration/E2E checks.
-- Chromium is the canonical visual-regression renderer. Do not multiply every Storybook screenshot across Chromium, Firefox, and WebKit.
-- Generated Storybook output, Playwright reports, test results, and AI-review evidence are CI artifacts, not source files.
-- Playwright screenshot baselines committed under `frontend/tests/visual/**` are allowed because they are regression expectations, not transient output.
-- GitHub Actions must upload visual evidence even when visual tests fail.
-- Accessibility/component test failures may become hard CI failures only after the initial baseline is captured and any intentional exceptions are explicitly documented.
-- Follow `AGENTS.md`, especially the rule not to casually edit generated OpenAPI/data artifacts.
+- Do not introduce Figma, Penpot, Chromatic, or a paid visual-testing dependency.
+- Storybook must import the existing `frontend/src/styles/globals.css` rather than recreating styles.
+- Reuse the existing `ThemeProvider`; do not create a competing theme implementation.
+- Storybook must create an isolated `QueryClient` per story render rather than using the application singleton from `frontend/src/lib/state/queryClient.ts`.
+- MSW handlers must match the application's existing network contracts and typed/static fixtures.
+- Storybook is the exhaustive visual-state target. The live Next.js app gets a smaller critical-flow suite.
+- Chromium is the canonical visual-regression renderer.
+- Generated Storybook builds, reports, traces, screenshots, and AI-review evidence are CI artifacts and remain ignored locally.
+- Playwright `toHaveScreenshot()` baseline PNGs are committed test expectations and must not be ignored.
+- GitHub Actions must upload evidence with `if: always()` so failures remain inspectable.
+- Accessibility findings are surfaced from the start, but only become a hard blocking gate after the initial existing-UI baseline is documented.
+- Follow the repository's existing `AGENTS.md` restrictions for generated OpenAPI and data artifacts.
 
 ---
 
-## File Structure Locked by This Plan
-
-### New Storybook configuration
+## Locked File Layout
 
 ```text
-frontend/.storybook/
-  main.ts                 # Story discovery, framework, addons, static assets
-  preview.tsx             # Global CSS, decorators, MSW loader, theme globals
-  test.setup.ts           # Storybook/Vitest browser-test setup if generated by addon
+frontend/
+  .storybook/
+    main.ts
+    preview.tsx
+    test.setup.ts              # only when required by installed Storybook/Vitest integration
+  src/
+    storybook/
+      story-providers.tsx
+      viewports.ts
+    mocks/
+      handlers.ts
+      handlers/
+        core-api.ts
+        customer-analytics.ts
+      fixtures/
+        visual-states.ts
+    figma/
+      *.stories.tsx
+      pages/
+        *.stories.tsx
+  tests/
+    helpers/
+      storybook.ts
+      visual-evidence.ts
+    visual/
+      primitives.visual.spec.ts
+      pages.visual.spec.ts
+      evidence-manifest.ts
+    e2e/
+      app-smoke.spec.ts
+  playwright.config.ts
 ```
 
-### New Storybook support code
-
-```text
-frontend/src/storybook/
-  story-providers.tsx     # Isolated QueryClient + existing ThemeProvider wrapper
-  viewports.ts            # Canonical viewport definitions shared by stories/tests
-  storybook-state.ts      # Typed theme/state helpers only if required by stories
-```
-
-`storybook-state.ts` should not be created unless at least two story files need the same helper. Prefer fewer files over speculative abstractions.
-
-### New MSW code
-
-```text
-frontend/src/mocks/
-  handlers.ts             # Default handler composition
-  handlers/
-    dashboard.ts
-    calls.ts
-    agents.ts
-    metrics.ts
-    customer-analytics.ts
-  fixtures/
-    dashboard.ts
-    calls.ts
-    agents.ts
-    metrics.ts
-    customer-analytics.ts
-```
-
-Do not create generic `normal.ts`, `empty.ts`, or `error.ts` files that mix unrelated domain payloads. Keep fixtures next to their domain contract and export named variants such as `dashboardNormal`, `dashboardSparse`, and `dashboardHighRisk`.
-
-### New stories
-
-Place stories next to the code they document where practical:
-
-```text
-frontend/src/figma/primitives.stories.tsx
-frontend/src/figma/filters.stories.tsx
-frontend/src/figma/shell.stories.tsx
-frontend/src/figma/pages/dashboard.stories.tsx
-frontend/src/figma/pages/calls.stories.tsx
-frontend/src/figma/pages/call-detail.stories.tsx
-frontend/src/figma/pages/agents.stories.tsx
-frontend/src/figma/pages/metrics.stories.tsx
-frontend/src/figma/pages/customer-analytics.stories.tsx
-frontend/src/figma/pages/settings.stories.tsx
-```
-
-If the component census finds reusable chart components in another folder, their stories live beside those components instead of being duplicated in page stories.
-
-### New Playwright code
-
-```text
-frontend/playwright.config.ts
-frontend/tests/visual/
-  primitives.visual.spec.ts
-  pages.visual.spec.ts
-  evidence-manifest.ts
-frontend/tests/e2e/
-  app-smoke.spec.ts
-frontend/tests/helpers/
-  storybook.ts
-  visual-evidence.ts
-```
-
-Start with two visual spec files rather than nine nearly-empty files. Split `pages.visual.spec.ts` only when it becomes difficult to review or exceeds roughly 300 focused lines.
-
-### Generated/ignored paths
+Generated and ignored:
 
 ```text
 frontend/storybook-static/
@@ -122,11 +79,19 @@ frontend/visual-evidence/
 frontend/.playwright-cli/
 ```
 
-The repository already ignores root `.playwright-cli/`; add the frontend-local path explicitly because Playwright CLI will commonly be executed from `frontend/`.
+Canonical visual QA dimensions:
+
+```text
+Desktop XL   1440 x 1000
+Desktop      1280 x 900
+Tablet       1024 x 768
+Mobile       390 x 844
+Small Mobile 360 x 800
+```
 
 ---
 
-### Task 1: Bootstrap and lock the visual-tooling dependency set
+### Task 1: Install and lock the visual tooling
 
 **Files:**
 - Modify: `frontend/package.json`
@@ -134,12 +99,9 @@ The repository already ignores root `.playwright-cli/`; add the frontend-local p
 - Modify: `.gitignore`
 
 **Interfaces:**
-- Consumes: existing npm-based frontend and Node 20 CI environment.
-- Produces: reproducibly locked Storybook, MSW, Playwright Test, and Playwright CLI dependencies plus stable npm scripts used by every later task.
+- Produces npm scripts used by every later task: `storybook`, `storybook:build`, `storybook:test`, `playwright:version`, `playwright:cli:version`, `test:visual`, `test:visual:update`, `test:e2e`.
 
-- [ ] **Step 1: Verify the current frontend baseline before dependency changes**
-
-Run from repository root:
+- [ ] **Step 1: Prove the branch is green before dependency changes**
 
 ```bash
 npm --prefix frontend ci
@@ -147,9 +109,9 @@ npm --prefix frontend run test
 npm --prefix frontend run build
 ```
 
-Expected: install, Vitest suite, and Next.js build all pass before Storybook work begins. If one already fails on this branch, record the exact pre-existing failure in the implementation notes before changing dependencies.
+Expected: all three commands pass. If a command already fails, record its exact output before making dependency changes and do not misattribute it to Storybook.
 
-- [ ] **Step 2: Install the minimal toolchain**
+- [ ] **Step 2: Install only the required packages**
 
 Run from `frontend/`:
 
@@ -157,21 +119,19 @@ Run from `frontend/`:
 npm install --save-dev \
   storybook@latest \
   @storybook/nextjs-vite@latest \
+  @storybook/addon-docs@latest \
   @storybook/addon-a11y@latest \
   @storybook/addon-vitest@latest \
   @storybook/addon-mcp@latest \
-  @storybook/addon-docs@latest \
   msw@^2 \
   msw-storybook-addon@latest \
   @playwright/test@latest \
   @playwright/cli@latest
 ```
 
-Do not install Chromatic or `@chromatic-com/storybook` if a Storybook scaffold suggests it.
+Do not install Chromatic or `@chromatic-com/storybook`.
 
-- [ ] **Step 3: Add stable npm scripts**
-
-Add these scripts to `frontend/package.json` without removing existing scripts:
+- [ ] **Step 3: Add stable scripts to `frontend/package.json`**
 
 ```json
 {
@@ -180,15 +140,15 @@ Add these scripts to `frontend/package.json` without removing existing scripts:
   "storybook:test": "vitest --project=storybook --run",
   "playwright:version": "playwright --version",
   "playwright:cli:version": "playwright-cli --version",
-  "test:e2e": "playwright test tests/e2e",
   "test:visual": "playwright test tests/visual",
-  "test:visual:update": "playwright test tests/visual --update-snapshots"
+  "test:visual:update": "playwright test tests/visual --update-snapshots",
+  "test:e2e": "playwright test tests/e2e"
 }
 ```
 
-If Storybook's Vitest addon generates a different canonical test script during configuration, keep one script name (`storybook:test`) and point it to the generated supported command rather than maintaining two equivalent Storybook test entrypoints.
+If the installed Storybook Vitest addon generates a different supported Storybook test command, keep the script name `storybook:test` and point it to that generated command. Do not keep two competing Storybook test commands.
 
-- [ ] **Step 4: Extend generated-output ignores**
+- [ ] **Step 4: Ignore transient output**
 
 Append to `.gitignore`:
 
@@ -201,29 +161,20 @@ frontend/visual-evidence/
 frontend/.playwright-cli/
 ```
 
-Do not ignore `frontend/tests/visual/**/*-snapshots/`; those are committed visual-regression expectations.
+Do not ignore Playwright snapshot directories under `frontend/tests/visual/`.
 
-- [ ] **Step 5: Verify both Playwright entrypoints exist**
-
-Run:
+- [ ] **Step 5: Verify Playwright Test and Playwright CLI are both installed**
 
 ```bash
 npm --prefix frontend run playwright:version
 npm --prefix frontend run playwright:cli:version
-```
-
-Expected: both commands print versions and exit 0.
-
-- [ ] **Step 6: Re-run existing frontend tests and build after dependency installation**
-
-```bash
 npm --prefix frontend run test
 npm --prefix frontend run build
 ```
 
-Expected: both remain green.
+Expected: all commands exit 0.
 
-- [ ] **Step 7: Commit the dependency foundation**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add frontend/package.json frontend/package-lock.json .gitignore
@@ -232,65 +183,43 @@ git commit -m "chore: add Storybook MSW and Playwright tooling"
 
 ---
 
-### Task 2: Configure Storybook to reproduce the real app environment
+### Task 2: Configure Storybook to reproduce the real application environment
 
 **Files:**
 - Create: `frontend/.storybook/main.ts`
 - Create: `frontend/.storybook/preview.tsx`
 - Create: `frontend/src/storybook/story-providers.tsx`
 - Create: `frontend/src/storybook/viewports.ts`
-- Modify: `frontend/tsconfig.json` only if the generated addon setup requires Storybook/MSW types or config inclusion
+- Modify: `frontend/tsconfig.json` only if the installed Storybook/MSW tooling requires its types/config files included
 
 **Interfaces:**
-- Consumes: `frontend/src/styles/globals.css`, `frontend/src/providers/theme-provider.tsx`, TanStack `QueryClientProvider`.
-- Produces: `StoryProviders`, `canonicalViewports`, a Storybook server on port 6006, and global `theme` control (`dark` or `light`).
+- Consumes: `frontend/src/styles/globals.css`, `frontend/src/providers/theme-provider.tsx`.
+- Produces: `StoryProviders` and `canonicalViewports`.
 
-- [ ] **Step 1: Add the canonical viewport map**
+- [ ] **Step 1: Create canonical viewport definitions**
 
-Create `frontend/src/storybook/viewports.ts`:
+`frontend/src/storybook/viewports.ts`:
 
 ```ts
 export const canonicalViewports = {
-  desktopXL: {
-    name: "Desktop XL 1440x1000",
-    styles: { width: "1440px", height: "1000px" },
-  },
-  desktop: {
-    name: "Desktop 1280x900",
-    styles: { width: "1280px", height: "900px" },
-  },
-  tablet: {
-    name: "Tablet 1024x768",
-    styles: { width: "1024px", height: "768px" },
-  },
-  mobile: {
-    name: "Mobile 390x844",
-    styles: { width: "390px", height: "844px" },
-  },
-  smallMobile: {
-    name: "Small Mobile 360x800",
-    styles: { width: "360px", height: "800px" },
-  },
+  desktopXL: { name: "Desktop XL 1440x1000", styles: { width: "1440px", height: "1000px" } },
+  desktop: { name: "Desktop 1280x900", styles: { width: "1280px", height: "900px" } },
+  tablet: { name: "Tablet 1024x768", styles: { width: "1024px", height: "768px" } },
+  mobile: { name: "Mobile 390x844", styles: { width: "390px", height: "844px" } },
+  smallMobile: { name: "Small Mobile 360x800", styles: { width: "360px", height: "800px" } },
 } as const;
 ```
 
-- [ ] **Step 2: Create an isolated Storybook provider wrapper**
+- [ ] **Step 2: Create an isolated provider wrapper**
 
-Create `frontend/src/storybook/story-providers.tsx`:
+`frontend/src/storybook/story-providers.tsx`:
 
 ```tsx
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import { ThemeProvider } from "../providers/theme-provider";
 
-export function StoryProviders({
-  children,
-  theme,
-}: {
-  children: React.ReactNode;
-  theme: "dark" | "light";
-}) {
+export function StoryProviders({ children, theme }: { children: React.ReactNode; theme: "dark" | "light" }) {
   const [client] = useState(
     () =>
       new QueryClient({
@@ -312,11 +241,9 @@ export function StoryProviders({
 }
 ```
 
-This intentionally does not import the app's singleton `queryClient` because Storybook stories must not share cached network state.
+- [ ] **Step 3: Configure Storybook**
 
-- [ ] **Step 3: Configure Storybook's framework, stories, static assets, and addons**
-
-Create `frontend/.storybook/main.ts`:
+`frontend/.storybook/main.ts`:
 
 ```ts
 import type { StorybookConfig } from "@storybook/nextjs-vite";
@@ -324,106 +251,50 @@ import type { StorybookConfig } from "@storybook/nextjs-vite";
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   staticDirs: ["../public"],
-  framework: {
-    name: "@storybook/nextjs-vite",
-    options: {},
-  },
+  framework: { name: "@storybook/nextjs-vite", options: {} },
   addons: [
     "@storybook/addon-docs",
     "@storybook/addon-a11y",
     "@storybook/addon-vitest",
     "msw-storybook-addon",
-    {
-      name: "@storybook/addon-mcp",
-      options: {
-        endpoint: "/mcp",
-      },
-    },
+    { name: "@storybook/addon-mcp", options: { endpoint: "/mcp" } },
   ],
 };
 
 export default config;
 ```
 
-If the installed Storybook version's automated Vitest configuration requires an additional generated setup field, preserve the generated field while keeping the framework/addon list above.
+Preserve any additional version-specific Vitest configuration generated by the installed Storybook version.
 
-- [ ] **Step 4: Configure the preview to use the real global CSS, providers, app-directory routing, MSW, themes, and viewports**
+- [ ] **Step 4: Configure global preview behavior**
 
-Create `frontend/.storybook/preview.tsx`:
+`frontend/.storybook/preview.tsx` must:
 
-```tsx
-import type { Preview } from "@storybook/nextjs-vite";
-import { mswLoader } from "msw-storybook-addon/csf3";
+1. import `../src/styles/globals.css`;
+2. register `mswLoader()` from `msw-storybook-addon/csf3`;
+3. wrap stories with `StoryProviders`;
+4. expose a `theme` global with only `dark` and `light`;
+5. set `nextjs.appDirectory: true` globally;
+6. use `canonicalViewports`;
+7. start with `a11y.test: "todo"` so existing violations are visible but do not block baseline capture.
 
-import "../src/styles/globals.css";
-import { StoryProviders } from "../src/storybook/story-providers";
-import { canonicalViewports } from "../src/storybook/viewports";
+The theme decorator must pass `forcedTheme="dark"` or `forcedTheme="light"` through the existing application `ThemeProvider`, not toggle ad hoc CSS classes itself.
 
-const preview: Preview = {
-  globalTypes: {
-    theme: {
-      description: "Application theme",
-      defaultValue: "dark",
-      toolbar: {
-        icon: "paintbrush",
-        items: ["dark", "light"],
-        dynamicTitle: true,
-      },
-    },
-  },
-  initialGlobals: {
-    theme: "dark",
-  },
-  loaders: [mswLoader()],
-  decorators: [
-    (Story, context) => (
-      <StoryProviders theme={context.globals.theme === "light" ? "light" : "dark"}>
-        <div className="min-h-screen bg-background text-foreground">
-          <Story />
-        </div>
-      </StoryProviders>
-    ),
-  ],
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-    viewport: {
-      options: canonicalViewports,
-    },
-    controls: {
-      expanded: true,
-    },
-    a11y: {
-      test: "todo",
-    },
-  },
-};
-
-export default preview;
-```
-
-Use `a11y.test = "todo"` during baseline capture so existing violations are visible without immediately blocking setup. Task 11 promotes this to blocking after the baseline is documented.
-
-- [ ] **Step 5: Start Storybook and prove the runtime itself loads**
-
-Run from `frontend/`:
-
-```bash
-npm run storybook -- --ci
-```
-
-Expected: Storybook starts on `http://localhost:6006`, no framework overlay appears, and `/mcp` responds while the dev server is running.
-
-- [ ] **Step 6: Build the static Storybook**
+- [ ] **Step 5: Smoke-test Storybook**
 
 ```bash
 npm --prefix frontend run storybook:build
 ```
 
-Expected: `frontend/storybook-static/` is generated and the command exits 0.
+Then run Storybook locally and verify:
 
-- [ ] **Step 7: Commit the Storybook runtime**
+```bash
+curl -I http://127.0.0.1:6006/mcp
+```
+
+Expected: static build succeeds and the development MCP endpoint is not a Storybook 404.
+
+- [ ] **Step 6: Commit**
 
 ```bash
 git add frontend/.storybook frontend/src/storybook frontend/tsconfig.json
@@ -432,111 +303,134 @@ git commit -m "feat: configure Storybook app runtime"
 
 ---
 
-### Task 3: Add MSW at the real HTTP boundary
+### Task 3: Add deterministic MSW fixtures using existing application contracts
 
 **Files:**
-- Create: `frontend/public/mockServiceWorker.js` using the MSW CLI
+- Create: `frontend/public/mockServiceWorker.js` through MSW CLI
 - Create: `frontend/src/mocks/handlers.ts`
-- Create: `frontend/src/mocks/handlers/dashboard.ts`
-- Create: `frontend/src/mocks/handlers/calls.ts`
-- Create: `frontend/src/mocks/handlers/agents.ts`
-- Create: `frontend/src/mocks/handlers/metrics.ts`
+- Create: `frontend/src/mocks/handlers/core-api.ts`
 - Create: `frontend/src/mocks/handlers/customer-analytics.ts`
-- Create: matching domain fixture files under `frontend/src/mocks/fixtures/`
+- Create: `frontend/src/mocks/fixtures/visual-states.ts`
 - Modify: `frontend/.storybook/preview.tsx`
 
 **Interfaces:**
-- Consumes: real request URLs built by `frontend/src/lib/api/client.ts`, whose default base URL is `http://localhost:8000`.
-- Produces: `defaultHandlers` and named fixture variants that stories can override through `parameters.msw.handlers`.
+- Consumes existing request and fixture code from:
+  - `frontend/src/lib/api/hooks.ts`
+  - `frontend/src/lib/api/static-fixtures.ts`
+  - `frontend/src/features/customer-analytics/query.ts`
+  - `frontend/src/features/customer-analytics/hooks/useBiExports.ts`
+  - `frontend/src/features/customer-analytics/hooks/useLtvBySegment.ts`
+  - `frontend/src/features/customer-analytics/hooks/useSupportImpact.ts`
+  - `frontend/src/features/customer-analytics/hooks/useCustomerHealth.ts`
+  - `frontend/src/features/customer-analytics/hooks/useRetentionCohorts.ts`
+  - `frontend/src/features/customer-analytics/hooks/useChurnRiskAccounts.ts`
+  - `frontend/src/features/customer-analytics/hooks/useSegmentPerformance.ts`
+  - `frontend/src/features/customer-analytics/hooks/useExpansionOpportunities.ts`
+  - `frontend/src/features/customer-analytics/hooks/useCustomerAnalyticsOverview.ts`
+- Produces `defaultHandlers` plus explicit error/loading/state overrides used by stories.
 
-- [ ] **Step 1: Generate the official MSW worker into the existing public directory**
-
-Run from `frontend/`:
+- [ ] **Step 1: Generate the MSW worker**
 
 ```bash
+cd frontend
 npx msw init ./public --save
 ```
 
-Expected: `frontend/public/mockServiceWorker.js` exists and `package.json` records the MSW worker directory metadata if the CLI adds it.
+Expected: `frontend/public/mockServiceWorker.js` exists.
 
-- [ ] **Step 2: Inventory actual frontend API paths before writing handlers**
+- [ ] **Step 2: Lock the core API routes from the actual hooks**
 
-Search the frontend for `apiFetch<`, `apiFetch(`, and generated API wrapper calls. Record every endpoint used by the canonical Dashboard, Calls, Agents, Metrics, and Customer Analytics surfaces. Do not infer endpoint names from page titles.
+`core-api.ts` must cover the literal routes already used in `frontend/src/lib/api/hooks.ts`:
 
-Run locally:
+```text
+GET  http://localhost:8000/api/calls
+GET  http://localhost:8000/api/calls/:callId
+GET  http://localhost:8000/api/metrics
+GET  http://localhost:8000/api/agents
+GET  http://localhost:8000/api/settings/manifest
+POST http://localhost:8000/api/settings/refresh
+```
+
+Use MSW 2 `http` and `HttpResponse`.
+
+- [ ] **Step 3: Reuse existing core fixtures rather than inventing API payloads**
+
+Import these existing exports from `frontend/src/lib/api/static-fixtures.ts`:
+
+```ts
+getStaticCalls
+g etStaticCall
+getStaticMetrics
+getStaticAgents
+staticManifest
+```
+
+When implementing, correct the accidental whitespace above so the imported identifier is exactly `getStaticCall`.
+
+Handler behavior:
+
+- `/api/calls`: return `getStaticCalls()` and honor URL query parameters used by `CallsQuery`.
+- `/api/calls/:callId`: return `getStaticCall(callId)` when found; otherwise return status 404 with `{ detail: "Call not found" }`.
+- `/api/metrics`: return `getStaticMetrics()`.
+- `/api/agents`: return `getStaticAgents()`.
+- `/api/settings/manifest`: return `{ data: staticManifest }` because the production hook reads `response.data`.
+- `/api/settings/refresh`: return `{ data: staticManifest }` for the deterministic Storybook baseline.
+
+- [ ] **Step 4: Extract customer-analytics routes mechanically from the existing hook files**
+
+Run:
 
 ```bash
-rg 'apiFetch<|apiFetch\(' frontend/src
+rg 'buildCustomerAnalyticsQuery' frontend/src/features/customer-analytics/hooks -n
 ```
 
-Expected: a concrete endpoint list whose handler coverage can be reviewed against the app code.
+For each call, copy the literal first `path` argument into `customer-analytics.ts`. Use the exact `staticValue` argument already passed by that same hook as the MSW success payload. This guarantees the handler payload matches the UI contract without duplicating schema definitions or fabricating fields.
 
-- [ ] **Step 3: Create typed, domain-local fixtures using the application's existing response types**
+After implementation, run:
 
-For each domain fixture file, import the response type already used by the matching API hook or generated OpenAPI schema. Export semantically named variants instead of anonymous blobs. Example shape:
-
-```ts
-export const dashboardNormal: DashboardResponse = { /* exact checked-in sample values copied from the app's existing demo data */ };
-export const dashboardSparse: DashboardResponse = { /* same contract, sparse rows */ };
-export const dashboardHighRisk: DashboardResponse = { /* same contract, elevated risk metrics */ };
+```bash
+rg 'buildCustomerAnalyticsQuery' frontend/src/features/customer-analytics/hooks -n > /tmp/customer-query-routes.txt
+rg 'http\.(get|post)' frontend/src/mocks/handlers/customer-analytics.ts -n > /tmp/customer-msw-routes.txt
 ```
 
-The implementer must copy exact values from existing checked-in frontend/demo fixtures or API test fixtures. Do not fabricate schema fields. If no typed response exists for a surface, derive the type from the existing API function return type with `Awaited<ReturnType<typeof functionName>>`.
+Review both files side by side and require one MSW handler for every customer-analytics network route used by the hooks.
 
-- [ ] **Step 4: Implement default success handlers with MSW 2 `http`/`HttpResponse` APIs**
+- [ ] **Step 5: Add visual stress-state helpers without changing schemas**
 
-Each handler file must export a default success handler array. Example pattern:
+`frontend/src/mocks/fixtures/visual-states.ts` may transform existing fixture objects only through type-safe copies. It must provide named helpers for:
 
-```ts
-import { http, HttpResponse } from "msw";
-import { dashboardNormal } from "../fixtures/dashboard";
-
-export const dashboardHandlers = [
-  http.get("http://localhost:8000/api/example", () => HttpResponse.json(dashboardNormal)),
-];
+```text
+empty
+sparse
+extremeNumeric
+longLabels
+highRisk
+noRisk
 ```
 
-Replace `/api/example` with the exact route discovered in Step 2. Repeat for each domain with only routes actually used by that surface.
+Rules:
 
-- [ ] **Step 5: Compose all defaults in `handlers.ts`**
+- `empty` keeps the exact response object shape and empties only collections/counts that the schema allows.
+- `sparse` takes the first one or two existing records rather than constructing unknown fields.
+- `extremeNumeric` clones existing records and multiplies existing numeric display fields only.
+- `longLabels` replaces existing string labels/names only, preserving every other field.
+- `highRisk` and `noRisk` mutate only existing risk/status fields present in the customer-analytics fixture types.
 
-```ts
-import { agentsHandlers } from "./handlers/agents";
-import { callsHandlers } from "./handlers/calls";
-import { customerAnalyticsHandlers } from "./handlers/customer-analytics";
-import { dashboardHandlers } from "./handlers/dashboard";
-import { metricsHandlers } from "./handlers/metrics";
+Do not use `as any` to force fixtures through TypeScript.
 
-export const defaultHandlers = [
-  ...dashboardHandlers,
-  ...callsHandlers,
-  ...agentsHandlers,
-  ...metricsHandlers,
-  ...customerAnalyticsHandlers,
-];
-```
+- [ ] **Step 6: Register `defaultHandlers` globally**
 
-- [ ] **Step 6: Register default handlers in Storybook preview**
+`frontend/src/mocks/handlers.ts` composes `coreApiHandlers` and `customerAnalyticsHandlers`. `frontend/.storybook/preview.tsx` registers them in `parameters.msw.handlers`.
 
-Add to `preview.parameters`:
-
-```ts
-msw: {
-  handlers: defaultHandlers,
-},
-```
-
-and import `defaultHandlers` from `../src/mocks/handlers`.
-
-- [ ] **Step 7: Build Storybook with MSW enabled**
+- [ ] **Step 7: Verify Storybook still builds**
 
 ```bash
 npm --prefix frontend run storybook:build
 ```
 
-Expected: Storybook builds without Node-only imports leaking into the browser bundle.
+Expected: build exits 0 with MSW enabled.
 
-- [ ] **Step 8: Commit MSW infrastructure**
+- [ ] **Step 8: Commit**
 
 ```bash
 git add frontend/public/mockServiceWorker.js frontend/src/mocks frontend/.storybook/preview.tsx frontend/package.json frontend/package-lock.json
@@ -545,75 +439,128 @@ git commit -m "feat: add deterministic Storybook API mocks"
 
 ---
 
-### Task 4: Perform the canonical component census and expose primitives first
+### Task 4: Create the canonical component census before broad story authoring
 
 **Files:**
 - Create: `docs/design-audit/component-census.md`
-- Create: `frontend/src/figma/primitives.stories.tsx`
-- Create: `frontend/src/figma/filters.stories.tsx`
-- Create: `frontend/src/figma/shell.stories.tsx`
-- Modify existing components only when required to make an already-renderable component injectable/testable without changing its appearance or behavior
 
 **Interfaces:**
-- Consumes: existing `frontend/src/figma/primitives.tsx`, `filters.tsx`, `shell.tsx`, related reusable components.
-- Produces: a checked-in canonical inventory plus baseline stories for reusable visual building blocks.
+- Produces the authoritative list of what belongs in Storybook and what does not.
 
-- [ ] **Step 1: Write the census before adding stories**
+- [ ] **Step 1: Inventory visually meaningful exports**
 
-Create `docs/design-audit/component-census.md` with a table containing these exact columns:
+Scan:
+
+```bash
+rg '^export (function|const|class)' frontend/src/figma frontend/src/features frontend/src/lib/viz -n
+```
+
+- [ ] **Step 2: Create the census table with these exact columns**
 
 ```markdown
-| Surface | Source file | Export/component | Category | Reused by | Needs story | Network-dependent | Baseline states |
+| Surface | Source file | Export/component | Category | Reused by | Story required | Network-dependent | Baseline states |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 ```
 
-Classify each visually meaningful export as one of: `foundation`, `primitive`, `data-display`, `feedback`, `pattern`, `navigation`, `chart`, `feature-composition`.
+Allowed categories:
 
-At minimum include the existing `KpiCard`, `StatusBadge`, `Chip`, `SectionCard`, `EmptyState`, `LoadingState`, `ErrorState`, `InsightItem`, filters, application shell/navigation, and every reusable chart/container found during the scan.
-
-- [ ] **Step 2: Add primitive stories using typed CSF**
-
-Create `primitives.stories.tsx` with one meta block per exported component only when supported cleanly by the installed Storybook syntax. If Storybook requires one default export per file, split into focused files such as `kpi-card.stories.tsx` and `status-badge.stories.tsx`; do not circumvent the CSF format.
-
-The `KpiCard` baseline must include these values exactly:
-
-```ts
-Default: { label: "Net Revenue Retention", value: "104.8%", delta: 2.3, hint: "Trailing 90 days" }
-Negative: { label: "At-Risk ARR", value: "$841K", delta: -12.4, hint: "Accounts above risk threshold" }
-Neutral: { label: "Open Escalations", value: 17, delta: 0 }
-LongLabel: { label: "Enterprise accounts with expansion readiness signals", value: "$12.4M", delta: 18.7 }
-HugeValue: { label: "Lifetime Contract Value", value: "$987,492,830.42", delta: 128.7 }
-NoDelta: { label: "Active Customers", value: "1,284" }
+```text
+foundation
+primitive
+data-display
+feedback
+pattern
+navigation
+chart
+feature-composition
 ```
 
-These values are presentation stress cases only and do not claim to represent real business data.
+At minimum include existing `KpiCard`, `StatusBadge`, `Chip`, `SectionCard`, `EmptyState`, `LoadingState`, `ErrorState`, `InsightItem`, filters, shell/navigation, every reusable chart found under `frontend/src/lib/viz`, and every major feature page.
 
-- [ ] **Step 3: Add stories for status and feedback primitives**
+- [ ] **Step 3: Apply the inclusion rule**
 
-Cover every existing `Status` enum value for `StatusBadge`, all three `InsightItem` severities, and explicit `EmptyState`, `LoadingState`, and `ErrorState` stories.
+A story is required when an export is visually meaningful and at least one of these is true:
 
-- [ ] **Step 4: Add filter and shell stories without redesigning them**
+- reused by multiple screens;
+- represents a design-system primitive;
+- represents a reusable chart/data-display pattern;
+- contains a meaningful loading/empty/error state;
+- is a major page composition.
 
-Stories should show default state, populated/active state, and narrow-container behavior when the existing component API supports it. If shell/navigation requires a router pathname, set Storybook `nextjs.navigation.pathname` or the framework-supported navigation parameter instead of modifying production routing code.
+Internal pure helpers with no visual output do not get stories.
 
-- [ ] **Step 5: Build Storybook and inspect primitive stories at dark/light themes**
+- [ ] **Step 4: Commit**
+
+```bash
+git add docs/design-audit/component-census.md
+git commit -m "docs: inventory canonical frontend components"
+```
+
+---
+
+### Task 5: Put canonical primitives and patterns into Storybook
+
+**Files:**
+- Create story files beside components identified in Task 4
+- Expected initial locations include `frontend/src/figma/` and reusable visualization folders identified by the census
+
+**Interfaces:**
+- Consumes the census.
+- Produces baseline stories without changing production appearance.
+
+- [ ] **Step 1: Add typed CSF stories for `KpiCard`**
+
+Required presentation stress cases:
+
+```ts
+const cases = {
+  Default: { label: "Net Revenue Retention", value: "104.8%", delta: 2.3, hint: "Trailing 90 days" },
+  Negative: { label: "At-Risk ARR", value: "$841K", delta: -12.4, hint: "Accounts above risk threshold" },
+  Neutral: { label: "Open Escalations", value: 17, delta: 0 },
+  LongLabel: { label: "Enterprise accounts with expansion readiness signals", value: "$12.4M", delta: 18.7 },
+  HugeValue: { label: "Lifetime Contract Value", value: "$987,492,830.42", delta: 128.7 },
+  NoDelta: { label: "Active Customers", value: "1,284" },
+};
+```
+
+These are visual stress values only and do not represent real business metrics.
+
+- [ ] **Step 2: Cover status and feedback primitives**
+
+Stories must cover:
+
+- every existing `Status` value accepted by `StatusBadge`;
+- `InsightItem` severities `info`, `warn`, and `critical`;
+- `EmptyState`;
+- `LoadingState`;
+- `ErrorState` with retry action when the component supports it.
+
+- [ ] **Step 3: Cover filters, navigation, and reusable chart components**
+
+For each census item, create only states its existing API supports. Use Storybook Next.js navigation parameters for pathname/router state instead of editing production routing code.
+
+- [ ] **Step 4: Verify dark/light rendering**
+
+Every canonical primitive must render under both global themes using the toolbar. Do not duplicate separate Dark/Light story files when the global theme control provides the same coverage.
+
+- [ ] **Step 5: Build Storybook**
 
 ```bash
 npm --prefix frontend run storybook:build
 ```
 
-Expected: all canonical primitive/filter/shell stories compile and render from the static build.
+Expected: all primitive/pattern stories compile.
 
-- [ ] **Step 6: Commit the census and primitive stories**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add docs/design-audit/component-census.md frontend/src/figma/*.stories.tsx
+git add frontend/src docs/design-audit/component-census.md
 git commit -m "test: expose canonical UI primitives in Storybook"
 ```
 
 ---
 
-### Task 5: Expose all canonical feature compositions with deterministic states
+### Task 6: Put every major page composition into Storybook with MSW states
 
 **Files:**
 - Create: `frontend/src/figma/pages/dashboard.stories.tsx`
@@ -623,15 +570,14 @@ git commit -m "test: expose canonical UI primitives in Storybook"
 - Create: `frontend/src/figma/pages/metrics.stories.tsx`
 - Create: `frontend/src/figma/pages/customer-analytics.stories.tsx`
 - Create: `frontend/src/figma/pages/settings.stories.tsx`
-- Modify: domain fixtures/handlers from Task 3 as new exact contracts are discovered
+- Modify: MSW handlers/fixture transforms only when a page reveals an uncovered real request
 
 **Interfaces:**
-- Consumes: MSW handlers/fixtures and current page components.
-- Produces: renderable screen-level baselines for every major app surface.
+- Produces deterministic screen-level stories for screenshot capture.
 
-- [ ] **Step 1: Add the Dashboard story family**
+- [ ] **Step 1: Dashboard states**
 
-Create stories named exactly:
+Create stories named:
 
 ```text
 Normal
@@ -642,72 +588,118 @@ Empty
 Error
 ```
 
-Use per-story `parameters.msw.handlers` overrides for each network state. `Loading` must use a handler that awaits an unresolved or long-running promise only inside that story; do not globally slow handlers. `Error` must return the actual API's expected JSON error envelope with status 500.
+Use per-story MSW overrides. `Loading` delays only that story's requests. `Error` returns status 500 with `{ detail: "Storybook forced error" }` on the exact requests the page performs.
 
-- [ ] **Step 2: Add Calls and Call Detail story families**
+- [ ] **Step 2: Calls states**
 
-Calls must cover `Normal`, `Empty`, `LongContent`, `Error`. Call Detail must cover a normal detail payload plus at least one unusually long transcript/content case if the existing screen displays free text.
+Create:
 
-- [ ] **Step 3: Add Agents and Metrics story families**
+```text
+Normal
+Empty
+LongContent
+Error
+```
 
-Agents must cover normal and mixed-performance distributions. Metrics must cover normal, sparse, zero-heavy, and extreme numeric/chart values using valid domain payloads.
+`LongContent` must derive from an existing call fixture and replace only existing text/string fields.
 
-- [ ] **Step 4: Add Customer Analytics story family**
+- [ ] **Step 3: Call Detail states**
 
-Cover `Normal`, `HighRisk`, `NoAtRisk`, `Sparse`, `Error`. Use the existing API/fixture contract rather than duplicating presentation-only data structures.
+Create:
 
-- [ ] **Step 5: Add Settings baseline stories**
+```text
+Normal
+LongContent
+NotFound
+Error
+```
 
-Settings is expected to be less network-heavy. Cover default desktop composition plus any meaningful toggled state exposed by the existing component API. Do not invent settings.
+`NotFound` returns the same 404 envelope used by Task 3.
 
-- [ ] **Step 6: Verify every major page appears in the Storybook index**
+- [ ] **Step 4: Agents states**
 
-Run:
+Create:
+
+```text
+Normal
+MixedPerformance
+Empty
+Error
+```
+
+Derive `MixedPerformance` by cloning existing `AgentStats` records and changing only existing numeric performance fields.
+
+- [ ] **Step 5: Metrics states**
+
+Create:
+
+```text
+Normal
+Sparse
+ZeroHeavy
+ExtremeNumeric
+Error
+```
+
+All transforms must begin from `getStaticMetrics()` so the response shape remains exact.
+
+- [ ] **Step 6: Customer Analytics states**
+
+Create:
+
+```text
+Normal
+HighRisk
+NoRisk
+Sparse
+Empty
+Error
+```
+
+Use the customer-analytics static values already imported by its hooks and the Task 3 transform helpers.
+
+- [ ] **Step 7: Settings states**
+
+Create `Default` plus only existing toggled/interactive states exposed by the current settings component. Do not invent new settings.
+
+- [ ] **Step 8: Verify the Storybook index contains all seven pages**
 
 ```bash
 npm --prefix frontend run storybook:build
 ```
 
-Then serve the static output locally and query the Storybook index:
+Serve the static output and inspect `index.json`; require entries for Dashboard, Calls, Call Detail, Agents, Metrics, Customer Analytics, and Settings.
+
+- [ ] **Step 9: Commit**
 
 ```bash
-npx --yes http-server frontend/storybook-static -p 6006
-curl http://127.0.0.1:6006/index.json
-```
-
-Expected: story IDs exist for Dashboard, Calls, Call Detail, Agents, Metrics, Customer Analytics, and Settings.
-
-- [ ] **Step 7: Commit feature-level stories**
-
-```bash
-git add frontend/src/figma/pages/*.stories.tsx frontend/src/mocks
+git add frontend/src/figma/pages frontend/src/mocks
 git commit -m "test: add canonical Storybook page states"
 ```
 
 ---
 
-### Task 6: Enable Storybook accessibility, component tests, and MCP as development gates
+### Task 7: Enable Storybook component tests, accessibility visibility, and MCP
 
 **Files:**
-- Modify: `frontend/.storybook/main.ts`
-- Modify: `frontend/.storybook/preview.tsx`
-- Create or modify: `frontend/.storybook/test.setup.ts` if required by the installed addon
-- Modify: selected story files to add `play` tests for meaningful behavior
-- Modify: `frontend/package.json` only if the generated Storybook test command differs from Task 1
+- Modify: Storybook config/setup generated by Tasks 1-2
+- Modify: selected stories with interaction tests
 
 **Interfaces:**
-- Consumes: canonical stories.
-- Produces: runnable Storybook tests, visible axe findings, interaction checks, and MCP endpoint at `/mcp`.
+- Produces runnable component/interactions tests and Storybook MCP at `/mcp`.
 
-- [ ] **Step 1: Let Storybook's installed Vitest addon generate/confirm its supported test setup**
+- [ ] **Step 1: Complete the installed Storybook Vitest integration**
 
-Run the installed Storybook CLI's addon/test setup command if the current version reports missing configuration. Preserve generated version-specific setup rather than hand-authoring obsolete browser-test configuration.
+Use the installed Storybook CLI/addon-generated configuration for the exact Storybook version. Do not hand-copy a configuration from a different major version when the addon can generate the supported setup.
 
-- [ ] **Step 2: Add interaction tests only where there is real behavior**
+- [ ] **Step 2: Add interaction tests only to genuinely interactive stories**
 
-At minimum add one interaction test for an existing clickable filter/chip control and one for a shell/navigation control if the component is interactive in Storybook.
+At minimum:
 
-Use Storybook's current `play` API and assertions from `storybook/test`. The test must assert a visible state change or accessible state, not merely click the element.
+- one filter/chip interaction must click an accessible control and assert its visible or ARIA state changed;
+- one navigation/shell interaction must activate an existing navigation control and assert the rendered/path state changed.
+
+Do not add tests that merely call `click()` without asserting the result.
 
 - [ ] **Step 3: Run Storybook tests**
 
@@ -715,129 +707,98 @@ Use Storybook's current `play` API and assertions from `storybook/test`. The tes
 npm --prefix frontend run storybook:test
 ```
 
-Expected: the Storybook test project runs successfully. Accessibility remains non-blocking at this baseline stage because `a11y.test` is still `todo`.
+Expected: Storybook component/interactions test project passes; accessibility findings are reported under the initial `todo` policy.
 
-- [ ] **Step 4: Verify the MCP endpoint from the running Storybook server**
+- [ ] **Step 4: Verify MCP**
 
-Start Storybook and run:
+With Storybook running:
 
 ```bash
 curl -I http://127.0.0.1:6006/mcp
 ```
 
-Expected: an HTTP response from the Storybook MCP route rather than a 404 from Storybook.
+Expected: Storybook MCP responds rather than returning Storybook's not-found page.
 
-- [ ] **Step 5: Commit Storybook test/MCP readiness**
+- [ ] **Step 5: Commit**
 
 ```bash
-git add frontend/.storybook frontend/src/**/*.stories.tsx frontend/package.json frontend/package-lock.json
+git add frontend/.storybook frontend/src
 git commit -m "test: enable Storybook interaction and accessibility checks"
 ```
 
 ---
 
-### Task 7: Configure Playwright Test and install Chromium for the canonical visual renderer
+### Task 8: Configure Playwright Test and local agent CLI support
 
 **Files:**
 - Create: `frontend/playwright.config.ts`
 - Create: `frontend/tests/helpers/storybook.ts`
-- Modify: `frontend/package.json` if a helper script is needed for static Storybook serving
 
 **Interfaces:**
-- Consumes: static Storybook output and real Next.js app.
-- Produces: `storybook-chromium` and `app-chromium` Playwright projects with deterministic viewport/device settings.
+- Produces two Playwright projects: `storybook-chromium` and `app-chromium`.
 
-- [ ] **Step 1: Install Playwright's Chromium browser locally**
+- [ ] **Step 1: Install only Chromium**
 
 ```bash
 npx --prefix frontend playwright install chromium
 ```
 
-Expected: Chromium browser install succeeds.
+- [ ] **Step 2: Configure Playwright**
 
-- [ ] **Step 2: Create Playwright configuration**
+Required config behavior:
 
-Create `frontend/playwright.config.ts` with:
-
-```ts
-import { defineConfig, devices } from "@playwright/test";
-
-export default defineConfig({
-  testDir: "./tests",
-  outputDir: "./test-results",
-  reporter: [["list"], ["html", { outputFolder: "playwright-report", open: "never" }]],
-  expect: {
-    toHaveScreenshot: {
-      animations: "disabled",
-      caret: "hide",
-      scale: "css",
-    },
-  },
-  use: {
-    trace: "retain-on-failure",
-    screenshot: "only-on-failure",
-    video: "off",
-    colorScheme: "dark",
-  },
-  projects: [
-    {
-      name: "storybook-chromium",
-      testMatch: /visual\/.*\.spec\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-        baseURL: "http://127.0.0.1:6006",
-      },
-    },
-    {
-      name: "app-chromium",
-      testMatch: /e2e\/.*\.spec\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-        baseURL: "http://127.0.0.1:3000",
-      },
-    },
-  ],
-  webServer: [
-    {
-      command: "npm run storybook -- --ci --host 127.0.0.1",
-      url: "http://127.0.0.1:6006",
-      reuseExistingServer: !process.env.CI,
-      timeout: 120_000,
-    },
-    {
-      command: "npm run dev -- --hostname 127.0.0.1",
-      url: "http://127.0.0.1:3000",
-      reuseExistingServer: !process.env.CI,
-      timeout: 120_000,
-    },
-  ],
-});
+```text
+testDir: ./tests
+outputDir: ./test-results
+HTML report: ./playwright-report
+trace: retain-on-failure
+failure screenshot: enabled
+video: off
+screenshot comparison animations: disabled
+screenshot comparison caret: hidden
+screenshot scale: css
 ```
 
-If Next.js 14 rejects the forwarded `--hostname` syntax in this repo, use `next dev -H 127.0.0.1` directly as the `webServer.command`. Do not change the app's normal `dev` script solely for Playwright.
+Projects:
 
-- [ ] **Step 3: Add a typed Storybook iframe URL helper**
+```text
+storybook-chromium
+  testMatch: tests/visual/**/*.spec.ts
+  baseURL: http://127.0.0.1:6006
 
-Create `frontend/tests/helpers/storybook.ts`:
+app-chromium
+  testMatch: tests/e2e/**/*.spec.ts
+  baseURL: http://127.0.0.1:3000
+```
+
+Configure Playwright `webServer` entries to start Storybook on 6006 and the existing Next.js dev server on 3000. Reuse existing servers locally and start fresh in CI.
+
+- [ ] **Step 3: Add the Storybook iframe helper**
+
+`frontend/tests/helpers/storybook.ts`:
 
 ```ts
 export function storyUrl(storyId: string, globals: Record<string, string> = {}) {
   const url = new URL("/iframe.html", "http://127.0.0.1:6006");
   url.searchParams.set("id", storyId);
   url.searchParams.set("viewMode", "story");
-  const globalsValue = Object.entries(globals)
+  const encodedGlobals = Object.entries(globals)
     .map(([key, value]) => `${key}:${value}`)
     .join(";");
-  if (globalsValue) url.searchParams.set("globals", globalsValue);
+  if (encodedGlobals) url.searchParams.set("globals", encodedGlobals);
   return `${url.pathname}${url.search}`;
 }
 ```
 
-- [ ] **Step 4: Add a one-test smoke file temporarily to verify both web servers and projects**
+- [ ] **Step 4: Verify CLI availability for coding agents**
 
-Create a temporary local test outside committed source or use the first tests from Tasks 8 and 9. Do not commit a meaningless permanent smoke test whose only assertion is `200` if stronger visual/E2E tests immediately replace it.
+```bash
+npm --prefix frontend run playwright:cli:version
+```
 
-- [ ] **Step 5: Commit the Playwright configuration**
+Do not commit `.playwright-cli/` session output.
+
+- [ ] **Step 5: Commit**
 
 ```bash
 git add frontend/playwright.config.ts frontend/tests/helpers/storybook.ts
@@ -846,86 +807,72 @@ git commit -m "test: configure Playwright visual projects"
 
 ---
 
-### Task 8: Build deterministic Storybook visual regression coverage
+### Task 9: Capture reproducible Storybook visual-regression baselines
 
 **Files:**
 - Create: `frontend/tests/visual/primitives.visual.spec.ts`
 - Create: `frontend/tests/visual/pages.visual.spec.ts`
-- Create/update committed snapshot directories generated by Playwright
+- Create/update: Playwright snapshot directories generated by `toHaveScreenshot()`
 
 **Interfaces:**
-- Consumes: Storybook story IDs and `storyUrl()`.
-- Produces: committed Chromium screenshot expectations for canonical visual states.
+- Consumes exact Storybook IDs from generated `index.json`.
+- Produces committed visual baseline PNGs.
 
-- [ ] **Step 1: Read Storybook's generated `index.json` and lock exact story IDs into tests**
+- [ ] **Step 1: Read actual Storybook story IDs**
 
-Do not guess story IDs. Build/start Storybook and inspect `http://127.0.0.1:6006/index.json`. Copy the canonical IDs into table-driven test cases.
+Start/build Storybook and inspect:
 
-- [ ] **Step 2: Write primitive visual tests at controlled containers/viewports**
-
-Use a table like:
-
-```ts
-const cases = [
-  { name: "kpi-default-dark", storyId: "data-display-kpicard--default", width: 480, height: 260, theme: "dark" },
-  { name: "kpi-huge-value-dark", storyId: "data-display-kpicard--huge-value", width: 480, height: 260, theme: "dark" },
-  { name: "kpi-default-light", storyId: "data-display-kpicard--default", width: 480, height: 260, theme: "light" },
-];
+```text
+http://127.0.0.1:6006/index.json
 ```
 
-Replace the example IDs with the exact generated IDs from Step 1.
+Copy generated IDs into table-driven tests. Do not guess IDs from filenames.
 
-For each case:
+- [ ] **Step 2: Primitive screenshot matrix**
 
-```ts
-await page.setViewportSize({ width, height });
-await page.goto(storyUrl(storyId, { theme }));
-await expect(page.locator("#storybook-root")).toBeVisible();
-await expect(page.locator("#storybook-root")).toHaveScreenshot(`${name}.png`);
+Capture canonical data-display/feedback/navigation primitives under:
+
+```text
+dark theme, normal width
+light theme, normal width
+dark theme, narrow width for components with wrapping risk
 ```
 
-- [ ] **Step 3: Write page visual tests at the five canonical viewports**
+Assert `#storybook-root` is visible before screenshotting.
 
-Use exact dimensions:
+- [ ] **Step 3: Page screenshot matrix**
 
-```ts
-const viewports = {
-  desktopXL: { width: 1440, height: 1000 },
-  desktop: { width: 1280, height: 900 },
-  tablet: { width: 1024, height: 768 },
-  mobile: { width: 390, height: 844 },
-  smallMobile: { width: 360, height: 800 },
-};
+For each page's `Normal` state:
+
+```text
+dark: 1440x1000, 1280x900, 1024x768, 390x844, 360x800
+light: 1280x900, 390x844
 ```
 
-Do not multiply every state by every viewport. Baseline rule:
+For non-normal states:
 
-- `Normal`: all five viewports, dark theme.
-- `Normal`: desktop + mobile, light theme.
-- `Sparse`, `HighRisk`, `Error`, `Empty`: desktop dark.
-- Stress cases with known wrapping risk: mobile dark.
+```text
+Sparse/HighRisk/Error/Empty: 1280x900 dark
+LongContent/ExtremeNumeric: 390x844 dark when relevant
+```
 
-This gives strong coverage without an explosive screenshot matrix.
+This is intentionally not every state multiplied by every viewport.
 
-- [ ] **Step 4: Generate the initial baseline intentionally**
-
-Run from `frontend/`:
+- [ ] **Step 4: Generate baseline snapshots intentionally**
 
 ```bash
-npm run test:visual:update
+npm --prefix frontend run test:visual:update
 ```
 
-Expected: screenshot baselines are generated under Playwright's snapshot folders.
-
-- [ ] **Step 5: Immediately re-run without update mode**
+- [ ] **Step 5: Immediately prove they reproduce**
 
 ```bash
-npm run test:visual
+npm --prefix frontend run test:visual
 ```
 
-Expected: PASS against the newly generated baseline. A baseline that cannot reproduce immediately is not acceptable.
+Expected: PASS without update mode.
 
-- [ ] **Step 6: Commit visual regression tests and baseline PNGs**
+- [ ] **Step 6: Commit tests and snapshot PNGs**
 
 ```bash
 git add frontend/tests/visual
@@ -934,7 +881,7 @@ git commit -m "test: capture baseline Storybook visual regressions"
 
 ---
 
-### Task 9: Add clean AI-review evidence and a machine-readable manifest
+### Task 10: Generate clean AI-review screenshots and a deterministic manifest
 
 **Files:**
 - Create: `frontend/tests/visual/evidence-manifest.ts`
@@ -943,12 +890,9 @@ git commit -m "test: capture baseline Storybook visual regressions"
 - Generated only: `frontend/visual-evidence/**`
 
 **Interfaces:**
-- Consumes: canonical story IDs, themes, viewport matrix.
-- Produces: clean PNG files plus `frontend/visual-evidence/manifest.json` for GitHub Actions artifacts.
+- Produces human/AI-friendly PNGs separate from Playwright's internal report layout.
 
-- [ ] **Step 1: Define the evidence record type**
-
-Create `frontend/tests/visual/evidence-manifest.ts`:
+- [ ] **Step 1: Define the manifest record**
 
 ```ts
 export type VisualEvidenceRecord = {
@@ -963,42 +907,41 @@ export type VisualEvidenceRecord = {
 };
 ```
 
-- [ ] **Step 2: Create an evidence writer that produces deterministic paths**
+- [ ] **Step 2: Implement deterministic evidence paths**
 
-Create `frontend/tests/helpers/visual-evidence.ts` with a helper that:
+Use:
 
-1. creates `visual-evidence/<viewport>/`,
-2. writes `surface-state-theme.png`,
-3. appends one `VisualEvidenceRecord` to an in-memory list,
-4. writes a sorted `visual-evidence/manifest.json` after the suite completes.
+```text
+visual-evidence/<viewport>/<surface>-<state>-<theme>.png
+```
 
-Sort records by `surface`, `state`, `theme`, then `viewport` before serializing with `JSON.stringify(records, null, 2)` so CI artifacts are stable across runs.
+Write `visual-evidence/manifest.json`. Before serializing, sort records by:
 
-- [ ] **Step 3: Capture AI-review screenshots from page stories**
+```text
+surface
+state
+theme
+viewport
+```
 
-For each canonical page `Normal` story, capture dark screenshots at all five viewports and light screenshots at desktop/mobile. For high-value stress states (`HighRisk`, `Sparse`, `Error`), capture desktop dark screenshots.
+Use `JSON.stringify(records, null, 2)`.
 
-Use `page.screenshot({ path, fullPage: true, animations: "disabled" })` after Storybook root is visible and known loading indicators are absent for non-loading stories.
+- [ ] **Step 3: Capture clean screenshots**
 
-- [ ] **Step 4: Verify manifest and PNG output locally**
+Capture the same high-value page matrix as Task 9 with `fullPage: true`. Wait for `#storybook-root` and for normal/error/empty states to reach their expected visible state before capture. Do not use arbitrary sleeps when a visible state can be awaited.
+
+- [ ] **Step 4: Verify evidence exists and remains ignored**
 
 ```bash
 rm -rf frontend/visual-evidence
 npm --prefix frontend run test:visual
-node -e "const m=require('./frontend/visual-evidence/manifest.json'); if(!Array.isArray(m)||!m.length) process.exit(1); console.log(m.length)"
-```
-
-Expected: command prints a non-zero evidence record count.
-
-- [ ] **Step 5: Confirm generated evidence is ignored**
-
-```bash
+node -e "const m=require('./frontend/visual-evidence/manifest.json'); if(!Array.isArray(m)||m.length===0) process.exit(1); console.log(m.length)"
 git status --short frontend/visual-evidence
 ```
 
-Expected: no untracked files because `.gitignore` excludes the directory.
+Expected: non-zero manifest count and no untracked evidence files.
 
-- [ ] **Step 6: Commit evidence-generation code only**
+- [ ] **Step 5: Commit code only**
 
 ```bash
 git add frontend/tests/visual frontend/tests/helpers/visual-evidence.ts
@@ -1007,18 +950,15 @@ git commit -m "test: generate AI-review visual evidence manifest"
 
 ---
 
-### Task 10: Add a small critical-flow Playwright suite against the real Next.js app
+### Task 11: Add a small critical real-app E2E suite
 
 **Files:**
 - Create: `frontend/tests/e2e/app-smoke.spec.ts`
 
 **Interfaces:**
-- Consumes: real Next.js routes and app providers.
-- Produces: integration evidence that Storybook coverage has not diverged from production composition/routing.
+- Verifies Storybook coverage has not diverged from real routing/provider composition.
 
-- [ ] **Step 1: Define the critical route matrix from existing app routes**
-
-Use these existing routes:
+- [ ] **Step 1: Test the existing route matrix**
 
 ```ts
 const routes = [
@@ -1031,25 +971,20 @@ const routes = [
 ];
 ```
 
-If the current app root redirects to one of these routes, preserve and test that behavior rather than changing it.
-
-- [ ] **Step 2: Write real-app load checks**
-
 For each route:
 
-```ts
-await page.goto(route);
-await expect(page.locator("body")).not.toBeEmpty();
-await expect(page.locator("nextjs-portal")).toHaveCount(0);
-```
+1. navigate to it;
+2. assert the page body contains meaningful app content;
+3. assert no Next.js development error overlay is present;
+4. assert one route-specific existing heading, landmark, or navigation label is visible.
 
-Add a route-specific assertion for meaningful visible content using an existing heading, navigation label, or landmark from that page. Do not assert brittle class names.
+Do not assert Tailwind class strings.
 
-- [ ] **Step 3: Exercise one real navigation interaction**
+- [ ] **Step 2: Test one real navigation path**
 
-Start at `/dashboard`, click the existing Calls navigation control by accessible role/name, assert the URL becomes the Calls route, and assert a meaningful Calls element becomes visible.
+Start at `/dashboard`, activate the existing Calls navigation control by accessible role/name, assert the URL becomes the Calls route, then assert meaningful Calls content is visible.
 
-- [ ] **Step 4: Run the app E2E project**
+- [ ] **Step 3: Run E2E**
 
 ```bash
 npm --prefix frontend run test:e2e
@@ -1057,7 +992,7 @@ npm --prefix frontend run test:e2e
 
 Expected: PASS in Chromium.
 
-- [ ] **Step 5: Commit real-app smoke coverage**
+- [ ] **Step 4: Commit**
 
 ```bash
 git add frontend/tests/e2e/app-smoke.spec.ts
@@ -1066,22 +1001,36 @@ git commit -m "test: add critical app Playwright smoke coverage"
 
 ---
 
-### Task 11: Extend GitHub Actions with Storybook and visual-evidence artifacts
+### Task 12: Extend the existing GitHub Actions pipeline and publish visual evidence
 
 **Files:**
 - Modify: `.github/workflows/ci.yml`
 
 **Interfaces:**
-- Consumes: existing `backend` and `frontend` CI jobs, Storybook build/test scripts, Playwright tests.
-- Produces: CI artifacts named `storybook-static`, `visual-evidence`, `playwright-report`, and `playwright-test-results`.
+- Preserves existing backend -> frontend schema/build chain.
+- Produces artifacts: `storybook-static`, `visual-evidence`, `playwright-report`, `playwright-test-results`.
 
-- [ ] **Step 1: Keep the existing backend/frontend dependency chain intact**
+- [ ] **Step 1: Keep all existing frontend quality gates**
 
-Do not remove schema generation, lint, Vitest, build, or GitHub Pages publishing. Add visual workflow steps after the existing frontend dependency installation and quality checks.
+Do not remove:
 
-- [ ] **Step 2: Add Storybook build and component-test steps to the existing frontend job**
+```text
+OpenAPI artifact download
+api:check
+lint
+test
+Next.js build
+GitHub Pages publishing behavior
+```
 
-Add:
+- [ ] **Step 2: Install Chromium in the frontend job**
+
+```yaml
+      - name: Install Playwright Chromium
+        run: npx --prefix frontend playwright install --with-deps chromium
+```
+
+- [ ] **Step 3: Add Storybook and Playwright gates**
 
 ```yaml
       - name: Build Storybook
@@ -1089,24 +1038,7 @@ Add:
 
       - name: Run Storybook component tests
         run: npm --prefix frontend run storybook:test
-```
 
-If Storybook browser tests require Playwright Chromium, move browser installation before this step.
-
-- [ ] **Step 3: Install only Chromium for Playwright CI**
-
-Add:
-
-```yaml
-      - name: Install Playwright Chromium
-        run: npx --prefix frontend playwright install --with-deps chromium
-```
-
-Do not install Firefox/WebKit in this foundation job.
-
-- [ ] **Step 4: Run visual and E2E tests as separate named steps**
-
-```yaml
       - name: Run Storybook visual regression tests
         run: npm --prefix frontend run test:visual
 
@@ -1114,7 +1046,7 @@ Do not install Firefox/WebKit in this foundation job.
         run: npm --prefix frontend run test:e2e
 ```
 
-- [ ] **Step 5: Upload the static Storybook regardless of later visual-test outcome**
+- [ ] **Step 4: Upload Storybook and evidence even after failures**
 
 ```yaml
       - name: Upload Storybook static build
@@ -1123,12 +1055,8 @@ Do not install Firefox/WebKit in this foundation job.
         with:
           name: storybook-static
           path: frontend/storybook-static
-          if-no-files-found: error
-```
+          if-no-files-found: warn
 
-- [ ] **Step 6: Upload AI-review visual evidence even when tests fail**
-
-```yaml
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -1136,11 +1064,7 @@ Do not install Firefox/WebKit in this foundation job.
           name: visual-evidence
           path: frontend/visual-evidence
           if-no-files-found: warn
-```
 
-- [ ] **Step 7: Upload Playwright report and test results**
-
-```yaml
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
@@ -1158,13 +1082,7 @@ Do not install Firefox/WebKit in this foundation job.
           if-no-files-found: warn
 ```
 
-- [ ] **Step 8: Keep permissions minimal**
-
-The existing workflow currently has `contents: write` because the frontend job publishes GitHub Pages. Do not broaden permissions for Storybook/Playwright artifacts.
-
-- [ ] **Step 9: Validate the YAML and run the equivalent frontend sequence locally**
-
-Run:
+- [ ] **Step 5: Run the CI-equivalent frontend sequence locally**
 
 ```bash
 npm --prefix frontend ci
@@ -1179,9 +1097,9 @@ npm --prefix frontend run test:visual
 npm --prefix frontend run test:e2e
 ```
 
-Expected: every command exits 0 before the CI edit is committed.
+Expected: all mandatory gates pass before the workflow edit is committed.
 
-- [ ] **Step 10: Commit CI integration**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add .github/workflows/ci.yml
@@ -1190,20 +1108,19 @@ git commit -m "ci: publish Storybook Playwright visual evidence"
 
 ---
 
-### Task 12: Make the workflow agent-operable and freeze the baseline before redesign
+### Task 13: Lock the agent workflow and first rendered baseline
 
 **Files:**
 - Modify: `AGENTS.md`
 - Create: `docs/design-audit/visual-baseline.md`
-- Modify: `frontend/.storybook/preview.tsx` only after baseline a11y findings are reviewed
+- Modify: `frontend/.storybook/preview.tsx` only if accessibility can be promoted to blocking after review
 
 **Interfaces:**
-- Consumes: completed Storybook/Playwright/CI foundation and first GitHub Actions run.
-- Produces: explicit agent rules, baseline evidence inventory, and the hard gate that separates foundation work from redesign work.
+- Produces the hard boundary between foundation work and actual redesign work.
 
-- [ ] **Step 1: Extend `AGENTS.md` with frontend visual-workflow rules**
+- [ ] **Step 1: Add frontend visual rules to `AGENTS.md`**
 
-Add a section with these requirements:
+Add these rules:
 
 ```markdown
 ## Frontend visual workflow
@@ -1211,20 +1128,24 @@ Add a section with these requirements:
 - Treat rendered Storybook and Playwright screenshots as the visual source of truth for frontend redesign work.
 - Before changing a canonical UI component, inspect its Storybook stories and preserve or intentionally update its state coverage.
 - New visually meaningful reusable components require Storybook stories.
-- Network-dependent stories use MSW handlers at the HTTP boundary.
-- Use `npm --prefix frontend run test:visual` after visual changes and inspect generated diffs/screenshots rather than trusting source-only reasoning.
-- Use `npm --prefix frontend run test:e2e` for changes that affect routing, providers, or cross-page composition.
-- Storybook MCP at `/mcp` is an optional development accelerator; the repo must remain testable without an MCP client connected.
-- Do not approve a redesign solely because builds/tests pass. Review the rendered evidence at desktop, tablet, and mobile sizes.
+- Network-dependent stories use MSW at the HTTP boundary.
+- Run `npm --prefix frontend run test:visual` after visual changes and inspect diffs/screenshots rather than trusting source-only reasoning.
+- Run `npm --prefix frontend run test:e2e` for changes affecting routing, providers, or cross-page composition.
+- Storybook MCP at `/mcp` is an optional agent accelerator; the repository must remain testable without an MCP client connected.
+- Do not approve a redesign solely because builds/tests pass. Review desktop, tablet, and mobile rendered evidence.
 ```
 
-- [ ] **Step 2: Run the branch CI and retrieve the first `visual-evidence` artifact**
+- [ ] **Step 2: Push the branch and require a complete CI run**
 
-Push the branch and wait only for the synchronous GitHub Actions run to finish as part of this execution task. Download the artifact using GitHub Actions tooling/API available to the executing agent.
+The CI run must produce the `visual-evidence` artifact before the foundation is considered complete.
 
-- [ ] **Step 3: Inspect every canonical page screenshot and write the baseline index**
+- [ ] **Step 3: Download and inspect the first evidence artifact**
 
-Create `docs/design-audit/visual-baseline.md` with:
+Use GitHub Actions artifact tooling to retrieve `visual-evidence`. Confirm its `manifest.json` matches the actual files and inspect every major page at desktop, tablet, and mobile.
+
+- [ ] **Step 4: Create `docs/design-audit/visual-baseline.md`**
+
+Use these tables:
 
 ```markdown
 # Visual Baseline
@@ -1241,15 +1162,17 @@ Baseline main SHA: `f955a6e5598300a702d0517ab9a7eba3a569c209`
 | --- | --- | --- | --- | --- | --- |
 ```
 
-`Render status` must be `pass`, `warning`, or `broken`. Existing defects are observations only; do not fix them in this foundation branch unless they prevent Storybook/Playwright from functioning.
+Allowed `Render status` values: `pass`, `warning`, `broken`.
 
-- [ ] **Step 4: Review accessibility findings and promote the baseline policy deliberately**
+Do not fix existing design defects in this task unless they prevent Storybook/Playwright from functioning. Record them as baseline evidence for the redesign phase.
 
-If canonical stories have zero accessibility violations, change `a11y.test` from `"todo"` to `"error"` and rerun Storybook tests.
+- [ ] **Step 5: Decide accessibility enforcement from evidence, not by hiding violations**
 
-If existing violations remain, keep `"todo"`, list each violation class in `visual-baseline.md`, and create an explicit redesign follow-up item. Do not hide violations with global axe disables.
+If canonical stories have zero accessibility violations, change global `a11y.test` from `"todo"` to `"error"` and rerun Storybook tests.
 
-- [ ] **Step 5: Run the full final verification suite**
+If violations remain, keep `"todo"`, list each existing violation category in `visual-baseline.md`, and carry it into the redesign backlog. Do not globally disable axe rules merely to make CI green.
+
+- [ ] **Step 6: Run final verification**
 
 ```bash
 npm --prefix frontend run api:check
@@ -1262,17 +1185,23 @@ npm --prefix frontend run test:visual
 npm --prefix frontend run test:e2e
 ```
 
-Expected: all mandatory gates pass. If a11y is intentionally still `todo`, findings must be documented in `visual-baseline.md`.
-
-- [ ] **Step 6: Verify no transient output is accidentally staged**
+- [ ] **Step 7: Verify no transient artifacts are staged**
 
 ```bash
 git status --short
 ```
 
-Expected: no `storybook-static`, `playwright-report`, `test-results`, `visual-evidence`, `.playwright-cli`, generated OpenAPI drift, or generated data artifacts are staged.
+Do not stage:
 
-- [ ] **Step 7: Commit the baseline documentation and agent rules**
+```text
+frontend/storybook-static/
+frontend/playwright-report/
+frontend/test-results/
+frontend/visual-evidence/
+frontend/.playwright-cli/
+```
+
+- [ ] **Step 8: Commit**
 
 ```bash
 git add AGENTS.md docs/design-audit/visual-baseline.md frontend/.storybook/preview.tsx
@@ -1283,25 +1212,26 @@ git commit -m "docs: lock frontend visual redesign baseline"
 
 ## Completion Gate
 
-The foundation is complete only when all of the following are true:
+Do not start redesign implementation until every statement below is true:
 
-- Storybook runs locally on port 6006 and builds statically.
-- Storybook reproduces the existing app's global Tailwind/theme environment.
-- Every canonical reusable component identified in the census has an appropriate story.
+- Storybook runs on port 6006 and builds statically.
+- Storybook imports the app's actual global CSS and uses the existing theme semantics.
+- Storybook query state is isolated between stories.
+- The canonical component census is committed.
+- Every canonical reusable visual component identified by the census has appropriate story coverage.
 - Dashboard, Calls, Call Detail, Agents, Metrics, Customer Analytics, and Settings have screen-level stories.
-- Network-dependent stories use MSW against the real HTTP paths.
-- Dark/light theme switching works in Storybook.
-- Canonical desktop/tablet/mobile viewport presets exist.
-- Storybook component/interaction tests run.
-- Accessibility findings are surfaced and either blocking or explicitly baselined.
-- Storybook MCP responds at `/mcp` in development.
-- `@playwright/cli` is locally available to coding agents.
+- Network-dependent stories are deterministic through MSW using existing application contracts/static fixtures.
+- Dark/light themes and the five canonical viewports are available.
+- Storybook interaction/component tests run.
+- Accessibility findings are visible and either blocking or explicitly baselined.
+- Storybook MCP responds at `/mcp` during development.
+- `@playwright/cli` is available locally to coding agents.
 - Playwright Test owns deterministic Chromium screenshot baselines.
 - Clean AI-review PNGs and `manifest.json` are generated separately from regression snapshots.
-- Real-app critical route/navigation smoke tests pass.
-- GitHub Actions uploads Storybook, visual evidence, Playwright reports, and test results with `if: always()` where evidence must survive failure.
-- `AGENTS.md` tells future agents to use Storybook + rendered screenshots as the frontend visual workflow.
-- `docs/design-audit/visual-baseline.md` indexes the first actual rendered evidence.
+- Real-app route/navigation smoke tests pass.
+- GitHub Actions uploads Storybook, visual evidence, Playwright reports, and test results even when visual tests fail.
+- `AGENTS.md` describes the visual workflow for future agents.
+- `docs/design-audit/visual-baseline.md` indexes the first actual rendered evidence and records existing defects.
 - No visual redesign has been implemented yet.
 
-Only after this gate passes should a separate redesign proposal/implementation cycle begin. The first redesign task should consume the baseline artifact and `visual-baseline.md`, then change design tokens/primitives before page compositions.
+The next project phase begins from that frozen evidence baseline: visual audit -> redesign proposal -> token/primitives redesign -> chart/data-display redesign -> patterns/navigation -> page compositions -> responsive/motion polish -> final Playwright verification.
