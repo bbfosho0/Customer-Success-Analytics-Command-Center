@@ -4,7 +4,7 @@ import { visualStates } from "../../mocks/fixtures/visual-states";
 import { CallDetailPage } from "./call-detail";
 
 const meta = {
-  title: "Pages/Call Detail",
+  title: "Canonical/Pages/Call Detail",
   component: CallDetailPage,
   args: {
     id: "CALL_0001",
