@@ -62,14 +62,24 @@ export function RedesignMetricsPage({ initialView = "overview", state = "normal"
 }
 
 function VolumeBars({ daily, maxVolume, compact = false }: { daily: ReturnType<typeof buildDailyVolume>; maxVolume: number; compact?: boolean }) {
+  const firstDate = daily[0]?.date ?? "";
+  const lastDate = daily[daily.length - 1]?.date ?? "";
+
   return (
-    <div className={compact ? "flex h-44 items-end gap-1.5" : "flex h-64 items-end gap-2"}>
-      {daily.map((row) => (
-        <div key={row.date} className="group flex h-full min-w-0 flex-1 items-end gap-[2px]" title={`${row.date}: ${row.total} calls`}>
-          <div className="w-full rounded-sm bg-[var(--chart-1)]/80" style={{ height: `${Math.max(8, (row.total / maxVolume) * 100)}%` }} />
-          {!compact ? <div className="w-1/4 rounded-sm bg-[var(--chart-5)]/80" style={{ height: `${Math.max(3, (row.escalated / maxVolume) * 100)}%` }} /> : null}
-        </div>
-      ))}
+    <div data-testid="metrics-volume-bars">
+      <div className="mb-3 flex items-center gap-4 text-[10px] text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm" style={{ backgroundColor: "var(--chart-1)", opacity: 0.85 }} />Total</span>
+        <span className="inline-flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm" style={{ backgroundColor: "var(--chart-5)", opacity: 0.85 }} />Escalated</span>
+      </div>
+      <div className={compact ? "flex h-44 items-end gap-1.5" : "flex h-64 items-end gap-2"}>
+        {daily.map((row) => (
+          <div key={row.date} className="group flex h-full min-w-0 flex-1 items-end gap-[2px]" title={`${row.date}: ${row.total} calls, ${row.escalated} escalated`}>
+            <div data-series="total" className="w-full rounded-sm" style={{ height: `${Math.max(8, (row.total / maxVolume) * 100)}%`, backgroundColor: "var(--chart-1)", opacity: 0.85 }} />
+            <div data-series="escalated" className="w-1/4 rounded-sm" style={{ height: `${Math.max(3, (row.escalated / maxVolume) * 100)}%`, backgroundColor: "var(--chart-5)", opacity: 0.85 }} />
+          </div>
+        ))}
+      </div>
+      <div className="mt-2 flex items-center justify-between text-[10px] text-muted-foreground"><span>{firstDate}</span><span>{lastDate}</span></div>
     </div>
   );
 }
@@ -79,14 +89,14 @@ function MetricsOverview({ daily, maxVolume }: { daily: ReturnType<typeof buildD
   return (
     <div className="space-y-3">
       <div className="grid gap-3 xl:grid-cols-3">
-        <Card className="xl:col-span-2"><CardHeader><CardTitle>Call volume</CardTitle><CardDescription className="mt-1">Primary operating signal, resolved versus escalated context</CardDescription></CardHeader><CardContent><VolumeBars daily={daily} maxVolume={maxVolume} /></CardContent></Card>
+        <Card className="xl:col-span-2"><CardHeader><CardTitle>Call volume</CardTitle><CardDescription className="mt-1">Primary operating signal, total volume with escalation context</CardDescription></CardHeader><CardContent><VolumeBars daily={daily} maxVolume={maxVolume} /></CardContent></Card>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
           <Card><CardHeader><CardTitle>Issue type breakdown</CardTitle></CardHeader><CardContent className="space-y-2.5">{redesignMetrics.issue_breakdown.slice(0, 4).map((row, index) => <div key={row.label}><div className="flex justify-between text-[11px]"><span>{titleCase(row.label)}</span><span className="tabular-nums text-muted-foreground">{row.value}</span></div><div className="mt-1.5 h-1.5 rounded-full bg-muted"><div className="h-full rounded-full" style={{ width: `${Math.max(8, row.value / issueMax * 100)}%`, background: `var(--chart-${(index % 5) + 1})` }} /></div></div>)}</CardContent></Card>
           <Card><CardHeader><CardTitle>Duration pressure</CardTitle></CardHeader><CardContent><div className="flex items-end justify-between"><div><p className="text-2xl font-semibold tabular-nums">{formatDuration(Math.round(redesignCalls.reduce((sum, call) => sum + call.duration_seconds, 0) / Math.max(redesignCalls.length, 1)))}</p><p className="mt-1 text-[11px] text-muted-foreground">average handle time</p></div><Clock3 className="h-5 w-5 text-primary" /></div></CardContent></Card>
         </div>
       </div>
       <div className="grid gap-3 md:grid-cols-2">
-        <ServiceQuality />
+        <RollingSlaByIssue />
         <RegionComparison compact />
       </div>
     </div>
@@ -96,7 +106,7 @@ function MetricsOverview({ daily, maxVolume }: { daily: ReturnType<typeof buildD
 function MetricsVolume({ daily, maxVolume, resolutionRate, avgDuration }: { daily: ReturnType<typeof buildDailyVolume>; maxVolume: number; resolutionRate: number; avgDuration: number }) {
   return (
     <div className="space-y-3">
-      <Card><CardHeader className="flex-row items-start justify-between"><div><CardTitle>Daily call volume</CardTitle><CardDescription className="mt-1">Resolved and escalated interactions across the current window</CardDescription></div><Activity className="h-5 w-5 text-primary" /></CardHeader><CardContent><VolumeBars daily={daily} maxVolume={maxVolume} /></CardContent></Card>
+      <Card><CardHeader className="flex-row items-start justify-between"><div><CardTitle>Daily call volume</CardTitle><CardDescription className="mt-1">Total interactions with escalation context across the current window</CardDescription></div><Activity className="h-5 w-5 text-primary" /></CardHeader><CardContent><VolumeBars daily={daily} maxVolume={maxVolume} /></CardContent></Card>
       <div className="grid gap-3 md:grid-cols-2">
         <Card><CardHeader><CardTitle>Rolling SLA</CardTitle><CardDescription className="mt-1">Resolution quality against operating target</CardDescription></CardHeader><CardContent><div className="flex items-end justify-between"><div><p className="text-3xl font-semibold tabular-nums">{resolutionRate.toFixed(1)}%</p><p className="mt-1 text-xs text-muted-foreground">90% target</p></div><Gauge className="h-6 w-6 text-[var(--chart-2)]" /></div><div className="mt-5 h-2 rounded-full bg-muted"><div className="h-full rounded-full bg-[var(--chart-2)]" style={{ width: `${Math.min(100, resolutionRate)}%` }} /></div></CardContent></Card>
         <Card><CardHeader><CardTitle>Current window</CardTitle><CardDescription className="mt-1">Workload composition at a glance</CardDescription></CardHeader><CardContent className="grid grid-cols-2 gap-3"><WindowStat label="Avg handle" value={formatDuration(Math.round(avgDuration))} /><WindowStat label="Peak day" value={`${maxVolume} calls`} /><WindowStat label="Days sampled" value={`${daily.length}`} /><WindowStat label="Regions" value={`${redesignMetrics.region_breakdown.length}`} /></CardContent></Card>
@@ -115,7 +125,7 @@ function MetricsBreakdown({ avgDuration }: { avgDuration: number }) {
     <div className="space-y-3">
       <div className="grid gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(280px,1fr)]">
         <Card><CardHeader><CardTitle>Issue type breakdown</CardTitle><CardDescription className="mt-1">Where support demand is concentrated</CardDescription></CardHeader><CardContent className="space-y-3">{redesignMetrics.issue_breakdown.slice(0, 7).map((row, index) => <div key={row.label} className="grid grid-cols-[minmax(110px,180px)_1fr_36px] items-center gap-3"><span className="truncate text-xs">{titleCase(row.label)}</span><div className="h-2 rounded-full bg-muted"><div className="h-full rounded-full" style={{ width: `${Math.max(7, row.value / issueMax * 100)}%`, background: index === 0 ? "var(--chart-5)" : "var(--chart-1)" }} /></div><span className="text-right text-[11px] tabular-nums text-muted-foreground">{row.value}</span></div>)}</CardContent></Card>
-        <Card><CardHeader><CardTitle>Duration trend</CardTitle><CardDescription className="mt-1">Handling-time pressure</CardDescription></CardHeader><CardContent><p className="text-3xl font-semibold tabular-nums">{formatDuration(Math.round(avgDuration))}</p><p className="mt-1 text-xs text-muted-foreground">average handle time</p><div className="mt-6 grid grid-cols-8 items-end gap-1.5 h-28">{[38,52,48,61,72,66,79,70].map((height, index) => <div key={index} className="rounded-sm bg-[var(--chart-3)]/75" style={{ height: `${height}%` }} />)}</div></CardContent></Card>
+        <Card><CardHeader><CardTitle>Duration trend</CardTitle><CardDescription className="mt-1">Handling-time pressure</CardDescription></CardHeader><CardContent><p className="text-3xl font-semibold tabular-nums">{formatDuration(Math.round(avgDuration))}</p><p className="mt-1 text-xs text-muted-foreground">average handle time</p><div data-testid="metrics-duration-bars" className="mt-6 grid h-28 grid-cols-8 items-end gap-1.5">{[38,52,48,61,72,66,79,70].map((height, index) => <div key={index} className="rounded-sm" style={{ height: `${height}%`, backgroundColor: "var(--chart-3)", opacity: 0.75 }} />)}</div></CardContent></Card>
       </div>
       <Card><CardHeader><CardTitle>Automation pilot</CardTitle><CardDescription className="mt-1">Candidate issue families for assisted resolution workflows</CardDescription></CardHeader><CardContent><div className="grid gap-px overflow-hidden rounded-md border border-border bg-border md:grid-cols-3">{redesignMetrics.issue_breakdown.slice(0, 3).map((row, index) => <div key={row.label} className="bg-card p-4"><div className="flex items-center justify-between"><p className="text-xs font-medium">{titleCase(row.label)}</p><StatusBadge status={index === 0 ? "Review" : index === 1 ? "Pilot" : "Candidate"} /></div><p className="mt-3 text-2xl font-semibold tabular-nums">{row.value}</p><p className="mt-1 text-[11px] text-muted-foreground">interactions in current window</p></div>)}</div></CardContent></Card>
     </div>
@@ -140,8 +150,20 @@ function RegionalHealth() {
   return <Card><CardHeader><CardTitle>Regional health</CardTitle><CardDescription className="mt-1">Attention order for the current window</CardDescription></CardHeader><CardContent className="space-y-2">{redesignMetrics.region_breakdown.slice(0,5).map((row,index)=><div key={row.label} className="flex items-center justify-between rounded-md border border-border p-3"><div><p className="text-xs font-medium">{row.label}</p><p className="mt-0.5 text-[10px] text-muted-foreground">{row.value} calls</p></div><StatusBadge status={index===0?"Watch":"Healthy"}/></div>)}</CardContent></Card>;
 }
 
-function ServiceQuality() {
-  const resolved = redesignCalls.filter((call) => call.resolution_status.toLowerCase() === "resolved").length;
-  const rate = redesignCalls.length ? resolved/redesignCalls.length*100 : 0;
-  return <Card><CardHeader><CardTitle>Service quality</CardTitle><CardDescription className="mt-1">Resolution and escalation balance</CardDescription></CardHeader><CardContent><div className="flex items-end justify-between"><div><p className="text-3xl font-semibold tabular-nums">{rate.toFixed(1)}%</p><p className="mt-1 text-xs text-muted-foreground">resolved</p></div><Activity className="h-6 w-6 text-[var(--chart-2)]" /></div><div className="mt-5 h-2 rounded-full bg-muted"><div className="h-full rounded-full bg-[var(--chart-2)]" style={{width:`${Math.min(100,rate)}%`}}/></div></CardContent></Card>;
+function RollingSlaByIssue() {
+  const issueSla = Array.from(
+    redesignCalls.reduce((groups, call) => {
+      const label = call.issue_type;
+      const current = groups.get(label) ?? { total: 0, resolved: 0 };
+      current.total += 1;
+      if (call.resolution_status.toLowerCase() === "resolved") current.resolved += 1;
+      groups.set(label, current);
+      return groups;
+    }, new Map<string, { total: number; resolved: number }>()),
+  )
+    .map(([label, values]) => ({ label, rate: values.total ? (values.resolved / values.total) * 100 : 0, total: values.total }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 4);
+
+  return <Card><CardHeader><CardTitle>Rolling SLA by issue</CardTitle><CardDescription className="mt-1">Resolution rate by highest-volume issue family</CardDescription></CardHeader><CardContent className="space-y-3">{issueSla.map((row) => <div key={row.label}><div className="flex items-center justify-between gap-3 text-[11px]"><span className="truncate">{titleCase(row.label)}</span><span className="tabular-nums text-muted-foreground">{row.rate.toFixed(0)}%</span></div><div className="mt-1.5 h-2 rounded-full bg-muted"><div className="h-full rounded-full" style={{ width: `${Math.max(5, Math.min(100, row.rate))}%`, backgroundColor: row.rate >= 90 ? "var(--chart-2)" : "var(--chart-5)" }} /></div></div>)}</CardContent></Card>;
 }
