@@ -113,6 +113,21 @@
   background-color: color-mix(in srgb, var(--status-info) 10%, transparent);
 }
 
+/* Keep older semantic utility usage readable in both theme modes. */
+.redesign-theme .text-emerald-400 { color: var(--status-success); }
+.redesign-theme .text-amber-400 { color: var(--status-warning); }
+.redesign-theme .text-rose-400 { color: var(--status-danger); }
+.redesign-theme .text-indigo-300,
+.redesign-theme .text-indigo-400 { color: var(--status-info); }
+.redesign-theme .bg-emerald-400 { background-color: var(--status-success); }
+.redesign-theme .bg-amber-400 { background-color: var(--status-warning); }
+.redesign-theme .bg-rose-400 { background-color: var(--status-danger); }
+.redesign-theme .bg-indigo-400 { background-color: var(--status-info); }
+.redesign-theme .border-emerald-400 { border-color: var(--status-success); }
+.redesign-theme .border-amber-400 { border-color: var(--status-warning); }
+.redesign-theme .border-rose-400 { border-color: var(--status-danger); }
+.redesign-theme .border-indigo-400 { border-color: var(--status-info); }
+
 @media (max-width: 639px) {
   .redesign-theme button {
     min-height: 40px;
