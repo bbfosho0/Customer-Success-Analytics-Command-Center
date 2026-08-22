@@ -151,3 +151,54 @@ test("customer 360 tabs update the rendered redesign state", async ({ page }) =>
   expect(errors.pageErrors).toEqual([]);
   expect(errors.consoleErrors).toEqual([]);
 });
+
+test("metrics analytical signals render visible chart marks", async ({ page }) => {
+  const errors = watchRuntimeErrors(page);
+  await openStory(page, "redesign-pages-metrics-overview--normal", {
+    theme: "dark",
+    viewport: { width: 1280, height: 900 },
+  });
+
+  const totalBars = page.locator('[data-testid="metrics-volume-bars"] [data-series="total"]');
+  const escalatedBars = page.locator('[data-testid="metrics-volume-bars"] [data-series="escalated"]');
+  expect(await totalBars.count()).toBeGreaterThan(0);
+  expect(await escalatedBars.count()).toBeGreaterThan(0);
+
+  const visibleVolume = await totalBars.evaluateAll((bars) => bars.every((bar) => {
+    const rect = bar.getBoundingClientRect();
+    const style = getComputedStyle(bar);
+    return rect.height > 2 && rect.width > 1 && style.backgroundColor !== "rgba(0, 0, 0, 0)" && style.opacity !== "0";
+  }));
+  expect(visibleVolume).toBe(true);
+
+  await page.getByRole("tab", { name: "Breakdown" }).click();
+  const durationBars = page.locator('[data-testid="metrics-duration-bars"] > div');
+  expect(await durationBars.count()).toBeGreaterThan(0);
+  const visibleDuration = await durationBars.evaluateAll((bars) => bars.every((bar) => {
+    const rect = bar.getBoundingClientRect();
+    const style = getComputedStyle(bar);
+    return rect.height > 2 && rect.width > 1 && style.backgroundColor !== "rgba(0, 0, 0, 0)" && style.opacity !== "0";
+  }));
+  expect(visibleDuration).toBe(true);
+
+  expect(errors.pageErrors).toEqual([]);
+  expect(errors.consoleErrors).toEqual([]);
+});
+
+test("customer 360 keeps the approved risk hierarchy", async ({ page }) => {
+  const errors = watchRuntimeErrors(page);
+  await openStory(page, "redesign-pages-customer-360-overview--normal", {
+    theme: "dark",
+    viewport: { width: 1280, height: 900 },
+  });
+
+  await expect(page.getByText("Churn risk", { exact: true })).toBeVisible();
+  await expect(page.getByText("At-risk MRR", { exact: true })).toBeVisible();
+
+  await page.getByRole("tab", { name: "Churn Risk" }).click();
+  await expect(page.getByText("Portfolio risk", { exact: true })).toBeVisible();
+  await expect(page.getByText("MRR at risk", { exact: true })).toBeVisible();
+
+  expect(errors.pageErrors).toEqual([]);
+  expect(errors.consoleErrors).toEqual([]);
+});
