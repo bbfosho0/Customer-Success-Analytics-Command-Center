@@ -80,3 +80,9 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-foreground: var(--foreground);
 }
+
+@media (max-width: 639px) {
+  .redesign-theme button {
+    min-height: 40px;
+  }
+}
