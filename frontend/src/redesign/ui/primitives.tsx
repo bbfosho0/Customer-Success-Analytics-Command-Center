@@ -62,10 +62,10 @@ export function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDi
 export function Badge({ className, tone = "neutral", ...props }: React.HTMLAttributes<HTMLSpanElement> & { tone?: "neutral" | "success" | "warning" | "danger" | "info" }) {
   const tones = {
     neutral: "border-border bg-muted text-foreground",
-    success: "border-emerald-500/25 bg-emerald-500/10 text-emerald-400",
-    warning: "border-amber-500/25 bg-amber-500/10 text-amber-400",
-    danger: "border-rose-500/25 bg-rose-500/10 text-rose-400",
-    info: "border-indigo-500/25 bg-indigo-500/10 text-indigo-300",
+    success: "status-success",
+    warning: "status-warning",
+    danger: "status-danger",
+    info: "status-info",
   } as const;
   return <span className={cn("inline-flex items-center rounded-md border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.08em]", tones[tone], className)} {...props} />;
 }
