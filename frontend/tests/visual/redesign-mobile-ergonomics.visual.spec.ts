@@ -1,8 +1,8 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 
 import { openStory } from "../helpers/storybook";
 
-async function expectMinTouchHeight(locator: ReturnType<Parameters<typeof test>[1]> extends never ? never : any) {
+async function expectMinTouchHeight(locator: Locator) {
   const height = await locator.evaluate((element: HTMLElement) => element.getBoundingClientRect().height);
   expect(height).toBeGreaterThanOrEqual(40);
 }
