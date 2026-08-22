@@ -22,10 +22,10 @@ export function RedesignCustomer360Page({ initialView = "overview", state = "nor
   const [view, setView] = useState<Customer360View>(initialView);
   const [riskFilter, setRiskFilter] = useState<string>("all");
   const churnRows = useMemo(() => riskFilter === "all" ? redesignCustomer.churn : redesignCustomer.churn.filter((row) => row.risk_level === riskFilter), [riskFilter]);
-  const totalMrr = redesignCustomer.churn.reduce((sum, row) => sum + row.mrr, 0);
   const avgHealth = redesignCustomer.churn.length ? redesignCustomer.churn.reduce((sum, row) => sum + row.health_score, 0) / redesignCustomer.churn.length : 0;
   const atRiskRows = redesignCustomer.churn.filter((row) => row.risk_level === "Critical" || row.risk_level === "At Risk");
   const atRiskMrr = atRiskRows.reduce((sum, row) => sum + row.mrr, 0);
+  const churnRiskRate = redesignCustomer.churn.length ? (atRiskRows.length / redesignCustomer.churn.length) * 100 : 0;
 
   return (
     <RedesignShell route="customer-360">
@@ -42,7 +42,7 @@ export function RedesignCustomer360Page({ initialView = "overview", state = "nor
 
         {state !== "normal" ? <RedesignStateSurface state={state} label="customer analytics" /> : (
           <>
-            {view === "overview" ? <CustomerOverview avgHealth={avgHealth} atRiskMrr={atRiskMrr} totalMrr={totalMrr} /> : null}
+            {view === "overview" ? <CustomerOverview avgHealth={avgHealth} atRiskMrr={atRiskMrr} churnRiskRate={churnRiskRate} /> : null}
             {view === "churn-risk" ? <CustomerChurnRisk rows={churnRows} riskFilter={riskFilter} setRiskFilter={setRiskFilter} /> : null}
             {view === "retention" ? <CustomerRetention /> : null}
             {view === "ltv" ? <CustomerLtv /> : null}
@@ -53,16 +53,16 @@ export function RedesignCustomer360Page({ initialView = "overview", state = "nor
   );
 }
 
-function CustomerOverview({ avgHealth, atRiskMrr, totalMrr }: { avgHealth: number; atRiskMrr: number; totalMrr: number }) {
+function CustomerOverview({ avgHealth, atRiskMrr, churnRiskRate }: { avgHealth: number; atRiskMrr: number; churnRiskRate: number }) {
   const topRisk = redesignCustomer.churn.slice(0, 5);
   const healthTotal = redesignCustomer.overview.health_distribution.reduce((sum, row) => sum + row.customers, 0) || 1;
   return (
     <div className="space-y-3">
       <section className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         <MetricCard label="Active accounts" value={redesignCustomer.churn.length} comparison="customer portfolio" />
-        <MetricCard label="Current MRR" value={formatMoney(totalMrr)} comparison="active portfolio" />
         <MetricCard label="Avg health score" value={avgHealth.toFixed(0)} comparison="out of 100" tone={avgHealth >= 70 ? "success" : "warning"} />
         <MetricCard label="At-risk MRR" value={formatMoney(atRiskMrr)} comparison="Critical + At Risk" tone="danger" />
+        <MetricCard label="Churn risk" value={`${churnRiskRate.toFixed(0)}%`} comparison="portfolio at risk" tone="danger" />
       </section>
 
       <section className="grid gap-3 xl:grid-cols-3">
@@ -100,13 +100,16 @@ function CustomerOverview({ avgHealth, atRiskMrr, totalMrr }: { avgHealth: numbe
 function CustomerChurnRisk({ rows, riskFilter, setRiskFilter }: { rows: typeof redesignCustomer.churn; riskFilter: string; setRiskFilter: (value: string) => void }) {
   const critical = redesignCustomer.churn.filter((row) => row.risk_level === "Critical").length;
   const atRisk = redesignCustomer.churn.filter((row) => row.risk_level === "At Risk").length;
+  const riskAccounts = critical + atRisk;
+  const atRiskMrr = redesignCustomer.churn.filter((row) => row.risk_level === "Critical" || row.risk_level === "At Risk").reduce((sum, row) => sum + row.mrr, 0);
+  const riskRate = redesignCustomer.churn.length ? (riskAccounts / redesignCustomer.churn.length) * 100 : 0;
   const drivers = Array.from(new Map(redesignCustomer.churn.map((row) => [row.main_risk_driver, row])).keys()).slice(0, 4);
   return (
     <div className="space-y-3">
       <section className="grid grid-cols-3 gap-3">
-        <MetricCard label="Risk accounts" value={critical + atRisk} comparison="Critical + At Risk" tone="danger" />
+        <MetricCard label="Portfolio risk" value={`${riskRate.toFixed(0)}%`} comparison={`${riskAccounts} accounts`} tone="danger" />
         <MetricCard label="Critical" value={critical} comparison="immediate action" tone="danger" />
-        <MetricCard label="At Risk" value={atRisk} comparison="success plan" tone="warning" />
+        <MetricCard label="MRR at risk" value={formatMoney(atRiskMrr)} comparison="Critical + At Risk" tone="warning" />
       </section>
       <div className="flex max-w-full gap-1 overflow-x-auto rounded-lg border border-border bg-card p-1 [scrollbar-width:none]">{["all","Critical","At Risk","Watch","Healthy"].map((risk) => <button key={risk} type="button" onClick={() => setRiskFilter(risk)} className={`whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium ${riskFilter === risk ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground"}`}>{risk === "all" ? `All ${redesignCustomer.churn.length}` : `${risk} ${redesignCustomer.churn.filter((row) => row.risk_level === risk).length}`}</button>)}</div>
       <Card>
@@ -117,7 +120,7 @@ function CustomerChurnRisk({ rows, riskFilter, setRiskFilter }: { rows: typeof r
         </CardContent>
       </Card>
       <div className="grid gap-3 md:grid-cols-2">
-        <Card><CardHeader><CardTitle>Top risk drivers</CardTitle></CardHeader><CardContent className="space-y-2">{drivers.map((driver, index) => <div key={driver} className="flex items-center justify-between rounded-md border border-border p-3"><p className="text-xs">{driver}</p><span className="text-xs font-semibold tabular-nums">{redesignCustomer.churn.filter((row) => row.main_risk_driver === driver).length}</span></div>)}</CardContent></Card>
+        <Card><CardHeader><CardTitle>Top risk drivers</CardTitle></CardHeader><CardContent className="space-y-2">{drivers.map((driver) => <div key={driver} className="flex items-center justify-between rounded-md border border-border p-3"><p className="text-xs">{driver}</p><span className="text-xs font-semibold tabular-nums">{redesignCustomer.churn.filter((row) => row.main_risk_driver === driver).length}</span></div>)}</CardContent></Card>
         <InsightPanel title="Action mix" items={[{ title: "Executive / CSM intervention", detail: `${critical} accounts require immediate risk review or direct success intervention.`, tone: "danger" }, { title: "Adoption and renewal plans", detail: `${atRisk} accounts are best served by structured adoption or renewal plays.`, tone: "warning" }]} />
       </div>
     </div>
