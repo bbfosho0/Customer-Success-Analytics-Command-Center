@@ -193,7 +193,7 @@ export function TabBar<T extends string>({ value, onChange, items }: { value: T;
           role="tab"
           aria-selected={value === item.value}
           onClick={() => onChange(item.value)}
-          className={cn("whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors", value === item.value ? "bg-muted text-foreground" : "hover:text-foreground")}
+          className={cn("min-h-10 whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors sm:min-h-0", value === item.value ? "bg-muted text-foreground" : "hover:text-foreground")}
         >
           {item.label}
         </button>
