@@ -16,10 +16,10 @@ const buttonVariantClasses: Record<ButtonVariant, string> = {
 };
 
 const buttonSizeClasses: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-xs",
-  md: "h-9 px-3.5 text-sm",
+  sm: "h-10 px-3 text-xs sm:h-8",
+  md: "h-10 px-3.5 text-sm sm:h-9",
   lg: "h-10 px-4 text-sm",
-  icon: "h-9 w-9",
+  icon: "h-10 w-10 sm:h-9 sm:w-9",
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant; size?: ButtonSize }>(
@@ -73,7 +73,7 @@ export function Badge({ className, tone = "neutral", ...props }: React.HTMLAttri
 export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(({ className, ...props }, ref) => (
   <input
     ref={ref}
-    className={cn("h-9 w-full rounded-md border border-border bg-[var(--input-background)] px-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-[var(--ring)]", className)}
+    className={cn("h-10 w-full rounded-md border border-border bg-[var(--input-background)] px-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-[var(--ring)] sm:h-9", className)}
     {...props}
   />
 ));
@@ -82,7 +82,7 @@ Input.displayName = "Input";
 export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement>>(({ className, ...props }, ref) => (
   <select
     ref={ref}
-    className={cn("h-9 rounded-md border border-border bg-card px-3 text-xs text-foreground outline-none focus:ring-2 focus:ring-[var(--ring)]", className)}
+    className={cn("h-10 rounded-md border border-border bg-card px-3 text-xs text-foreground outline-none focus:ring-2 focus:ring-[var(--ring)] sm:h-9", className)}
     {...props}
   />
 ));
