@@ -1,0 +1,135 @@
+.redesign-theme {
+  --background: #f6f7fb;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --secondary: #eef1f6;
+  --secondary-foreground: #1f2937;
+  --muted: #eef1f6;
+  --muted-foreground: #667085;
+  --accent: #0f766e;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --status-success: #047857;
+  --status-warning: #b45309;
+  --status-danger: #be123c;
+  --status-info: #4338ca;
+  --border: #e2e7ef;
+  --input: #e2e7ef;
+  --input-background: #ffffff;
+  --ring: #6366f1;
+  --chart-1: #4f46e5;
+  --chart-2: #0f766e;
+  --chart-3: #d97706;
+  --chart-4: #2563eb;
+  --chart-5: #e11d48;
+  --sidebar: #f0f2f8;
+  --sidebar-foreground: #344054;
+  --sidebar-active: #ffffff;
+  --sidebar-border: #e2e7ef;
+  --color-bg: var(--background);
+  --color-surface: var(--card);
+  --color-surface-strong: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--primary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-foreground: var(--foreground);
+}
+
+.dark .redesign-theme:not([data-redesign-theme="light"]),
+.redesign-theme.dark {
+  --background: #090b10;
+  --foreground: #e8ecf3;
+  --card: #10151f;
+  --card-foreground: #e8ecf3;
+  --popover: #121925;
+  --popover-foreground: #e8ecf3;
+  --primary: #818cf8;
+  --primary-foreground: #090b10;
+  --secondary: #171e2b;
+  --secondary-foreground: #d8deea;
+  --muted: #171e2b;
+  --muted-foreground: #8d99aa;
+  --accent: #2dd4bf;
+  --accent-foreground: #07110f;
+  --destructive: #fb7185;
+  --destructive-foreground: #17070b;
+  --status-success: #34d399;
+  --status-warning: #fbbf24;
+  --status-danger: #fb7185;
+  --status-info: #a5b4fc;
+  --border: #222b3a;
+  --input: #222b3a;
+  --input-background: #0d121b;
+  --ring: #818cf8;
+  --chart-1: #818cf8;
+  --chart-2: #2dd4bf;
+  --chart-3: #fbbf24;
+  --chart-4: #60a5fa;
+  --chart-5: #fb7185;
+  --sidebar: #0c1017;
+  --sidebar-foreground: #9da8b8;
+  --sidebar-active: #151b27;
+  --sidebar-border: #1e2735;
+  --color-bg: var(--background);
+  --color-surface: var(--card);
+  --color-surface-strong: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--primary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-foreground: var(--foreground);
+}
+
+.redesign-theme .status-success {
+  color: var(--status-success);
+  border-color: color-mix(in srgb, var(--status-success) 30%, transparent);
+  background-color: color-mix(in srgb, var(--status-success) 10%, transparent);
+}
+
+.redesign-theme .status-warning {
+  color: var(--status-warning);
+  border-color: color-mix(in srgb, var(--status-warning) 30%, transparent);
+  background-color: color-mix(in srgb, var(--status-warning) 10%, transparent);
+}
+
+.redesign-theme .status-danger {
+  color: var(--status-danger);
+  border-color: color-mix(in srgb, var(--status-danger) 30%, transparent);
+  background-color: color-mix(in srgb, var(--status-danger) 10%, transparent);
+}
+
+.redesign-theme .status-info {
+  color: var(--status-info);
+  border-color: color-mix(in srgb, var(--status-info) 30%, transparent);
+  background-color: color-mix(in srgb, var(--status-info) 10%, transparent);
+}
+
+/* Keep older semantic utility usage readable in both theme modes. */
+.redesign-theme .text-emerald-400 { color: var(--status-success); }
+.redesign-theme .text-amber-400 { color: var(--status-warning); }
+.redesign-theme .text-rose-400 { color: var(--status-danger); }
+.redesign-theme .text-indigo-300,
+.redesign-theme .text-indigo-400 { color: var(--status-info); }
+.redesign-theme .bg-emerald-400 { background-color: var(--status-success); }
+.redesign-theme .bg-amber-400 { background-color: var(--status-warning); }
+.redesign-theme .bg-rose-400 { background-color: var(--status-danger); }
+.redesign-theme .bg-indigo-400 { background-color: var(--status-info); }
+.redesign-theme .border-emerald-400 { border-color: var(--status-success); }
+.redesign-theme .border-amber-400 { border-color: var(--status-warning); }
+.redesign-theme .border-rose-400 { border-color: var(--status-danger); }
+.redesign-theme .border-indigo-400 { border-color: var(--status-info); }
+
+@media (max-width: 639px) {
+  .redesign-theme button {
+    min-height: 40px;
+  }
+}
