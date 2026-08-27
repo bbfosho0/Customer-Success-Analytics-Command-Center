@@ -13,7 +13,7 @@ test("mobile operational controls meet the 40px touch target minimum", async ({ 
     viewport: { width: 390, height: 844 },
   });
 
-  await expectMinTouchHeight(page.getByPlaceholder("Search calls, accounts, agents..."));
+  await expectMinTouchHeight(page.getByRole("textbox", { name: "Search" }));
   await expectMinTouchHeight(page.getByRole("button", { name: /Filters/ }));
   await expectMinTouchHeight(page.getByRole("combobox"));
   await expectMinTouchHeight(page.getByRole("button", { name: "Sort" }));
@@ -24,5 +24,5 @@ test("mobile operational controls meet the 40px touch target minimum", async ({ 
   });
 
   await expectMinTouchHeight(page.getByRole("button", { name: "Export snapshot" }));
-  await expectMinTouchHeight(page.getByPlaceholder("Search calls, accounts, agents..."));
+  await expectMinTouchHeight(page.getByRole("textbox", { name: "Search" }));
 });
